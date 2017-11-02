@@ -20,13 +20,16 @@
 struct Output {
     std::vector<double> avgJunct;
     std::vector<double> avg_detected_Junctions;
+    
     void update(const std::vector< Fish >& Pop);
-    void detectNumJunctions(const std::vector<Fish> &Pop,
-                            const std::vector<double> &markers);
+    void detectNumJunctions(const std::vector< Fish>    &Pop,
+                            const std::vector< double > &markers);
 };
 
-void writePoptoFile(const std::vector<Fish>& Pop, std::string filename);
-void readPopfromFile(std::vector<Fish>& Pop, std::string filename);
+void writePoptoFile( const std::vector< Fish >& Pop,
+                           std::string filename);
 
+void readPopfromFile(      std::vector< Fish >& Pop,
+                           std::string filename);
 
 #endif /* Output_hpp */

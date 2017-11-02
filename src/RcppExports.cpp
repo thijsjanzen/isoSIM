@@ -5,24 +5,55 @@
 
 using namespace Rcpp;
 
+// create_population
+void create_population(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed);
+RcppExport SEXP _isoSIM_create_population(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    create_population(pop_size, number_of_founders, total_runtime, morgan, seed);
+    return R_NilValue;
+END_RCPP
+}
+// create_two_populations
+void create_two_populations(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, double overlap);
+RcppExport SEXP _isoSIM_create_two_populations(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP overlapSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< double >::type overlap(overlapSEXP);
+    create_two_populations(pop_size, number_of_founders, total_runtime, morgan, seed, overlap);
+    return R_NilValue;
+END_RCPP
+}
 // sim_inf_chrom
-List sim_inf_chrom(int popSize, double Hzero, int maxTime, double size_in_Morgan, int markers, int seed);
-RcppExport SEXP _isoSIM_sim_inf_chrom(SEXP popSizeSEXP, SEXP HzeroSEXP, SEXP maxTimeSEXP, SEXP size_in_MorganSEXP, SEXP markersSEXP, SEXP seedSEXP) {
+List sim_inf_chrom(int pop_size, double initial_heterozygosity, int total_runtime, double morgan, int markers, int seed);
+RcppExport SEXP _isoSIM_sim_inf_chrom(SEXP pop_sizeSEXP, SEXP initial_heterozygositySEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP markersSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type popSize(popSizeSEXP);
-    Rcpp::traits::input_parameter< double >::type Hzero(HzeroSEXP);
-    Rcpp::traits::input_parameter< int >::type maxTime(maxTimeSEXP);
-    Rcpp::traits::input_parameter< double >::type size_in_Morgan(size_in_MorganSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type initial_heterozygosity(initial_heterozygositySEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< int >::type markers(markersSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_inf_chrom(popSize, Hzero, maxTime, size_in_Morgan, markers, seed));
+    rcpp_result_gen = Rcpp::wrap(sim_inf_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 5},
+    {"_isoSIM_create_two_populations", (DL_FUNC) &_isoSIM_create_two_populations, 6},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
     {NULL, NULL, 0}
 };

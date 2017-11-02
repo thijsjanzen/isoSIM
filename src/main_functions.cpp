@@ -87,20 +87,59 @@ Output doSimulation(int popSize,
         newGeneration.clear();
     }
 
-    //let's check!!!!
-    writePoptoFile(Pop, "pop1.txt");
-
-    std::vector<Fish> Pop2;
-    readPopfromFile(Pop2, "pop1.txt");
-
-    for(int i = 0; i < Pop.size(); ++i) {
-        bool are_the_same = (Pop[i] == Pop2[i]);
-        std::cout << are_the_same << "\n";
-    }
-
-
     return O;
 }
+
+std::vector<Fish> createPopulation(int popSize,
+                      int numFounders,
+                      int maxTime,
+                      double Morgan,
+                      double overlap,
+                      double populationIndicator)
+{
+    std::vector<Fish> Pop;
+    std::vector<Fish> parents;
+    int i = 0;
+
+    if(populationIndicator == 1) {
+        //second population, we will have to take
+        //into account overlap
+        i = numFounders - overlap * numFounders;
+        numFounders += i;
+    }
+
+    for(; i < numFounders; ++i) {
+        parents.push_back(Fish(i));
+    }
+
+    for(int i = 0; i < popSize; ++i) {
+        Fish p1 = parents[ random_number( parents.size() ) ];
+        Fish p2 = parents[ random_number( parents.size() ) ];
+
+        Pop.push_back(mate(p1,p2, Morgan));
+    }
+
+    for(int t = 0; t < maxTime; ++t) {
+
+        std::vector<Fish> newGeneration;
+
+        for(int i = 0; i < popSize; ++i)  {
+            int index1 = random_number(popSize);
+            int index2 = random_number(popSize);
+
+            Fish kid = mate(Pop[index1], Pop[index2], Morgan);
+
+            newGeneration.push_back(kid);
+        }
+
+        Pop = newGeneration;
+        newGeneration.clear();
+    }
+    return(Pop);
+}
+
+
+
 
 
 /*
@@ -117,19 +156,49 @@ Output doSimulation(int popSize,
  }
  */
 
-
+// [[Rcpp::export]]
+void create_population(int pop_size,
+                       int number_of_founders,
+                       int total_runtime,
+                       double morgan,
+                       int seed) {
+    set_seed(seed);
+    std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
+                                             total_runtime, morgan, 0.0, 0);
+    writePoptoFile(Pop, "population_1.pop");
+    return;
+}
 
 // [[Rcpp::export]]
-List sim_inf_chrom(int popSize,
-                   double Hzero,
-                   int maxTime,
-                   double size_in_Morgan,
+void create_two_populations(int pop_size,
+                            int number_of_founders,
+                            int total_runtime,
+                            double morgan,
+                            int seed,
+                            double overlap) {
+    set_seed(seed);
+    std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
+                                              total_runtime, morgan, overlap, 0);
+    writePoptoFile(Pop1, "population_1.pop");
+
+    std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
+                                              total_runtime, morgan, overlap, 1);
+    writePoptoFile(Pop2, "population_1.pop");
+
+    return;
+}
+
+// [[Rcpp::export]]
+List sim_inf_chrom(int pop_size,
+                   double initial_heterozygosity,
+                   int total_runtime,
+                   double morgan,
                    int markers,
                    int seed) {
     set_seed(seed);
-    double p = 0.5 * (1 - sqrt(1 - 2*Hzero));
+    double p = 0.5 * (1 - sqrt(1 - 2 * initial_heterozygosity));
 
-    Output O = doSimulation(popSize, p, maxTime, size_in_Morgan, markers);
+    Output O = doSimulation(pop_size, p, total_runtime, morgan, markers);
     return List::create(Named("avgJunctions") = O.avgJunct,
                         Named("detectedJunctions") = O.avg_detected_Junctions);
 }

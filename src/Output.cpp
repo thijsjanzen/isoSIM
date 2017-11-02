@@ -119,10 +119,7 @@ void readPopfromFile(std::vector<Fish>& Pop, std::string filename)
 {
     Pop.clear();
     std::ifstream inFile(filename.c_str());
-    if(!inFile.is_open()) {
-        std::cout << "Could not open file\n";
-        return;
-    }
+
     std::string line1;
     std::string line2;
     while(std::getline(inFile, line1) &&
