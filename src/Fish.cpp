@@ -8,6 +8,9 @@
 
 #include "Fish.h"
 #include "randomc.h"
+#include <algorithm>
+
+
 
 double getRecomPos() {
     double pos = uniform();
