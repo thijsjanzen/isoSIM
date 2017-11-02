@@ -131,6 +131,8 @@ typedef unsigned long long uint64_t;
 
 //void FatalError(const char *ErrorText);  // System-specific error reporting (userintf.cpp)
 
+#include <iostream>
+
 /***********************************************************************
  Define random number generator classes
  ***********************************************************************/

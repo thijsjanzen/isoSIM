@@ -1,7 +1,7 @@
 Package: isoSIM
 Type: Package
 Title: Simulate Linkage Disequilibrium Along Chromosomes In Isofemale Lines
-Version: 1.0
+Version: 0.1
 Date: 2017-11-02
 Author: Thijs Janzen
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>

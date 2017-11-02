@@ -252,7 +252,7 @@ void Recombine(std::vector<junction>& offspring,
 
     std::vector<double> recomPos;
 
-    int numRecombinations = Poisson(MORGAN);
+    int numRecombinations = poisson(MORGAN);
 
     while (recomPos.size() < numRecombinations) {
         double pos = getRecomPos();
