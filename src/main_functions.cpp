@@ -90,6 +90,50 @@ Output doSimulation(int popSize,
     return O;
 }
 
+Output continue_simulation(std::vector< Fish > Pop,
+                           int max_time,
+                           double morgan,
+                           int numberOfMarkers)
+{
+    Output O;
+    int popSize = (int)Pop.size();
+
+    std::vector<double> markers;
+    if(numberOfMarkers > 0) {
+        for(int i = 0; i < numberOfMarkers; ) {
+            double pos = uniform();
+            if(pos > 0 && pos < 1.0) {
+                ++i;
+                markers.push_back(pos);
+            }
+        }
+        std::sort(markers.begin(), markers.end());
+    }
+
+
+
+    for(int t = 0; t < max_time; ++t) {
+        O.update(Pop);
+        if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
+
+        std::vector<Fish> newGeneration;
+
+        for(int i = 0; i < popSize; ++i)  {
+            int index1 = random_number(popSize);
+            int index2 = random_number(popSize);
+
+            Fish kid = mate(Pop[index1], Pop[index2], morgan);
+
+            newGeneration.push_back(kid);
+        }
+
+        Pop = newGeneration;
+        newGeneration.clear();
+    }
+    
+    return O;
+}
+
 std::vector<Fish> createPopulation(int popSize,
                       int numFounders,
                       int maxTime,
@@ -142,6 +186,8 @@ std::vector<Fish> createPopulation(int popSize,
 
 
 
+
+
 /*
  //c++ code for independent compiling
  int main(int argc, const char * argv[]) {
@@ -155,6 +201,25 @@ std::vector<Fish> createPopulation(int popSize,
 	return 0;
  }
  */
+
+// [[Rcpp::export]]
+List simulate_from_population(std::string file_name,
+                              int total_runtime,
+                              double morgan,
+                              int number_of_markers,
+                              int seed)
+{
+    set_seed(seed);
+    std::vector< Fish > Pop;
+    readPopfromFile(Pop, file_name);
+
+    Output O = continue_simulation(Pop, total_runtime, number_of_markers, morgan);
+    return List::create(Named("avgJunctions") = O.avgJunct,
+                        Named("detectedJunctions") = O.avg_detected_Junctions);
+}
+
+
+
 
 // [[Rcpp::export]]
 void create_population(int pop_size,
@@ -183,7 +248,7 @@ void create_two_populations(int pop_size,
 
     std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 1);
-    writePoptoFile(Pop2, "population_1.pop");
+    writePoptoFile(Pop2, "population_2.pop");
 
     return;
 }

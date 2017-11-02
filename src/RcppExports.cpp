@@ -5,6 +5,21 @@
 
 using namespace Rcpp;
 
+// simulate_from_population
+List simulate_from_population(std::string file_name, int total_runtime, double morgan, int number_of_markers, int seed);
+RcppExport SEXP _isoSIM_simulate_from_population(SEXP file_nameSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP number_of_markersSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type file_name(file_nameSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(simulate_from_population(file_name, total_runtime, morgan, number_of_markers, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
 // create_population
 void create_population(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed);
 RcppExport SEXP _isoSIM_create_population(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
@@ -52,6 +67,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 5},
     {"_isoSIM_create_two_populations", (DL_FUNC) &_isoSIM_create_two_populations, 6},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},

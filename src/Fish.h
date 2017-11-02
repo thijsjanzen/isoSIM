@@ -32,9 +32,9 @@ struct junction {
     }
 
     bool operator ==(const junction& other) const {
-        if(pos != other.pos) return false;
         if(left != other.left) return false;
         if(right != other.right) return false;
+        if(pos != other.pos) return false;
 
         return true;
     }
