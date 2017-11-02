@@ -228,7 +228,6 @@ int CRandomMersenne::Poisson (double L) {
     if (L < 17) {
         if (L < 1.E-6) {
             if (L == 0) return 0;
-            if (L < 0) std::cout << "Parameter negative in poisson function\n";
 
             //--------------------------------------------------------------
             // calculate probabilities
@@ -250,7 +249,6 @@ int CRandomMersenne::Poisson (double L) {
         }
     }
     else {
-        if (L > 2.E9) std::cout << "Parameter too big in poisson function\n";
 
         //----------------------------------------------------------------
         // ratio-of-uniforms method
@@ -337,7 +335,6 @@ double CRandomMersenne::LnFac(int n) {
 
     if (n < FAK_LEN) {
         if (n <= 1) {
-            if (n < 0) std::cout << "Parameter negative in LnFac function\n";
             return 0;
         }
         if (!initialized) {              // first time. Must initialize table
