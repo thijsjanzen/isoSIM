@@ -21,29 +21,6 @@ double getRecomPos() {
     return pos;
 }
 
-void addJunction(std::vector<junction>& offspring,
-                 const std::vector<junction>& focalChrom,
-                 double recomPos,
-                 double nextRecomPos) {
-
-    bool added = false;
-    for(int i = 0; i < focalChrom.size(); ++i)
-    {
-        if(focalChrom[i].pos > recomPos & focalChrom[i].pos < nextRecomPos) {
-            if(!added) {
-                added = true;
-                junction toAdd(recomPos,
-                               offspring.back().right ,
-                               focalChrom[i].left);
-                if(toAdd.left != toAdd.right) offspring.push_back(toAdd); //only add true recombinations
-            }
-            offspring.push_back(focalChrom[i]);
-        }
-    }
-
-    return;
-}
-
 void Recombine(std::vector<junction>& offspring,
                std::vector<junction> chromosome1,
                std::vector<junction> chromosome2,

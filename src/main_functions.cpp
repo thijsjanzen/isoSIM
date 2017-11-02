@@ -28,15 +28,6 @@ using namespace Rcpp;
  ***********************************************************************/
 
 
-bool isFixed(const std::vector<Fish>& V);
-bool same(const Fish& A, const Fish& B);
-template <typename T>
-double calculateMean(const std::vector<T>& v);
-template <typename T>
-double calculateSD(const std::vector<T>& v);
-double calcMeanFreq(const std::vector< Fish >& P, double L);
-
-
 Output doSimulation(int popSize,
                     double initRatio,
                     int maxTime,
@@ -141,44 +132,4 @@ List sim_inf_chrom(int popSize,
     Output O = doSimulation(popSize, p, maxTime, size_in_Morgan, markers);
     return List::create(Named("avgJunctions") = O.avgJunct,
                         Named("detectedJunctions") = O.avg_detected_Junctions);
-}
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////// HELPER FUNCTIONS  /////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-template <typename T>
-double calculateMean(const std::vector<T>& v)
-{
-    double sum = std::accumulate(v.begin(), v.end(), 0.0);
-    double mean = 1.0 * sum / v.size();
-    return(mean);
-}
-
-template <typename T>
-double calculateSD(const std::vector<T>& v)
-{
-    double sum = std::accumulate(v.begin(), v.end(), 0.0);
-    double mean = sum / v.size();
-
-
-    double sq_sum = std::inner_product(v.begin(), v.end(), v.begin(), 0.0);
-    double stdev = std::sqrt(sq_sum / v.size() - mean * mean);
-    return stdev;
-}
-
-bool same(const Fish& A, const Fish& B) {
-
-    for(int i = 0; i < A.chromosome1.size(); ++i) {
-        if(A.chromosome1[i] != B.chromosome1[i]) {
-            return false;
-        }
-        if(A.chromosome2[i] != B.chromosome2[i]) {
-            return false;
-        }
-    }
-    return true;
-
 }

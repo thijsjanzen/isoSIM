@@ -10,6 +10,9 @@
 #include "Fish.h"
 #include <vector>
 
+#include <iostream>
+#include <fstream>
+
 
 
 void Output::update(const std::vector<Fish>& Pop) {

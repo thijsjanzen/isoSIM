@@ -13,4 +13,12 @@ test_that("sim_inf_chrom use", {
                 size_in_Morgan = M, 
                 markers = -1, 
                 seed = 42)
+  
+  
+  sim_inf_chrom(popSize = N, 
+                Hzero = H0, 
+                maxTime = maxT, 
+                size_in_Morgan = M, 
+                markers = 1000, 
+                seed = 42)
 })
