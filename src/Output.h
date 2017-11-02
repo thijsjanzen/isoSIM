@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <vector>
 #include "Fish.h"
+#include <sstream>
+#include <string>
+
 
 
 struct Output {
@@ -21,5 +24,9 @@ struct Output {
     void detectNumJunctions(const std::vector<Fish> &Pop,
                             const std::vector<double> &markers);
 };
+
+void writePoptoFile(const std::vector<Fish>& Pop, std::string filename);
+void readPopfromFile(std::vector<Fish>& Pop, std::string filename);
+
 
 #endif /* Output_hpp */

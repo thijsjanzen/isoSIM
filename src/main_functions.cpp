@@ -96,6 +96,18 @@ Output doSimulation(int popSize,
         newGeneration.clear();
     }
 
+    //let's check!!!!
+    writePoptoFile(Pop, "pop1.txt");
+
+    std::vector<Fish> Pop2;
+    readPopfromFile(Pop2, "pop1.txt");
+
+    for(int i = 0; i < Pop.size(); ++i) {
+        bool are_the_same = (Pop[i] == Pop2[i]);
+        std::cout << are_the_same << "\n";
+    }
+
+
     return O;
 }
 

@@ -73,3 +73,75 @@ void Output::detectNumJunctions(const std::vector<Fish> &Pop,
     avg_detected_Junctions.push_back(averageNumJunctions);
     return;
 }
+
+std::istream& operator >> (std::istream& is, junction& j)
+{
+    is >> j.left;
+    is >> j.pos;
+    is >> j.right;
+
+    return is;
+}
+
+std::ostream& operator << (std::ostream& os, const junction& j)
+{
+    os << j.left << "\t";
+    os << j.pos << "\t";
+    os << j.right << "\t";
+
+    return os;
+}
+
+std::ostream& operator << (std::ostream& os, const std::vector< junction >& chrom)
+{
+    for(auto it = chrom.begin(); it != chrom.end(); ++it) {
+        os << (*it);
+    }
+
+    return os;
+}
+
+void writePoptoFile(const std::vector<Fish>& Pop, std::string filename)
+{
+    std::ofstream outFile(filename.c_str());
+    for(auto indiv = Pop.begin(); indiv != Pop.end(); ++indiv) {
+        outFile << (*indiv).chromosome1 << "\n";
+        outFile << (*indiv).chromosome2 << "\n";
+    }
+    outFile.close();
+    return;
+}
+
+void readPopfromFile(std::vector<Fish>& Pop, std::string filename)
+{
+    Pop.clear();
+    std::ifstream inFile(filename.c_str());
+    if(!inFile.is_open()) {
+        std::cout << "Could not open file\n";
+        return;
+    }
+    std::string line1;
+    std::string line2;
+    while(std::getline(inFile, line1) &&
+          std::getline(inFile, line2)) {
+
+        Fish temp;
+        std::istringstream iss1(line1);
+        while(!iss1.eof()) {
+            junction temp_junction;
+            iss1 >> temp_junction;
+            temp.chromosome1.push_back(temp_junction);
+        }
+        temp.chromosome1.pop_back(); //!.eof always reads last line twice for some fucked up reason
+
+        std::istringstream iss2(line2);
+        while(!iss2.eof()) {
+            junction temp_junction;
+            iss2 >> temp_junction;
+            temp.chromosome2.push_back(temp_junction);
+        }
+        temp.chromosome2.pop_back(); //!.eof always reads last line twice for some fucked up reason
+        Pop.push_back(temp);
+    }
+    return;
+}

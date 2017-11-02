@@ -71,6 +71,30 @@ struct Fish {
         chromosome1 = A;
         chromosome2 = B;
     }
+
+    bool operator ==(const Fish& other) const {
+        if(chromosome1.size() != other.chromosome1.size()) return false;
+        if(chromosome2.size() != other.chromosome2.size()) return false;
+
+        double eps = 1e-4;
+
+        for(int i = 0; i < (int)chromosome1.size(); ++i) {
+            double diffPos = chromosome1[i].pos - other.chromosome1[i].pos;
+            if(diffPos < -eps || diffPos > eps) return false;
+            if(chromosome1[i].left != other.chromosome1[i].left) return false;
+            if(chromosome1[i].right != other.chromosome1[i].right) return false;
+        }
+
+        for(int i = 0; i < (int)chromosome2.size(); ++i) {
+            double diffPos = chromosome2[i].pos - other.chromosome2[i].pos;
+            if(diffPos < -eps || diffPos > eps) return false;
+            if(chromosome2[i].left != other.chromosome2[i].left) return false;
+            if(chromosome2[i].right != other.chromosome2[i].right) return false;
+        }
+
+        return true;
+    }
+
 };
 
 Fish mate(const Fish& A, const Fish& B, double numRecombinations);
