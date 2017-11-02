@@ -1,0 +1,11 @@
+Package: isoSIM
+Type: Package
+Title: Simulate Linkage Disequilibrium Along Chromosomes In Isofemale Lines
+Version: 1.0
+Date: 2017-11-02
+Author: Thijs Janzen
+Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
+Description: Simulation of source populations, and simulation of the creation of isofemale lines from these populations.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.12)
+LinkingTo: Rcpp
