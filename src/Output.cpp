@@ -79,7 +79,6 @@ void Output::detectNumJunctions(const std::vector<Fish> &Pop,
 
 std::istream& operator >> (std::istream& is, junction& j)
 {
-    is >> j.left;
     is >> j.pos;
     is >> j.right;
 
@@ -88,7 +87,6 @@ std::istream& operator >> (std::istream& is, junction& j)
 
 std::ostream& operator << (std::ostream& os, const junction& j)
 {
-    os << j.left << "\t";
     os << j.pos << "\t";
     os << j.right << "\t";
 
@@ -100,9 +98,9 @@ std::ostream& operator << (std::ostream& os, const std::vector< junction >& chro
     for(auto it = chrom.begin(); it != chrom.end(); ++it) {
         os << (*it);
     }
-
     return os;
 }
+
 
 void writePoptoFile(const std::vector<Fish>& Pop, std::string filename)
 {

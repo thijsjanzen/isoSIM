@@ -14,27 +14,23 @@
 
 struct junction {
     double pos;
-    int left;
     int right;
 
     junction()  {}
 
-    junction(double loc, int A, int B)  {
+    junction(double loc, int A)  {
         pos = loc;
-        left = A;
-        right = B;
+        right = A;
     }
 
     junction(const junction& other) {
         pos = other.pos;
-        left = other.left;
         right = other.right;
     }
 
     bool operator ==(const junction& other) const {
-        if(left != other.left) return false;
-        if(right != other.right) return false;
         if(pos != other.pos) return false;
+        if(right != other.right) return false;
 
         return true;
     }
@@ -48,8 +44,6 @@ struct junction {
     }
 };
 
-
-
 struct Fish {
     std::vector< junction > chromosome1;
     std::vector< junction > chromosome2;
@@ -58,8 +52,8 @@ struct Fish {
     {}
 
     Fish(int initLoc)    {
-        junction left(0.0, -1, initLoc);
-        junction right(1, initLoc, -1);
+        junction left(0.0, initLoc);
+        junction right(1.0, -1);
         chromosome1.push_back( left  );
         chromosome1.push_back( right );
         chromosome2.push_back( left  );
@@ -81,21 +75,21 @@ struct Fish {
         for(int i = 0; i < (int)chromosome1.size(); ++i) {
             double diffPos = chromosome1[i].pos - other.chromosome1[i].pos;
             if(diffPos < -eps || diffPos > eps) return false;
-            if(chromosome1[i].left != other.chromosome1[i].left) return false;
             if(chromosome1[i].right != other.chromosome1[i].right) return false;
         }
 
         for(int i = 0; i < (int)chromosome2.size(); ++i) {
             double diffPos = chromosome2[i].pos - other.chromosome2[i].pos;
             if(diffPos < -eps || diffPos > eps) return false;
-            if(chromosome2[i].left != other.chromosome2[i].left) return false;
             if(chromosome2[i].right != other.chromosome2[i].right) return false;
         }
-
+        
         return true;
     }
-
+    
+    
 };
+
 
 Fish mate(const Fish& A, const Fish& B, double numRecombinations);
 
