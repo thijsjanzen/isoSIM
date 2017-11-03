@@ -185,13 +185,15 @@ std::vector<Fish> createPopulation(int popSize,
 std::vector<double> createPopVector(const std::vector< Fish >& v) {
     std::vector<double> output;
     for(auto it = v.begin(); it != v.end(); ++it) {
+
         for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
             output.push_back((*i).pos);
             output.push_back((*i).right);
         }
-        for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
-            output.push_back((*i).pos);
-            output.push_back((*i).right);
+
+        for(auto j = (*it).chromosome2.begin(); j != (*it).chromosome2.end(); ++j) {
+            output.push_back((*j).pos);
+            output.push_back((*j).right);
         }
     }
     return(output);
