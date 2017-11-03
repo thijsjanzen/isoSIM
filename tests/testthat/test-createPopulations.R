@@ -5,9 +5,10 @@ test_that("create_population", {
   number_of_founders <- 10
   run_time <- 100
   morgan <- 1
+  write_to_file <- TRUE
 
   create_population(pop_size, number_of_founders, 
-                    run_time, morgan, 42)
+                    run_time, morgan, 42, write_to_file)
 })
 
 test_that("create_two_populations", {
@@ -16,8 +17,11 @@ test_that("create_two_populations", {
   run_time <- 100
   morgan <- 1
   overlap <- 0.5
+  write_to_file <- TRUE
+  
   create_two_populations(pop_size, number_of_founders, 
-                         run_time, morgan, 42, overlap)
+                         run_time, morgan, 42, 
+                         overlap, write_to_file)
 })
 
 test_that("continue_from_file", {
@@ -25,9 +29,10 @@ test_that("continue_from_file", {
   number_of_founders <- 2
   run_time <- 10
   morgan <- 1
+  write_to_file <- TRUE
   
   create_population(pop_size, number_of_founders, 
-                    run_time, morgan, 42)
+                    run_time, morgan, 42, write_to_file)
   
   total_runtime = 100
   simulate_from_population("population_1.pop",

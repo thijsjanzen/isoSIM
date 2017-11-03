@@ -182,7 +182,20 @@ std::vector<Fish> createPopulation(int popSize,
     return(Pop);
 }
 
-
+std::vector<double> createPopVector(const std::vector< Fish >& v) {
+    std::vector<double> output;
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+            output.push_back((*i).pos);
+            output.push_back((*i).right);
+        }
+        for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
+            output.push_back((*i).pos);
+            output.push_back((*i).right);
+        }
+    }
+    return(output);
+}
 
 
 
@@ -218,39 +231,48 @@ List simulate_from_population(std::string file_name,
                         Named("detectedJunctions") = O.avg_detected_Junctions);
 }
 
-
-
-
 // [[Rcpp::export]]
-void create_population(int pop_size,
+List create_population(int pop_size,
                        int number_of_founders,
                        int total_runtime,
                        double morgan,
-                       int seed) {
+                       int seed,
+                       bool writeToFile)
+{
     set_seed(seed);
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
                                              total_runtime, morgan, 0.0, 0);
-    writePoptoFile(Pop, "population_1.pop");
-    return;
+    if(writeToFile) {
+        writePoptoFile(Pop, "population_1.pop");
+    }
+
+    return List::create( Named("population") = createPopVector(Pop) );
 }
 
 // [[Rcpp::export]]
-void create_two_populations(int pop_size,
+List create_two_populations(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,
                             int seed,
-                            double overlap) {
+                            double overlap,
+                            bool writeToFile) {
     set_seed(seed);
     std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 0);
-    writePoptoFile(Pop1, "population_1.pop");
+    if(writeToFile) {
+        writePoptoFile(Pop1, "population_1.pop");
+    }
 
     std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 1);
-    writePoptoFile(Pop2, "population_2.pop");
+    if(writeToFile) {
+        writePoptoFile(Pop2, "population_2.pop");
+    }
 
-    return;
+    return List::create( Named("population_1") = createPopVector(Pop1),
+                         Named("population_2") = createPopVector(Pop2)
+                       );
 }
 
 // [[Rcpp::export]]

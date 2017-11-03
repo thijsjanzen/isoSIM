@@ -21,23 +21,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_population
-void create_population(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed);
-RcppExport SEXP _isoSIM_create_population(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+List create_population(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, bool writeToFile);
+RcppExport SEXP _isoSIM_create_population(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP writeToFileSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    create_population(pop_size, number_of_founders, total_runtime, morgan, seed);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< bool >::type writeToFile(writeToFileSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_population(pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile));
+    return rcpp_result_gen;
 END_RCPP
 }
 // create_two_populations
-void create_two_populations(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, double overlap);
-RcppExport SEXP _isoSIM_create_two_populations(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP overlapSEXP) {
+List create_two_populations(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, double overlap, bool writeToFile);
+RcppExport SEXP _isoSIM_create_two_populations(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP overlapSEXP, SEXP writeToFileSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
@@ -45,8 +48,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< double >::type overlap(overlapSEXP);
-    create_two_populations(pop_size, number_of_founders, total_runtime, morgan, seed, overlap);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< bool >::type writeToFile(writeToFileSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_two_populations(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile));
+    return rcpp_result_gen;
 END_RCPP
 }
 // sim_inf_chrom
@@ -68,8 +72,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
-    {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 5},
-    {"_isoSIM_create_two_populations", (DL_FUNC) &_isoSIM_create_two_populations, 6},
+    {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
+    {"_isoSIM_create_two_populations", (DL_FUNC) &_isoSIM_create_two_populations, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
     {NULL, NULL, 0}
 };

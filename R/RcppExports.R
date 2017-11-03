@@ -5,12 +5,12 @@ simulate_from_population <- function(file_name, total_runtime, morgan, number_of
     .Call('_isoSIM_simulate_from_population', PACKAGE = 'isoSIM', file_name, total_runtime, morgan, number_of_markers, seed)
 }
 
-create_population <- function(pop_size, number_of_founders, total_runtime, morgan, seed) {
-    invisible(.Call('_isoSIM_create_population', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed))
+create_population <- function(pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile) {
+    .Call('_isoSIM_create_population', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile)
 }
 
-create_two_populations <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap) {
-    invisible(.Call('_isoSIM_create_two_populations', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap))
+create_two_populations <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile) {
+    .Call('_isoSIM_create_two_populations', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile)
 }
 
 sim_inf_chrom <- function(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed) {
