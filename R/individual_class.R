@@ -1,26 +1,14 @@
-#library(devtools)
-#install_github("thijsjanzen/isoSIM")
-#library(isoSIM)
-
-
 print.individual = function(x, ...) {
   print("Individual with two Chromosomes")
   v1 <- paste("Chromosome 1:", length(x$chromosome1)-2,"junctions")
   v2 <- paste("Chromosome 2:", length(x$chromosome2)-2,"junctions")
   print(v1)
   print(v2)
-  
-  invisible(x)
 }
 
-summary.individual = function(x, ...) {
-  print("Individual with two Chromosomes")
-  v1 <- paste("Chromosome 1:", length(x$chromosome1)-2,"junctions")
-  v2 <- paste("Chromosome 2:", length(x$chromosome2)-2,"junctions")
+print.population <- function(x, ...) {
+  v1 <- paste("Population with",length(x), "individuals")
   print(v1)
-  print(v2)
-  
-  invisible(x)
 }
 
 plot.individual = function(x, ...) {
@@ -48,11 +36,6 @@ plot.individual = function(x, ...) {
     rect(xleft = xleft, xright = xrght, ybottom = 0, ytop =1, col = colourToPlot, border = NULL)
   }
 }
-
-
-#vx <- create_population(100, 2, 10, 1, 42, FALSE)
-
-#pop <- vx$population
 
 create_pop_class <- function(pop) {
   
@@ -89,7 +72,6 @@ create_pop_class <- function(pop) {
                     chromosome2 = chrom2)
       
       class(indiv) <- "individual"
-      #print(indiv);
       
       whole_pop[[cntr]] <- indiv
       cntr <- cntr + 1
@@ -100,7 +82,7 @@ create_pop_class <- function(pop) {
       chrom1 <- c()
       chrom2 <- c()
     }
-    
   }
   class(whole_pop) <- "population"
+  return(whole_pop)
 }
