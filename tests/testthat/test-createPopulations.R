@@ -16,7 +16,7 @@ test_that("create_full_population", {
   number_of_founders <- 10
   run_time <- 100
   morgan <- 1
-  write_to_file <- TRUE
+  write_to_file <- FALSE
   
   vx <- create_full_population(pop_size, number_of_founders, 
                     run_time, morgan, 42, write_to_file)
@@ -35,7 +35,7 @@ test_that("create_two_populations", {
   run_time <- 100
   morgan <- 1
   overlap <- 0.5
-  write_to_file <- TRUE
+  write_to_file <- FALSE
   
   create_two_populations(pop_size, number_of_founders, 
                          run_time, morgan, 42, 
@@ -49,7 +49,7 @@ test_that("create_two_full_populations", {
   run_time <- 100
   morgan <- 1
   overlap <- 0.5
-  write_to_file <- TRUE
+  write_to_file <- FALSE
   
   vx <- create_two_full_populations(pop_size, number_of_founders, 
                          run_time, morgan, 42, 
@@ -68,7 +68,7 @@ test_that("continue_from_file", {
   number_of_founders <- 2
   run_time <- 10
   morgan <- 1
-  write_to_file <- TRUE
+  write_to_file <- FALSE
   
   create_population(pop_size, number_of_founders, 
                     run_time, morgan, 42, write_to_file)
