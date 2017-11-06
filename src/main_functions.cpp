@@ -171,6 +171,9 @@ std::vector<Fish> createPopulation(int popSize,
     Rcout << "0--------25--------50--------75--------100\n";
     Rcout << "*";
 
+    int updateFreq = maxTime / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
     for(int t = 0; t < maxTime; ++t) {
 
         std::vector<Fish> newGeneration;
@@ -187,10 +190,11 @@ std::vector<Fish> createPopulation(int popSize,
         Pop = newGeneration;
         newGeneration.clear();
 
-        if(t % (maxTime / 20) == 0) {
+        if(t % updateFreq == 0) {
             Rcout << "**";
         }
     }
+    Rcout << "\n";
     return(Pop);
 }
 
