@@ -23,6 +23,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+
+
+
+
 /***********************************************************************
  Start of simulation code
  ***********************************************************************/
@@ -156,12 +160,16 @@ std::vector<Fish> createPopulation(int popSize,
         parents.push_back(Fish(i));
     }
 
+
     for(int i = 0; i < popSize; ++i) {
         Fish p1 = parents[ random_number( parents.size() ) ];
         Fish p2 = parents[ random_number( parents.size() ) ];
 
         Pop.push_back(mate(p1,p2, Morgan));
     }
+
+
+
 
     for(int t = 0; t < maxTime; ++t) {
 
@@ -178,6 +186,7 @@ std::vector<Fish> createPopulation(int popSize,
 
         Pop = newGeneration;
         newGeneration.clear();
+        Rcout << t << std::endl;
     }
     return(Pop);
 }

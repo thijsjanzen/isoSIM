@@ -176,6 +176,34 @@ plot_dist_junctions <- function(pop) {
   barplot(vx)
 }
 
+calc_allele_frequencies <- function(indiv) {
+  alleles <- rep(0,1+max(indiv$chromosome1[,2],indiv$chromosome2[,2]))
+  
+  
+  for(i in 1:length(indiv$chromosome1[,1])) {
+    left <- indiv$chromosome1[i,1]
+    right <- 1
+    if(i+1 <= length(indiv$chromosome1[,1])) right <- indiv$chromosome1[i+1,1]
+    
+    allele <- 1 + indiv$chromosome1[i,2]
+    alleles[allele] <- alleles[allele] + (right - left)
+  }
+  
+  for(i in 1:length(indiv$chromosome2[,1])) {
+    left <- indiv$chromosome2[i,1]
+    right <- 1
+    if(i+1 <= length(indiv$chromosome2[,1])) right <- indiv$chromosome2[i+1,1]
+    
+    allele <- 1 + indiv$chromosome2[i,2]
+    alleles[allele] <- alleles[allele] + (right - left)
+  }
+  
+  alleles <- alleles / sum(alleles)
+
+  
+  return(alleles)
+}
+
 
 
 

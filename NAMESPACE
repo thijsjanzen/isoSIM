@@ -1,4 +1,4 @@
 useDynLib(isoSIM)
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
-importFrom("graphics", "par", "plot", "rect")
+importFrom("graphics", "par", "plot", "rect", "barplot")
