@@ -168,8 +168,8 @@ std::vector<Fish> createPopulation(int popSize,
         Pop.push_back(mate(p1,p2, Morgan));
     }
 
-
-
+    Rcout << "0--------25--------50--------75--------100\n"
+    Rcout << "*";
 
     for(int t = 0; t < maxTime; ++t) {
 
@@ -186,7 +186,10 @@ std::vector<Fish> createPopulation(int popSize,
 
         Pop = newGeneration;
         newGeneration.clear();
-        Rcout << t << std::endl;
+
+        if(t % (maxTime / 20) == 0) {
+            Rcout << "**";
+        }
     }
     return(Pop);
 }
