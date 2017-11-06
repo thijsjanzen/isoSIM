@@ -179,7 +179,6 @@ plot_dist_junctions <- function(pop) {
 calc_allele_frequencies <- function(indiv) {
   alleles <- rep(0,1+max(indiv$chromosome1[,2],indiv$chromosome2[,2]))
   
-  
   for(i in 1:length(indiv$chromosome1[,1])) {
     left <- indiv$chromosome1[i,1]
     right <- 1

@@ -72,6 +72,30 @@ test_that("calculate_dist_junctions", {
   plot_dist_junctions(vx)
 })
 
+test_that("calculate_allele_frequencies", {
+  pop_size <- 100
+  number_of_founders <- 2
+  run_time <- 5
+  morgan <- 1
+  write_to_file <- FALSE
+  
+  found <- c();
+  for(r in 1:100) {
+  
+    vx <- create_full_population(pop_size, 2, 
+                               run_time, morgan, r, FALSE)
+    for(i in 1:pop_size) {
+      found <- rbind(found,calc_allele_frequencies(vx$Population[[i]]))
+    }    
+  }
+  
+  v <- colMeans(found)
+  expect_equal(v[[1]], 0.5,tolerance=0.01)
+  
+  expect_equal(v[[2]], 0.5,tolerance=0.01)
+  
+})
+
 
 
 
