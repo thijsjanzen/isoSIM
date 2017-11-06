@@ -13,14 +13,20 @@ print.population <- function(x, ...) {
 
 plot.individual = function(x, ...) {
   
+  numColors <- 1
+  alleles_chrom1 <- unique(x$chromosome1[,2])
+  alleles_chrom2 <- unique(x$chromosome2[,2])
+  numColors <- length(unique(c(alleles_chrom1, alleles_chrom2)))
+  colorPalette <- grDevices::rainbow(numColors)
+  
   par(mfrow=c(2,1)); par(mar=c(2,2,2,2))
   plot(NA,xlim=c(0,1),ylim=c(0,1),xlab="",ylab="",xaxt="n",yaxt="n",bty="n");
   for(i in 1:length(x$chromosome1[,1])) {
     xleft <- x$chromosome1[i,1]
     xrght <- 1;
     if(i < length(x$chromosome1[,1])) xrght <- x$chromosome1[i+1,1]
-    colourToPlot <- "red"
-    if(x$chromosome1[i,2] == 1) colourToPlot <- "blue"
+    colourIndex <- 1 + x$chromosome1[i,2]
+    colourToPlot <- colorPalette[colourIndex]
     
     rect(xleft = xleft, xright = xrght, ybottom = 0, ytop =1, col = colourToPlot, border = NULL)
   }
@@ -30,8 +36,9 @@ plot.individual = function(x, ...) {
     xleft <- x$chromosome2[i,1]
     xrght <- 1;
     if(i < length(x$chromosome2[,1])) xrght <- x$chromosome2[i+1,1]
-    colourToPlot <- "red"
-    if(x$chromosome2[i,2] == 1) colourToPlot <- "blue"
+    colourIndex <- 1 + x$chromosome2[i,2]
+    colourToPlot <- colorPalette[colourIndex]
+    
     
     rect(xleft = xleft, xright = xrght, ybottom = 0, ytop =1, col = colourToPlot, border = NULL)
   }
