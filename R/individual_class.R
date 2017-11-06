@@ -154,8 +154,7 @@ calc_heterozygosity <- function(indiv) {
 }
 
 calculate_pop_heterozygosity <- function(pop) {
-  
-  a <- lapply(pop$Population)
+  a <- sapply(pop$Population, calc_heterozygosity)
   return(mean(a))
 }
 
