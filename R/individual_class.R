@@ -158,6 +158,26 @@ calculate_pop_heterozygosity <- function(pop) {
   return(mean(a))
 }
 
+calculate_dist_junctions <- function(pop) {
+  get_num_junctions <- function(indiv) {
+    v1 <- length(indiv$chromosome1[,1]) - 1
+    v2 <- length(indiv$chromosome2[,1]) - 1 #subract one for start
+    return(c(v1,v2))
+  }
+  
+  vx <- as.numeric(sapply(pop$Population,get_num_junctions))
+  
+  return(vx)
+}
+
+plot_dist_junctions <- function(pop) {
+  junct <- calculate_dist_junctions(pop)
+  vx <- table(junct)
+  barplot(vx)
+}
+
+
+
 
 
 

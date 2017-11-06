@@ -49,6 +49,29 @@ test_that("calculate_heterozygosity", {
   expect_equal(avg_hetero, avg_hetero2)
 })
 
+test_that("calculate_dist_junctions", {
+  found <- c();
+  pop_size <- 100
+  run_time <- 100
+  morgan <- 1
+  for(r in 1:100) {
+    vx <- create_full_population(pop_size, 2, 
+                                 run_time, morgan, r, FALSE)
+    junct <- calculate_dist_junctions(vx)
+    mean(junct)
+    found <- c(found,mean(junct))
+    cat(r,mean(junct),"\n")
+  }
+  K <- 2* pop_size*0.5
+  expected <- K - K *(1-0.5/K)^run_time
+  
+  expect_equal(mean(found),expected,tolerance=1)
+  
+  vx <- create_full_population(pop_size, 2, 
+                               run_time, morgan, r, FALSE)
+  plot_dist_junctions(vx)
+})
+
 
 
 
