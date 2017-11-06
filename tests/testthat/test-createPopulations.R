@@ -27,6 +27,29 @@ test_that("create_full_population", {
   plot(vx$Population[[1]])
 })
 
+test_that("calculate_heterozygosity", {
+  pop_size <- 1000
+  number_of_founders <- 2
+  run_time <- 1
+  morgan <- 1
+  write_to_file <- FALSE
+  
+  vx <- create_full_population(pop_size, number_of_founders, 
+                               run_time, morgan, 42, write_to_file)
+  
+  avg_hetero <- 0
+  for(i in 1:pop_size) {
+    avg_hetero <- avg_hetero + calc_heterozygosity(vx$Population[[i]])
+  }
+  avg_hetero <- avg_hetero / pop_size
+  
+  expect_equal(avg_hetero, 0.5, tolerance=0.01)
+  
+  avg_hetero2 <- calculate_pop_heterozygosity(vx)
+  expect_equal(avg_hetero, avg_hetero2)
+})
+
+
 
 
 test_that("create_two_populations", {

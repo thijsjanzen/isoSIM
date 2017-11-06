@@ -93,3 +93,78 @@ create_pop_class <- function(pop) {
   class(whole_pop) <- "population"
   return(whole_pop)
 }
+
+findtype <- function(chrom, pos) {
+  
+  if(length(chrom) == 2) {
+    # if the chromosome has no junctions
+    # the entire chromosome is the same type
+    return(chrom[1,2])
+  }
+  
+  
+  chromtype <- -1
+  
+  for(i in 2:length(chrom[,1])) {
+    
+    if(chrom[i,1] == pos) {
+      chromtype <- chrom[i,2]
+      break;
+    }
+    
+    if(chrom[i,1] > pos) {
+      chromtype <- chrom[i-1,2]
+      break;
+    }
+  }
+  
+  if(chromtype < 0) {
+    if(chrom[length(chrom[,1]),1] < pos) {
+      chromtype <- chrom[length(chrom[,1]),2]
+    }
+  }
+
+  return(chromtype)
+}
+
+calc_heterozygosity <- function(indiv) {
+  
+  #first, get a list of all junction positions
+  
+  pos <- unique(c(0,indiv$chromosome1[,1], indiv$chromosome2[,1],1))
+  pos <- sort(pos)
+  
+  #now we have to get the genetic type at each stretch
+  
+  left <- 0
+  right <- pos[1]
+  heterozygosity <- 0
+  for(i in 2:length(pos)) {
+    left <- right;
+    right <- pos[i]
+    type1 <- findtype(indiv$chromosome1, left)
+    type2 <- findtype(indiv$chromosome2, left)
+    
+    if(type1 != type2) {
+      heterozygosity <- heterozygosity + (right - left)
+    }
+  }
+  
+  return(heterozygosity)
+}
+
+calculate_pop_heterozygosity <- function(pop) {
+  
+  a <- lapply(pop$Population)
+  return(mean(a))
+}
+
+
+
+
+
+
+
+
+
+
