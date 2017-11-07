@@ -10,9 +10,14 @@ create_isoFemaleLine <- function(isoFemale, pop_size = 100,
     indiv <- c(indiv,isoFemale$chromosome2[i,])
   }
   
-  output <- create_femaleLine(indiv, pop_size, 
+  inbred_pop <- create_femaleLine(indiv, pop_size, 
                               run_time, morgan, 
                               SEED);
+  
+  inbred_population <- create_pop_class(inbred_pop$population)
+  
+  output <- inbred_population[[sample(1:length(inbred_population),1)]]
+  
   return(output);
 }
 
@@ -27,6 +32,7 @@ create_isoFemale <- function(pop, n = 1, simulate = FALSE,
     for(i in 1:n) {
       isoFemales[i]$chromosome2 = isoFemales[i]$chromosome1
     }
+    class(isoFemales) <- "population"
     return(isoFemales)
   }
   
@@ -43,8 +49,9 @@ create_isoFemale <- function(pop, n = 1, simulate = FALSE,
                                  run_time = run_time, 
                                  morgan = morgan, 
                                  SEED = i)
-      output_females[i] <- pop[ sample(1:length(pop), 1)]
+      output_females[[i]] <- vx
     }
-    return(isoFemales)
+    class(output_females) <- "population"
+    return(output_females)
   }
 }
