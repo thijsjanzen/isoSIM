@@ -26,9 +26,45 @@ void Recombine(std::vector<junction>& offspring,
                std::vector<junction> chromosome2,
                double MORGAN)  {
 
-    std::vector<double> recomPos;
 
     int numRecombinations = poisson(MORGAN);
+
+    if (numRecombinations == 0) {
+        offspring.insert(offspring.end(),
+                         chromosome1.begin(),
+                         chromosome1.end());
+
+        return;
+    }
+
+    if (numRecombinations == 1) {
+        double pos = getRecomPos();
+        for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
+            if((*i).pos > pos) break;
+            offspring.push_back((*i));
+        }
+        bool added = false;
+        for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
+            if((*j).pos > pos) {
+                if(!added) {
+                    added = true;
+                    junction toAdd(pos,offspring.back().right , (*j).left);
+                    if(toAdd.left != toAdd.right) offspring.push_back(toAdd);
+                }
+                offspring.push_back((*j));
+            }
+        }
+        return;
+    }
+
+    //if the number of recombinations is larger than 1, we need some more complicated (slower) code:
+
+    std::vector<double> recomPos(numRecombinations, 0);
+    for(int i = 0; i < numRecombinations; ++i) {
+        recomPos[i] = getRecomPos();
+    }
+    std::sort(recomPos.begin(), recomPos.end() );
+    recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
 
     while (recomPos.size() < numRecombinations) {
         double pos = getRecomPos();
@@ -48,33 +84,36 @@ void Recombine(std::vector<junction>& offspring,
         toAdd.push_back(temp);
     }
 
-    for(int i = 1; i < chromosome1.size(); ++i) {
-        double leftpos = chromosome1[i-1].pos;
-        double rightpos = chromosome1[i].pos;
+    //for(int i = 1; i < chromosome1.size(); ++i) {
+    for(auto i = (chromosome1.begin()+1); i != chromosome1.end(); ++i) {
+        double leftpos = (*(i-1)).pos;
+        double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
-            if(recomPos[j] > leftpos && recomPos[j] < rightpos) {
-                if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                    toAdd[j].left = chromosome1[i].left;
-                }
-                if(j % 2 == 1) { //uneven so chrom1 = R, chrom2 = L
-                    toAdd[j].right = chromosome1[i].left;
+            if(recomPos[j] > leftpos) {
+                if(recomPos[j] < rightpos) {
+                    if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
+                        toAdd[j].left = (*i).left;
+                    } else { //uneven so chrom1 = R, chrom2 = L
+                        toAdd[j].right = (*i).left;
+                    }
                 }
             }
         }
     }
 
-    for(int i = 1; i < chromosome2.size(); ++i) {
-        double leftpos = chromosome2[i-1].pos;
-        double rightpos = chromosome2[i].pos;
+    for(auto i = (chromosome2.begin()+1); i != chromosome2.end(); ++i) {
+        double leftpos = (*(i-1)).pos;
+        double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
-            if(recomPos[j] > leftpos && recomPos[j] < rightpos) {
-                if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                    toAdd[j].right = chromosome2[i].left;
-                }
-                if(j % 2 == 1) { //uneven so chrom1 = R, chrom2 = L
-                    toAdd[j].left = chromosome2[i].left;
+            if(recomPos[j] > leftpos) {
+                if(recomPos[j] < rightpos) {
+                    if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
+                        toAdd[j].right = (*i).left;
+                    } else { //uneven so chrom1 = R, chrom2 = L
+                        toAdd[j].left = (*i).left;
+                    }
                 }
             }
         }
@@ -94,6 +133,7 @@ void Recombine(std::vector<junction>& offspring,
     for(int i = 0; i < (recomPos.size() + 1); ++i) {
         rightpos = 1.0;
         if(i < recomPos.size()) rightpos = recomPos[i];
+
         if(i % 2 == 0) { //even, so take from chromosome 1
             for(std::vector<junction>::iterator it = chromosome1.begin(); it != chromosome1.end(); ++it) {
                 if((*it).pos >= leftpos && (*it).pos <= rightpos) {
@@ -122,7 +162,7 @@ void Recombine(std::vector<junction>& offspring,
 
     std::sort(offspring.begin(), offspring.end());
     offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
-
+    
     return;
 }
 
