@@ -48,41 +48,42 @@ void Recombine(std::vector<junction>& offspring,
         toAdd.push_back(temp);
     }
 
-    for(int i = 0; i < (chromosome1.size() - 1); ++i) {
-        double leftpos = chromosome1[i].pos;
-        double rightpos = chromosome1[i+1].pos;
+    for(int i = 1; i < chromosome1.size(); ++i) {
+        double leftpos = chromosome1[i-1].pos;
+        double rightpos = chromosome1[i].pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
             if(recomPos[j] > leftpos && recomPos[j] < rightpos) {
                 if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                    // toAdd[j].left = chromosome1[i].left;
-                    // left is deprecated
+                    toAdd[j].left = chromosome1[i].left;
                 }
                 if(j % 2 == 1) { //uneven so chrom1 = R, chrom2 = L
-                    toAdd[j].right = chromosome1[i].right;
+                    toAdd[j].right = chromosome1[i].left;
                 }
             }
         }
     }
 
-    for(int i = 0; i < (chromosome2.size() - 1); ++i) {
-        double leftpos = chromosome2[i].pos;
-        double rightpos = chromosome2[i+1].pos;
+    for(int i = 1; i < chromosome2.size(); ++i) {
+        double leftpos = chromosome2[i-1].pos;
+        double rightpos = chromosome2[i].pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
             if(recomPos[j] > leftpos && recomPos[j] < rightpos) {
                 if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                    toAdd[j].right = chromosome2[i].right;
+                    toAdd[j].right = chromosome2[i].left;
                 }
                 if(j % 2 == 1) { //uneven so chrom1 = R, chrom2 = L
-                    // toAdd[j].left = chromosome2[i].left;
+                    toAdd[j].left = chromosome2[i].left;
                 }
             }
         }
     }
 
     for(int i = 0; i < toAdd.size(); ++i) {
-        offspring.push_back(toAdd[i]);
+        if(toAdd[i].left != toAdd[i].right) {
+            offspring.push_back(toAdd[i]);
+        }
     }
 
     //now we have to add the other junctions from chrom1 and chrom2.
@@ -120,21 +121,10 @@ void Recombine(std::vector<junction>& offspring,
     }
 
     std::sort(offspring.begin(), offspring.end());
-    //offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
+    offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
 
-    std::vector< junction > temp;
-    temp.push_back(offspring[0]);
-    for(int i = 1; i < offspring.size(); ++i) {
-        if(offspring[i].right != offspring[i-1].right) {
-            temp.push_back(offspring[i]);
-        }
-    }
-    offspring = temp;
-    
     return;
 }
-
-
 
 Fish mate(const Fish& A, const Fish& B, double numRecombinations)
 {

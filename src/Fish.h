@@ -14,27 +14,30 @@
 
 struct junction {
     double pos;
+    int left;
     int right;
 
     junction()  {}
 
-    junction(double loc, int A)  {
+    junction(double loc, int A, int B)  {
         pos = loc;
-        right = A;
+        left = A;
+        right = B;
     }
 
     junction(const junction& other) {
         pos = other.pos;
+        left = other.left;
         right = other.right;
     }
 
     bool operator ==(const junction& other) const {
         if(pos != other.pos) return false;
+        if(left != other.left) return false;
         if(right != other.right) return false;
 
         return true;
     }
-
     bool operator <(const junction& other) const {
         return(pos < other.pos);
     }
@@ -44,6 +47,7 @@ struct junction {
     }
 };
 
+
 struct Fish {
     std::vector< junction > chromosome1;
     std::vector< junction > chromosome2;
@@ -52,8 +56,8 @@ struct Fish {
     {}
 
     Fish(int initLoc)    {
-        junction left(0.0, initLoc);
-        junction right(1.0, -1);
+        junction left(0.0, -1, initLoc);
+        junction right(1, initLoc, -1);
         chromosome1.push_back( left  );
         chromosome1.push_back( right );
         chromosome2.push_back( left  );
@@ -83,11 +87,9 @@ struct Fish {
             if(diffPos < -eps || diffPos > eps) return false;
             if(chromosome2[i].right != other.chromosome2[i].right) return false;
         }
-        
+
         return true;
     }
-    
-    
 };
 
 
