@@ -9,6 +9,10 @@ create_population <- function(pop_size, number_of_founders, total_runtime, morga
     .Call('_isoSIM_create_population', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile)
 }
 
+create_femaleLine <- function(indiv, pop_size, total_runtime, morgan, seed) {
+    .Call('_isoSIM_create_femaleLine', PACKAGE = 'isoSIM', indiv, pop_size, total_runtime, morgan, seed)
+}
+
 create_two_populations <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile) {
     .Call('_isoSIM_create_two_populations', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile)
 }

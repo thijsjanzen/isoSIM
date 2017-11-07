@@ -198,6 +198,52 @@ std::vector<Fish> createPopulation(int popSize,
     return(Pop);
 }
 
+std::vector<Fish> create_line(const Fish& founder,
+                             int popSize,
+                             int maxTime,
+                             double Morgan,
+                             double overlap,
+                             double populationIndicator)
+{
+    std::vector<Fish> Pop;
+
+
+    for(int i = 0; i < popSize; ++i) {
+        Pop.push_back(mate(founder, founder, Morgan));
+    }
+
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+
+    int updateFreq = maxTime / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+    for(int t = 0; t < maxTime; ++t) {
+
+        std::vector<Fish> newGeneration;
+
+        for(int i = 0; i < popSize; ++i)  {
+            int index1 = random_number(popSize);
+            int index2 = random_number(popSize);
+
+            Fish kid = mate(Pop[index1], Pop[index2], Morgan);
+
+            newGeneration.push_back(kid);
+        }
+
+        Pop = newGeneration;
+        newGeneration.clear();
+        
+        if(t % updateFreq == 0) {
+            Rcout << "**";
+        }
+    }
+    Rcout << "\n";
+    return(Pop);
+}
+
+
+
 std::vector<double> createPopVector(const std::vector< Fish >& v) {
     std::vector<double> output;
     for(auto it = v.begin(); it != v.end(); ++it) {
@@ -266,6 +312,46 @@ List create_population(int pop_size,
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
+
+// [[Rcpp::export]]
+List create_femaleLine(NumericVector indiv,
+                       int pop_size,
+                       int total_runtime,
+                       double morgan,
+                       int seed)
+{
+    set_seed(seed);
+
+    Fish founder;
+    int chromIndicator = 0;
+    for(int i = 0; i < indiv.size();  i+=2) {
+        junction temp;
+        temp.pos = indiv[i];
+        temp.right = indiv[i+1];
+
+        if(chromIndicator == 0) {
+            founder.chromosome1.push_back(temp);
+        }
+        if(chromIndicator == 1) {
+            founder.chromosome2.push_back(temp);
+        }
+
+        if(temp.right == -1) {
+            chromIndicator++;
+        }
+        if(chromIndicator == 2) {
+            break;
+        }
+    }
+
+    std::vector<Fish> Pop = create_line(founder, pop_size,
+                                        total_runtime, morgan, 0.0, 0);
+
+    return List::create( Named("population") = createPopVector(Pop) );
+}
+
+
+
 
 // [[Rcpp::export]]
 List create_two_populations(int pop_size,

@@ -36,6 +36,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// create_femaleLine
+List create_femaleLine(NumericVector indiv, int pop_size, int total_runtime, double morgan, int seed);
+RcppExport SEXP _isoSIM_create_femaleLine(SEXP indivSEXP, SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type indiv(indivSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_femaleLine(indiv, pop_size, total_runtime, morgan, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
 // create_two_populations
 List create_two_populations(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, double overlap, bool writeToFile);
 RcppExport SEXP _isoSIM_create_two_populations(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP overlapSEXP, SEXP writeToFileSEXP) {
@@ -73,6 +88,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
+    {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},
     {"_isoSIM_create_two_populations", (DL_FUNC) &_isoSIM_create_two_populations, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
     {NULL, NULL, 0}
