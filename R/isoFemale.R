@@ -1,6 +1,5 @@
 create_isoFemaleLine <- function(isoFemale, pop_size = 100, 
-                                 run_time = 100, 
-                                 morgan = 1, SEED = 42) {
+                                 run_time = 100, morgan = 1, SEED = 42) {
   
   #we have to convert the individual back to a vector
   indiv <- c()
@@ -36,14 +35,15 @@ create_isoFemale <- function(pop, n = 1, simulate = FALSE,
     #pick the female, then simulate until run_time
     #then pick a random individual (assuming the population is fixe now)
     
-    indices <- sample(1:length(pop), n)
-    isoFemales <- pop[indices]
+    indices <- sample(1:length(pop$Population), n)
+    isoFemales <- pop$Population[indices]
+    output_females <- c()
     for(i in 1:n) {
-      vx <- create_isoFemaleLine(isoFemales[i], pop_size = 100, 
+      vx <- create_isoFemaleLine(isoFemales[[i]], pop_size = 100, 
                                  run_time = run_time, 
                                  morgan = morgan, 
                                  SEED = i)
-      isoFemales[i] <- pop[ sample(1:length(pop), 1)]
+      output_females[i] <- pop[ sample(1:length(pop), 1)]
     }
     return(isoFemales)
   }

@@ -65,15 +65,15 @@ create_pop_class <- function(pop) {
       } else {
         addIndiv <- TRUE;
       }
-    } else {
-      if(indic_chrom1 == 1) {
-        chrom1 <- rbind(chrom1, focal)
-      }
-      if(indic_chrom2 == 1) {
-        chrom2 <- rbind(chrom2, focal)
-      }
-    }
+    } 
       
+    if(indic_chrom1 == 1) {
+      chrom1 <- rbind(chrom1, focal)
+    }
+    if(indic_chrom2 == 1) {
+      chrom2 <- rbind(chrom2, focal)
+    }
+    
     if(addIndiv == TRUE) {
       indiv <- list(chromosome1 = chrom1, 
                     chromosome2 = chrom2)
@@ -102,9 +102,8 @@ findtype <- function(chrom, pos) {
     return(chrom[1,2])
   }
   
-  
   chromtype <- -1
-  
+
   for(i in 2:length(chrom[,1])) {
     
     if(chrom[i,1] == pos) {
@@ -117,7 +116,7 @@ findtype <- function(chrom, pos) {
       break;
     }
   }
-  
+
   if(chromtype < 0) {
     if(chrom[length(chrom[,1]),1] < pos) {
       chromtype <- chrom[length(chrom[,1]),2]
