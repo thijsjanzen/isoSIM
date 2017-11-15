@@ -161,7 +161,7 @@ std::vector<Fish> createPopulation(int popSize,
         //i = numFounders - overlap * numFounders;
         //numFounders += i;
         for(int i = 0; i < 1000; ++i) {
-            index = numFounders + random_number(numFounders)
+            int index = numFounders + random_number(numFounders);
             if(uniform() < overlap) {
                 index = random_number(numFounders);
             }
