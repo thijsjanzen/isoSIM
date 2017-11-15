@@ -15,7 +15,7 @@ create_full_population <- function(pop_size,
                            writeToFile)
 
   popStruct <- create_pop_class(pop$population);
-  return(list("Population" = popStruct));
+  return(popStruct);
 }
 
 create_two_full_populations <- function(pop_size,
@@ -41,4 +41,3 @@ create_two_full_populations <- function(pop_size,
                  "Population_2" = pop2)
   return(output)
 }
-

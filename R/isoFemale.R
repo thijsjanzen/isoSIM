@@ -9,21 +9,20 @@ create_isoFemaleLine <- function(parents,
   for (i in 1:length(parents[[1]]$chromosome1[, 1])) {
     indiv <- c(indiv,parents[[1]]$chromosome1[i, ])
   }
-  for (i in 1:length(parents[[1]]$chromosome2[,1])) {
-    indiv <- c(indiv,parents[[1]]$chromosome2[i,])
+  for (i in 1:length(parents[[1]]$chromosome2[, 1])) {
+    indiv <- c(indiv,parents[[1]]$chromosome2[i, ])
   }
   
-  indiv <- c()
   for (i in 1:length(parents[[2]]$chromosome1[, 1])) {
     indiv <- c(indiv,parents[[2]]$chromosome1[i, ])
   }
-  for (i in 1:length(parents[[2]]$chromosome2[,1])) {
-    indiv <- c(indiv,parents[[2]]$chromosome2[i,])
+  for (i in 1:length(parents[[2]]$chromosome2[, 1])) {
+    indiv <- c(indiv,parents[[2]]$chromosome2[i, ])
   }
   
   inbred_pop <- create_femaleLine(indiv, pop_size,
-                              run_time, morgan,
-                              SEED);
+                                  run_time, morgan,
+                                  SEED);
   
   inbred_population <- create_pop_class(inbred_pop$population)
   
@@ -45,14 +44,13 @@ create_isoFemale <- function(pop,
   #pick the female, then simulate until run_time
   #then pick a random individual (assuming the population is fixed now)
 
-  isoFemales <- pop$Population[indices]
+  isoFemales <- pop[indices]
   output_females <- c()
   for(i in 1:n) {
-    
     parents <- list(isoFemales[[i]], isoFemales[[i+1]])
-    
+
     vx <- create_isoFemaleLine( parents, 
-                                pop_size = pop,
+                                pop_size = length(pop),
                                 run_time = run_time,
                                 morgan = morgan,
                                 SEED = i)
