@@ -7,7 +7,7 @@ test_that("create_population", {
   morgan <- 1
   write_to_file <- TRUE
 
-  create_population(pop_size, number_of_founders, 
+  vx <- create_population(pop_size, number_of_founders, 
                     run_time, morgan, 42, write_to_file)
 })
 
@@ -21,10 +21,10 @@ test_that("create_full_population", {
   vx <- create_full_population(pop_size, number_of_founders, 
                     run_time, morgan, 42, write_to_file)
 
-  print(vx$Population)
-  print(vx$Population[[1]])
-  expect_equal(length(vx$Population), pop_size)
-  plot(vx$Population[[1]])
+  print(vx)
+  print(vx[[1]])
+  expect_equal(length(vx), pop_size)
+  plot(vx[[1]])
 })
 
 test_that("calculate_heterozygosity", {
@@ -39,7 +39,7 @@ test_that("calculate_heterozygosity", {
 
   avg_hetero <- 0
   for(i in 1:pop_size) {
-    avg_hetero <- avg_hetero + calc_heterozygosity(vx$Population[[i]])
+    avg_hetero <- avg_hetero + calc_heterozygosity(vx[[i]])
   }
   avg_hetero <- avg_hetero / pop_size
 
@@ -84,7 +84,7 @@ test_that("calculate_allele_frequencies", {
     vx <- create_full_population(pop_size, 2, 
                                run_time, morgan, r, FALSE)
     for(i in 1:pop_size) {
-      found <- rbind(found,calc_allele_frequencies(vx$Population[[i]]))
+      found <- rbind(found,calc_allele_frequencies(vx[[i]]))
     }    
   }
 
@@ -103,7 +103,7 @@ test_that("create_two_populations", {
   overlap <- 0.5
   write_to_file <- FALSE
 
-  create_two_populations(pop_size, number_of_founders, 
+  vx <- create_two_populations(pop_size, number_of_founders, 
                          run_time, morgan, 42, 
                          overlap, write_to_file)
 })
@@ -136,11 +136,11 @@ test_that("continue_from_file", {
   morgan <- 1
   write_to_file <- FALSE
 
-  create_population(pop_size, number_of_founders, 
+  vx1 <- create_population(pop_size, number_of_founders, 
                     run_time, morgan, 42, write_to_file)
   
   total_runtime = 100
-  simulate_from_population("population_1.pop",
+  vx2 <- simulate_from_population("population_1.pop",
                            total_runtime,
                            morgan,
                            -1, 42)

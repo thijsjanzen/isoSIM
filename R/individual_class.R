@@ -191,7 +191,7 @@ calc_heterozygosity <- function(indiv) {
 }
 
 calculate_pop_heterozygosity <- function(pop) {
-  a <- sapply(pop$Population, calc_heterozygosity)
+  a <- sapply(pop, calc_heterozygosity)
   return( mean(a))
 }
 
@@ -202,7 +202,7 @@ calculate_dist_junctions <- function(pop) {
     return( c(v1, v2))
   }
   
-  vx <- as.numeric(sapply(pop$Population,get_num_junctions))
+  vx <- as.numeric(sapply(pop,get_num_junctions))
   
   return(vx)
 }
