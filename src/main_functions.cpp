@@ -198,7 +198,21 @@ std::vector<Fish> createPopulation(int popSize,
     return(Pop);
 }
 
-std::vector<Fish> create_line(const Fish& founder,
+
+bool is_fixed(const std::vector< Fish >& v) {
+
+    if(v[0].chromosome1 != v[0].chromosome2) return false;
+
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        if((*it).chromosome1 != v[0].chromosome1) return false;
+        if((*it).chromosome2 != v[0].chromosome2) return false;
+    }
+
+    return true;
+}
+
+
+std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
                              int maxTime,
                              double Morgan,
@@ -209,7 +223,7 @@ std::vector<Fish> create_line(const Fish& founder,
 
 
     for(int i = 0; i < popSize; ++i) {
-        Pop.push_back(mate(founder, founder, Morgan));
+        Pop.push_back(mate(founders[0], founders[1], Morgan));
     }
 
     Rcout << "0--------25--------50--------75--------100\n";
@@ -236,6 +250,11 @@ std::vector<Fish> create_line(const Fish& founder,
         
         if(t % updateFreq == 0) {
             Rcout << "**";
+        }
+
+        if(is_fixed(Pop)) {
+            Rcout << "\nPreliminary exit because the population is already completely homozygous\n";
+            break;
         }
     }
     Rcout << "\n";
@@ -322,29 +341,36 @@ List create_femaleLine(NumericVector indiv,
 {
     set_seed(seed);
 
-    Fish founder;
-    int chromIndicator = 0;
-    for(int i = 0; i < indiv.size();  i+=2) {
-        junction temp;
-        temp.pos = indiv[i];
-        temp.right = indiv[i+1];
+    std::vector< Fish > founders;
 
-        if(chromIndicator == 0) {
-            founder.chromosome1.push_back(temp);
-        }
-        if(chromIndicator == 1) {
-            founder.chromosome2.push_back(temp);
-        }
+    for(int f = 0; f < 2; ++f) {
+        Fish founder;
+        int chromIndicator = 0;
+        for(int i = 0; i < indiv.size();  i+=2) {
+            junction temp;
+            temp.pos = indiv[i];
+            temp.right = indiv[i+1];
 
-        if(temp.right == -1) {
-            chromIndicator++;
-        }
-        if(chromIndicator == 2) {
-            break;
+            if(chromIndicator == 0) {
+                founder.chromosome1.push_back(temp);
+            }
+            if(chromIndicator == 1) {
+                founder.chromosome2.push_back(temp);
+            }
+
+            if(temp.right == -1) {
+                chromIndicator++;
+            }
+            if(chromIndicator == 2) {
+                founders.push_back(founder);
+                founder.chromosome1.clear();
+                founder.chromosome2.clear();
+                chromIndicator = 0;
+            }
         }
     }
 
-    std::vector<Fish> Pop = create_line(founder, pop_size,
+    std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan, 0.0, 0);
 
     return List::create( Named("population") = createPopVector(Pop) );
