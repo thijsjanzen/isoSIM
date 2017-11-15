@@ -149,16 +149,26 @@ std::vector<Fish> createPopulation(int popSize,
     std::vector<Fish> parents;
     int i = 0;
 
+    if(populationIndicator == 0) {
+        for(int i = 0; i < 1000; ++i) {
+            parents.push_back(Fish(random_number(numFounders)));
+        }
+    }
+
     if(populationIndicator == 1) {
         //second population, we will have to take
         //into account overlap
-        i = numFounders - overlap * numFounders;
-        numFounders += i;
+        //i = numFounders - overlap * numFounders;
+        //numFounders += i;
+        for(int i = 0; i < 1000; ++i) {
+            index = numFounders + random_number(numFounders)
+            if(uniform() < overlap) {
+                index = random_number(numFounders);
+            }
+            parents.push_back(Fish(index));
+        }
     }
 
-    for(; i < numFounders; ++i) {
-        parents.push_back(Fish(i));
-    }
 
 
     for(int i = 0; i < popSize; ++i) {
