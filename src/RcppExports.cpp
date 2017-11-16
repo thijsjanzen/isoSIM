@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// calc_heterozygosity
+Numeric calc_heterozygosity(NumericVector v);
+RcppExport SEXP _isoSIM_calc_heterozygosity(SEXP vSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
+    rcpp_result_gen = Rcpp::wrap(calc_heterozygosity(v));
+    return rcpp_result_gen;
+END_RCPP
+}
 // simulate_from_population
 List simulate_from_population(std::string file_name, int total_runtime, double morgan, int number_of_markers, int seed);
 RcppExport SEXP _isoSIM_simulate_from_population(SEXP file_nameSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP number_of_markersSEXP, SEXP seedSEXP) {
@@ -86,6 +97,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_isoSIM_calc_heterozygosity", (DL_FUNC) &_isoSIM_calc_heterozygosity, 1},
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
     {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},

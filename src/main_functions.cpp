@@ -308,6 +308,49 @@ std::vector<double> createPopVector(const std::vector< Fish >& v) {
  }
  */
 
+
+// [[Rcpp::export]]
+Numeric calc_heterozygosity(NumericVector v) {
+    std::vector< Fish > pop;
+    Fish temp;
+    int indic_chrom = 1
+    bool add_indiv = false;
+
+    for(int i = 0; i < v.size(); i += 2) {
+        junction temp_j;
+        temp_j.pos = v[i];
+        temp_j.right = v[i+1];
+
+        if(indic_chrom == 1) {
+            temp.chromosome1.push_back(temp_j);
+        } else {
+            temp.chromosome2.push_back(temp_j);
+        }
+
+        if(temp_j.right == -1) {
+            if(indic_chrom == 1) {
+                indic_chrom = 2;
+            } else {
+                add_indiv = true;
+            }
+        }
+
+        if(add_indiv) {
+            pop.push_back(temp);
+            add_indiv = false;
+            indic_chrom = 1;
+            temp.chromosome1.clear();
+            temp.chromosome2.clear();
+        }
+    }
+
+    double heterozygosity = calculate_heterozygosity(pop);
+    return(heterozygosity);
+}
+
+
+
+
 // [[Rcpp::export]]
 List simulate_from_population(std::string file_name,
                               int total_runtime,

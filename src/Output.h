@@ -24,6 +24,8 @@ struct Output {
     void update(const std::vector< Fish >& Pop);
     void detectNumJunctions(const std::vector< Fish>    &Pop,
                             const std::vector< double > &markers);
+
+    void Output::calculate_heterozygosity(const std::vector < Fish >& v);
 };
 
 void writePoptoFile( const std::vector< Fish >& Pop,
@@ -31,5 +33,9 @@ void writePoptoFile( const std::vector< Fish >& Pop,
 
 void readPopfromFile(      std::vector< Fish >& Pop,
                            std::string filename);
+
+double calculate_heterozygosity(const std::vector < Fish >& v);
+
+
 
 #endif /* Output_hpp */

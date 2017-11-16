@@ -31,6 +31,42 @@ void Output::update(const std::vector<Fish>& Pop) {
     return;
 }
 
+
+double calculate_heterozygosity(const std::vector < Fish >& v) {
+    double heterozygosity = 0.0;
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        int chrom1 = 1;
+        int chrom2 = 1;
+        double left = 0.0;
+        double right = 1.0;
+
+        while(chrom1 < (*it).chromosome1.size() &&
+              chrom2 < (*it).chromosome2.size()) {
+            int heterozygous = 0;
+            if((*it).chromosome1[chrom1 - 1].right !=
+               (*it).chromosome2[chrom2 - 1].right) {
+                heterozygous = 1;
+            }
+
+            if((*it).chromosome1[chrom1].pos < (*it).chromosome2[chrom2].pos) {
+                right = (*it).chromosome1[chrom1].pos;
+                chrom1++;
+            } else {
+                right = (*it).chromosome2[chrom2].pos;
+                chrom2++;
+            }
+            double stretch = right - left;
+            mean_val += stretch * heterozygous;
+            left = right;
+        }
+    }
+
+    heterozygosity = 1.0 * heterozygosity / (v.size());
+    return heterozygosity;
+}
+
+
+
 int countJunctions(const std::vector<bool>& B) {
     int numJunctions = 0;
     for(std::size_t i = 1; i < B.size(); ++i) {

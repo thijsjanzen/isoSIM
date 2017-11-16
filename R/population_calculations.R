@@ -51,8 +51,8 @@ plot_dist_junctions <- function(pop) {
   barplot(vx)
 }
 
-calc_allele_frequencies <- function(indiv) {
-  alleles <- rep(0,1+max(indiv$chromosome1[,2],indiv$chromosome2[,2]))
+calc_allele_frequencies <- function(indiv, alleles) {
+  #alleles <- rep(0,1+max(indiv$chromosome1[,2],indiv$chromosome2[,2]))
   
   for (i in 1:length(indiv$chromosome1[,1])) {
     left <- indiv$chromosome1[i,1]
@@ -76,48 +76,4 @@ calc_allele_frequencies <- function(indiv) {
   
   
   return(alleles)
-}
-
-
-
-
-
-calculate_fst <- function(pop1, 
-                          pop2) {
-  
-  pop_size <- 100
-  number_of_founders <- 2
-  run_time <- 100
-  morgan <- 1
-  overlap <- 0.0
-  write_to_file <- FALSE
-  
-  vx <- create_two_full_populations(pop_size, number_of_founders, 
-                                    run_time, morgan, 42, 
-                                    overlap, write_to_file)
-  
-  pop1 <- vx$Population_1
-  pop2 <- vx$Population_2
-  
-  h_a <- calculate_pop_heterozygosity(pop1)
-  h_b <- calculate_pop_heterozygosity(pop2)
-  
-  combined_pop <- c(pop1, pop2)
-  class(combined_pop) <- "population"
-  h_c <- calculate_pop_heterozygosity(combined_pop)
-  
-  fst <- (h_c - h_a)/(h_c)
-  
-  
-  
-  
-  
-  require(BEDASSLE)
-  
-  
-  
-  
-  
-  
-  
 }
