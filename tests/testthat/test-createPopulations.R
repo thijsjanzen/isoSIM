@@ -84,7 +84,9 @@ test_that("calculate_allele_frequencies", {
     vx <- create_full_population(pop_size, 2, 
                                run_time, morgan, r, FALSE)
     for(i in 1:pop_size) {
-      found <- rbind(found,calc_allele_frequencies(vx[[i]]))
+      found <- rbind(found, calc_allele_frequencies(vx[[i]], 
+                            alleles = rep(0, number_of_founders * 2) )
+                    )
     }    
   }
 
@@ -92,7 +94,20 @@ test_that("calculate_allele_frequencies", {
   expect_equal(v[[1]], 0.5,tolerance=0.01)
 
   expect_equal(v[[2]], 0.5,tolerance=0.01)
-
+  
+  found <- c();
+  for(r in 1:100) {
+    vx <- create_full_population(pop_size, 4, 
+                                 run_time, morgan, r, FALSE)
+    for(i in 1:pop_size) {
+      found <- rbind(found, calc_allele_frequencies(vx[[i]], 
+                                                    alleles = rep(0, number_of_founders * 2) )
+      )
+    }    
+  }
+  
+  v <- mean(colMeans(found))
+  expect_equal(v, 0.25,tolerance=0.01)
 })
 
 test_that("create_two_populations", {

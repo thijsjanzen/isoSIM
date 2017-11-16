@@ -309,7 +309,7 @@ std::vector<double> createPopVector(const std::vector< Fish >& v) {
 
 
 // [[Rcpp::export]]
-double calc_heterozygosity(NumericVector v) {
+double calc_heterozygosity_cpp(NumericVector v) {
     std::vector< Fish > pop;
     Fish temp;
     int indic_chrom = 1;
