@@ -56,7 +56,7 @@ double calculate_heterozygosity(const std::vector < Fish >& v) {
                 chrom2++;
             }
             double stretch = right - left;
-            mean_val += stretch * heterozygous;
+            heterozygosity += stretch * heterozygous;
             left = right;
         }
     }
