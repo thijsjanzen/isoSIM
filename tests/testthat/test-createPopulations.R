@@ -39,13 +39,13 @@ test_that("calculate_heterozygosity", {
 
   avg_hetero <- 0
   for(i in 1:pop_size) {
-    avg_hetero <- avg_hetero + calc_heterozygosity(vx[[i]])
+    avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])
   }
   avg_hetero <- avg_hetero / pop_size
 
   expect_equal(avg_hetero, 0.5, tolerance=0.01)
 
-  avg_hetero2 <- calculate_pop_heterozygosity(vx)
+  avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2)
 })
 

@@ -33,9 +33,9 @@ calculate_basic_stats <- function(pop1,
   
   #observed heterozygosity
   cat("calculating hst pop1\n")
-  Ho_1 <- calculate_pop_heterozygosity(pop1)
+  Ho_1 <- calculate_heterozygosity(pop1)
   cat("calculating hst pop2\n")
-  Ho_2 <- calculate_pop_heterozygosity(pop2)
+  Ho_2 <- calculate_heterozygosity(pop2)
   sHo <- rbind( c(Ho_1,Ho_2), c(Ho_1,Ho_2))
   
   mHo <- apply(sHo, 1, mean, na.rm = TRUE)
@@ -85,7 +85,7 @@ calculate_basic_stats <- function(pop1,
   all.res
 }
 
-calculate_heterozygosity_cplusplus <- function(pop) {
+calculate_heterozygosity <- function(pop) {
   
   #first we have to unwind all the individuals into one large vector
   pop_for_cpp <- c();

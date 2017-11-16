@@ -1,36 +1,53 @@
 
-calc_heterozygosity <- function(indiv) {
+calc_heterozygosity_indiv <- function(indiv) {
   
-  #first, get a list of all junction positions
-  pos <- unique(c(0,
-                  indiv$chromosome1[, 1], 
-                  indiv$chromosome2[, 1],
-                  1))
-  
-  pos <- sort(pos)
-  
+  if(length(indiv$chromosome1) > 100) {
   #now we have to get the genetic type at each stretch
-  
-  left <- 0
-  right <- pos[1]
   heterozygosity <- 0
-  for (i in 2:length(pos)) {
-    left <- right;
-    right <- pos[i]
-    type1 <- findtype(indiv$chromosome1, left)
-    type2 <- findtype(indiv$chromosome2, left)
-    
-    if (type1 != type2) {
-      heterozygosity <- heterozygosity + (right - left)
+  chrom1 <- 2
+  chrom2 <- 2
+  left <- 0
+  right <- 1
+  while(chrom1 < length(indiv$chromosome1[,1]) && 
+        chrom2 < length(indiv$chromosome2[,1]) )
+  {
+    is_hetero <- 0
+    if(indiv$chromosome1[chrom1 - 1, 2] !=
+       indiv$chromosome2[chrom2 - 1, 2]) {
+      is_hetero <- 1
     }
+    
+    if(indiv$chromosome1[chrom1, 1] < indiv$chromosome2[chrom2, 1]) {
+      right = indiv$chromosome1[chrom1, 1]
+      chrom1 <- chrom1 + 1
+    } else {
+      right = indiv$chromosome2[chrom2, 1]
+      chrom2 <- chrom2 + 1
+    }
+    
+    heterozygosity <- heterozygosity + (right - left) * is_hetero
+    left <- right
   }
   
   return(heterozygosity)
-}
-
-calculate_pop_heterozygosity <- function(pop) {
-  a <- sapply(pop, calc_heterozygosity)
-  return( mean(a))
+  } else {
+    pos <- unique(c(0, indiv$chromosome1[, 1], indiv$chromosome2[, 
+                                                                 1], 1))
+    pos <- sort(pos)
+    left <- 0
+    right <- pos[1]
+    heterozygosity <- 0
+    for (i in 2:length(pos)) {
+      left <- right
+      right <- pos[i]
+      type1 <- findtype(indiv$chromosome1, left)
+      type2 <- findtype(indiv$chromosome2, left)
+      if (type1 != type2) {
+        heterozygosity <- heterozygosity + (right - left)
+      }
+    }
+    return(heterozygosity)
+  }
 }
 
 calculate_dist_junctions <- function(pop) {
