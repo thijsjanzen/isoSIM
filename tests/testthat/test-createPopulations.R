@@ -47,6 +47,26 @@ test_that("calculate_heterozygosity", {
 
   avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2)
+  
+  pop_size <- 1000
+  number_of_founders <- 2
+  run_time <- 500
+  morgan <- 1
+  write_to_file <- FALSE
+  
+  vx <- create_full_population(pop_size, number_of_founders, 
+                               run_time, morgan, 42, write_to_file)
+  
+  avg_hetero <- 0
+  for(i in 1:pop_size) {
+    avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])
+  }
+  avg_hetero <- avg_hetero / pop_size
+  
+  expect_equal(avg_hetero, 0.5, tolerance=0.01)
+  
+  avg_hetero2 <- calculate_heterozygosity(vx)
+  expect_equal(avg_hetero, avg_hetero2)
 })
 
 test_that("calculate_dist_junctions", {
@@ -141,6 +161,26 @@ test_that("create_two_full_populations", {
 
   print(vx$Population_1)
   print(vx$Population_2)
+})
+
+test_that("basic stats", {
+  pop_size <- 100
+  number_of_founders <- 10
+  run_time <- 100
+  morgan <- 1
+  overlap <- 0.5
+  write_to_file <- FALSE
+  
+  vx <- create_two_full_populations(pop_size, number_of_founders, 
+                                    run_time, morgan, 42, 
+                                    overlap, write_to_file)
+  
+  pop1 <- vx$Population_1
+  pop2 <- vx$Population_2
+  
+  a <- calculate_basic_stats(pop1, pop2,
+                             number_of_founders, 3)
+  
 })
 
 
