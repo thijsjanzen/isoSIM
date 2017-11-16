@@ -147,7 +147,6 @@ std::vector<Fish> createPopulation(int popSize,
 {
     std::vector<Fish> Pop;
     std::vector<Fish> parents;
-    int i = 0;
 
     if(populationIndicator == 0) {
         for(int i = 0; i < 1000; ++i) {
@@ -310,10 +309,10 @@ std::vector<double> createPopVector(const std::vector< Fish >& v) {
 
 
 // [[Rcpp::export]]
-Numeric calc_heterozygosity(NumericVector v) {
+double calc_heterozygosity(NumericVector v) {
     std::vector< Fish > pop;
     Fish temp;
-    int indic_chrom = 1
+    int indic_chrom = 1;
     bool add_indiv = false;
 
     for(int i = 0; i < v.size(); i += 2) {

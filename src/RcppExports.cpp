@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // calc_heterozygosity
-Numeric calc_heterozygosity(NumericVector v);
+double calc_heterozygosity(NumericVector v);
 RcppExport SEXP _isoSIM_calc_heterozygosity(SEXP vSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
