@@ -16,6 +16,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calculate_summaryStats
+List calculate_summaryStats(NumericVector v, int number_of_founders);
+RcppExport SEXP _isoSIM_calculate_summaryStats(SEXP vSEXP, SEXP number_of_foundersSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    rcpp_result_gen = Rcpp::wrap(calculate_summaryStats(v, number_of_founders));
+    return rcpp_result_gen;
+END_RCPP
+}
 // simulate_from_population
 List simulate_from_population(std::string file_name, int total_runtime, double morgan, int number_of_markers, int seed);
 RcppExport SEXP _isoSIM_simulate_from_population(SEXP file_nameSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP number_of_markersSEXP, SEXP seedSEXP) {
@@ -98,6 +110,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
+    {"_isoSIM_calculate_summaryStats", (DL_FUNC) &_isoSIM_calculate_summaryStats, 2},
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
     {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},

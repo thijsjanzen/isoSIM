@@ -1,12 +1,14 @@
 calculate_basic_stats <- function(pop1,
                                   pop2,
-                                  number_of_founders,
-                                  digits) {
+                                  number_of_founders) {
   
-  diploid <- TRUE
+  digits <- 4
   cat("starting estimating p table\n")
+  
+  
   pop_size <- length(pop1)
   cat("allele table pop 1\n")
+  
   freq_pop1 <- matrix(nrow=length(pop1), ncol = number_of_founders * 2, 0)
   for(i in 1:length(pop1)) {
     vx <- calc_allele_frequencies(pop1[[i]], rep(0, number_of_founders * 2))
@@ -75,9 +77,6 @@ calculate_basic_stats <- function(pop1,
   overall[9] <- 1 - overall[1]/overall[2]
   overall[10] <- overall[6]/(1 - overall[2])
   names(overall) <- names(res)
-  if (!diploid) {
-    overall[-2] <- NA
-  }
   all.res <- list(n.ind.samp = n, pop.freq = lapply(p, round, 
                                                     digits), Ho = round(sHo, digits), Hs = round(Hs, digits), 
                   Fis = round(Fis, digits), perloc = round(res, digits), 
@@ -85,8 +84,27 @@ calculate_basic_stats <- function(pop1,
   all.res
 }
 
-calculate_heterozygosity <- function(pop) {
+calculate_heterozygosit_and_p_table <- function(pop) {
   
+  pop_for_cpp <- c();
+  for(i in 1:length(pop)) {
+    x <- pop[[i]]$chromosome1
+    chrom1 <- as.vector(t(x))
+    x <- pop[[i]]$chromosome2
+    chrom2 <- as.vector(t(x))
+    
+    
+    pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
+  }
+  
+  results <- calculate_summaryStats(pop);
+  return(results);
+}
+
+
+
+calculate_heterozygosity <- function(pop) {
+
   #first we have to unwind all the individuals into one large vector
   pop_for_cpp <- c();
   for(i in 1:length(pop)) {
