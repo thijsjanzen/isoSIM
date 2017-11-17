@@ -117,6 +117,7 @@ hierf_basic_stats <- function(pop1,
                               markers_random = FALSE) {
   
   pop_size <- length(pop1)
+  number_of_markers <- round(number_of_markers)
   
   all_loci <- matrix(nrow= 2 * pop_size, ncol= 1 + number_of_markers, 0);
   all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
