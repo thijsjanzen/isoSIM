@@ -14,8 +14,8 @@ calculate_basic_stats <- function(pop1,
   freq_pop1 <- sum_stats_pop1$freq_pop
   freq_pop2 <- sum_stats_pop2$freq_pop
   
-  final_table <- cbind(1:(2*number_of_founders), freq_pop1, freq_pop2)
-  colnames(final_table) <- c("x","1","2")
+  final_table <- cbind(freq_pop1, freq_pop2)
+  colnames(final_table) <- c("1","2")
   
   p <- list(X1 = final_table, X2 = final_table)
   n <- matrix(ncol = 2, nrow = 2, pop_size)
@@ -29,7 +29,7 @@ calculate_basic_stats <- function(pop1,
   
   sp2 <- lapply(p, fun <- function(x) apply(x, 2, fun2 <- function(x) sum(x^2)))
   sp2 <- matrix(unlist(sp2), nrow = 2, byrow = TRUE)
-  sp2 <- sp2[,-1]
+  #sp2 <- sp2[,-1]
   Hs <- (1 - sp2 - sHo/2/n)
   Hs <- n/(n - 1) * Hs
   Fis = 1 - sHo/Hs
@@ -40,6 +40,7 @@ calculate_basic_stats <- function(pop1,
   })
   msp2 <- apply(sp2, 1, mean, na.rm = TRUE)
   mp <- lapply(p, fun <- function(x) apply(x, 1, mean, na.rm = TRUE))
+  
   mp2 <- unlist(lapply(mp, fun1 <- function(x) sum(x^2)))
   mHs <- mn/(mn - 1) * (1 - msp2 - mHo/2/mn)
   Ht <- 1 - mp2 + mHs/mn/np - mHo/2/mn/np
@@ -107,6 +108,7 @@ calculate_heterozygosity <- function(pop) {
   return(heterozygosity)
 }
 
+
 hierf_basic_stats <- function(pop1, 
                               pop2, 
                               number_of_founders,
@@ -119,7 +121,7 @@ hierf_basic_stats <- function(pop1,
   all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
   colnames(all_loci) <- c("population", 1:number_of_markers)
   
-  markers <- seq(1e-9, 1-(1e-9), number_of_markers)
+  markers <- seq(1e-9, 1-(1e-9), length.out = number_of_markers)
   if(markers_random) {
     markers <- c();
     while(length(markers) < number_of_markers) {
@@ -160,7 +162,7 @@ hierf_basic_stats <- function(pop1,
   
   require(hierfstat)
   
-  hierf_sum <- hierfstat::basic.stats(all_loci)
+  hierf_sum_overall <- hierfstat::basic.stats(all_loci)$overall
   
-  return(hierf_sum)
+  return(hierf_sum_overall)
 }

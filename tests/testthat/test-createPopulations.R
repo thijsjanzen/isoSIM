@@ -206,10 +206,15 @@ test_that("stats", {
   number_of_markers <- 100
   b <- hierf_basic_stats(pop1, pop2, 
                          number_of_founders, 
-                         number_of_markers)
+                         number_of_markers,
+                         markers_random = TRUE)
   
   vA <- a$overall
   vB <- b
+  for(i in 1:length(vA)) {
+    expect_equal(vA[i], vB[i], tolerance = 0.05, scale = vB[i])
+  }
+
 })
 
 test_that("continue_from_file", {
