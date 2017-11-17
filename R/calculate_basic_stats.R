@@ -7,24 +7,15 @@ calculate_basic_stats <- function(pop1,
   
   
   pop_size <- length(pop1)
+  
+  sum_stats_pop1 <- calculate_heterozygosity_and_freq_table(pop1, number_of_founders)
+  sum_stats_pop2 <- calculate_heterozygosity_and_freq_table(pop2, number_of_founders)
+  
+  freq_pop1 <- sum_stats_pop1$freq_pop
+  freq_pop2 <- sum_stats_pop2$freq_pop
+  
   cat("allele table pop 1\n")
   
-  freq_pop1 <- matrix(nrow=length(pop1), ncol = number_of_founders * 2, 0)
-  for(i in 1:length(pop1)) {
-    vx <- calc_allele_frequencies(pop1[[i]], rep(0, number_of_founders * 2))
-    freq_pop1[i,] <- vx;
-  }
-  freq_pop1 <- colMeans(freq_pop1)
-  
-  
-  cat("allele table pop 2\n")
-  freq_pop2 <- matrix(nrow=length(pop2), ncol = number_of_founders * 2, 0)
-  
-  for(i in 1:length(pop2)) {
-    vx <- calc_allele_frequencies(pop2[[i]], rep(0, number_of_founders * 2))
-    freq_pop2[i,] <- vx;
-  }
-  freq_pop2 <- colMeans(freq_pop2)
   final_table <- cbind(1:(2*number_of_founders), freq_pop1, freq_pop2)
   colnames(final_table) <- c("x","1","2")
   
@@ -35,9 +26,9 @@ calculate_basic_stats <- function(pop1,
   
   #observed heterozygosity
   cat("calculating hst pop1\n")
-  Ho_1 <- calculate_heterozygosity(pop1)
+  Ho_1 <- sum_stats_pop1$Hst
   cat("calculating hst pop2\n")
-  Ho_2 <- calculate_heterozygosity(pop2)
+  Ho_2 <- sum_stats_pop2$Hst
   sHo <- rbind( c(Ho_1,Ho_2), c(Ho_1,Ho_2))
   
   mHo <- apply(sHo, 1, mean, na.rm = TRUE)
@@ -84,7 +75,7 @@ calculate_basic_stats <- function(pop1,
   all.res
 }
 
-calculate_heterozygosity_and_p_table <- function(pop,
+calculate_heterozygosity_and_freq_table <- function(pop,
                                                  number_of_founders) {
   
   pop_for_cpp <- c();
@@ -98,7 +89,7 @@ calculate_heterozygosity_and_p_table <- function(pop,
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
   
-  results <- calculate_summaryStats(pop, number_of_founders);
+  results <- calculate_summaryStats(pop_for_cpp, number_of_founders);
   return(results);
 }
 
