@@ -29,6 +29,7 @@ calculate_basic_stats <- function(pop1,
   
   sp2 <- lapply(p, fun <- function(x) apply(x, 2, fun2 <- function(x) sum(x^2)))
   sp2 <- matrix(unlist(sp2), nrow = 2, byrow = TRUE)
+  
   #sp2 <- sp2[,-1]
   Hs <- (1 - sp2 - sHo/2/n)
   Hs <- n/(n - 1) * Hs
@@ -160,7 +161,7 @@ hierf_basic_stats <- function(pop1,
     }
   }
   
-  require(hierfstat)
+#  require(hierfstat)
   
   hierf_sum_overall <- hierfstat::basic.stats(all_loci)$overall
   

@@ -7,7 +7,7 @@ Author: Thijs Janzen
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
 Description: Simulation of source populations, and simulation of the creation of isofemale lines from these populations.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.12)
+Imports: Rcpp (>= 0.12.12), hierfstat
 Suggests: testit, testthat
 LinkingTo: Rcpp
 SystemRequirements: C++11
