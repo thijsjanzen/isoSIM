@@ -181,7 +181,7 @@ test_that("basic stats", {
   pop2 <- vx$Population_2
   
   a <- calculate_basic_stats(pop1, pop2,
-                             number_of_founders, 3)
+                             number_of_founders)
   
 })
 

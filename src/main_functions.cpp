@@ -326,7 +326,7 @@ std::vector< double > calculate_mean_allelefreq(const std::vector< Fish >& pop,
     }
 
     for(int i = 0; i < allele_freq.size(); ++i) {
-        allele_freq[i] = 1.0 * allele_freq[i] / (pop.size());
+        allele_freq[i] = 1.0 * allele_freq[i] / (2 * pop.size());
     }
     return(allele_freq);
 }
@@ -389,7 +389,8 @@ double calc_heterozygosity_cpp(NumericVector v) {
 }
 
 // [[Rcpp::export]]
-List calculate_summaryStats(NumericVector v, int number_of_founders) {
+List calculate_summaryStats(NumericVector v,
+                            int number_of_founders) {
     std::vector< Fish > pop;
     Fish temp;
     int indic_chrom = 1;
@@ -423,10 +424,14 @@ List calculate_summaryStats(NumericVector v, int number_of_founders) {
         }
     }
 
+    Rcout << "loaded Population\n";
     double heterozygosity = calculate_heterozygosity(pop);
 
-    std::vector < double > allele_freq = calculate_mean_allelefreq(pop, number_of_founders);
+    Rcout << "calculated heterozygosity\n";
+    std::vector < double > allele_freq = calculate_mean_allelefreq(pop,
+                                                                   number_of_founders);
 
+    Rcout << "calculated allele_Frequencies\n";
     return List::create( Named("Hst") = heterozygosity,
                          Named("freq_pop") = allele_freq );
 }

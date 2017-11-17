@@ -84,7 +84,8 @@ calculate_basic_stats <- function(pop1,
   all.res
 }
 
-calculate_heterozygosit_and_p_table <- function(pop) {
+calculate_heterozygosity_and_p_table <- function(pop,
+                                                 number_of_founders) {
   
   pop_for_cpp <- c();
   for(i in 1:length(pop)) {
@@ -97,7 +98,7 @@ calculate_heterozygosit_and_p_table <- function(pop) {
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
   
-  results <- calculate_summaryStats(pop);
+  results <- calculate_summaryStats(pop, number_of_founders);
   return(results);
 }
 
