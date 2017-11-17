@@ -424,14 +424,11 @@ List calculate_summaryStats(NumericVector v,
         }
     }
 
-    Rcout << "loaded Population\n";
     double heterozygosity = calculate_heterozygosity(pop);
 
-    Rcout << "calculated heterozygosity\n";
     std::vector < double > allele_freq = calculate_mean_allelefreq(pop,
                                                                    number_of_founders);
 
-    Rcout << "calculated allele_Frequencies\n";
     return List::create( Named("Hst") = heterozygosity,
                          Named("freq_pop") = allele_freq );
 }

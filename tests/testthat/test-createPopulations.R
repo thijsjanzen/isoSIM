@@ -185,6 +185,32 @@ test_that("basic stats", {
   
 })
 
+test_that("stats", {
+  pop_size <- 100
+  number_of_founders <- 10
+  run_time <- 1
+  morgan <- 1
+  overlap <- 0.5
+  write_to_file <- FALSE
+  
+  vx <- create_two_full_populations(pop_size, number_of_founders, 
+                                    run_time, morgan, 42, 
+                                    overlap, write_to_file)
+  
+  pop1 <- vx$Population_1
+  pop2 <- vx$Population_2
+  
+  a <- calculate_basic_stats(pop1, pop2,
+                             number_of_founders)
+  
+  number_of_markers <- 100
+  b <- hierf_basic_stats(pop1, pop2, 
+                         number_of_founders, 
+                         number_of_markers)
+  
+  vA <- a$overall
+  vB <- b
+}
 
 test_that("continue_from_file", {
   pop_size <- 100
