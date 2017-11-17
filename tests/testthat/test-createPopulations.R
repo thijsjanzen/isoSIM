@@ -59,14 +59,16 @@ test_that("calculate_heterozygosity", {
   
   avg_hetero <- 0
   for(i in 1:pop_size) {
-    avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])
+    avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])[[1]]
   }
   avg_hetero <- avg_hetero / pop_size
   
-  expect_equal(avg_hetero, 0.5, tolerance=0.01)
+  expect_hetero <- 2*0.5 * 0.5 * (1 - 1/(2*pop_size))^run_time
+  
+  expect_equal(avg_hetero, expect_hetero, tolerance=0.05)
   
   avg_hetero2 <- calculate_heterozygosity(vx)
-  expect_equal(avg_hetero, avg_hetero2)
+  expect_equal(avg_hetero, avg_hetero2, tolerance = 0.01)
 })
 
 test_that("calculate_dist_junctions", {
