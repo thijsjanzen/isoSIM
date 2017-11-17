@@ -210,7 +210,7 @@ test_that("stats", {
   
   vA <- a$overall
   vB <- b
-}
+})
 
 test_that("continue_from_file", {
   pop_size <- 100
