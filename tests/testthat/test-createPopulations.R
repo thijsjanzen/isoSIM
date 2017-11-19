@@ -180,17 +180,19 @@ test_that("basic stats", {
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
   
-  a <- calculate_basic_stats(pop1, pop2,
-                             number_of_founders)
+  a <- hierfstat_basic_stats(pop1, pop2,
+                             number_of_founders,
+                             number_of_markers = 100,
+                             markers_random = TRUE)
   
 })
 
 test_that("stats", {
   pop_size <- 100
-  number_of_founders <- 10
+  number_of_founders <- 20
   run_time <- 1
   morgan <- 1
-  overlap <- 0.5
+  overlap <- 0.1
   write_to_file <- FALSE
   
   vx <- create_two_full_populations(pop_size, number_of_founders, 
@@ -200,21 +202,38 @@ test_that("stats", {
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
   
-  a <- calculate_basic_stats(pop1, pop2,
-                             number_of_founders)
+  number_of_markers <- 100
+  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+                         number_of_markers, markers_random = TRUE)
+  
+  v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+                         number_of_markers, markers_random = FALSE)
+  
+  pop_size <- 100
+  number_of_founders <- 10
+  run_time <- 10000
+  morgan <- 1
+  overlap <- 0.0
+  write_to_file <- FALSE
+  
+  vx <- create_two_full_populations(pop_size, number_of_founders, 
+                                    run_time, morgan, 42, 
+                                    overlap, write_to_file)
+  
+  pop1 <- vx$Population_1
+  pop2 <- vx$Population_2
   
   number_of_markers <- 100
-  b <- hierf_basic_stats(pop1, pop2, 
-                         number_of_founders, 
-                         number_of_markers,
-                         markers_random = TRUE)
+  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+                         number_of_markers, markers_random = TRUE)
   
-  vA <- a$overall
-  vB <- b
-  for(i in 1:length(vA)) {
-    expect_equal(vA[i], vB[i], tolerance = 0.05, scale = vB[i])
-  }
-
+  # p <- 0.5  
+  # var(p) = p q ()
+  #p <- 0.5
+  #var_p <- p * (1 - p)  * (1 - exp(-t/(2*pop_size)))
+  #expect_fst <- var_p / (p * (1 - p))
+  
+  testthat::expect_equal(1.0, v1, tolerance = 0.01)
 })
 
 test_that("continue_from_file", {
