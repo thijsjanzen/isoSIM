@@ -7,7 +7,7 @@ test_that("create_population", {
   morgan <- 1
   write_to_file <- TRUE
 
-  vx <- create_population(pop_size, number_of_founders, 
+  vx <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42, write_to_file)
 })
 
@@ -18,7 +18,7 @@ test_that("create_full_population", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders, 
+  vx <- create_full_population(pop_size, number_of_founders,
                     run_time, morgan, 42, write_to_file)
 
   print(vx)
@@ -34,39 +34,39 @@ test_that("calculate_heterozygosity", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders, 
+  vx <- create_full_population(pop_size, number_of_founders,
                                run_time, morgan, 42, write_to_file)
 
   avg_hetero <- 0
-  for(i in 1:pop_size) {
+  for (i in 1:pop_size) {
     avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])
   }
   avg_hetero <- avg_hetero / pop_size
 
-  expect_equal(avg_hetero, 0.5, tolerance=0.01)
+  expect_equal(avg_hetero, 0.5, tolerance = 0.01)
 
   avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2)
-  
+
   pop_size <- 1000
   number_of_founders <- 2
   run_time <- 500
   morgan <- 1
   write_to_file <- FALSE
-  
+
   vx <- create_full_population(pop_size, number_of_founders, 
                                run_time, morgan, 42, write_to_file)
-  
+
   avg_hetero <- 0
-  for(i in 1:pop_size) {
+  for (i in 1:pop_size) {
     avg_hetero <- avg_hetero + calc_heterozygosity_indiv(vx[[i]])[[1]]
   }
   avg_hetero <- avg_hetero / pop_size
-  
-  expect_hetero <- 2*0.5 * 0.5 * (1 - 1/(2*pop_size))^run_time
-  
-  expect_equal(avg_hetero, expect_hetero, tolerance=0.05)
-  
+
+  expect_hetero <- 2 * 0.5 * 0.5 * (1 - 1/(2 * pop_size)) ^ run_time
+
+  expect_equal(avg_hetero, expect_hetero, tolerance = 0.05)
+
   avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2, tolerance = 0.01)
 })
@@ -76,20 +76,20 @@ test_that("calculate_dist_junctions", {
   pop_size <- 100
   run_time <- 100
   morgan <- 1
-  for(r in 1:100) {
-    vx <- create_full_population(pop_size, 2, 
+  for (r in 1:100) {
+    vx <- create_full_population(pop_size, 2,
                                  run_time, morgan, r, FALSE)
     junct <- calculate_dist_junctions(vx)
     mean(junct)
-    found <- c(found,mean(junct))
-    cat(r,mean(junct),"\n")
+    found <- c(found, mean(junct))
+    cat(r, mean(junct), "\n")
   }
-  K <- 2* pop_size*0.5
-  expected <- K - K *(1-0.5/K)^run_time
+  K <- 2 * pop_size * 0.5
+  expected <- K - K * (1 - 0.5 / K) ^ run_time
 
-  expect_equal(mean(found),expected,tolerance=1)
+  expect_equal(mean(found), expected, tolerance = 1)
 
-  vx <- create_full_population(pop_size, 2, 
+  vx <- create_full_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
   plot_dist_junctions(vx)
 })
@@ -102,8 +102,8 @@ test_that("calculate_allele_frequencies", {
   write_to_file <- FALSE
 
   found <- c();
-  for(r in 1:100) {
-    vx <- create_full_population(pop_size, 2, 
+  for (r in 1:100) {
+    vx <- create_full_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
     for(i in 1:pop_size) {
       found <- rbind(found, calc_allele_frequencies(vx[[i]], 
@@ -113,23 +113,24 @@ test_that("calculate_allele_frequencies", {
   }
 
   v <- colMeans(found)
-  expect_equal(v[[1]], 0.5,tolerance=0.01)
+  expect_equal(v[[1]], 0.5,tolerance = 0.01)
 
-  expect_equal(v[[2]], 0.5,tolerance=0.01)
-  
+  expect_equal(v[[2]], 0.5,tolerance = 0.01)
+
   found <- c();
-  for(r in 1:100) {
-    vx <- create_full_population(pop_size, 4, 
+  for (r in 1:100) {
+    vx <- create_full_population(pop_size, 4,
                                  run_time, morgan, r, FALSE)
     for(i in 1:pop_size) {
-      found <- rbind(found, calc_allele_frequencies(vx[[i]], 
-                                                    alleles = rep(0, number_of_founders * 2) )
+      found <- rbind(found,
+        calc_allele_frequencies(vx[[i]],
+          alleles = rep(0, number_of_founders * 2) )
       )
     }    
   }
-  
+
   v <- mean(colMeans(found))
-  expect_equal(v, 0.25,tolerance=0.01)
+  expect_equal(v, 0.25, tolerance = 0.01)
 })
 
 test_that("create_two_populations", {
@@ -140,11 +141,10 @@ test_that("create_two_populations", {
   overlap <- 0.5
   write_to_file <- FALSE
 
-  vx <- create_two_populations(pop_size, number_of_founders, 
-                         run_time, morgan, 42, 
+  vx <- create_two_populations(pop_size, number_of_founders,
+                         run_time, morgan, 42,
                          overlap, write_to_file)
 })
-
 
 test_that("create_two_full_populations", {
   pop_size <- 100
@@ -154,10 +154,10 @@ test_that("create_two_full_populations", {
   overlap <- 0.5
   write_to_file <- FALSE
 
-  vx <- create_two_full_populations(pop_size, number_of_founders, 
-                         run_time, morgan, 42, 
+  vx <- create_two_full_populations(pop_size, number_of_founders,
+                         run_time, morgan, 42,
                          overlap, write_to_file)
-  
+
   expect_equal(length(vx$Population_1), pop_size)
   expect_equal(length(vx$Population_2), pop_size)
 
@@ -172,14 +172,14 @@ test_that("basic stats", {
   morgan <- 1
   overlap <- 0.5
   write_to_file <- FALSE
-  
-  vx <- create_two_full_populations(pop_size, number_of_founders, 
-                                    run_time, morgan, 42, 
+
+  vx <- create_two_full_populations(pop_size, number_of_founders,
+                                    run_time, morgan, 42,
                                     overlap, write_to_file)
-  
+
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
-  
+
   a <- hierfstat_basic_stats(pop1, pop2,
                              number_of_founders,
                              number_of_markers = 100,
@@ -194,45 +194,39 @@ test_that("stats", {
   morgan <- 1
   overlap <- 0.1
   write_to_file <- FALSE
-  
-  vx <- create_two_full_populations(pop_size, number_of_founders, 
-                                    run_time, morgan, 42, 
+
+  vx <- create_two_full_populations(pop_size, number_of_founders,
+                                    run_time, morgan, 42,
                                     overlap, write_to_file)
-  
+
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
-  
+
   number_of_markers <- 100
-  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, markers_random = TRUE)
-  
-  v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+
+  v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, markers_random = FALSE)
-  
+
   pop_size <- 100
   number_of_founders <- 10
   run_time <- 10000
   morgan <- 1
   overlap <- 0.0
   write_to_file <- FALSE
-  
-  vx <- create_two_full_populations(pop_size, number_of_founders, 
-                                    run_time, morgan, 42, 
+
+  vx <- create_two_full_populations(pop_size, number_of_founders,
+                                    run_time, morgan, 42,
                                     overlap, write_to_file)
-  
+
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
-  
+
   number_of_markers <- 100
-  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders, 
+  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, markers_random = TRUE)
-  
-  # p <- 0.5  
-  # var(p) = p q ()
-  #p <- 0.5
-  #var_p <- p * (1 - p)  * (1 - exp(-t/(2*pop_size)))
-  #expect_fst <- var_p / (p * (1 - p))
-  
+
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
 })
 
@@ -243,9 +237,9 @@ test_that("continue_from_file", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx1 <- create_population(pop_size, number_of_founders, 
+  vx1 <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42, write_to_file)
-  
+
   total_runtime = 100
   vx2 <- simulate_from_population("population_1.pop",
                            total_runtime,

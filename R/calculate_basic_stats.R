@@ -1,7 +1,7 @@
 calculate_heterozygosity_and_freq_table <- function(pop,
                                                  number_of_founders) {
-  pop_for_cpp <- c();
-  for(i in 1:length(pop)) {
+  pop_for_cpp <- c()
+  for (i in 1:length(pop)) {
     x <- pop[[i]]$chromosome1
     chrom1 <- as.vector(t(x))
     x <- pop[[i]]$chromosome2
@@ -9,77 +9,74 @@ calculate_heterozygosity_and_freq_table <- function(pop,
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
 
-  results <- calculate_summaryStats(pop_for_cpp, number_of_founders);
-  return(results);
+  results <- calculate_summaryStats(pop_for_cpp, 
+                                    number_of_founders)
+  return(results)
 }
 
 calculate_heterozygosity <- function(pop) {
 
   #first we have to unwind all the individuals into one large vector
-  pop_for_cpp <- c();
-  for(i in 1:length(pop)) {
+  pop_for_cpp <- c()
+  for (i in 1:length(pop)) {
      x <- pop[[i]]$chromosome1
      chrom1 <- as.vector(t(x))
      x <- pop[[i]]$chromosome2
      chrom2 <- as.vector(t(x))
-     
-     
-     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
+     pop_for_cpp <- c(pop_for_cpp, 
+                      chrom1, 
+                      chrom2)
   }
-  
+
   heterozygosity <- calc_heterozygosity_cpp(pop_for_cpp)
   return(heterozygosity)
 }
 
-
-hierfstat_basic_stats <- function(pop1, 
-                              pop2, 
+hierfstat_basic_stats <- function(pop1,
+                              pop2,
                               number_of_founders,
                               number_of_markers = 100,
                               markers_random = FALSE) {
-  
+
   pop_size <- length(pop1)
   number_of_markers <- round(number_of_markers)
-  
-  all_loci <- matrix(nrow= 2 * pop_size, ncol= 1 + number_of_markers, 0);
+
+  all_loci <- matrix(nrow = 2 * pop_size, ncol= 1 + number_of_markers, 0);
   all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
   colnames(all_loci) <- c("population", 1:number_of_markers)
-  
-  markers <- seq(1e-9, 1-(1e-9), length.out = number_of_markers)
-  if(markers_random) {
+
+  markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
+  if (markers_random) {
     markers <- c();
-    while(length(markers) < number_of_markers) {
+    while (length(markers) < number_of_markers) {
       markers <- runif(number_of_markers, 0, 1)
-      if(length(which(markers == 0.0))) {
+      if (length(which(markers == 0.0))) {
           markers <- markers[- which(markers == 0.0)] #remove borders
       }
-      if(length(which(markers == 1.0))) {
+      if (length(which(markers == 1.0))) {
         markers <- markers[- which(markers == 1.0)]
       }
       #remove duplicates
-      if(length(which(duplicated(markers)))) {
+      if (length(which(duplicated(markers)))) {
         markers <- markers[-which(duplicated(markers))]
       }
     }
     markers <- sort(markers)
   }
-  
-  for(x in 1:length(markers)) {
+
+  for (x in 1:length(markers)) {
     focal_marker <- markers[x]
-    for(i in 1:length(pop1)) {
-      
+    for (i in 1:length(pop1)) {
       allele_1 <- 10 + findtype(pop1[[i]]$chromosome1, focal_marker)
       allele_2 <- 10 + findtype(pop1[[i]]$chromosome2, focal_marker)
-      final_allele <- paste0(allele_1,allele_2)
+      final_allele <- paste0(allele_1, allele_2)
       all_loci[i, x + 1] <- as.numeric(final_allele)
     }
-    
-    for(i in 1:length(pop2)) {
-      
+
+    for (i in 1:length(pop2)) {
       allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
       allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
-      
-      final_allele <- paste0(allele_1,allele_2)
+      final_allele <- paste0(allele_1, allele_2)
       all_loci[pop_size + i, x + 1] <- as.numeric(final_allele)
     }
   }
@@ -99,45 +96,42 @@ hierfstat_fst_wc <- function(pop1,
   pop_size <- length(pop1)
   number_of_markers <- round(number_of_markers)
 
-  all_loci <- matrix(nrow = 2 * pop_size, 
+  all_loci <- matrix(nrow = 2 * pop_size,
                      ncol = 1 + number_of_markers, 0)
   all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
   colnames(all_loci) <- c("population", 1:number_of_markers)
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
-  if(markers_random) {
+  if (markers_random) {
     markers <- c();
-    while(length(markers) < number_of_markers) {
+    while (length(markers) < number_of_markers) {
       markers <- runif(number_of_markers, 0, 1)
-      if(length(which(markers == 0.0))) {
+      if (length(which(markers == 0.0))) {
         markers <- markers[- which(markers == 0.0)] #remove borders
       }
-      if(length(which(markers == 1.0))) {
+      if (length(which(markers == 1.0))) {
         markers <- markers[- which(markers == 1.0)]
       }
       #remove duplicates
-      if(length(which(duplicated(markers)))) {
+      if (length(which(duplicated(markers)))) {
         markers <- markers[-which(duplicated(markers))]
       }
     }
     markers <- sort(markers)
   }
 
-  for(x in 1:length(markers)) {
+  for (x in 1:length(markers)) {
     focal_marker <- markers[x]
-    for(i in 1:length(pop1)) {
+    for (i in 1:length(pop1)) {
       allele_1 <- 10 + findtype(pop1[[i]]$chromosome1, focal_marker)
       allele_2 <- 10 + findtype(pop1[[i]]$chromosome2, focal_marker)
-      final_allele <- paste0(allele_1,allele_2)
+      final_allele <- paste0(allele_1, allele_2)
       all_loci[i, x + 1] <- as.numeric(final_allele)
     }
-
-    for(i in 1:length(pop2)) {
-
+    for (i in 1:length(pop2)) {
       allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
       allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
-
-      final_allele <- paste0(allele_1,allele_2)
+      final_allele <- paste0(allele_1, allele_2)
       all_loci[pop_size + i, x + 1] <- as.numeric(final_allele)
     }
   }
