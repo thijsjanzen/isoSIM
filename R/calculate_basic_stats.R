@@ -43,7 +43,7 @@ create_loci_matrix <- function(pop1,
   colnames(all_loci) <- c("population", 1:number_of_markers)
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
-  if (markers_random) {
+  if (random_markers) {
     markers <- c();
     while (length(markers) < number_of_markers) {
       markers <- runif(number_of_markers, 0, 1)

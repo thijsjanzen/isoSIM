@@ -215,6 +215,9 @@ test_that("stats", {
 
   v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, random_markers = FALSE)
+  
+  testthat::expect_equal(v1, v2, tolerance = 0.01)
+  
 
   pop_size <- 100
   number_of_founders <- 10
