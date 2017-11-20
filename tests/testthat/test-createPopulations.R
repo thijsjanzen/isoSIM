@@ -69,6 +69,12 @@ test_that("calculate_heterozygosity", {
 
   avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2, tolerance = 0.01)
+  
+  avg_hetero3 <- calculate_heterozygosity_and_freq_table(vx,
+                                                         number_of_founders)
+
+  expect_equal(avg_hetero2, avg_hetero3, tolerance = 0.01)
+
 })
 
 test_that("calculate_dist_junctions", {
@@ -183,8 +189,7 @@ test_that("basic stats", {
   a <- hierfstat_basic_stats(pop1, pop2,
                              number_of_founders,
                              number_of_markers = 100,
-                             markers_random = TRUE)
-  
+                             random_markers = TRUE)
 })
 
 test_that("stats", {
@@ -204,10 +209,10 @@ test_that("stats", {
 
   number_of_markers <- 100
   v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
-                         number_of_markers, markers_random = TRUE)
+                         number_of_markers, random_markers = TRUE)
 
   v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
-                         number_of_markers, markers_random = FALSE)
+                         number_of_markers, random_markers = FALSE)
 
   pop_size <- 100
   number_of_founders <- 10
@@ -225,7 +230,7 @@ test_that("stats", {
 
   number_of_markers <- 100
   v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
-                         number_of_markers, markers_random = TRUE)
+                         number_of_markers, random_markers = TRUE)
 
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
 })

@@ -32,72 +32,13 @@ calculate_heterozygosity <- function(pop) {
   return(heterozygosity)
 }
 
-hierfstat_basic_stats <- function(pop1,
-                              pop2,
-                              number_of_founders,
-                              number_of_markers = 100,
-                              markers_random = FALSE) {
-
-  pop_size <- length(pop1)
-  number_of_markers <- round(number_of_markers)
+create_loci_matrix <- function(pop1,
+                               pop2,
+                               number_of_founders,
+                               number_of_markers,
+                               random_markers) {
 
   all_loci <- matrix(nrow = 2 * pop_size, ncol= 1 + number_of_markers, 0);
-  all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
-  colnames(all_loci) <- c("population", 1:number_of_markers)
-
-  markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
-  if (markers_random) {
-    markers <- c();
-    while (length(markers) < number_of_markers) {
-      markers <- runif(number_of_markers, 0, 1)
-      if (length(which(markers == 0.0))) {
-          markers <- markers[- which(markers == 0.0)] #remove borders
-      }
-      if (length(which(markers == 1.0))) {
-        markers <- markers[- which(markers == 1.0)]
-      }
-      #remove duplicates
-      if (length(which(duplicated(markers)))) {
-        markers <- markers[-which(duplicated(markers))]
-      }
-    }
-    markers <- sort(markers)
-  }
-
-  for (x in 1:length(markers)) {
-    focal_marker <- markers[x]
-    for (i in 1:length(pop1)) {
-      allele_1 <- 10 + findtype(pop1[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + findtype(pop1[[i]]$chromosome2, focal_marker)
-      final_allele <- paste0(allele_1, allele_2)
-      all_loci[i, x + 1] <- as.numeric(final_allele)
-    }
-
-    for (i in 1:length(pop2)) {
-      allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
-      final_allele <- paste0(allele_1, allele_2)
-      all_loci[pop_size + i, x + 1] <- as.numeric(final_allele)
-    }
-  }
-  
-  hierf_sum_overall <- hierfstat::basic.stats(as.data.frame(all_loci))$overall
-  
-  return(hierf_sum_overall)
-}
-
-
-hierfstat_fst_wc <- function(pop1,
-                              pop2,
-                              number_of_founders,
-                              number_of_markers = 100,
-                              markers_random = FALSE) {
-
-  pop_size <- length(pop1)
-  number_of_markers <- round(number_of_markers)
-
-  all_loci <- matrix(nrow = 2 * pop_size,
-                     ncol = 1 + number_of_markers, 0)
   all_loci[,1] <- c(rep(1, pop_size), rep(2, pop_size))
   colnames(all_loci) <- c("population", 1:number_of_markers)
 
@@ -128,6 +69,7 @@ hierfstat_fst_wc <- function(pop1,
       final_allele <- paste0(allele_1, allele_2)
       all_loci[i, x + 1] <- as.numeric(final_allele)
     }
+
     for (i in 1:length(pop2)) {
       allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
       allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
@@ -135,6 +77,41 @@ hierfstat_fst_wc <- function(pop1,
       all_loci[pop_size + i, x + 1] <- as.numeric(final_allele)
     }
   }
+
+  return(all_loci) 
+}
+
+hierfstat_basic_stats <- function(pop1,
+                              pop2,
+                              number_of_founders,
+                              number_of_markers = 100,
+                              random_markers = FALSE) {
+
+  pop_size <- length(pop1)
+  number_of_markers <- round(number_of_markers)
+
+  all_loci <- create_loci_matrix(pop1, pop2, 
+                                 number_of_founders, number_of_markers,
+                                 random_markers)
+  
+  hierf_sum_overall <- hierfstat::basic.stats(as.data.frame(all_loci))$overall
+  
+  return(hierf_sum_overall)
+}
+
+
+hierfstat_fst_wc <- function(pop1,
+                              pop2,
+                              number_of_founders,
+                              number_of_markers = 100,
+                              random_markers = FALSE) {
+
+  pop_size <- length(pop1)
+  number_of_markers <- round(number_of_markers)
+
+  all_loci <- create_loci_matrix(pop1, pop2,
+                                 number_of_founders, number_of_markers,
+                                 random_markers)
 
   hierf_wc <- hierfstat::wc(as.data.frame(all_loci))
  
