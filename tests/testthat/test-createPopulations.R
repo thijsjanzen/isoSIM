@@ -178,7 +178,7 @@ test_that("basic stats", {
   number_of_founders <- 10
   run_time <- 100
   morgan <- 1
-  overlap <- 0.5
+  overlap <- 0.0
   write_to_file <- FALSE
 
   vx <- create_two_full_populations(pop_size, number_of_founders,
@@ -210,14 +210,13 @@ test_that("stats", {
   pop2 <- vx$Population_2
 
   number_of_markers <- 100
-  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
+  v1 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, random_markers = TRUE)
 
-  v2 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
+  v2 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, random_markers = FALSE)
   
   testthat::expect_equal(v1, v2, tolerance = 0.01)
-  
 
   pop_size <- 100
   number_of_founders <- 10

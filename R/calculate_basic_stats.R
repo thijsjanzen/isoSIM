@@ -93,18 +93,18 @@ hierfstat_basic_stats <- function(pop1,
   all_loci <- create_loci_matrix(pop1, pop2, 
                                  number_of_founders, number_of_markers,
                                  random_markers)
-  
+
   hierf_sum_overall <- hierfstat::basic.stats(as.data.frame(all_loci))$overall
-  
+
   return(hierf_sum_overall)
 }
 
 
 hierfstat_fst_wc <- function(pop1,
-                              pop2,
-                              number_of_founders,
-                              number_of_markers = 100,
-                              random_markers = FALSE) {
+                             pop2,
+                             number_of_founders,
+                             number_of_markers = 100,
+                             random_markers = FALSE) {
 
   pop_size <- length(pop1)
   number_of_markers <- round(number_of_markers)
