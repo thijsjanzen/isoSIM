@@ -47,7 +47,7 @@ create_iso_female <- function(pop,
   iso_females <- pop[indices]
   output_females <- c()
   for (i in 1:n) {
-    parents <- list(isoFemales[[i]], iso_females[[i + 1]])
+    parents <- list(iso_females[[i]], iso_females[[i + 1]])
 
     vx <- create_iso_female_line(parents,
                                  pop_size = length(pop),

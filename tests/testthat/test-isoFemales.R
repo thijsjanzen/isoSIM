@@ -1,7 +1,7 @@
 context("isoFemale creation")
 
 test_that("create_isofemale", {
-  
+
   pop_size <- 100
   number_of_founders <- 2
   run_time <- 100
@@ -13,5 +13,5 @@ test_that("create_isofemale", {
   
   females <- create_iso_female(pop, n = 1)
   
-  expect_equal(length(females), 1)
+  testthat::expect_equal(length(females), 1)
 })

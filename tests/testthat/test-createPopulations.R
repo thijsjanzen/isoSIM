@@ -73,8 +73,10 @@ test_that("calculate_heterozygosity", {
   avg_hetero3 <- calculate_heterozygosity_and_freq_table(vx,
                                                          number_of_founders)
 
-  expect_equal(avg_hetero2, avg_hetero3, tolerance = 0.01)
-
+  testthat::expect_equal(avg_hetero2, avg_hetero3$Hst, tolerance = 0.01)
+  testthat::expect_equal(avg_hetero3$freq_pop[1], 0.5, tolerance = 0.05)
+  testthat::expect_equal(avg_hetero3$freq_pop[2], 0.5, tolerance = 0.05)
+  testthat::expect_equal(avg_hetero3$freq_pop[1] + avg_hetero3$freq_pop[2], 1.0, tolerance = 0.05)
 })
 
 test_that("calculate_dist_junctions", {
