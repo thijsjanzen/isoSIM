@@ -11,7 +11,7 @@ test_that("create_isofemale", {
   pop <- create_full_population(pop_size, number_of_founders, 
                            run_time, morgan, 42, write_to_file)
   
-  females <- create_isoFemale(pop, n = 1)
+  females <- create_iso_female(pop, n = 1)
   
   expect_equal(length(females), 1)
 })
