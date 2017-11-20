@@ -25,12 +25,6 @@ struct junction {
         right = B;
     }
 
-    junction(const junction& other) {
-        pos = other.pos;
-        left = other.left;
-        right = other.right;
-    }
-
     bool operator ==(const junction& other) const {
         if(pos != other.pos) return false;
         if(left != other.left) return false;
@@ -44,6 +38,19 @@ struct junction {
 
     bool operator !=(const junction& other) const {
         return( !( (*this) == other) );
+    }
+
+    junction& operator =(const junction& other) {
+        if(*this != other) {
+            pos = other.pos;
+            left = other.left;
+            right = other.right;
+        }
+        return *this;
+    }
+
+    junction(const junction& other) {
+        (*this) = other;
     }
 };
 
