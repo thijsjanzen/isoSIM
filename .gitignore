@@ -18,3 +18,5 @@ compare_performance_calc_heterozygosity.R
 codecov_junctions_and_isoSIM.R
 
 calc_LD.R
+
+.Rhistory

@@ -100,7 +100,7 @@ calculate_LD_matrix <- function(pop,
         g1 <- all_loci[, index1] 
         g2 <- all_loci[, index2]
         
-        ld <- calculate_LD_stats(g1, g2, number_of_founders)
+        ld <- calculate_average_LD(g1, g2, number_of_founders)
         LD_matrix[x, y] <- ld$LD
         rsq_matrix[x, y] <- ld$r_sq
         gen_dist <- abs(markers[x] - markers[y])
