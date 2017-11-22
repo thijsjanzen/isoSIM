@@ -35,7 +35,7 @@ test_that("calculate_average_LD", {
   
   vv <- calculate_average_LD(g1, g2, number_of_founders)
   expect_equal(vv$LD, 1)
-}
+})
 
 test_that("calculate_LD_matrix", {
   pop_size <- 100

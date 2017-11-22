@@ -1,0 +1,20 @@
+
+*.gcda
+
+*.o
+
+*.gcno
+
+test hierfstat.R
+
+test_code.R
+
+*.so
+
+compile.R
+
+compare_performance_calc_heterozygosity.R
+
+codecov_junctions_and_isoSIM.R
+
+calc_LD.R
