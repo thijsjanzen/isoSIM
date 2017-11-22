@@ -54,7 +54,7 @@ calculate_LD_matrix <- function(pop,
                                 number_of_founders,
                                 random_markers) {
 
-  all_loci <- matrix(nrow = length(pop1), ncol = 2 * number_of_markers, 0)
+  all_loci <- matrix(nrow = length(pop), ncol = 2 * number_of_markers, 0)
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
   if (random_markers) {
@@ -77,9 +77,9 @@ calculate_LD_matrix <- function(pop,
   
   for (x in 1:length(markers)) {
     focal_marker <- markers[x]
-    for (i in 1:length(pop1)) {
-      allele_1 <- 1 + findtype(pop1[[i]]$chromosome1, focal_marker)
-      allele_2 <- 1 + findtype(pop1[[i]]$chromosome2, focal_marker)
+    for (i in 1:length(pop)) {
+      allele_1 <- 1 + findtype(pop[[i]]$chromosome1, focal_marker)
+      allele_2 <- 1 + findtype(pop[[i]]$chromosome2, focal_marker)
 
       index <- (x - 1) * 2 + 1
 
