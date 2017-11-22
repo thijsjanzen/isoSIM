@@ -1,0 +1,125 @@
+calculate_average_LD <- function(alleles_pos_1, alleles_pos_2, number_of_founders) {
+  
+  LD <- 0
+  r_squared <- 0
+  for(i in 1:number_of_founders) {
+    for(j in 1:number_of_founders) {
+      
+      # we follow the first equations from the appendix of 
+      p_A_i <- length(which(alleles_pos_1 == i)) / length(alleles_pos_1)
+      p_B_j <- length(which(alleles_pos_2 == j)) / length(alleles_pos_2)
+      
+      countAB <- 0
+      countALL <- 0
+      for(a in 1:length(alleles_pos_1[,1])) {
+        if((alleles_pos_1[a, 1]) == i && (alleles_pos_2[a, 1] == j)) {
+          countAB <- countAB + 1
+        }
+        
+        if((alleles_pos_1[a, 2]) == i && (alleles_pos_2[a, 2] == j)) {
+          countAB <- countAB + 1
+        }
+      }
+      
+      p_A_i_B_j <- countAB / (length(alleles_pos_1[,1]) + length(alleles_pos_1[,2]))
+      
+      #vv1 <- which(alleles_pos_1[,1] == i)
+      #vv2 <- which(alleles_pos_1[,2] == i)
+      #vv3 <- which(alleles_pos_2[,1] == j)
+      #vv4 <- which(alleles_pos_2[,2] == j)
+      
+      # AA <- length(which(vv1 %in% vv3 == TRUE))
+      # AB <- length(which(vv2 %in% vv4 == TRUE))
+      
+      #p_A_i_B_j <- (AA + AB) / (length(vv1) + length(vv2) + length(vv3) + length(vv4))
+      #pbb <- countAB / countALL
+      
+      if(is.nan(p_A_i_B_j)) p_A_i_B_j <- 0
+      
+      D_i_j <- p_A_i_B_j - p_A_i * p_B_j
+      
+      D_i_j_max <- 1
+      
+      if(D_i_j < 0) {
+        D_i_j_max <- min(p_A_i * p_B_j, (1 -p_A_i) * (1 -p_B_j))
+      } else {
+        D_i_j_max <- min(p_A_i * (1 - p_B_j), (1 -p_A_i) * p_B_j)
+      }
+      
+      if(D_i_j_max > 0 ) {
+        LD <- LD + p_A_i * p_B_j * abs( D_i_j / D_i_j_max)
+        r_i_j <- (D_i_j ^ 2) / ( p_A_i * (1 - p_A_i) * p_B_j * (1 - p_B_j) )
+        r_squared <- r_squared + p_A_i * p_B_j * r_i_j
+        # cat(p_A_i, p_B_j, p_A_i_B_j, D_i_j, D_i_j_max, p_A_i * p_B_j * abs( D_i_j / D_i_j_max),"\n")
+      }
+    } 
+  }
+  
+  return(list("LD" = LD, 
+              "r_sq" = r_squared))
+  
+}
+
+calculate_LD_matrix <- function(pop,
+                                number_of_markers,
+                                number_of_founders,
+                                random_markers) {
+
+  all_loci <- matrix(nrow = length(pop1), ncol = 2 * number_of_markers, 0);
+
+  markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
+  if (random_markers) {
+    markers <- c()
+    while (length(markers) < number_of_markers) {
+      markers <- runif(number_of_markers, 0, 1)
+      if (length(which(markers == 0.0))) {
+        markers <- markers[- which(markers == 0.0)] #remove borders
+      }
+      if (length(which(markers == 1.0))) {
+        markers <- markers[- which(markers == 1.0)]
+      }
+      #remove duplicates
+      if (length(which(duplicated(markers)))) {
+        markers <- markers[-which(duplicated(markers))]
+      }
+    }
+    markers <- sort(markers)
+  }
+  
+  for (x in 1:length(markers)) {
+    focal_marker <- markers[x]
+    for (i in 1:length(pop1)) {
+      allele_1 <- 1 + findtype(pop1[[i]]$chromosome1, focal_marker)
+      allele_2 <- 1 + findtype(pop1[[i]]$chromosome2, focal_marker)
+
+      index <- (x - 1) * 2 + 1
+
+      all_loci[i, index]     <- as.numeric(allele_1)
+      all_loci[i, index + 1] <- as.numeric(allele_2) 
+    }
+  }
+
+  LD_matrix   <- matrix(nrow = length(markers), ncol = length(markers), NA)
+  rsq_matrix  <- matrix(nrow = length(markers), ncol = length(markers), NA)
+  dist_matrix <- matrix(nrow = length(markers), ncol = length(markers), NA)
+
+  for (x in 1:length(markers)) {
+    for (y in 1:x) {
+      if (x != y) {
+        index1 <- c((x - 1) * 2 + 1, (x - 1) * 2 + 2)
+        index2 <- c((y - 1) * 2 + 1, (y - 1) * 2 + 2)
+        g1 <- all_loci[, index1] 
+        g2 <- all_loci[, index2]
+        
+        ld <- calculate_LD_stats(g1, g2, number_of_founders)
+        LD_matrix[x, y] <- ld$LD
+        rsq_matrix[x, y] <- ld$r_sq
+        gen_dist <- abs(markers[x] - markers[y])
+        dist_matrix[x , y] <- gen_dist
+      }
+  }
+  
+  return(list("LD_matrix" = LD_matrix,
+              "rsq_matrix" = rsq_matrix,
+              "dist_matrix" = dist_matrix))
+}
