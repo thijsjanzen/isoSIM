@@ -33,8 +33,8 @@ create_two_full_populations <- function(pop_size,
                                  overlap,
                                  write_to_file)
 
-  pop1 <- create_pop_class(pops$population_1)
-  pop2 <- create_pop_class(pops$population_2)
+  pop1 <- isoSIM::create_pop_class(pops$population_1)
+  pop2 <- isoSIM::create_pop_class(pops$population_2)
 
   output <- list("Population_1" = pop1,
                  "Population_2" = pop2)

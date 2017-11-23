@@ -52,18 +52,18 @@ test_that("sim_inf_chrom accuracy", {
                 morgan = 1,
                 markers = -1,
                 seed = r)
-    found <- rbind(found,as.numeric(vx$avgJunctions))
+    found <- rbind(found, as.numeric(vx$avgJunctions))
   }
 
   found <- colMeans(found)
 
-  K <- 2*init_heterozygosity * pop_size * morgan
-  pred <- K - K *(1-init_heterozygosity * morgan / K)^(0:(max_time-1))
+  K <- 2 * init_heterozygosity * pop_size * morgan
+  pred <- K - K *(1 - init_heterozygosity * morgan / K) ^ (0:(max_time - 1))
 
-  relError <- abs(found[2:length(found)]/pred[2:length(pred)] - 1)
+  rel_error <- abs(found[2:length(found)] / pred[2:length(pred)] - 1)
 
-  for (i in 1:length(relError)) {
-    expect_equal(relError[i], expected =  0, tolerance = 0.1)
+  for (i in 1:length(rel_error)) {
+    expect_equal(rel_error[i], expected =  0, tolerance = 0.1)
   }
 
   pop_size <- 50
@@ -79,17 +79,17 @@ test_that("sim_inf_chrom accuracy", {
                         morgan = 1,
                         markers = -1,
                         seed = r)
-    found <- rbind(found,as.numeric(vx$avgJunctions))
+    found <- rbind(found, as.numeric(vx$avgJunctions))
   }
 
   found <- colMeans(found)
 
   K <- 2 * init_heterozygosity * pop_size * morgan
-  pred <- K - K *(1 - init_heterozygosity * morgan / K) ^ (0:(max_time - 1))
+  pred <- K - K * (1 - init_heterozygosity * morgan / K) ^ (0:(max_time - 1))
 
-  relError <- abs(found[2:length(found)]/pred[2:length(pred)] - 1)
+  rel_error <- abs(found[2:length(found)] / pred[2:length(pred)] - 1)
 
-  for (i in 1:length(relError)) {
-    expect_equal(relError[i], expected =  0, tolerance = 0.1)
+  for (i in 1:length(rel_error)) {
+    expect_equal(rel_error[i], expected =  0, tolerance = 0.1)
   }
 })

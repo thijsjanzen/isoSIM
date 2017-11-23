@@ -28,7 +28,7 @@ calculate_heterozygosity <- function(pop) {
                       chrom2)
   }
 
-  heterozygosity <- calc_heterozygosity_cpp(pop_for_cpp)
+  heterozygosity <- isoSIM::calc_heterozygosity_cpp(pop_for_cpp)
   return(heterozygosity)
 }
 
@@ -38,7 +38,7 @@ create_loci_matrix <- function(pop1,
                                number_of_markers,
                                random_markers) {
 
-  all_loci <- matrix(nrow = length(pop1) + length(pop2), 
+  all_loci <- matrix(nrow = length(pop1) + length(pop2),
                      ncol = 1 + number_of_markers, 0)
   all_loci[, 1] <- c(rep(1, length(pop1)), rep(2, length(pop1)))
   colnames(all_loci) <- c("population", 1:number_of_markers)
@@ -90,7 +90,7 @@ hierfstat_basic_stats <- function(pop1,
 
   number_of_markers <- round(number_of_markers)
 
-  all_loci <- create_loci_matrix(pop1, pop2, 
+  all_loci <- create_loci_matrix(pop1, pop2,
                                  number_of_founders, number_of_markers,
                                  random_markers)
 

@@ -76,7 +76,9 @@ test_that("calculate_heterozygosity", {
   testthat::expect_equal(avg_hetero2, avg_hetero3$Hst, tolerance = 0.01)
   testthat::expect_equal(avg_hetero3$freq_pop[1], 0.5, tolerance = 0.05)
   testthat::expect_equal(avg_hetero3$freq_pop[2], 0.5, tolerance = 0.05)
-  testthat::expect_equal(avg_hetero3$freq_pop[1] + avg_hetero3$freq_pop[2], 1.0, tolerance = 0.05)
+
+  testthat::expect_equal(avg_hetero3$freq_pop[1] + avg_hetero3$freq_pop[2], 
+                         1.0, tolerance = 0.05)
 })
 
 test_that("calculate_dist_junctions", {

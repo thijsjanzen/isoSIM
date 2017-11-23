@@ -51,9 +51,9 @@ test_that("calculate_LD_matrix", {
   vv1 <- as.vector(vv$LD_matrix[!is.na(vv$LD_matrix)])
   vv2 <- as.vector(vv$dist_matrix[!is.na(vv$dist_matrix)])
 
-  A <- lm(vv1 ~ vv2)
-  testthat::expect_equal(A$coefficients[[1]], 1, tolerance = 0.05)
+  linear_model <- lm(vv1 ~ vv2)
+  testthat::expect_equal(linear_model$coefficients[[1]], 1, tolerance = 0.05)
 
   #it should at least be negative
-  testthat::expect_equal(A$coefficients[[2]], -0.5, tolerance = 0.49)
+  testthat::expect_equal(linear_model$coefficients[[2]], -0.5, tolerance = 0.49)
 })
