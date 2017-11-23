@@ -9,7 +9,7 @@ calculate_heterozygosity_and_freq_table <- function(pop,
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
 
-  results <- calculate_summaryStats(pop_for_cpp, 
+  results <- calculate_summaryStats(pop_for_cpp,
                                     number_of_founders)
   return(results)
 }
@@ -23,8 +23,8 @@ calculate_heterozygosity <- function(pop) {
      chrom1 <- as.vector(t(x))
      x <- pop[[i]]$chromosome2
      chrom2 <- as.vector(t(x))
-     pop_for_cpp <- c(pop_for_cpp, 
-                      chrom1, 
+     pop_for_cpp <- c(pop_for_cpp,
+                      chrom1,
                       chrom2)
   }
 
@@ -38,8 +38,9 @@ create_loci_matrix <- function(pop1,
                                number_of_markers,
                                random_markers) {
 
-  all_loci <- matrix(nrow = length(pop1) + length(pop2), ncol= 1 + number_of_markers, 0);
-  all_loci[,1] <- c(rep(1, length(pop1)), rep(2, length(pop1)))
+  all_loci <- matrix(nrow = length(pop1) + length(pop2), 
+                     ncol = 1 + number_of_markers, 0)
+  all_loci[, 1] <- c(rep(1, length(pop1)), rep(2, length(pop1)))
   colnames(all_loci) <- c("population", 1:number_of_markers)
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
@@ -64,21 +65,21 @@ create_loci_matrix <- function(pop1,
   for (x in 1:length(markers)) {
     focal_marker <- markers[x]
     for (i in 1:length(pop1)) {
-      allele_1 <- 10 + findtype(pop1[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + findtype(pop1[[i]]$chromosome2, focal_marker)
+      allele_1 <- 10 + isoSIM::findtype(pop1[[i]]$chromosome1, focal_marker)
+      allele_2 <- 10 + isoSIM::findtype(pop1[[i]]$chromosome2, focal_marker)
       final_allele <- paste0(allele_1, allele_2)
       all_loci[i, x + 1] <- as.numeric(final_allele)
     }
 
     for (i in 1:length(pop2)) {
-      allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
+      allele_1 <- 10 + isoSIM::findtype(pop2[[i]]$chromosome1, focal_marker)
+      allele_2 <- 10 + isoSIM::findtype(pop2[[i]]$chromosome2, focal_marker)
       final_allele <- paste0(allele_1, allele_2)
       all_loci[length(pop1) + i, x + 1] <- as.numeric(final_allele)
     }
   }
 
-  return(all_loci) 
+  return(all_loci)
 }
 
 hierfstat_basic_stats <- function(pop1,
@@ -112,6 +113,6 @@ hierfstat_fst_wc <- function(pop1,
                                  random_markers)
 
   hierf_wc <- hierfstat::wc(as.data.frame(all_loci))
- 
+
   return(hierf_wc$FST)
 }

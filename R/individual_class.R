@@ -82,11 +82,11 @@ create_pop_class <- function(pop) {
   whole_pop <- list()
   cntr <- 1
   chrom1 <- c()
-  chrom2 <- c();
-  indic_chrom <- 1;
-  add_indiv = FALSE
+  chrom2 <- c()
+  indic_chrom <- 1
+  add_indiv <- FALSE
 
-  for (i in seq(from = 1,to = length(pop), by = 2)) {
+  for (i in seq(from = 1, to = length(pop), by = 2)) {
     focal <- pop[c(i, i + 1)]
     if (indic_chrom == 1) {
       chrom1 <- rbind(chrom1, focal)
@@ -97,12 +97,12 @@ create_pop_class <- function(pop) {
     }
 
     if (focal[2] == -1) {
-      if(indic_chrom == 1) {
+      if (indic_chrom == 1) {
         indic_chrom <- 2
       } else {
         add_indiv <- TRUE;
       }
-    } 
+    }
 
     if (add_indiv == TRUE) {
       indiv <- list(chromosome1 = chrom1,
@@ -142,7 +142,7 @@ findtype <- function(chrom, pos) {
   }
 
   if (chromtype[[1]] < 0) {
-    if (chrom[length(chrom[,1]), 1] < pos) {
+    if (chrom[length(chrom[, 1]), 1] < pos) {
       chromtype <- chrom[length(chrom[, 1]), 2]
     }
   }

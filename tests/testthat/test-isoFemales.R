@@ -7,11 +7,11 @@ test_that("create_isofemale", {
   run_time <- 100
   morgan <- 1
   write_to_file <- FALSE
-  
+
   pop <- create_full_population(pop_size, number_of_founders, 
                            run_time, morgan, 42, write_to_file)
   
   females <- create_iso_female(pop, n = 1)
-  
+
   testthat::expect_equal(length(females), 1)
 })

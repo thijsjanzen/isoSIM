@@ -1,4 +1,3 @@
-
 create_full_population <- function(pop_size,
                                    number_of_founders,
                                    total_runtime,
@@ -7,15 +6,15 @@ create_full_population <- function(pop_size,
                                    write_to_file) {
 
   #call C_function
-  pop <- create_population(pop_size,
+  pop <- isoSIM::create_population(pop_size,
                            number_of_founders,
                            total_runtime,
                            morgan,
                            seed,
                            write_to_file)
 
-  popStruct <- create_pop_class(pop$population);
-  return(popStruct);
+  popstruct <- isoSIM::create_pop_class(pop$population)
+  return(popstruct)
 }
 
 create_two_full_populations <- function(pop_size,

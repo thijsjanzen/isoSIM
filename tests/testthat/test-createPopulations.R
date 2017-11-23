@@ -54,7 +54,7 @@ test_that("calculate_heterozygosity", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders, 
+  vx <- create_full_population(pop_size, number_of_founders,
                                run_time, morgan, 42, write_to_file)
 
   avg_hetero <- 0
@@ -63,13 +63,13 @@ test_that("calculate_heterozygosity", {
   }
   avg_hetero <- avg_hetero / pop_size
 
-  expect_hetero <- 2 * 0.5 * 0.5 * (1 - 1/(2 * pop_size)) ^ run_time
+  expect_hetero <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * pop_size)) ^ run_time
 
   expect_equal(avg_hetero, expect_hetero, tolerance = 0.05)
 
   avg_hetero2 <- calculate_heterozygosity(vx)
   expect_equal(avg_hetero, avg_hetero2, tolerance = 0.01)
-  
+
   avg_hetero3 <- calculate_heterozygosity_and_freq_table(vx,
                                                          number_of_founders)
 
@@ -113,28 +113,28 @@ test_that("calculate_allele_frequencies", {
   for (r in 1:100) {
     vx <- create_full_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
-    for(i in 1:pop_size) {
+    for (i in 1:pop_size) {
       found <- rbind(found, calc_allele_frequencies(vx[[i]], 
-                            alleles = rep(0, number_of_founders * 2) )
+                            alleles = rep(0, number_of_founders * 2))
                     )
-    }    
+    }
   }
 
   v <- colMeans(found)
-  expect_equal(v[[1]], 0.5,tolerance = 0.01)
+  expect_equal(v[[1]], 0.5, tolerance = 0.01)
 
-  expect_equal(v[[2]], 0.5,tolerance = 0.01)
+  expect_equal(v[[2]], 0.5, tolerance = 0.01)
 
   found <- c();
   for (r in 1:100) {
     vx <- create_full_population(pop_size, 4,
                                  run_time, morgan, r, FALSE)
-    for(i in 1:pop_size) {
+    for (i in 1:pop_size) {
       found <- rbind(found,
         calc_allele_frequencies(vx[[i]],
-          alleles = rep(0, number_of_founders * 2) )
+          alleles = rep(0, number_of_founders * 2))
       )
-    }    
+    }
   }
 
   v <- mean(colMeans(found))
@@ -215,7 +215,7 @@ test_that("stats", {
 
   v2 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
                          number_of_markers, random_markers = FALSE)
-  
+
   testthat::expect_equal(v1, v2, tolerance = 0.01)
 
   pop_size <- 100
@@ -249,7 +249,7 @@ test_that("continue_from_file", {
   vx1 <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42, write_to_file)
 
-  total_runtime = 100
+  total_runtime <- 100
   vx2 <- simulate_from_population("population_1.pop",
                            total_runtime,
                            morgan,

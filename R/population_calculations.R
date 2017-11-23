@@ -1,5 +1,5 @@
 calc_heterozygosity_indiv <- function(indiv) {
-  
+
   if (length(indiv$chromosome1) > 100) {
     #now we have to get the genetic type at each stretch
     heterozygosity <- 0
@@ -29,8 +29,8 @@ calc_heterozygosity_indiv <- function(indiv) {
 
     return(heterozygosity)
   } else {
-    pos <- unique(c(0, 
-                    indiv$chromosome1[, 1], 
+    pos <- unique(c(0,
+                    indiv$chromosome1[, 1],
                     indiv$chromosome2[, 1], 1))
 
     pos <- sort(pos)
@@ -40,8 +40,8 @@ calc_heterozygosity_indiv <- function(indiv) {
     for (i in 2:length(pos)) {
       left <- right
       right <- pos[i]
-      type1 <- findtype(indiv$chromosome1, left)
-      type2 <- findtype(indiv$chromosome2, left)
+      type1 <- isoSIM::findtype(indiv$chromosome1, left)
+      type2 <- isoSIM::findtype(indiv$chromosome2, left)
       if (type1 != type2) {
         heterozygosity <- heterozygosity + (right - left)
       }
@@ -70,8 +70,8 @@ plot_dist_junctions <- function(pop) {
 
 calc_allele_frequencies <- function(indiv, alleles) {
 
-  for (i in 1:length(indiv$chromosome1[, 1]) ) {
-    left <- indiv$chromosome1[i,1]
+  for (i in 1:length(indiv$chromosome1[, 1])) {
+    left <- indiv$chromosome1[i, 1]
     right <- 1
     if (i + 1 <= length(indiv$chromosome1[, 1])) {
       right <- indiv$chromosome1[i + 1, 1]
@@ -93,5 +93,5 @@ calc_allele_frequencies <- function(indiv, alleles) {
   }
 
   alleles <- alleles / sum(alleles)
-  return( alleles )
+  return(alleles)
 }

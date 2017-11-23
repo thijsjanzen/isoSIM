@@ -12,7 +12,7 @@ create_iso_female_line <- function(parents,
   for (i in 1:length(parents[[1]]$chromosome2[, 1])) {
     indiv <- c(indiv, parents[[1]]$chromosome2[i, ])
   }
-  
+
   for (i in 1:length(parents[[2]]$chromosome1[, 1])) {
     indiv <- c(indiv, parents[[2]]$chromosome1[i, ])
   }
@@ -24,7 +24,7 @@ create_iso_female_line <- function(parents,
                                   run_time, morgan,
                                   seed);
 
-  inbred_population <- create_pop_class(inbred_pop$population)
+  inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
 
   output <- inbred_population[[sample(1:length(inbred_population), 1)]]
 
