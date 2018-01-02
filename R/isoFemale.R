@@ -6,17 +6,17 @@ create_iso_female_line <- function(parents,
 
   #we have to convert the parents back to a vector
   indiv <- c()
-  for (i in 1:length(parents[[1]]$chromosome1[, 1])) {
+  for (i in seq_along(parents[[1]]$chromosome1[, 1])) {
     indiv <- c(indiv, parents[[1]]$chromosome1[i, ])
   }
-  for (i in 1:length(parents[[1]]$chromosome2[, 1])) {
+  for (i in seq_along(parents[[1]]$chromosome2[, 1])) {
     indiv <- c(indiv, parents[[1]]$chromosome2[i, ])
   }
 
-  for (i in 1:length(parents[[2]]$chromosome1[, 1])) {
+  for (i in seq_along(parents[[2]]$chromosome1[, 1])) {
     indiv <- c(indiv, parents[[2]]$chromosome1[i, ])
   }
-  for (i in 1:length(parents[[2]]$chromosome2[, 1])) {
+  for (i in seq_along(parents[[2]]$chromosome2[, 1])) {
     indiv <- c(indiv, parents[[2]]$chromosome2[i, ])
   }
 
@@ -38,7 +38,7 @@ create_iso_female <- function(pop,
                              morgan = 1) {
 
   # first we select the individuals that will be the parents of the isofemales
-  indices <- sample(1:length(pop), n * 2, replace = FALSE)
+  indices <- sample(seq_along(pop), n * 2, replace = FALSE)
 
   #for each isofemale
   #pick the female, then simulate until run_time
@@ -46,7 +46,7 @@ create_iso_female <- function(pop,
 
   iso_females <- pop[indices]
   output_females <- c()
-  for (i in 1:n) {
+  for (i in seq_len(n)) {
     parents <- list(iso_females[[i]], iso_females[[i + 1]])
 
     vx <- create_iso_female_line(parents,

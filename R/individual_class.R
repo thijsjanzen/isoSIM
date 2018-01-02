@@ -34,7 +34,7 @@ plot.individual <- function(x, ...) {
        yaxt = "n",
        bty  = "n")
 
-  for (i in 1:length(x$chromosome1[, 1])) {
+  for (i in seq_along(x$chromosome1[, 1])) {
     xleft <- x$chromosome1[i, 1]
     xrght <- 1;
     if (i < length(x$chromosome1[, 1])) {
@@ -60,9 +60,9 @@ plot.individual <- function(x, ...) {
        yaxt = "n",
        bty  = "n")
 
-  for (i in 1:length(x$chromosome2[, 1])) {
+  for (i in seq_along(x$chromosome2[, 1])) {
     xleft <- x$chromosome2[i, 1]
-    xrght <- 1;
+    xrght <- 1
     if (i < length(x$chromosome2[, 1])) {
       xrght <- x$chromosome2[i + 1, 1]
     }

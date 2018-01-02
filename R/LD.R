@@ -4,13 +4,13 @@ calculate_average_LD <- function(alleles_pos_1,
 
   LD <- 0
   r_squared <- 0
-  for (i in 1:number_of_founders) {
-    for (j in 1:number_of_founders) {
+  for (i in seq_len(number_of_founders)) {
+    for (j in seq_len(number_of_founders)) {
       p_A_i <- length(which(alleles_pos_1 == i)) / length(alleles_pos_1)
       p_B_j <- length(which(alleles_pos_2 == j)) / length(alleles_pos_2)
 
       countAB <- 0
-      for (a in 1:length(alleles_pos_1[, 1])) {
+      for (a in seq_along(alleles_pos_1[, 1])) {
         if ((alleles_pos_1[a, 1]) == i && (alleles_pos_2[a, 1] == j)) {
           countAB <- countAB + 1
         }
@@ -60,11 +60,11 @@ calculate_LD_matrix <- function(pop,
     markers <- c()
     while (length(markers) < number_of_markers) {
       markers <- runif(number_of_markers, 0, 1)
-      if (length(which(markers == 0.0))) {
-        markers <- markers[- which(markers == 0.0)] #remove borders
+      if (sum(markers == 0.0)) {
+        markers <- markers[- (markers == 0.0)] #remove borders
       }
-      if (length(which(markers == 1.0))) {
-        markers <- markers[- which(markers == 1.0)]
+      if (sum(markers == 1.0)) {
+        markers <- markers[- (markers == 1.0)]
       }
       #remove duplicates
       if (length(which(duplicated(markers)))) {
@@ -91,8 +91,8 @@ calculate_LD_matrix <- function(pop,
   rsq_matrix  <- matrix(nrow = length(markers), ncol = length(markers), NA)
   dist_matrix <- matrix(nrow = length(markers), ncol = length(markers), NA)
 
-  for (x in 1:length(markers)) {
-    for (y in 1:x) {
+  for (x in seq_along(markers)) {
+    for (y in seq_len(x)) {
       if (x != y) {
         index1 <- c((x - 1) * 2 + 1, (x - 1) * 2 + 2)
         index2 <- c((y - 1) * 2 + 1, (y - 1) * 2 + 2)

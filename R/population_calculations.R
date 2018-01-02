@@ -70,7 +70,7 @@ plot_dist_junctions <- function(pop) {
 
 calc_allele_frequencies <- function(indiv, alleles) {
 
-  for (i in 1:length(indiv$chromosome1[, 1])) {
+  for (i in seq_along(indiv$chromosome1[, 1])) {
     left <- indiv$chromosome1[i, 1]
     right <- 1
     if (i + 1 <= length(indiv$chromosome1[, 1])) {
@@ -81,7 +81,7 @@ calc_allele_frequencies <- function(indiv, alleles) {
     alleles[allele] <- alleles[allele] + (right - left)
   }
 
-  for (i in 1:length(indiv$chromosome2[,1])) {
+  for (i in seq_along(indiv$chromosome2[,1])) {
     left <- indiv$chromosome2[i, 1]
     right <- 1
     if (i + 1 <= length(indiv$chromosome2[,1])) {
