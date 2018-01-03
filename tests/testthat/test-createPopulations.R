@@ -217,7 +217,7 @@ test_that("stats", {
                                  sampled_individuals,
                          number_of_markers, random_markers = TRUE)
 
-  v2 <- isoSIM::hierfstat_fst_wc(pop1, pop2, 10, number_of_founders,
+  v2 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
                                  sampled_individuals,
                          number_of_markers, random_markers = FALSE)
 
