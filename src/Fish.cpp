@@ -9,8 +9,6 @@
 #include "Fish.h"
 #include "randomc.h"
 #include <algorithm>
-#include <Rcpp.h>
-using namespace Rcpp;
 
 
 double getRecomPos() {
@@ -29,8 +27,7 @@ void Recombine(std::vector<junction>& offspring,
 
 
     int numRecombinations = poisson(MORGAN);
-    Rcout << "\t" << numRecombinations << "\t";
-
+    
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
                          chromosome1.begin(),
@@ -39,6 +36,7 @@ void Recombine(std::vector<junction>& offspring,
         return;
     }
 
+    /*
     if (numRecombinations == 1) {
         double pos = getRecomPos();
         for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
@@ -58,7 +56,7 @@ void Recombine(std::vector<junction>& offspring,
         }
         return;
     }
-
+*/
     //if the number of recombinations is larger than 1, we need some more complicated (slower) code:
 
     std::vector<double> recomPos(numRecombinations, 0);
