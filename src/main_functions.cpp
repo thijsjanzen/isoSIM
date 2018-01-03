@@ -253,6 +253,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 {
     std::vector<Fish> Pop;
 
+    Rcout << founders.size() << "\n";
 
     for(int i = 0; i < popSize; ++i) {
         Pop.push_back(mate(founders[0], founders[1], Morgan));
@@ -268,8 +269,8 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 
         std::vector<Fish> newGeneration;
 
-        Rcout << "t: " << t;
-        output_alleles(Pop);
+//        Rcout << "t: " << t << " ";
+  //      output_alleles(Pop);
 
 
         for(int i = 0; i < popSize; ++i)  {
