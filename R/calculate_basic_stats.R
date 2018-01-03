@@ -104,12 +104,14 @@ hierfstat_basic_stats <- function(pop1,
 hierfstat_fst_wc <- function(pop1,
                              pop2,
                              number_of_founders,
+                             sampled_individuals,
                              number_of_markers = 100,
                              random_markers = FALSE) {
 
   number_of_markers <- round(number_of_markers)
 
-  all_loci <- create_loci_matrix(pop1, pop2,
+  all_loci <- create_loci_matrix(pop1[sample(1:length(pop1), sampled_individuals)], 
+                                 pop2[sample(1:length(pop2), sampled_individuals)],
                                  number_of_founders, number_of_markers,
                                  random_markers)
 

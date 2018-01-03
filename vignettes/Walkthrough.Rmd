@@ -85,22 +85,48 @@ First, we have to create two populations.
 ```{r}
 two_populations <- create_two_populations(pop_size = 1000, 
                                           number_of_founders = 20,
-                                          total_runtime = 1000, 
+                                          total_runtime = 100, 
                                           morgan = 1, 
                                           seed = 42,
-                                          overlap = 0.1, 
-                                          write_to_file)
+                                          overlap = 0.25, 
+                                          write_to_file = FALSE)
 ```
 Syntax to create two populations is identical to creating one, save the parameter 'overlap'. This determines the fraction of founders shared by the two populations. 
 We can show the effect of overlap by calculating the Fst value:
 ```{r}
-hierfstat_fst_wc(two_populations$population_1,
-                 two_populations$population_2,
-                 number_of_founders = 20
+
+FST <- hierfstat_fst_wc(two_populations$Population_1,
+                 two_populations$Population_2,
+                 number_of_founders = 20,
                  number_of_markers = 100,
                  random_markers = TRUE)
+FST
 ```
+Furthermore, with increasing overlap, we observe a decrease in FST:
+```{r}
+found <- c()
+for(overl in seq(0.0, 1.0, by = 0.1)) {
+  two_populations <- create_two_populations(pop_size = 1000, 
+                                          number_of_founders = 10,
+                                          total_runtime = 100, 
+                                          morgan = 1, 
+                                          seed = 42,
+                                          overlap = overl, 
+                                          write_to_file = FALSE)
+  
+  FST <- hierfstat_fst_wc(two_populations$Population_1,
+                 two_populations$Population_2,
+                 sampled_individuals = 10,
+                 number_of_founders = 20,
+                 number_of_markers = 10,
+                 random_markers = TRUE)
+  
+  found <- rbind(found, c(overl, FST))
+  cat(overl, FST, "\n")
+}
 
+plot(found[,2]~found[,1], xlab = "Overlap", ylab = "FST")
+```
 
 
 
