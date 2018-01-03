@@ -257,11 +257,11 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
         Fish temp = mate( founders[0], founders[1], Morgan);
         std::vector< Fish > to_print;
         to_print.push_back(temp);
-        Rcout << i << "\t";
-        output_alleles(to_print);
+       // Rcout << i << "\t";
+     //   output_alleles(to_print);
         Pop.push_back( temp);
     }
-    output_alleles(Pop);
+   // output_alleles(Pop);
 
     Rcout << "0--------25--------50--------75--------100\n";
     Rcout << "*";
@@ -546,16 +546,16 @@ List create_femaleLine(NumericVector v,
         }
     }
 
-    Rcout << "Founders: ";
-    output_alleles(founders);
+    //Rcout << "Founders: ";
+    //output_alleles(founders);
 
 
     std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan);
 
 
-    Rcout << "Final: ";
-    output_alleles(Pop);
+    //Rcout << "Final: ";
+    //output_alleles(Pop);
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
