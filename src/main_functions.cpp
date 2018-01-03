@@ -220,6 +220,31 @@ bool is_fixed(const std::vector< Fish >& v) {
     return true;
 }
 
+void output_alleles(const std::vector<Fish>& v) {
+    std::vector< int > alleles;
+    for(int i = 0; i < v.size(); ++i) {
+        for(int j = 0; j < v[i].chromosome1.size(); ++j) {
+            int a = v[i].chromosome1[j].right;
+            alleles.push_back(a);
+        }
+        for(int j = 0; j < v[i].chromosome2.size(); ++j) {
+            int a = v[i].chromosome2[j].right;
+            alleles.push_back(a);
+        }
+    }
+
+    std::sort(alleles.begin(), alleles.end() );
+    alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
+
+    for(int i = 0; i < alleles.size(); ++i) {
+        Rcout << alleles[i] << "\t";
+    }
+    Rcout << "\n";
+
+    return;
+}
+
+
 
 std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
@@ -243,9 +268,15 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 
         std::vector<Fish> newGeneration;
 
+        Rcout << "t: " << t;
+        output_alleles(Pop);
+
+
         for(int i = 0; i < popSize; ++i)  {
             int index1 = random_number(popSize);
             int index2 = random_number(popSize);
+
+            while(index2 == index1) index2 = random_number(popSize);
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
 
@@ -262,7 +293,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
         if(is_fixed(Pop)) {
             //Rcout << "\nPreliminary exit because the population is already completely homozygous\n";
             Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n";
-            break;
+            return(Pop);
         }
     }
     Rcout << "\n";
@@ -514,53 +545,16 @@ List create_femaleLine(NumericVector v,
         }
     }
 
-    std::vector< int > alleles;
-    for(int i = 0; i < founders.size(); ++i) {
-        for(int j = 0; j < founders[i].chromosome1.size(); ++j) {
-            int a = founders[i].chromosome1[j].right;
-            alleles.push_back(a);
-        }
-        for(int j = 0; j < founders[i].chromosome2.size(); ++j) {
-            int a = founders[i].chromosome2[j].right;
-            alleles.push_back(a);
-        }
-    }
-
-    std::sort(alleles.begin(), alleles.end() );
-    alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
-
-    Rcout << "alleles present:\n";
-    for(int i = 0; i < alleles.size(); ++i) {
-        Rcout << alleles[i] << "\t";
-    }
-    Rcout << "\n";
+    Rcout << "Founders: ";
+    output_alleles(founders);
 
 
     std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan);
 
 
-    std::vector< int > alleles2;
-    for(int i = 0; i < Pop.size(); ++i) {
-        for(int j = 0; j < Pop[i].chromosome1.size(); ++j) {
-            int a = Pop[i].chromosome1[j].right;
-            alleles2.push_back(a);
-        }
-        for(int j = 0; j < Pop[i].chromosome2.size(); ++j) {
-            int a = Pop[i].chromosome2[j].right;
-            alleles2.push_back(a);
-        }
-    }
-
-    std::sort(alleles2.begin(), alleles2.end() );
-    alleles2.erase(std::unique(alleles2.begin(), alleles2.end()), alleles2.end());
-
-    Rcout << "alleles after:\n";
-    for(int i = 0; i < alleles2.size(); ++i) {
-        Rcout << alleles2[i] << "\t";
-    }
-    Rcout << "\n";
-
+    Rcout << "Final: ";
+    output_alleles(Pop);
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
