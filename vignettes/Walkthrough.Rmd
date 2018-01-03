@@ -52,6 +52,7 @@ Now, we can plot the isofemales, this plots the two chromosomes next to each oth
 ```{r}
 plot(isofemale[[1]])
 ```
+
 Because we have chosen 10 ancestors, these plots are not terribly informative, let's try a toy example:
 ```{r}
 wildpop =  create_full_population(pop_size = 100, 
@@ -69,7 +70,10 @@ isofemale <- create_iso_female(source_pop = wildpop,
 plot(wildpop[[1]])
 plot(isofemale[[1]])
 ```
-
+The black lines are optical illusions, caused by extremely small fragments located inside a larger fragment. We can make this more insightful by plotting a single chromosome, and only plotting the first half:
+```{r}
+plot_chromosome(isofemale[[1]]$chromosome1, 0.0, 0.3)
+```
 
 
 

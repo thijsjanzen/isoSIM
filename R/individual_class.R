@@ -78,6 +78,42 @@ plot.individual <- function(x, ...) {
   }
 }
 
+plot_chromosome <- function(chrom, xmax) {
+  alleles <- unique(chrom[, 2])
+  num_colors <- length(unique(alleles))
+  color_palette <- grDevices::rainbow(num_colors)
+  
+  par(mfrow = c(1, 1))
+  par(mar = c(2, 2, 2, 2))
+  plot(NA,
+       xlim = c(0, xmax),
+       ylim = c(0, 1),
+       xlab = "",
+       ylab = "",
+       xaxt = "n",
+       yaxt = "n",
+       bty  = "n")
+  
+  for (i in seq_along(chrom[, 1])) {
+    xleft <- chrom[i, 1]
+    xrght <- 1;
+    if (i < length(chrom[, 1])) {
+      xrght <- chrom[i + 1, 1]
+    }
+    colour_index <- 1 + chrom[i, 2]
+    colour_to_plot <- color_palette[colour_index]
+    
+    rect(xleft = xleft,
+         xright = xrght,
+         ybottom = 0,
+         ytop = 1,
+         col = colour_to_plot,
+         border = NULL)
+  }
+}
+
+
+
 create_pop_class <- function(pop) {
   whole_pop <- list()
   cntr <- 1
