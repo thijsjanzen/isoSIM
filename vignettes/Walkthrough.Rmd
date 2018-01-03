@@ -9,6 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=6) 
 library(isoSIM)
 ```
 
@@ -70,9 +71,9 @@ isofemale <- create_iso_female(source_pop = wildpop,
 plot(wildpop[[1]])
 plot(isofemale[[1]])
 ```
-The black lines are optical illusions, caused by extremely small fragments located inside a larger fragment. We can make this more insightful by plotting a single chromosome, and only plotting the first half:
+We can also plot a (section of) a single chromosome:
 ```{r}
-#plot_chromosome(isofemale[[1]]$chromosome1, 0.0, 0.3)
+plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
 ```
 
 
