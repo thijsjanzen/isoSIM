@@ -224,9 +224,7 @@ bool is_fixed(const std::vector< Fish >& v) {
 std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
                              int maxTime,
-                             double Morgan,
-                             double overlap,
-                             double populationIndicator)
+                             double Morgan)
 {
     std::vector<Fish> Pop;
 
@@ -262,7 +260,8 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
         }
 
         if(is_fixed(Pop)) {
-            Rcout << "\nPreliminary exit because the population is already completely homozygous\n";
+            //Rcout << "\nPreliminary exit because the population is already completely homozygous\n";
+            Rcout << "\n At t = " << t::as_string() << " the popoulation has become completely homozygous and fixed\n iso-females are ready!\n"
             break;
         }
     }
@@ -473,7 +472,7 @@ List create_population(int pop_size,
 }
 
 // [[Rcpp::export]]
-List create_femaleLine(NumericVector indiv,
+List create_femaleLine(NumericVector v,
                        int pop_size,
                        int total_runtime,
                        double morgan,
@@ -483,35 +482,40 @@ List create_femaleLine(NumericVector indiv,
 
     std::vector< Fish > founders;
 
-    for(int f = 0; f < 2; ++f) {
-        Fish founder;
-        int chromIndicator = 0;
-        for(int i = 0; i < indiv.size();  i+=2) {
-            junction temp;
-            temp.pos = indiv[i];
-            temp.right = indiv[i+1];
+    Fish temp;
+    int indic_chrom = 1;
+    bool add_indiv = false;
 
-            if(chromIndicator == 0) {
-                founder.chromosome1.push_back(temp);
-            }
-            if(chromIndicator == 1) {
-                founder.chromosome2.push_back(temp);
-            }
+    for(int i = 0; i < v.size(); i += 2) {
+        junction temp_j;
+        temp_j.pos = v[i];
+        temp_j.right = v[i+1];
 
-            if(temp.right == -1) {
-                chromIndicator++;
+        if(indic_chrom == 1) {
+            temp.chromosome1.push_back(temp_j);
+        } else {
+            temp.chromosome2.push_back(temp_j);
+        }
+
+        if(temp_j.right == -1) {
+            if(indic_chrom == 1) {
+                indic_chrom = 2;
+            } else {
+                add_indiv = true;
             }
-            if(chromIndicator == 2) {
-                founders.push_back(founder);
-                founder.chromosome1.clear();
-                founder.chromosome2.clear();
-                chromIndicator = 0;
-            }
+        }
+
+        if(add_indiv) {
+            founders.push_back(temp);
+            add_indiv = false;
+            indic_chrom = 1;
+            temp.chromosome1.clear();
+            temp.chromosome2.clear();
         }
     }
 
     std::vector<Fish> Pop = create_line(founders, pop_size,
-                                        total_runtime, morgan, 0.0, 0);
+                                        total_runtime, morgan);
 
     return List::create( Named("population") = createPopVector(Pop) );
 }

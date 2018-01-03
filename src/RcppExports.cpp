@@ -60,17 +60,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_femaleLine
-List create_femaleLine(NumericVector indiv, int pop_size, int total_runtime, double morgan, int seed);
-RcppExport SEXP _isoSIM_create_femaleLine(SEXP indivSEXP, SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+List create_femaleLine(NumericVector v, int pop_size, int total_runtime, double morgan, int seed);
+RcppExport SEXP _isoSIM_create_femaleLine(SEXP vSEXP, SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type indiv(indivSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(create_femaleLine(indiv, pop_size, total_runtime, morgan, seed));
+    rcpp_result_gen = Rcpp::wrap(create_femaleLine(v, pop_size, total_runtime, morgan, seed));
     return rcpp_result_gen;
 END_RCPP
 }
