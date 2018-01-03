@@ -9,7 +9,8 @@
 #include "Fish.h"
 #include "randomc.h"
 #include <algorithm>
-
+#include <Rcpp.h>
+using namespace Rcpp;
 
 
 double getRecomPos() {
@@ -28,6 +29,7 @@ void Recombine(std::vector<junction>& offspring,
 
 
     int numRecombinations = poisson(MORGAN);
+    Rcout << "\t" << numRecombinations << "\t";
 
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
