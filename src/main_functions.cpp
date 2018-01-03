@@ -254,7 +254,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     std::vector<Fish> Pop;
 
     for(int i = 0; i < popSize; ++i) {
-        Fish temp = mate( founders[0], founders[1], Morgan)
+        Fish temp = mate( founders[0], founders[1], Morgan);
         std::vector< Fish > to_print;
         to_print.push_back(temp);
         Rcout << i << "\t";
