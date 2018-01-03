@@ -514,8 +514,53 @@ List create_femaleLine(NumericVector v,
         }
     }
 
+    std::vector< int > alleles;
+    for(int i = 0; i < founders.size(); ++i) {
+        for(int j = 0; j < founders[i].chromosome1.size(); ++j) {
+            int a = founders[i].chromosome1[j].right;
+            alleles.push_back(a);
+        }
+        for(int j = 0; j < founders[i].chromosome2.size(); ++j) {
+            int a = founders[i].chromosome2[j].right;
+            alleles.push_back(a);
+        }
+    }
+
+    std::sort(alleles.begin(), alleles.end() );
+    alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
+
+    Rcout << "alleles present:\n";
+    for(int i = 0; i < alleles.size(); ++i) {
+        Rcout << alleles[i] << "\t";
+    }
+    Rcout << "\n";
+
+
     std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan);
+
+
+    std::vector< int > alleles2;
+    for(int i = 0; i < Pop.size(); ++i) {
+        for(int j = 0; j < Pop[i].chromosome1.size(); ++j) {
+            int a = Pop[i].chromosome1[j].right;
+            alleles2.push_back(a);
+        }
+        for(int j = 0; j < Pop[i].chromosome2.size(); ++j) {
+            int a = Pop[i].chromosome2[j].right;
+            alleles2.push_back(a);
+        }
+    }
+
+    std::sort(alleles2.begin(), alleles2.end() );
+    alleles2.erase(std::unique(alleles2.begin(), alleles2.end()), alleles2.end());
+
+    Rcout << "alleles after:\n";
+    for(int i = 0; i < alleles2.size(); ++i) {
+        Rcout << alleles2[i] << "\t";
+    }
+    Rcout << "\n";
+
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
