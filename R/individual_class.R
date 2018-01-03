@@ -80,7 +80,7 @@ plot.individual <- function(x, ...) {
 
 plot_chromosome <- function(chrom, xmin, xmax) {
   alleles <- unique(chrom[, 2])
-  num_colors <- length(unique(alleles))
+  num_colors <- 1 + max(alleles)
   color_palette <- grDevices::rainbow(num_colors)
   
   par(mfrow = c(1, 1))

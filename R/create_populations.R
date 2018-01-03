@@ -17,7 +17,7 @@ create_full_population <- function(pop_size,
   return(popstruct)
 }
 
-create_two_full_populations <- function(pop_size,
+create_two_populations <- function(pop_size,
                                         number_of_founders,
                                         total_runtime,
                                         morgan,
@@ -25,7 +25,7 @@ create_two_full_populations <- function(pop_size,
                                         overlap,
                                         write_to_file) {
 
-  pops <- create_two_populations(pop_size,
+  pops <- create_two_populations_cpp(pop_size,
                                  number_of_founders,
                                  total_runtime,
                                  morgan,

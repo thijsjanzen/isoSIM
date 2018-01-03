@@ -564,7 +564,7 @@ List create_femaleLine(NumericVector v,
 
 
 // [[Rcpp::export]]
-List create_two_populations(int pop_size,
+List create_two_populations_cpp(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,

@@ -46,6 +46,7 @@ isofemale <- create_iso_female(source_pop = wildpop,
                                run_time = 1000000,
                                morgan = 1)
 ```
+
 Here, n indicates the number of isofemales to be created from the same source population, the inbreeding population size is set to be small, in order to speed up computation. Maximum run time is best set hight, to assure that all individuals become genetically identical. 
 
 # Visualizing individuals
@@ -71,14 +72,34 @@ isofemale <- create_iso_female(source_pop = wildpop,
 plot(wildpop[[1]])
 plot(isofemale[[1]])
 ```
+
 We can also plot a (section of) a single chromosome:
 ```{r}
 plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
 ```
 
+# multiple source populations
 
-
-
+It gets more interesting if we create two populations, and draw iso-females from them, and cross these.
+First, we have to create two populations. 
+```{r}
+two_populations <- create_two_populations(pop_size = 1000, 
+                                          number_of_founders = 20,
+                                          total_runtime = 1000, 
+                                          morgan = 1, 
+                                          seed = 42,
+                                          overlap = 0.1, 
+                                          write_to_file)
+```
+Syntax to create two populations is identical to creating one, save the parameter 'overlap'. This determines the fraction of founders shared by the two populations. 
+We can show the effect of overlap by calculating the Fst value:
+```{r}
+hierfstat_fst_wc(two_populations$population_1,
+                 two_populations$population_2,
+                 number_of_founders = 20
+                 number_of_markers = 100,
+                 random_markers = TRUE)
+```
 
 
 
