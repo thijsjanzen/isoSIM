@@ -21,8 +21,8 @@ create_femaleLine <- function(v, pop_size, total_runtime, morgan, seed) {
     .Call('_isoSIM_create_femaleLine', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, seed)
 }
 
-create_two_populations <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile) {
-    .Call('_isoSIM_create_two_populations', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile)
+create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile) {
+    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile)
 }
 
 sim_inf_chrom <- function(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed) {
