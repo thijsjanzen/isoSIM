@@ -221,7 +221,7 @@ test_that("stats", {
                                  sampled_individuals,
                          number_of_markers, random_markers = FALSE)
 
-  testthat::expect_equal(v1, v2, tolerance = 0.01)
+  testthat::expect_equal(v1, v2, tolerance = 0.05)
 
   pop_size <- 100
   number_of_founders <- 10
@@ -230,7 +230,7 @@ test_that("stats", {
   overlap <- 0.0
   write_to_file <- FALSE
 
-  vx <- create_two_full_populations(pop_size, number_of_founders,
+  vx <- create_two_populations(pop_size, number_of_founders,
                                     run_time, morgan, 42,
                                     overlap, write_to_file)
 
