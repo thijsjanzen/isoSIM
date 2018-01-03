@@ -162,7 +162,13 @@ void Recombine(std::vector<junction>& offspring,
 
     std::sort(offspring.begin(), offspring.end());
     offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
-    
+
+    std::vector<junction> temp_offspring = offspring;
+    offspring.clear();
+    for(int i = 0; i < temp_offspring.size(); ++i) {
+        if(temp_offspring[i].left != temp_offspring[i].right) offspring.push_back(temp_offspring[i]);
+    }
+
     return;
 }
 

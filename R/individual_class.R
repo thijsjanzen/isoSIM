@@ -48,7 +48,7 @@ plot.individual <- function(x, ...) {
          ybottom = 0,
          ytop = 1,
          col = colour_to_plot,
-         border = NULL)
+         border = FALSE)
   }
 
   plot(NA,
@@ -74,11 +74,11 @@ plot.individual <- function(x, ...) {
          ybottom = 0,
          ytop = 1,
          col = colour_to_plot,
-         border = NULL)
+         border = FALSE)
   }
 }
 
-plot_chromosome <- function(chrom, xmax) {
+plot_chromosome <- function(chrom, xmin, xmax) {
   alleles <- unique(chrom[, 2])
   num_colors <- length(unique(alleles))
   color_palette <- grDevices::rainbow(num_colors)
@@ -86,7 +86,7 @@ plot_chromosome <- function(chrom, xmax) {
   par(mfrow = c(1, 1))
   par(mar = c(2, 2, 2, 2))
   plot(NA,
-       xlim = c(0, xmax),
+       xlim = c(xmin, xmax),
        ylim = c(0, 1),
        xlab = "",
        ylab = "",
@@ -108,7 +108,7 @@ plot_chromosome <- function(chrom, xmax) {
          ybottom = 0,
          ytop = 1,
          col = colour_to_plot,
-         border = NULL)
+         border = FALSE)
   }
 }
 

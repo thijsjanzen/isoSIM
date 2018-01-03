@@ -72,7 +72,7 @@ plot(isofemale[[1]])
 ```
 The black lines are optical illusions, caused by extremely small fragments located inside a larger fragment. We can make this more insightful by plotting a single chromosome, and only plotting the first half:
 ```{r}
-plot_chromosome(isofemale[[1]]$chromosome1, 0.0, 0.3)
+#plot_chromosome(isofemale[[1]]$chromosome1, 0.0, 0.3)
 ```
 
 
