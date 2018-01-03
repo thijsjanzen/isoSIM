@@ -256,8 +256,10 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     Rcout << founders.size() << "\n";
 
     for(int i = 0; i < popSize; ++i) {
-        Pop.push_back(mate(founders[0], founders[1], Morgan));
+        Pop.push_back( mate( founders[0], founders[1], Morgan));
     }
+    output_alleles(founders);
+    output_alleles(Pop);
 
     Rcout << "0--------25--------50--------75--------100\n";
     Rcout << "*";
@@ -268,10 +270,6 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     for(int t = 0; t < maxTime; ++t) {
 
         std::vector<Fish> newGeneration;
-
-//        Rcout << "t: " << t << " ";
-  //      output_alleles(Pop);
-
 
         for(int i = 0; i < popSize; ++i)  {
             int index1 = random_number(popSize);
