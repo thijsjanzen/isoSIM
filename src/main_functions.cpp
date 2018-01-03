@@ -261,7 +261,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 
         if(is_fixed(Pop)) {
             //Rcout << "\nPreliminary exit because the population is already completely homozygous\n";
-            Rcout << "\n At t = " << t::as_string() << " the popoulation has become completely homozygous and fixed\n iso-females are ready!\n"
+            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n"
             break;
         }
     }
