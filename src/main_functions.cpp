@@ -469,9 +469,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         fitness.push_back(fit);
     }
 
-    int updateFreq = maxTime / 20;
-    if(updateFreq < 1) updateFreq = 1;
-
     Rcout << "0--------25--------50--------75--------100\n";
     Rcout << "*";
 
