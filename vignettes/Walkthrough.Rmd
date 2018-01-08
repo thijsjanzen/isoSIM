@@ -149,16 +149,10 @@ We can also calculate LD statistics. LD is only defined for markers, so again we
   LD_results <- calculate_LD_matrix(wildpop, number_of_markers = 10,
                             number_of_founders = 20, random_markers = TRUE)
 
-  # LD_results returns the lower matrices, with the upper matrix as NA, for plotting
-  # we convert these matrices to vectors:
-  vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
-  vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)])
-  vv3 <- as.vector(LD_results$rsq_matrix[!is.na(LD_results$rsq_matrix)])
-
   par(mfrow=c(1,3))
-  plot(vv1~vv2, xlab = "Genetic Distance (Morgan)", ylab = "LD", pch = 16)
-  plot(vv3~vv2, xlab = "Genetic Distance (Morgan)", ylab = "r_sq", pch = 16)
-  plot(vv1~vv3, xlab = "r_sq", ylab = "LD", pch = 16)
+  plot(LD_results$LD_matrix~LD_results$dist_matrix, xlab = "Genetic Distance (Morgan)", ylab = "LD", pch = 16)
+  plot(LD_results$rsq_matrix~LD_results$dist_matrix, xlab = "Genetic Distance (Morgan)", ylab = "r_sq", pch = 16)
+  plot(LD_results$LD_matrix~LD_results$rsq_matrix, xlab = "r_sq", ylab = "LD", pch = 16)
 ```
 
 To analyze LD patterns better, it makes more sense to create a population from scratch. We expect for a strongly inbred population, that there is no LD:
@@ -166,7 +160,7 @@ To analyze LD patterns better, it makes more sense to create a population from s
 ```{r no LD}
 no_LD_pop <- create_full_population(pop_size = 100, 
                              number_of_founders = 10,
-                             total_runtime = 10000, 
+                             total_runtime = 1000, 
                              morgan = 1, 
                              seed = 42, 
                              write_to_file = FALSE)
@@ -175,11 +169,8 @@ LD_results <- calculate_LD_matrix(no_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10, number_of_founders = 20, random_markers = TRUE)
 
 par(mfrow=c(1,1))
-plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16)
-vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
-vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)]) 
-LD_lm <- lm(vv1~vv1)
-summary(LD_lm)
+par(mar=c(4,4,2,2))
+plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", ylab = "LD",xlim = c(0, 1), ylim = c(0, 1))
 ```
 
 Alternatively, for a barely inbred population, we expect a negative relationship between LD and distance:
@@ -197,8 +188,6 @@ LD_results <- calculate_LD_matrix(strong_LD_pop, sampled_individuals = 10,
                             number_of_founders = 20, random_markers = TRUE)
 
 par(mfrow=c(1,1))
-par(mar=c(2,2,2,2))
+par(mar=c(4,4,2,2))
 plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", ylab = "LD",xlim = c(0, 1), ylim = c(0, 1))
-vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
-vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)]) 
 ```
