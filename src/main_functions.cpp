@@ -601,7 +601,7 @@ List select_population_cpp(NumericVector v,
         }
     }
     
-    std::vector<std::vector<double> select;
+    std::vector<std::vector<double>> select;
     for(int i = 0; i < selectMatrix.size(); ++i) {
         std::vector<double> temp;
         temp.push_back(selectMatrix[i]);
