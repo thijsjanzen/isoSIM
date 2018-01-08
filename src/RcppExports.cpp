@@ -16,6 +16,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// select_population_cpp
+List select_population_cpp(NumericVector v, NumericVector selectMatrix, double s, int population_size, int run_time, double morgan, int seed);
+RcppExport SEXP _isoSIM_select_population_cpp(SEXP vSEXP, SEXP selectMatrixSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type selectMatrix(selectMatrixSEXP);
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type run_time(run_timeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_population_cpp(v, selectMatrix, s, population_size, run_time, morgan, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calculate_summaryStats
 List calculate_summaryStats(NumericVector v, int number_of_founders);
 RcppExport SEXP _isoSIM_calculate_summaryStats(SEXP vSEXP, SEXP number_of_foundersSEXP) {
@@ -110,6 +127,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
+    {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 7},
     {"_isoSIM_calculate_summaryStats", (DL_FUNC) &_isoSIM_calculate_summaryStats, 2},
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},

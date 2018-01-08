@@ -5,6 +5,10 @@ calc_heterozygosity_cpp <- function(v) {
     .Call('_isoSIM_calc_heterozygosity_cpp', PACKAGE = 'isoSIM', v)
 }
 
+select_population_cpp <- function(v, selectMatrix, s, population_size, run_time, morgan, seed) {
+    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v, selectMatrix, s, population_size, run_time, morgan, seed)
+}
+
 calculate_summaryStats <- function(v, number_of_founders) {
     .Call('_isoSIM_calculate_summaryStats', PACKAGE = 'isoSIM', v, number_of_founders)
 }

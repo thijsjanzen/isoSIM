@@ -362,6 +362,148 @@ std::vector< double > calculate_mean_allelefreq(const std::vector< Fish >& pop,
     return(allele_freq);
 }
 
+int draw_prop_fitness(const std::vector<double> fitness,
+                      double maxFitness) {
+    for(int i = 0; i < 1e6; ++i) {
+        int index = random_number(fitness.size());
+        if(uniform() < fitness[index] / maxFitness) {
+            return index;
+        }
+    }
+    std::cout << "\nERROR! ERROR! Couldn't pick proportional to fitness\n";
+    return -1;
+}
+
+double assess_match(const std::vector<junction> chrom,
+                    double start,
+                    double end,
+                    int ancestor) {
+
+    std::vector< junction > block;
+    bool first_one = true;
+    for(int i = 0; i < chrom.size(); ++i) {
+        if(chrom[i].pos > start) {
+
+            if(chrom[i].pos > end) {
+                if(first_one) {
+                    block.push_back(chrom[i]);
+                    first_one = false;
+                } else {
+                    break;
+                }
+            }
+            block.push_back(chrom[i]);
+        }
+    }
+
+    if(block.size() == 1) {
+        if(block[0].left == ancestor) return 1.0;
+
+        return 0.0;
+    }
+
+    double match = 0.0;
+    if(block[0].left == ancestor) {
+        match += (block[0].pos - start);
+    }
+    for(int i = 1; i < block.size(); ++i) {
+        double local_left = block[i-1].pos;
+        double local_right = block[i].pos;
+        if(local_right > end) local_right = end;
+
+        if(block[i].left == ancestor) match += (local_right - local_left);
+    }
+    match *= 1.0 / (end - start);
+    return(match);
+}
+
+
+
+double calculate_fitness(const Fish& focal,
+                         const std::vector< std::vector< double > >& select,
+                         double s) {
+
+    double fitness = 2.0 * select[0][0];
+
+    for(int i = 0; i < select.size(); ++i) {
+        double start = select[i][0];
+        double end = select[i][1];
+        int ancestor = select[i][2];
+
+        double a1 = assess_match(focal.chromosome1, start, end, ancestor);
+        double a2 = assess_match(focal.chromosome2, start, end, ancestor);
+
+        //fitness += (end - start) * a1 * (1+s) + (end - start) * (1 - a1) * (1);
+        //fitness += (end - start) * a2 * (1+s) + (end - start) * (1 - a2) * (1);
+        //fitness += (end - start) * (1 + s * a1);
+        //fitness += (end - start) * (1 + s * a2);
+        fitness += (end - start) * (2 + s * (a1 + a2));
+
+        double nextStart = 1.0;
+        if((i+1) < select.size()) {
+            nextStart = select[i+1][0];
+        }
+        fitness += 2.0 * (nextStart - end);
+    }
+
+    fitness = fitness / 2.0;
+
+    return fitness;
+}
+
+
+std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
+                                     const std::vector< std::vector< double > >& select,
+                                     double s,
+                                     int popSize,
+                                     int maxTime,
+                                     double Morgan)
+{
+
+    std::vector<Fish> Pop = sourcePop;
+    std::vector<double> fitness;
+    double maxFitness = -1;
+    for(auto it = Pop.begin(); it != Pop.end(); ++it){
+        double fit = calculate_fitness((*it), select, s);
+        if(fit > maxFitness) maxFitness = fit;
+        fitness.push_back(fit);
+    }
+
+    int updateFreq = maxTime / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+    std::vector<double> avg_fitness;
+
+    for(int t = 0; t < maxTime; ++t) {
+
+        double avgF = calculateMean(fitness);
+        avg_fitness.push_back(avgF);
+
+        std::vector<Fish> newGeneration;
+        std::vector<double> newFitness;
+        double newMaxFitness = - 1.0;
+
+        for(int i = 0; i < popSize; ++i)  {
+            int index1 = draw_prop_fitness(fitness, maxFitness);
+            int index2 = draw_prop_fitness(fitness, maxFitness);
+            while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
+
+            Fish kid = mate(Pop[index1], Pop[index2], Morgan);
+
+            newGeneration.push_back(kid);
+
+            double fit = calculate_fitness(kid, select, s);
+            if(fit > newMaxFitness) newMaxFitness = fit;
+            newFitness.push_back(fit);
+        }
+        
+        Pop = newGeneration;
+        newGeneration.clear();
+        fitness = newFitness;
+        maxFitness = newMaxFitness;
+    }
+    return(Pop);
+}
 
 
 
@@ -420,6 +562,78 @@ double calc_heterozygosity_cpp(NumericVector v) {
 }
 
 // [[Rcpp::export]]
+List select_population_cpp(NumericVector v,
+                       NumericVector selectMatrix,
+                       double s,
+                       int population_size,
+                       int run_time,
+                       double morgan,
+                       int seed) {
+
+    set_seed(seed);
+    std::vector< Fish > pop;
+    Fish temp;
+    int indic_chrom = 1;
+    bool add_indiv = false;
+
+    for(int i = 0; i < v.size(); i += 2) {
+        junction temp_j;
+        temp_j.pos = v[i];
+        temp_j.right = v[i+1];
+
+        if(indic_chrom == 1) {
+            temp.chromosome1.push_back(temp_j);
+        } else {
+            temp.chromosome2.push_back(temp_j);
+        }
+
+        if(temp_j.right == -1) {
+            if(indic_chrom == 1) {
+                indic_chrom = 2;
+            } else {
+                add_indiv = true;
+            }
+        }
+
+        if(add_indiv) {
+            pop.push_back(temp);
+            add_indiv = false;
+            indic_chrom = 1;
+            temp.chromosome1.clear();
+            temp.chromosome2.clear();
+        }
+    }
+    
+    std::vector< std::vector< double > select;
+    for(int i = 0; i < selectMatrix.size(); ++i) {
+        std::vector< double > temp;
+        temp.push_back(selectMatrix[i]);
+        if(temp.size() == 3) {
+            select.push_back(temp);
+            temp.clear();
+        }
+    }
+
+    std::vector<Fish> Pop = selectPopulation( pop,
+                                              select,
+                                              s,
+                                              pop_size,
+                                              run_time,
+                                              morgan);
+    if(writeToFile) {
+        writePoptoFile(Pop, "population_1.pop");
+    }
+
+    return List::create( Named("population") = createPopVector(Pop) );
+}
+
+
+
+}
+
+
+
+// [[Rcpp::export]]
 List calculate_summaryStats(NumericVector v,
                             int number_of_founders) {
     std::vector< Fish > pop;
@@ -463,7 +677,6 @@ List calculate_summaryStats(NumericVector v,
     return List::create( Named("Hst") = heterozygosity,
                          Named("freq_pop") = allele_freq );
 }
-
 
 
 
