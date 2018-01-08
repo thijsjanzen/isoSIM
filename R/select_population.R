@@ -9,15 +9,15 @@ select_population <- function(source_pop,
   
   # first we have to convert source_pop to vector...
   cat("R: converting pop\n")
-  individuals <- c()
-  for(j in 1:length(source_pop)) {
-    for (i in seq_along(source_pop[[j]]$chromosome1[, 1])) {
-      individuals <- c(individuals, source_pop[[j]]$chromosome1[i, ])
-    }
-    for (i in seq_along(source_pop[[j]]$chromosome2[, 1])) {
-      individuals <- c(individuals, source_pop[[j]]$chromosome2[i, ])
-    }
+  
+  for(i in seq_along(source_pop)) {
+    source_pop[[i]]$chromosome1 <- t(source_pop[[i]]$chromosome1)
+    source_pop[[i]]$chromosome2 <- t(source_pop[[i]]$chromosome2)
   }
+  
+  individuals <- unlist(t(source_pop))
+  
+  
   cat("R: converting select\n")
   #then selectMatrix to vector
   select <- c();
