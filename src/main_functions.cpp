@@ -579,6 +579,8 @@ List select_population_cpp(NumericVector v,
     int indic_chrom = 1;
     bool add_indiv = false;
 
+    Rcout << "CPP: converting population\n";
+
     for(int i = 0; i < v.size(); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
@@ -606,7 +608,8 @@ List select_population_cpp(NumericVector v,
             temp.chromosome2.clear();
         }
     }
-    
+
+    Rcout << "CPP: converting select\n";
     std::vector<std::vector<double>> select;
     for(int i = 0; i < selectMatrix.size(); ++i) {
         std::vector<double> temp;
@@ -617,6 +620,8 @@ List select_population_cpp(NumericVector v,
         }
     }
 
+
+    Rcout << "CPP: starting simulation\n";
     std::vector<Fish> Pop = selectPopulation( pop,
                                               select,
                                               s,
@@ -627,6 +632,7 @@ List select_population_cpp(NumericVector v,
         writePoptoFile(Pop, "population_1.pop");
     }
 
+    Rcout << "CPP: Done\n";
     return List::create( Named("population") = createPopVector(Pop) );
 }
 
