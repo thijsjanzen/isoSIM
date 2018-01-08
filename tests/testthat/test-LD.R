@@ -38,6 +38,7 @@ test_that("calculate_average_LD", {
 test_that("calculate_LD_matrix", {
   pop_size <- 100
   number_of_founders <- 2
+  sampled_individuals <- pop_size
   run_time <- 1
   morgan <- 1
   write_to_file <- FALSE
@@ -45,7 +46,7 @@ test_that("calculate_LD_matrix", {
   pop1 <- create_full_population(pop_size, number_of_founders,
                                  run_time, morgan, 42, write_to_file)
 
-  vv <- calculate_LD_matrix(pop1, number_of_markers = 10,
+  vv <- calculate_LD_matrix(pop1, sampled_individuals, number_of_markers = 10,
                             number_of_founders, random_markers = TRUE)
 
   vv1 <- as.vector(vv$LD_matrix[!is.na(vv$LD_matrix)])

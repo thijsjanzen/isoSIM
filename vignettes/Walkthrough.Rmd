@@ -78,7 +78,7 @@ We can also plot a (section of) a single chromosome:
 plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
 ```
 
-# multiple source populations
+# Multiple source populations
 
 It gets more interesting if we create two populations, and draw iso-females from them, and cross these.
 First, we have to create two populations. 
@@ -92,19 +92,6 @@ two_populations <- create_two_populations(pop_size = 1000,
                                           write_to_file = FALSE)
 ```
 Syntax to create two populations is identical to creating one, save the parameter 'overlap'. This determines the fraction of founders shared by the two populations. 
-We can show the effect of overlap by calculating the Fst value:
-```{r calc FST}
-
-FST <- hierfstat_fst_wc(two_populations$Population_1,
-                 two_populations$Population_2,
-                 number_of_founders = 20,
-                 sampled_individuals = 10,
-                 number_of_markers = 100,
-                 random_markers = TRUE)
-FST
-```
-The FST calculation function uses the library hierfstat to calculate the FST. To do so, it samples 10 random individuals (the parameter sampled individuals) from the population, and then assesses the genetic content at 100 randomly placed markers (number of markers, and random_markers = TRUE). 
-
 
 Now that we have two populations, we can generate two different iso-females from them:
 ```{r draw two isofemales}
@@ -120,10 +107,11 @@ isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
                                run_time = 1000000,
                                morgan = 1)
 
-par(mfrow=c(1,2))
+par(mfrow=c(2,1))
 plot_chromosome(isofemale_1[[1]]$chromosome1, 0, 1)
 plot_chromosome(isofemale_2[[1]]$chromosome1, 0, 1)
 ```
+
 We can now use these two isofemales to seed a new inbreeding population:
 ```{r seed mixed population}
 mixed_population <- create_population_from_individuals(isofemale_1[[1]], isofemale_2[[1]],
@@ -134,4 +122,82 @@ mixed_population <- create_population_from_individuals(isofemale_1[[1]], isofema
 And plot some individuals from our new population:
 ```{r plot mixed_population}
 plot(mixed_population[[1]])
+```
+
+## Statistics
+
+# FST
+We can show the effect of overlap by calculating the Fst value:
+```{r calc FST}
+
+FST <- hierfstat_fst_wc(two_populations$Population_1,
+                 two_populations$Population_2,
+                 number_of_founders = 20,
+                 sampled_individuals = 10,
+                 number_of_markers = 100,
+                 random_markers = TRUE)
+FST
+```
+The FST calculation function uses the library hierfstat to calculate the FST. To do so, it samples 10 random individuals (the parameter sampled individuals) from the population, and then assesses the genetic content at 100 randomly placed markers (number of markers, and random_markers = TRUE). 
+
+Although this seems to be quite right, I have no right intuition how the FST should relate to the overlap - I thought it would be inversely related (FST = 1 - overlap) but this doesn't hold. Either my intuition is wrong, or I calculate the FST wrongly...
+
+# LD
+We can also calculate LD statistics. LD is only defined for markers, so again we have to simulate artificial markers along the chromosome. 
+
+```{r}
+  LD_results <- calculate_LD_matrix(wildpop, number_of_markers = 10,
+                            number_of_founders = 20, random_markers = TRUE)
+
+  # LD_results returns the lower matrices, with the upper matrix as NA, for plotting
+  # we convert these matrices to vectors:
+  vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
+  vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)])
+  vv3 <- as.vector(LD_results$rsq_matrix[!is.na(LD_results$rsq_matrix)])
+
+  par(mfrow=c(1,3))
+  plot(vv1~vv2, xlab = "Genetic Distance (Morgan)", ylab = "LD", pch = 16)
+  plot(vv3~vv2, xlab = "Genetic Distance (Morgan)", ylab = "r_sq", pch = 16)
+  plot(vv1~vv3, xlab = "r_sq", ylab = "LD", pch = 16)
+```
+
+To analyze LD patterns better, it makes more sense to create a population from scratch. We expect for a strongly inbred population, that there is no LD:
+
+```{r no LD}
+no_LD_pop <- create_full_population(pop_size = 100, 
+                             number_of_founders = 10,
+                             total_runtime = 10000, 
+                             morgan = 1, 
+                             seed = 42, 
+                             write_to_file = FALSE)
+
+LD_results <- calculate_LD_matrix(no_LD_pop, sampled_individuals = 10,
+                                  number_of_markers = 10, number_of_founders = 20, random_markers = TRUE)
+
+par(mfrow=c(1,1))
+plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16)
+vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
+vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)]) 
+LD_lm <- lm(vv1~vv1)
+summary(LD_lm)
+```
+
+Alternatively, for a barely inbred population, we expect a negative relationship between LD and distance:
+
+```{r strong LD}
+strong_LD_pop <- create_full_population(pop_size = 1000, 
+                             number_of_founders = 10,
+                             total_runtime = 10, 
+                             morgan = 1, 
+                             seed = 42, 
+                             write_to_file = FALSE)
+
+LD_results <- calculate_LD_matrix(strong_LD_pop, sampled_individuals = 10,
+                                  number_of_markers = 10,
+                            number_of_founders = 20, random_markers = TRUE)
+
+par(mfrow=c(1,1))
+plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16)
+vv1 <- as.vector(LD_results$LD_matrix[!is.na(LD_results$LD_matrix)])
+vv2 <- as.vector(LD_results$dist_matrix[!is.na(LD_results$dist_matrix)]) 
 ```
