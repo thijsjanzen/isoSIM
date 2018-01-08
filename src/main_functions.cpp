@@ -625,11 +625,6 @@ List select_population_cpp(NumericVector v,
 }
 
 
-
-}
-
-
-
 // [[Rcpp::export]]
 List calculate_summaryStats(NumericVector v,
                             int number_of_founders) {
