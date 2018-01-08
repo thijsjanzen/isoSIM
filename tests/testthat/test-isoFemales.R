@@ -15,3 +15,28 @@ test_that("create_isofemale", {
 
   testthat::expect_equal(length(females), 1)
 })
+
+test_that("create_population_from_isofemales", {
+  
+  pop_size <- 100
+  number_of_founders <- 10
+  run_time <- 100
+  morgan <- 1
+  overlap <- 0.5
+  write_to_file <- FALSE
+  
+  vx <- isoSIM::create_two_populations(pop_size, number_of_founders,
+                               run_time, morgan, 42,
+                               overlap, write_to_file)
+  
+  female_1 <- isoSIM::create_iso_female(vx$Population_1, n = 1)
+  female_2 <- isoSIM::create_iso_female(vx$Population_2, n = 1)
+  
+  vy <- isoSIM::create_population_from_individuals(female_1[[1]], female_2[[1]],
+                                     pop_size, run_time,
+                                     morgan,
+                                     seed = 666,
+                                     write_to_file)
+  
+  testthat::expect_equal(length(vy), pop_size)
+})
