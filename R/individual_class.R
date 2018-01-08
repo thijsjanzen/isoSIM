@@ -83,8 +83,8 @@ plot_chromosome <- function(chrom, xmin, xmax) {
   num_colors <- 1 + max(alleles)
   color_palette <- grDevices::rainbow(num_colors)
   
-  par(mfrow = c(1, 1))
-  par(mar = c(2, 2, 2, 2))
+  #par(mfrow = c(1, 1))
+  #par(mar = c(2, 2, 2, 2))
   plot(NA,
        xlim = c(xmin, xmax),
        ylim = c(0, 1),

@@ -22,7 +22,7 @@ create_iso_female_line <- function(parents,
 
   inbred_pop <- create_femaleLine(indiv, pop_size,
                                   run_time, morgan,
-                                  seed);
+                                  seed)
 
   inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
 
@@ -58,6 +58,10 @@ create_iso_female <- function(source_pop,
     output_females[[i]] <- vx
     class(output_females[[i]]) <- "individual"
   }
+  
+ # if(n == 1) {
+ #    output_females = output_females[[1]]
+ #  }
   
   return(output_females)
 }
