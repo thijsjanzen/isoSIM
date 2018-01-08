@@ -370,7 +370,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
             return index;
         }
     }
-    std::cout << "\nERROR! ERROR! Couldn't pick proportional to fitness\n";
+    Rcout << "\nERROR! ERROR! Couldn't pick proportional to fitness\n";
     return -1;
 }
 
