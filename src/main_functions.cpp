@@ -472,12 +472,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
 
-    std::vector<double> avg_fitness;
 
     for(int t = 0; t < maxTime; ++t) {
-
-        double avgF = calculateMean(fitness);
-        avg_fitness.push_back(avgF);
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
@@ -568,7 +564,8 @@ List select_population_cpp(NumericVector v,
                        int population_size,
                        int run_time,
                        double morgan,
-                       int seed) {
+                       int seed,
+                       bool writeToFile) {
 
     set_seed(seed);
     std::vector< Fish > pop;
@@ -604,9 +601,9 @@ List select_population_cpp(NumericVector v,
         }
     }
     
-    std::vector< std::vector< double > select;
+    std::vector<std::vector<double> select;
     for(int i = 0; i < selectMatrix.size(); ++i) {
-        std::vector< double > temp;
+        std::vector<double> temp;
         temp.push_back(selectMatrix[i]);
         if(temp.size() == 3) {
             select.push_back(temp);
@@ -617,7 +614,7 @@ List select_population_cpp(NumericVector v,
     std::vector<Fish> Pop = selectPopulation( pop,
                                               select,
                                               s,
-                                              pop_size,
+                                              population_size,
                                               run_time,
                                               morgan);
     if(writeToFile) {

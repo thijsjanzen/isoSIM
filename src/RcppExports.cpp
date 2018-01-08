@@ -17,8 +17,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_population_cpp
-List select_population_cpp(NumericVector v, NumericVector selectMatrix, double s, int population_size, int run_time, double morgan, int seed);
-RcppExport SEXP _isoSIM_select_population_cpp(SEXP vSEXP, SEXP selectMatrixSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP seedSEXP) {
+List select_population_cpp(NumericVector v, NumericVector selectMatrix, double s, int population_size, int run_time, double morgan, int seed, bool writeToFile);
+RcppExport SEXP _isoSIM_select_population_cpp(SEXP vSEXP, SEXP selectMatrixSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP writeToFileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -29,7 +29,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type run_time(run_timeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(select_population_cpp(v, selectMatrix, s, population_size, run_time, morgan, seed));
+    Rcpp::traits::input_parameter< bool >::type writeToFile(writeToFileSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_population_cpp(v, selectMatrix, s, population_size, run_time, morgan, seed, writeToFile));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -127,7 +128,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
-    {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 7},
+    {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 8},
     {"_isoSIM_calculate_summaryStats", (DL_FUNC) &_isoSIM_calculate_summaryStats, 2},
     {"_isoSIM_simulate_from_population", (DL_FUNC) &_isoSIM_simulate_from_population, 5},
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
