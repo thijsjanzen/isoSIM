@@ -873,7 +873,7 @@ std::vector< std::vector< double > > allele_spectrum(const std::vector<Fish>& v,
 }
 
 // [[Rcpp::export]]
-NumericMatrix calculate_allele_spectrum_cpp(NumericVector v,
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
@@ -918,8 +918,15 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v,
 
     std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
 
-    NumericVector output = wrap(x);
-    output.attr("dim") = Dimension(x.size(), 1);
+    NumericMatrix output(spectrum.size() * spectrum[0].size(), 2);
+    for(int i = 0; i < spectrum.size(); ++i) {
+        for(int j = 0; j < spectrum[i].size(); ++j) {
+            int index = i * spectrum[0].size() + j;
+            output(index, 1) = i;
+            output(index, 2) = spectrum[i][j];
+        }
+    }
+
     return output;
 }
 
