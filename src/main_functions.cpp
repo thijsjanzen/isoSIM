@@ -425,7 +425,10 @@ double calculate_fitness(const Fish& focal,
                          const std::vector< std::vector< double > >& select,
                          double s) {
 
-    double fitness = 2.0 * select[0][0];
+    Rcout << select.size() << "\t" << select[0].size() << "\n";
+    double fitness = 0.0;
+    if(1 == 2) {
+    fitness = 2.0 * select[0][0];
 
     for(int i = 0; i < select.size(); ++i) {
         double start = select[i][0];
@@ -449,7 +452,7 @@ double calculate_fitness(const Fish& focal,
     }
 
     fitness = fitness / 2.0;
-
+    }
     return fitness;
 }
 
@@ -470,11 +473,11 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     //for(auto it = Pop.begin(); it != Pop.end(); ++it){
     for (int i = 0; i < Pop.size(); ++i) {
-        Fish temp = Pop[i];
+        //Fish temp = Pop[i];
 
-        //double fit = calculate_fitness(Pop[i], select, s);
-      //  if(fit > maxFitness) maxFitness = fit;
-      //  fitness.push_back(fit);
+        double fit = calculate_fitness(Pop[i], select, s);
+        if(fit > maxFitness) maxFitness = fit;
+        fitness.push_back(fit);
     }
 
     if(1 == 2) {
