@@ -470,7 +470,9 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     //for(auto it = Pop.begin(); it != Pop.end(); ++it){
     for (int i = 0; i < Pop.size(); ++i) {
-        double fit = calculate_fitness(Pop[i], select, s);
+        Fish temp = Pop[i];
+
+        //double fit = calculate_fitness(Pop[i], select, s);
       //  if(fit > maxFitness) maxFitness = fit;
       //  fitness.push_back(fit);
     }
