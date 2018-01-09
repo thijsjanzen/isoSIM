@@ -645,7 +645,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
-            Rcout << v.size() << "\t" << v1.size() << "\t" << Pop.size() << "\n"; flush_console();
+           // Rcout << v.size() << "\t" << v1.size() << "\t" << Pop.size() << "\n"; flush_console();
         }
     }
 
@@ -665,7 +665,16 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp.clear();
         }
     }
-    Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
+
+    Rcout << "outputting select\n"; flush_console();
+    for(int i = 0; i < select.size(); ++i) {
+        for(int j = 0; j < select[i].size(); ++j) {
+            Rcout << select[i][j] << " "; flush_console();
+        }
+        Rcout << "\n"; flush_console();
+    }
+
+    //Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
     Rcout << "CPP: starting simulation\n"; flush_console();
 
