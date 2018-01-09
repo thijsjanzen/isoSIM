@@ -412,6 +412,8 @@ double assess_match(const std::vector<junction> chrom,
 
     double match = 0.0;
     if(block[0].left == ancestor) {
+        if(block[0].pos > end) return 1.0;
+
         match += (block[0].pos - start);
     }
     for(int i = 1; i < block.size(); ++i) {
@@ -427,9 +429,6 @@ double assess_match(const std::vector<junction> chrom,
     
     return(match);
 }
-
-
-
 
 double calculate_fitness(const Fish& focal,
                          const std::vector< std::vector< double > >& select,
