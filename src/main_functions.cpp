@@ -634,7 +634,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     Rcout << "CPP: loaded individuals\n"; flush_console();
 
-    if(1 == 2) {
+
     usleep(100);
 
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
@@ -649,7 +649,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-
+if(1 == 2) {
     Rcout << "CPP: starting simulation\n"; flush_console();
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,

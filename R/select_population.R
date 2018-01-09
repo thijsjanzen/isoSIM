@@ -17,8 +17,8 @@ select_population <- function(source_pop,
   
   #individuals <- unlist(t(source_pop))
   pop_for_cpp <- c()
-  #for (i in seq_along(source_pop)) {
-  for(i in 1:2) {
+  for (i in seq_along(source_pop)) {
+  #for(i in 1:2) {
     x <- source_pop[[i]]$chromosome1
     chrom1 <- as.vector(t(x))
     x <- source_pop[[i]]$chromosome2
