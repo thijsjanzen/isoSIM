@@ -666,10 +666,21 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
+    Rcout << "outputting selectMatrix\n"; flush_console();
+    Rcout << selectMatrix.size() << "\n";
+    for(int i = 0; i < selectMatrix.size(); ++i) {
+            Rcout << selectMatrix[i] << " ";
+    }
+    Rcout << "\n"; flush_console();
+
+
+
+
     Rcout << "outputting select\n"; flush_console();
+    Rcout << select.size() << "\n";
     for(int i = 0; i < select.size(); ++i) {
         for(int j = 0; j < select[i].size(); ++j) {
-            Rcout << select[i][j] << " "; flush_console();
+            Rcout << select[i][j] << " ";
         }
         Rcout << "\n"; flush_console();
     }
