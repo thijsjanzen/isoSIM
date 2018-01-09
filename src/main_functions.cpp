@@ -579,6 +579,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
     set_seed(seed);
     std::vector< Fish > pop;
 
+    usleep(100);
 
     Rcout << "CPP: converting population\n";
 
@@ -589,9 +590,12 @@ List select_population_cpp(Rcpp::NumericVector v1,
     int indic_chrom = 1;
     bool add_indiv = false;
 
+    usleep(100);
+
     for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
+        if(i+1 > v.size()) break;
         temp_j.right = v[i+1];
 
         if(indic_chrom == 1) {
@@ -614,9 +618,13 @@ List select_population_cpp(Rcpp::NumericVector v1,
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
+            Rcout << v.size() << "\t" << v1.size() << "\t" << pop.size() << "\n";
         }
     }
+
     Rcout << "CPP: loaded individuals\n";
+
+    usleep(100);
 
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
     Rcout << "CPP: converting select\n";
