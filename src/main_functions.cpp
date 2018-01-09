@@ -473,7 +473,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
-    Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
+   // Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
     if(1 == 2) {
     double maxFitness = -1;
@@ -665,7 +665,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp.clear();
         }
     }
-    Rcout << select.size() << "\t" << select[0].size() << "\n";
+ //   Rcout << select.size() << "\t" << select[0].size() << "\n";
     Rcout << "CPP: starting simulation\n"; flush_console();
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
