@@ -600,7 +600,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     usleep(100);
 
-    if(1 == 2) {
+
 
     for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
@@ -634,6 +634,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     Rcout << "CPP: loaded individuals\n"; flush_console();
 
+    if(1 == 2) {
     usleep(100);
 
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
