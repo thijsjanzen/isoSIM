@@ -464,6 +464,9 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
+
+    if(1 == 2) {
+
     double maxFitness = -1;
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
@@ -505,6 +508,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         if(t % updateFreq == 0) {
             Rcout << "**";
         }
+    }
+
     }
     return(Pop);
 }
