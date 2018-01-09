@@ -33,3 +33,7 @@ sim_inf_chrom <- function(pop_size, initial_heterozygosity, total_runtime, morga
     .Call('_isoSIM_sim_inf_chrom', PACKAGE = 'isoSIM', pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed)
 }
 
+calculate_allele_spectrum_cpp <- function(v, numFounders, step_size) {
+    .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v, numFounders, step_size)
+}
+

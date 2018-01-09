@@ -125,6 +125,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// calculate_allele_spectrum_cpp
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v, int numFounders, double step_size);
+RcppExport SEXP _isoSIM_calculate_allele_spectrum_cpp(SEXP vSEXP, SEXP numFoundersSEXP, SEXP step_sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
+    Rcpp::traits::input_parameter< int >::type numFounders(numFoundersSEXP);
+    Rcpp::traits::input_parameter< double >::type step_size(step_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(calculate_allele_spectrum_cpp(v, numFounders, step_size));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
@@ -135,6 +148,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
+    {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
     {NULL, NULL, 0}
 };
 

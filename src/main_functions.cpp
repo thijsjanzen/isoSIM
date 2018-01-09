@@ -416,14 +416,18 @@ double assess_match(const std::vector<junction> chrom,
     }
     for(int i = 1; i < block.size(); ++i) {
         double local_left = block[i-1].pos;
+        if(local_left > end) break;
+
         double local_right = block[i].pos;
         if(local_right > end) local_right = end;
 
         if(block[i].left == ancestor) match += (local_right - local_left);
     }
     match *= 1.0 / (end - start);
+    
     return(match);
 }
+
 
 
 
@@ -832,3 +836,98 @@ List sim_inf_chrom(int pop_size,
     return List::create(Named("avgJunctions") = O.avgJunct,
                         Named("detectedJunctions") = O.avg_detected_Junctions);
 }
+
+
+std::vector< std::vector< double > > allele_spectrum(const std::vector<Fish>& v,
+                                                     double step_size,
+                                                     int numAncestors) {
+
+    int numSteps = 1.0 / step_size;
+
+    std::vector< std::vector< double > > spectrum;
+
+    for(int i = 0; i < numAncestors; ++i) {
+        std::vector< double > temp(numSteps + 1, 0.0);
+        spectrum.push_back(temp);
+    }
+
+    double left = 0.0;
+    double right = step_size;
+    double correction = 1.0 / (2.0 * v.size());
+    for(int i = 0; i < numSteps; ++i) {
+
+        for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
+
+            for(auto it = v.begin(); it != v.end(); ++it) {
+                double a = assess_match((*it).chromosome1, left, right, ancestor);
+                double b = assess_match((*it).chromosome2, left, right, ancestor);
+
+                spectrum[ancestor][i] += (a+b) * correction;
+            }
+        }
+        left = right;
+        right += step_size;
+    }
+    
+    return spectrum;
+}
+
+// [[Rcpp::export]]
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v,
+                                            int numFounders,
+                                            double step_size)
+{
+    set_seed(seed);
+    std::vector< Fish > Pop;
+
+    std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
+
+    Fish temp;
+    int indic_chrom = 1;
+    bool add_indiv = false;
+
+    for(int i = 0; i < (v.size() - 1); i += 2) {
+        junction temp_j;
+        temp_j.pos = v[i];
+        if(i+1 > v.size()) break;
+        temp_j.right = v[i+1];
+
+        if(indic_chrom == 1) {
+            temp.chromosome1.push_back(temp_j);
+        } else {
+            temp.chromosome2.push_back(temp_j);
+        }
+
+        if(temp_j.right == -1) {
+            if(indic_chrom == 1) {
+                indic_chrom = 2;
+            } else {
+                add_indiv = true;
+            }
+        }
+
+        if(add_indiv) {
+            Pop.push_back(temp);
+            add_indiv = false;
+            indic_chrom = 1;
+            temp.chromosome1.clear();
+            temp.chromosome2.clear();
+            // Rcout << v.size() << "\t" << v1.size() << "\t" << Pop.size() << "\n"; flush_console();
+        }
+    }
+
+    std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
+
+    NumericVector output = wrap(x);
+    output.attr("dim") = Dimension(x.size(), 1);
+    return output;
+}
+
+
+
+
+
+
+
+
+
