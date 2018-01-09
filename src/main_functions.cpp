@@ -26,6 +26,12 @@
 using namespace Rcpp;
 
 
+void flush_console() {
+    R_FlushConsole();
+    R_ProcessEvents();
+    R_CheckUserInterrupt();
+
+}
 
 
 
@@ -422,7 +428,7 @@ double assess_match(const std::vector<junction> chrom,
 
 
 double calculate_fitness(const Fish& focal,
-                         const std::vector< std::vector< double > >& select,
+                         std::vector< std::vector< double > > select,
                          double s) {
 
     Rcout << select.size() << "\t" << select[0].size() << "\n";
@@ -467,7 +473,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
-
+    Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
     double maxFitness = -1;
 
@@ -581,12 +587,6 @@ double calc_heterozygosity_cpp(NumericVector v) {
     return(heterozygosity);
 }
 
-void flush_console() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-
-}
 
 
 // [[Rcpp::export]]
