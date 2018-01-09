@@ -465,15 +465,20 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
 
-  if(1 == 2) {
 
     double maxFitness = -1;
-    for(auto it = Pop.begin(); it != Pop.end(); ++it){
-        double fit = calculate_fitness((*it), select, s);
+
+    //for(auto it = Pop.begin(); it != Pop.end(); ++it){
+    for (int i = 0; i < Pop.size(); ++i) {
+        double fit = calculate_fitness(Pop[i], select, s);
         if(fit > maxFitness) maxFitness = fit;
         fitness.push_back(fit);
     }
-        Rcout << "0--------25--------50--------75--------100\n";
+
+    if(1 == 2) {
+
+
+    Rcout << "0--------25--------50--------75--------100\n";
     Rcout << "*";
 
     int updateFreq = maxTime / 20;
