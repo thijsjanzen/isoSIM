@@ -602,7 +602,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     if(1 == 2) {
 
-
     for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
@@ -624,12 +623,12 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
 
         if(add_indiv) {
-            pop.push_back(temp);
+            Pop.push_back(temp);
             add_indiv = false;
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
-            Rcout << v.size() << "\t" << v1.size() << "\t" << pop.size() << "\n"; flush_console();
+            Rcout << v.size() << "\t" << v1.size() << "\t" << Pop.size() << "\n"; flush_console();
         }
     }
 
@@ -651,14 +650,14 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
 
     Rcout << "CPP: starting simulation\n"; flush_console();
-    std::vector<Fish> Pop = selectPopulation( pop,
+    std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
                                               s,
                                               population_size,
                                               run_time,
                                               morgan);
     if(writeToFile) {
-        writePoptoFile(Pop, "population_1.pop");
+        writePoptoFile(outputPop, "population_1.pop");
     }
     }
 
