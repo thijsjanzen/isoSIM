@@ -657,8 +657,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
     Rcout << "CPP: converting select\n";
     std::vector< std::vector< double > > select;
+    std::vector<double> temp;
     for(int i = 0; i < selectMatrix.size(); ++i) {
-        std::vector<double> temp;
         temp.push_back(selectMatrix[i]);
         if(temp.size() == 3) {
             select.push_back(temp);
