@@ -859,8 +859,8 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
                 double freq =  (a+b) * correction;
 
                 int index = ancestor * numSteps + i;
-                spectrum(index, 0) += right;
-                spectrum(index, 1) += ancestor;
+                spectrum(index, 0) = right;
+                spectrum(index, 1) = ancestor;
                 spectrum(index, 2) += freq;
             }
         }
