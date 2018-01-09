@@ -77,6 +77,12 @@ struct Fish {
         chromosome2 = B;
     }
 
+    Fish& operator=(const Fish& other) {
+        chromosome1 = other.chromosome1;
+        chromosome2 = other.chromosome2;
+        return *this;
+    }
+
     bool operator ==(const Fish& other) const {
         if(chromosome1.size() != other.chromosome1.size()) return false;
         if(chromosome2.size() != other.chromosome2.size()) return false;

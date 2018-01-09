@@ -657,10 +657,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                               run_time,
                                               morgan);
 
-    if(1 == 2) {
-        if(writeToFile) {
-            writePoptoFile(outputPop, "population_1.pop");
-        }
+    if(writeToFile) {
+       writePoptoFile(outputPop, "population_1.pop");
     }
 
     Rcout << "CPP: Done\n"; flush_console();
