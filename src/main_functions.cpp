@@ -917,10 +917,11 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
 
     std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
 
-    NumericMatrix output(spectrum.size() * spectrum[0].size(), 2);
+    NumericMatrix output(spectrum.size() * spectrum[0].size(), 3);
     for(int i = 0; i < spectrum.size(); ++i) {
         for(int j = 0; j < spectrum[i].size(); ++j) {
             int index = i * spectrum[0].size() + j;
+            output(index, 0) = j * step_size;
             output(index, 1) = i;
             output(index, 2) = spectrum[i][j];
         }
