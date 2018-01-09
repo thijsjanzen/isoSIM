@@ -428,13 +428,13 @@ double assess_match(const std::vector<junction> chrom,
 
 
 double calculate_fitness(const Fish& focal,
-                         std::vector< std::vector< double > > select,
+                         const std::vector< std::vector< double > >& select,
                          double s) {
 
-    Rcout << select.size() << "\t" << select[0].size() << "\n";
-    double fitness = 0.0;
-    if(1 == 2) {
-    fitness = 2.0 * select[0][0];
+   // Rcout << select.size() << "\t" << select[0].size() << "\n";
+   // double fitness = 1.0;
+   // if(1 == 2) {
+    double fitness = 2.0 * select[0][0];
 
     for(int i = 0; i < select.size(); ++i) {
         double start = select[i][0];
@@ -458,7 +458,7 @@ double calculate_fitness(const Fish& focal,
     }
 
     fitness = fitness / 2.0;
-    }
+   // }
     return fitness;
 }
 
@@ -475,6 +475,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<double> fitness;
     Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
+    if(1 == 2) {
     double maxFitness = -1;
 
     //for(auto it = Pop.begin(); it != Pop.end(); ++it){
@@ -486,7 +487,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         fitness.push_back(fit);
     }
 
-    if(1 == 2) {
+
 
 
     Rcout << "0--------25--------50--------75--------100\n";
@@ -655,7 +656,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
     Rcout << "CPP: converting select\n";
-    std::vector<std::vector<double>> select;
+    std::vector< std::vector< double > > select;
     for(int i = 0; i < selectMatrix.size(); ++i) {
         std::vector<double> temp;
         temp.push_back(selectMatrix[i]);
@@ -664,7 +665,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp.clear();
         }
     }
-
+    Rcout << select.size() << "\t" << select[0].size() << "\n";
     Rcout << "CPP: starting simulation\n"; flush_console();
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
