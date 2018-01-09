@@ -666,13 +666,17 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
  //   Rcout << select.size() << "\t" << select[0].size() << "\n";
+
     Rcout << "CPP: starting simulation\n"; flush_console();
+
+    if( 1 == 2) {
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
                                               s,
                                               population_size,
                                               run_time,
                                               morgan);
+    }
 
     if(writeToFile) {
        writePoptoFile(outputPop, "population_1.pop");
