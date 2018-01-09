@@ -17,7 +17,7 @@ test_that("select on population", {
 #  require("debug")
  # mtrace(select_population_cpp)
   
-  selected_pop <- select_population(sourcepop, selectMatrix,
+  selected_pop <- isoSIM::select_population(sourcepop, selectMatrix,
                                     selection = 0.1,
                                     pop_size = 100,
                                     total_runtime = 100,
@@ -38,7 +38,14 @@ test_that("select on population", {
     morgan = 1
     seed = 1234
     write_to_file = FALSE
+  
     
+    v1 <- pop_for_cpp
+    selectM <- select
+    population_size <- pop_size
+    run_time <- total_runtime
+    writeToFile <- write_to_file
+    #selectM, s, population_size, run_time, morgan, seed, writeToFile  
   }
   
   

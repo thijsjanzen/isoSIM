@@ -600,6 +600,9 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     usleep(100);
 
+    if(1 == 2) {
+
+
     for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
@@ -656,6 +659,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                               morgan);
     if(writeToFile) {
         writePoptoFile(Pop, "population_1.pop");
+    }
     }
 
     Rcout << "CPP: Done\n"; flush_console();
