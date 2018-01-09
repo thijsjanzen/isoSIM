@@ -649,7 +649,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-if(1 == 2) {
     Rcout << "CPP: starting simulation\n"; flush_console();
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
@@ -657,9 +656,11 @@ if(1 == 2) {
                                               population_size,
                                               run_time,
                                               morgan);
-    if(writeToFile) {
-        writePoptoFile(outputPop, "population_1.pop");
-    }
+
+    if(1 == 2) {
+        if(writeToFile) {
+            writePoptoFile(outputPop, "population_1.pop");
+        }
     }
 
     Rcout << "CPP: Done\n"; flush_console();
