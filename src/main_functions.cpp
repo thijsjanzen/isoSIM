@@ -16,6 +16,8 @@
 #include <vector>
 #include <algorithm>
 
+#include <unistd.h> //for sleep
+
 #include "randomc.h"
 #include "Fish.h"
 #include "Output.h"
@@ -573,15 +575,21 @@ List select_population_cpp(Rcpp::NumericVector v1,
                        int seed,
                        bool writeToFile) {
 
+    Rcout << "CPP: start\n";
     set_seed(seed);
     std::vector< Fish > pop;
-    Fish temp;
-    int indic_chrom = 1;
-    bool add_indiv = false;
+
 
     Rcout << "CPP: converting population\n";
 
+    std::usleep(10);
+
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
+    Rcout << "CPP: RCPP vector conversion done\n";
+
+    Fish temp;
+    int indic_chrom = 1;
+    bool add_indiv = false;
 
     for(int i = 0; i < v.size(); i += 2) {
         junction temp_j;
@@ -610,6 +618,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp.chromosome2.clear();
         }
     }
+    Rcout << "CPP: loaded individuals\n";
 
     std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
     Rcout << "CPP: converting select\n";
