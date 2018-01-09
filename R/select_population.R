@@ -34,6 +34,8 @@ select_population <- function(source_pop,
   Sys.sleep(1)
   
   cat("R: passing on to CPP\n")
+  
+  
   selected_pop <- isoSIM::select_population_cpp(pop_for_cpp,
                                         select,
                                         selection,

@@ -582,8 +582,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     Rcout << "CPP: converting population\n";
 
-    usleep(10);
-
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
     Rcout << "CPP: RCPP vector conversion done\n";
 
@@ -591,7 +589,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
     int indic_chrom = 1;
     bool add_indiv = false;
 
-    for(int i = 0; i < v.size(); i += 2) {
+    for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
         temp_j.right = v[i+1];
