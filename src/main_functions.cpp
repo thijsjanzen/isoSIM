@@ -564,8 +564,8 @@ double calc_heterozygosity_cpp(NumericVector v) {
 }
 
 // [[Rcpp::export]]
-List select_population_cpp(NumericVector v,
-                       NumericVector selectMatrix,
+List select_population_cpp(NumericVector v1,
+                       Rcpp::NumericMatrix selectM,
                        double s,
                        int population_size,
                        int run_time,
@@ -580,6 +580,8 @@ List select_population_cpp(NumericVector v,
     bool add_indiv = false;
 
     Rcout << "CPP: converting population\n";
+
+    std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
 
     for(int i = 0; i < v.size(); i += 2) {
         junction temp_j;
@@ -609,6 +611,7 @@ List select_population_cpp(NumericVector v,
         }
     }
 
+    std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
     Rcout << "CPP: converting select\n";
     std::vector<std::vector<double>> select;
     for(int i = 0; i < selectMatrix.size(); ++i) {
