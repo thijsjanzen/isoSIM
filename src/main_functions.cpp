@@ -564,8 +564,8 @@ double calc_heterozygosity_cpp(NumericVector v) {
 }
 
 // [[Rcpp::export]]
-List select_population_cpp(NumericVector v1,
-                       Rcpp::NumericMatrix selectM,
+List select_population_cpp(Rcpp::NumericVector v1,
+                       Rcpp::NumericVector selectM,
                        double s,
                        int population_size,
                        int run_time,
