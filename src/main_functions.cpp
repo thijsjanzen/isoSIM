@@ -838,18 +838,13 @@ List sim_inf_chrom(int pop_size,
 }
 
 
-std::vector< std::vector< double > > allele_spectrum(const std::vector<Fish>& v,
+NumericMatrix allele_spectrum(const std::vector<Fish>& v,
                                                      double step_size,
                                                      int numAncestors) {
 
     int numSteps = 1.0 / step_size;
 
-    std::vector< std::vector< double > > spectrum;
-
-    for(int i = 0; i < numAncestors; ++i) {
-        std::vector< double > temp(numSteps + 1, 0.0);
-        spectrum.push_back(temp);
-    }
+    NumericMatrix spectrum(numSteps * numAncestors, 3);
 
     double left = 0.0;
     double right = step_size;
@@ -862,7 +857,12 @@ std::vector< std::vector< double > > allele_spectrum(const std::vector<Fish>& v,
                 double a = assess_match((*it).chromosome1, left, right, ancestor);
                 double b = assess_match((*it).chromosome2, left, right, ancestor);
 
-                spectrum[ancestor][i] += (a+b) * correction;
+                double freq =  (a+b) * correction;
+
+                int index = ancestor * numSteps + i;
+                spectrum(index, 0) = right;
+                spectrum(index, 1) = ancestor;
+                spectrum(index, 2) = freq;
             }
         }
         left = right;
@@ -915,19 +915,21 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
         }
     }
 
-    std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
+    //std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
 
-    NumericMatrix output(spectrum.size() * spectrum[0].size(), 3);
-    for(int i = 0; i < spectrum.size(); ++i) {
-        for(int j = 0; j < spectrum[i].size(); ++j) {
-            int index = i * spectrum[0].size() + j;
-            output(index, 0) = j * step_size;
-            output(index, 1) = i;
-            output(index, 2) = spectrum[i][j];
-        }
-    }
+    //NumericMatrix output(spectrum.size() * spectrum[0].size(), 3);
+    //for(int i = 0; i < spectrum.size(); ++i) {
+    //    for(int j = 0; j < spectrum[i].size(); ++j) {
+    //        int index = i * spectrum[0].size() + j;
+    //        output(index, 0) = j * step_size;
+    //        output(index, 1) = i;
+    //        output(index, 2) = spectrum[i][j];
+    //    }
+    //}
 
-    return output;
+
+
+    return allele_spectrum(Pop, step_size, numFounders);
 }
 
 

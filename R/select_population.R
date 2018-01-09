@@ -52,9 +52,9 @@ calculate_allele_frequencies <- function(source_pop,
                                                            number_of_founders,
                                                            step_size)
   
-  output <- as.data.frame("location" = frequency_table[,1],
-                          "ancestor" = frequency_table[,2],
-                          "frequency" = frequency_table[,3])
+  require(tibble)
+  output <- as.tibble(frequency_table)
+  colnames(output) <- c("location", "ancestor", "frequency")
   
   return(output)
 }

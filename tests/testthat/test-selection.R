@@ -51,6 +51,10 @@ test_that("allele frequencies", {
                                                    number_of_founders = 10,
                                                    step_size = 0.01)
   
+  require(ggplot2)
+  ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
+    geom_line()
+  
 }
   
 
