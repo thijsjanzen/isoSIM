@@ -585,7 +585,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     Rcout << "CPP: start\n"; flush_console();
     set_seed(seed);
-    std::vector< Fish > pop;
+    std::vector< Fish > Pop;
 
     usleep(100);
 
