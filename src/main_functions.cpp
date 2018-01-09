@@ -582,7 +582,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     Rcout << "CPP: converting population\n";
 
-    std::usleep(10);
+    usleep(10);
 
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
     Rcout << "CPP: RCPP vector conversion done\n";
