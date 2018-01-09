@@ -31,10 +31,11 @@ select_population <- function(source_pop,
   #then selectMatrix to vector
   select <- as.vector(t(selectMatrix))
   
-  Sys.sleep(1)
+  
   
   cat("R: passing on to CPP\n")
   
+  Sys.sleep(1)
   
   selected_pop <- isoSIM::select_population_cpp(pop_for_cpp,
                                         select,

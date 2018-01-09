@@ -565,6 +565,14 @@ double calc_heterozygosity_cpp(NumericVector v) {
     return(heterozygosity);
 }
 
+void flush_console() {
+    R_FlushConsole();
+    R_ProcessEvents();
+    R_CheckUserInterrupt();
+
+}
+
+
 // [[Rcpp::export]]
 List select_population_cpp(Rcpp::NumericVector v1,
                        Rcpp::NumericVector selectM,
@@ -575,16 +583,16 @@ List select_population_cpp(Rcpp::NumericVector v1,
                        int seed,
                        bool writeToFile) {
 
-    Rcout << "CPP: start\n";
+    Rcout << "CPP: start\n"; flush_console();
     set_seed(seed);
     std::vector< Fish > pop;
 
     usleep(100);
 
-    Rcout << "CPP: converting population\n";
+    Rcout << "CPP: converting population\n"; flush_console();
 
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
-    Rcout << "CPP: RCPP vector conversion done\n";
+    Rcout << "CPP: RCPP vector conversion done\n"; flush_console();
 
     Fish temp;
     int indic_chrom = 1;
@@ -618,11 +626,11 @@ List select_population_cpp(Rcpp::NumericVector v1,
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
-            Rcout << v.size() << "\t" << v1.size() << "\t" << pop.size() << "\n";
+            Rcout << v.size() << "\t" << v1.size() << "\t" << pop.size() << "\n"; flush_console();
         }
     }
 
-    Rcout << "CPP: loaded individuals\n";
+    Rcout << "CPP: loaded individuals\n"; flush_console();
 
     usleep(100);
 
@@ -639,7 +647,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
     }
 
 
-    Rcout << "CPP: starting simulation\n";
+    Rcout << "CPP: starting simulation\n"; flush_console();
     std::vector<Fish> Pop = selectPopulation( pop,
                                               select,
                                               s,
@@ -650,7 +658,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         writePoptoFile(Pop, "population_1.pop");
     }
 
-    Rcout << "CPP: Done\n";
+    Rcout << "CPP: Done\n"; flush_console();
     return List::create( Named("population") = createPopVector(Pop) );
 }
 
