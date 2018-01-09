@@ -877,7 +877,6 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
-    set_seed(seed);
     std::vector< Fish > Pop;
 
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
