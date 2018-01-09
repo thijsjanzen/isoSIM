@@ -633,7 +633,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-    std::vector<Fish> outputPop = selectPopulation( Pop,
+    std::vector<Fish> outputPop = selectPopulation(Pop,
                                               select,
                                               s,
                                               population_size,
