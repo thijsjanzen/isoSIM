@@ -665,7 +665,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp.clear();
         }
     }
- //   Rcout << select.size() << "\t" << select[0].size() << "\n";
+    Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
     Rcout << "CPP: starting simulation\n"; flush_console();
 
