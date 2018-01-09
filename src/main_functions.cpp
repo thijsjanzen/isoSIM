@@ -473,15 +473,10 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
-   // Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
-
-    if(1 == 2) {
     double maxFitness = -1;
 
     //for(auto it = Pop.begin(); it != Pop.end(); ++it){
     for (int i = 0; i < Pop.size(); ++i) {
-        //Fish temp = Pop[i];
-
         double fit = calculate_fitness(Pop[i], select, s);
         if(fit > maxFitness) maxFitness = fit;
         fitness.push_back(fit);
@@ -528,7 +523,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         }
     }
 
-    }
     return(Pop);
 }
 
@@ -666,16 +660,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-    Rcout << "outputting selectMatrix\n"; flush_console();
-    Rcout << selectMatrix.size() << "\n";
-    for(int i = 0; i < selectMatrix.size(); ++i) {
-            Rcout << selectMatrix[i] << " ";
-    }
-    Rcout << "\n"; flush_console();
-
-
-
-
     Rcout << "outputting select\n"; flush_console();
     Rcout << select.size() << "\n";
     for(int i = 0; i < select.size(); ++i) {
@@ -685,11 +669,9 @@ List select_population_cpp(Rcpp::NumericVector v1,
         Rcout << "\n"; flush_console();
     }
 
-    //Rcout << select.size() << "\t" << select[0].size() << "\n"; flush_console();
 
     Rcout << "CPP: starting simulation\n"; flush_console();
 
-    if( 1 == 2) {
     std::vector<Fish> outputPop = selectPopulation( Pop,
                                               select,
                                               s,
@@ -700,7 +682,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     if(writeToFile) {
        writePoptoFile(outputPop, "population_1.pop");
-    }
     }
 
     Rcout << "CPP: Done\n"; flush_console();
