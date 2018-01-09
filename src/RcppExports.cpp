@@ -17,13 +17,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_population_cpp
-List select_population_cpp(NumericVector v1, Rcpp::NumericMatrix selectM, double s, int population_size, int run_time, double morgan, int seed, bool writeToFile);
+List select_population_cpp(Rcpp::NumericVector v1, Rcpp::NumericVector selectM, double s, int population_size, int run_time, double morgan, int seed, bool writeToFile);
 RcppExport SEXP _isoSIM_select_population_cpp(SEXP v1SEXP, SEXP selectMSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP writeToFileSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type v1(v1SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type selectM(selectMSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type v1(v1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type selectM(selectMSEXP);
     Rcpp::traits::input_parameter< double >::type s(sSEXP);
     Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type run_time(run_timeSEXP);
