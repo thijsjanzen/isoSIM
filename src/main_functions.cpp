@@ -465,7 +465,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
 
-
+  if(1 == 2) {
 
     double maxFitness = -1;
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
@@ -478,9 +478,9 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
-    if(1 == 2) {
 
-        
+
+
     for(int t = 0; t < maxTime; ++t) {
 
         std::vector<Fish> newGeneration;
