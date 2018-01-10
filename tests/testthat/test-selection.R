@@ -49,7 +49,7 @@ test_that("allele frequencies", {
   
   freq_output <- calculate_allele_frequencies(selected_pop, 
                                                    number_of_founders = 2,
-                                                   step_size = 0.01)
+                                                   step_size = 0.25)
   
   require(ggplot2)
   ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +

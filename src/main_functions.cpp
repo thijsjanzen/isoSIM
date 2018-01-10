@@ -388,56 +388,51 @@ double assess_match(const std::vector<junction>& chrom,
                     int ancestor) {
 
     std::vector< junction > block;
-    bool first_one = true;
+
     for(int i = 0; i < chrom.size(); ++i) {
-        if(chrom[i].pos > start) {
-            if(chrom[i].pos > end) {
-                if(first_one) {
-                    block.push_back(chrom[i]);
-                    first_one = false;
-                } else {
-                    break;
-                }
+        if(chrom[i].pos > end) { // stop after block
+            break;
+        } else {
+            if(chrom[i].pos > start) {
+                block.push_back(chrom[i]); //junctions within the block should be stored
             } else {
-                block.push_back(chrom[i]);
+                if(i+1 < chrom.size()) {
+                    if(chrom[i+1].pos > start) { //one junction before the end as well.
+                        block.push_back(chrom[i]);
+                    }
+                }
             }
         }
     }
 
     if(block.size() == 1) {
-        if(block[0].left == ancestor) {
+        if(block[0].right == ancestor) {
             return 1.0;
         } else {
             return 0.0;
         }
     }
 
+
     double match = 0.0;
-    if(block[0].left == ancestor) {
-        if(block[0].pos > end) {
-            return 1.0;
-        } else {
-            match += (block[0].pos - start);
+
+    for(int i = 0; i < block.size(); ++i) {
+        if(block[i].right == ancestor) {
+
+            double local_right = end;
+            if(i+1 < block.size()) {
+                local_right = block[i+1].pos;
+            }
+
+            double local_left = block[i].pos;
+            if(local_left < start) local_left = start;
+
+            match += local_right - local_left;
         }
     }
 
-    for(int i = 1; i < block.size(); ++i) {
-        double local_left = block[i-1].pos;
-        if(local_left > end) break;
-
-        double local_right = block[i].pos;
-        if(local_right > end) local_right = end;
-
-        if(block[i].left == ancestor) match += (local_right - local_left);
-
-        Rcout << local_left << "\t" << local_right << "\t" << block[i].left << "\t" << ancestor << "\n";
-    }
-
     match *= 1.0 / (end - start);
-
-    //Rcout << start << "\t" << end << "\t" << block.size() << "\t" << match << "\n";
-
-
+    
     return(match);
 }
 
