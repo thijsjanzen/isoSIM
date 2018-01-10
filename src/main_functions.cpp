@@ -859,7 +859,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     for(int i = 0; i < numSteps; ++i) {
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
             double local_freq = 0.0;
-            Rcout << left << "\t" << right << "\t" << ancestor << "\n";
             for(auto it = v.begin(); it != v.end(); ++it) {
 
                 double a = assess_match( (*it).chromosome1, left, right, ancestor);
@@ -867,16 +866,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
                 double freq =  (a+b);
 
-                if(freq > 0) {
-                    Rcout << right << "\t" << ancestor << "\t" << freq << "\n"; flush_console();
-                }
-
-                if(a != 0) {
-                    Rcout << right << "\t" << ancestor << "\t" << a << "\n"; flush_console();
-                }
-                if(b != 0) {
-                    Rcout << right << "\t" << ancestor << "\t" << b << "\n"; flush_console();
-                }
                 local_freq += freq;
             }
             int index = ancestor * numSteps + i;
@@ -936,10 +925,10 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
 
     NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
 
-    double maxFreq = Rcpp::max(output( _ , 2));
-    double maxPos = Rcpp::max(output( _, 1));
+  //  double maxFreq = Rcpp::max(output( _ , 2));
+  //  double maxPos = Rcpp::max(output( _, 1));
 
-    Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
+   // Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
 
     return output;
 }
