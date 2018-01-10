@@ -845,7 +845,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     NumericMatrix spectrum(numSteps * numAncestors, 3);
 
-    Rcout << Rcpp::nrow(spectrum) << "\t" << Rcpp::ncol(spectrum) << "\t" << numSteps * numAncestors << "\t" << 3 << "\n";
+   // Rcout << Rcpp::nrow(spectrum) << "\t" << Rcpp::ncol(spectrum) << "\t" << numSteps * numAncestors << "\t" << 3 << "\n";
 
     double left = 0.0;
     double right = step_size;
@@ -855,8 +855,9 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
             double local_freq = 0.0;
 
             for(auto it = v.begin(); it != v.end(); ++it) {
-                double a = assess_match((*it).chromosome1, left, right, ancestor);
-                double b = assess_match((*it).chromosome2, left, right, ancestor);
+
+                double a = assess_match( (*it).chromosome1, left, right, ancestor);
+                double b = assess_match( (*it).chromosome2, left, right, ancestor);
 
                 double freq =  (a+b);
 
