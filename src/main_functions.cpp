@@ -375,7 +375,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
 
     if(maxFitness < 0.0) {
         Rcout << "Cannot draw fitness if maxFitness < 0, terminating";
-        exit(0);
+        return(-1);
     }
 
     for(int i = 0; i < 1e6; ++i) {
@@ -447,7 +447,8 @@ double calculate_fitness(const Fish& focal,
                          const std::vector< std::vector< double > >& select,
                          double s) {
 
-    double fitness = 2.0 * select[0][0];
+   // double fitness = 2.0 * select[0][0];
+    double fitness = 2.0;
 
     for(int i = 0; i < select.size(); ++i) {
         double start = select[i][0];
@@ -457,13 +458,13 @@ double calculate_fitness(const Fish& focal,
         double a1 = assess_match(focal.chromosome1, start, end, ancestor);
         double a2 = assess_match(focal.chromosome2, start, end, ancestor);
 
-        fitness += (end - start) * (2 + s * (a1 + a2));
+        fitness += (end - start) * (s * (a1 + a2));
 
-        double nextStart = 1.0;
-        if((i+1) < select.size()) {
-            nextStart = select[i+1][0];
-        }
-        fitness += 2.0 * (nextStart - end);
+       // double nextStart = 1.0;
+       // if((i+1) < select.size()) {
+       //     nextStart = select[i+1][0];
+       // }
+       // fitness += 2.0 * (nextStart - end);
     }
 
     fitness = fitness / 2.0;
