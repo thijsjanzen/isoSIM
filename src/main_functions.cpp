@@ -652,12 +652,12 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-    for(int i = 0; i < select.size(); ++i){
-        for(int j = 0; j < 3; ++j) {
-            Rcout << select[i][j] << " "; flush_console();
-        }
-        Rcout << "\n"; flush_console();
-    }
+    //for(int i = 0; i < select.size(); ++i){
+    //    for(int j = 0; j < 3; ++j) {
+    //        Rcout << select[i][j] << " "; flush_console();
+    //    }
+    //    Rcout << "\n"; flush_console();
+   // }
 
 
 

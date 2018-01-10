@@ -28,6 +28,8 @@ test_that("select on population", {
 
 test_that("allele frequencies", {
   
+  require(dplyr)
+  
   sourcepop =  isoSIM::create_full_population(pop_size = 100, 
                                               number_of_founders = 2,
                                               total_runtime = 100, 
@@ -41,8 +43,8 @@ test_that("allele frequencies", {
   
   selected_pop <- isoSIM::select_population(sourcepop, selectMatrix,
                                             selection = 5,
-                                            pop_size = 100,
-                                            total_runtime = 10000,
+                                            pop_size = 1000,
+                                            total_runtime = 1000,
                                             morgan = 1,
                                             seed = 1234,
                                             write_to_file = FALSE)
@@ -51,96 +53,98 @@ test_that("allele frequencies", {
                                                    number_of_founders = 2,
                                                    step_size = 0.01)
   
-  require(ggplot2)
-  ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
-    geom_line() + 
-    ylim(c(0,1))
+  #require(ggplot2)
+  #ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
+  #  geom_line() + 
+  #  ylim(c(0,1))
   
   a <- subset(freq_output, freq_output$location < 0.5)
   b <- a %>%
         group_by(as.factor(ancestor)) %>%
         summarise("mean_freq" = mean(frequency))
   
+  testthat::expect_equal(b$mean_freq[[1]], 1.0, tolerance = 0.05)
+  
+  
   a <- subset(freq_output, freq_output$location > 0.5)
   b <- a %>%
     group_by(as.factor(ancestor)) %>%
     summarise("mean_freq" = mean(frequency))
+  testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.05)
   
   
+  number_founders <- 20
   sourcepop =  isoSIM::create_full_population(pop_size = 10000, 
-                                              number_of_founders = 20,
+                                              number_of_founders = number_founders,
                                               total_runtime = 1, 
                                               morgan = 1, 
                                               seed = 123, 
                                               write_to_file = FALSE)
+  
   freq_output <- calculate_allele_frequencies(sourcepop, 
-                                              number_of_founders = 20,
+                                              number_of_founders = number_founders,
                                               step_size = 0.01)
-  require(dplyr)
+ 
   
   b <- freq_output %>%
     group_by(as.factor(ancestor)) %>%
     summarise("mean_freq" = mean(frequency))
   
-  testthat::expect_equal(mean(b$mean_freq), 1/20, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
   
+  number_founders <- 5
   sourcepop =  isoSIM::create_full_population(pop_size = 1000, 
-                                              number_of_founders = 5,
+                                              number_of_founders = number_founders,
                                               total_runtime = 1000, 
                                               morgan = 1, 
                                               seed = 123, 
                                               write_to_file = FALSE)
   freq_output <- calculate_allele_frequencies(sourcepop, 
-                                              number_of_founders = 5,
+                                              number_of_founders = number_founders,
                                               step_size = 0.01)
   b <- freq_output %>%
     group_by(as.factor(ancestor)) %>%
     summarise("mean_freq" = mean(frequency))
   
-  testthat::expect_equal(mean(b$mean_freq), 1/5, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
   
   
   
-  
+  number_founders <- 20
   sourcepop =  isoSIM::create_full_population(pop_size = 1000, 
-                                              number_of_founders = 20,
+                                              number_of_founders = number_founders,
                                               total_runtime = 1, 
                                               morgan = 1, 
                                               seed = 123, 
                                               write_to_file = FALSE)
   
   selectMatrix = matrix(ncol=3, nrow = 1)
-  selectMatrix[1,] = c(0.45, 0.55, 1)
   
+  under_selection <- 1
+  
+  selectMatrix[1,] = c(0.2, 0.4, under_selection)
+ 
   selected_pop <- isoSIM::select_population(sourcepop, selectMatrix,
-                                            selection = 100,
-                                            pop_size = 25,
-                                            total_runtime = 100000,
+                                            selection = 2,
+                                            pop_size = 100,
+                                            total_runtime = 1000,
                                             morgan = 1,
-                                            seed = 1234,
+                                            seed = 12345,
                                             write_to_file = FALSE)
   
-  freq_output_selected <- isoSIM::calculate_allele_frequencies(selected_pop, 
-                                              number_of_founders = 20,
-                                              step_size = 0.01)
+  freq_output <- calculate_allele_frequencies(selected_pop, 
+                                              number_of_founders = number_founders,
+                                              step_size = 0.001)
   
-  freq_output_before <- isoSIM::calculate_allele_frequencies(sourcepop, 
-                                                               number_of_founders = 20,
-                                                               step_size = 0.01)
+  #ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
+  #  geom_line()
   
-  require(ggplot2)
-  p2 <- ggplot(freq_output_selected, aes(x = location, y = frequency, col = as.factor(ancestor))) +
-    geom_line() + 
-    ylim(c(0,1))
-  
-  p1 <- ggplot(freq_output_before, aes(x = location, y = frequency, col = as.factor(ancestor))) +
-    geom_line() + 
-    ylim(c(0,1))
-  
-  require(gridExtra)
-  gridExtra::grid.arrange(p1, p2, ncol = 2)
-  
-  
+  a <- subset(freq_output, location > 0.2 & location < 0.4)
+  b <- a %>%
+       group_by(as.factor(ancestor)) %>%
+       summarise("mean_freq" = mean(frequency))
+  v <- which.max(b$mean_freq)
+  testthat::expect_equal(v , under_selection + 1) #returns ancestor + 1
   
   
 })
