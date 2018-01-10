@@ -429,11 +429,13 @@ double assess_match(const std::vector<junction>& chrom,
         if(local_right > end) local_right = end;
 
         if(block[i].left == ancestor) match += (local_right - local_left);
+
+        Rcout << local_left << "\t" << local_right << "\t" << block[i].left << "\t" << ancestor << "\n";
     }
 
     match *= 1.0 / (end - start);
 
-    Rcout << start << "\t" << end << "\t" << block.size() << "\t" << match << "\n";
+    //Rcout << start << "\t" << end << "\t" << block.size() << "\t" << match << "\n";
 
 
     return(match);
@@ -862,7 +864,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     for(int i = 0; i < numSteps; ++i) {
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
             double local_freq = 0.0;
-
+            Rcout << left << "\t" << right << "\t" << ancestor << "\n";
             for(auto it = v.begin(); it != v.end(); ++it) {
 
                 double a = assess_match( (*it).chromosome1, left, right, ancestor);
