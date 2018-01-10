@@ -913,10 +913,10 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
         }
     }
 
-    NumerMatrix output = allele_spectrum(Pop, step_size, numFounders);
+    NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
 
-    double maxFreq = Rcpp::max(output(_ , 3));
-    double maxPos = Rcpp::max(output_, 1));
+    double maxFreq = Rcpp::max(output( _ , 3));
+    double maxPos = Rcpp::max(output( _, 1));
 
     Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
 
