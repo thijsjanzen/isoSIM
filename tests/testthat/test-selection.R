@@ -29,7 +29,7 @@ test_that("select on population", {
 test_that("allele frequencies", {
   
   sourcepop =  isoSIM::create_full_population(pop_size = 100, 
-                                              number_of_founders = 10,
+                                              number_of_founders = 2,
                                               total_runtime = 1000, 
                                               morgan = 1, 
                                               seed = 123, 
@@ -48,14 +48,15 @@ test_that("allele frequencies", {
                                             write_to_file = FALSE)
   
   freq_output <- calculate_allele_frequencies(selected_pop, 
-                                                   number_of_founders = 10,
-                                                   step_size = 0.001)
+                                                   number_of_founders = 2,
+                                                   step_size = 0.01)
   
   require(ggplot2)
   ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
-    geom_line()
+    geom_line() + 
+    ylim(c(0,1))
   
-}
+})
   
 
 

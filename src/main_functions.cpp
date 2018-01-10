@@ -838,34 +838,44 @@ List sim_inf_chrom(int pop_size,
 
 
 NumericMatrix allele_spectrum(const std::vector<Fish>& v,
-                                                     double step_size,
-                                                     int numAncestors) {
+                              double step_size,
+                              int numAncestors) {
 
     int numSteps = 1.0 / step_size;
 
     NumericMatrix spectrum(numSteps * numAncestors, 3);
+
+    Rcout << Rcpp::nrow(spectrum) << "\t" << Rcpp::ncol(spectrum) << "\t" << numSteps * numAncestors << "\t" << 3 << "\n";
 
     double left = 0.0;
     double right = step_size;
     double correction = 1.0 / (2.0 * v.size());
     for(int i = 0; i < numSteps; ++i) {
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
-            int index = ancestor * numSteps + i;
-            spectrum(index, 0) = right;
-            spectrum(index, 1) = ancestor + 1;
+            double local_freq = 0.0;
 
             for(auto it = v.begin(); it != v.end(); ++it) {
                 double a = assess_match((*it).chromosome1, left, right, ancestor);
                 double b = assess_match((*it).chromosome2, left, right, ancestor);
 
-                double freq =  (a+b) * correction;
+                double freq =  (a+b);
 
                 if(freq > 0) {
                     Rcout << right << "\t" << ancestor << "\t" << freq << "\n"; flush_console();
                 }
 
-                spectrum(index, 2) += freq;
+                if(a != 0) {
+                    Rcout << right << "\t" << ancestor << "\t" << a << "\n"; flush_console();
+                }
+                if(b != 0) {
+                    Rcout << right << "\t" << ancestor << "\t" << b << "\n"; flush_console();
+                }
+                local_freq += freq;
             }
+            int index = ancestor * numSteps + i;
+            spectrum(index, 0) = right;
+            spectrum(index, 1) = ancestor + 1;
+            spectrum(index, 2) = local_freq / (2.0 * v.size());
         }
         left = right;
         right += step_size;
