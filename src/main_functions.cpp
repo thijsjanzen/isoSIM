@@ -375,7 +375,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
 
     for(int i = 0; i < 1e6; ++i) {
         int index = random_number(fitness.size());
-        double prob = 1.0 * fitness[index] / maxFitness
+        double prob = 1.0 * fitness[index] / maxFitness;
         if(uniform() < prob) {
             return index;
         }

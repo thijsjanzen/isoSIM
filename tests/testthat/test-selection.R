@@ -100,6 +100,30 @@ test_that("allele frequencies", {
   
   
   
+  sourcepop =  isoSIM::create_full_population(pop_size = 1000, 
+                                              number_of_founders = 5,
+                                              total_runtime = 1, 
+                                              morgan = 1, 
+                                              seed = 123, 
+                                              write_to_file = FALSE)
+  
+  selectMatrix = matrix(ncol=3, nrow = 2)
+  selectMatrix[1,] = c(0.0, 1.0, 1)
+  
+  selected_pop <- isoSIM::select_population(sourcepop, selectMatrix,
+                                            selection = 5,
+                                            pop_size = 100,
+                                            total_runtime = 10000,
+                                            morgan = 1,
+                                            seed = 1234,
+                                            write_to_file = FALSE)
+  
+  freq_output <- calculate_allele_frequencies(selected_pop, 
+                                              number_of_founders = 2,
+                                              step_size = 0.01)
+  
+  
+  
 })
   
 
