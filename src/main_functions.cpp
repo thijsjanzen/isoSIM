@@ -860,6 +860,10 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
                 double freq =  (a+b) * correction;
 
+                if(freq > 0) {
+                    Rcout << right << "\t" << ancestor << "\t" << freq << "\n"; flush_console();
+                }
+
                 spectrum(index, 2) += freq;
             }
         }
@@ -915,7 +919,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
 
     NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
 
-    double maxFreq = Rcpp::max(output( _ , 3));
+    double maxFreq = Rcpp::max(output( _ , 2));
     double maxPos = Rcpp::max(output( _, 1));
 
     Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
