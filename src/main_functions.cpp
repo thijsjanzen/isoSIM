@@ -382,7 +382,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
     return -1;
 }
 
-double assess_match(const std::vector<junction> chrom,
+double assess_match(const std::vector<junction>& chrom,
                     double start,
                     double end,
                     int ancestor) {
@@ -391,7 +391,6 @@ double assess_match(const std::vector<junction> chrom,
     bool first_one = true;
     for(int i = 0; i < chrom.size(); ++i) {
         if(chrom[i].pos > start) {
-
             if(chrom[i].pos > end) {
                 if(first_one) {
                     block.push_back(chrom[i]);
@@ -399,23 +398,29 @@ double assess_match(const std::vector<junction> chrom,
                 } else {
                     break;
                 }
+            } else {
+                block.push_back(chrom[i]);
             }
-            block.push_back(chrom[i]);
         }
     }
 
     if(block.size() == 1) {
-        if(block[0].left == ancestor) return 1.0;
-
-        return 0.0;
+        if(block[0].left == ancestor) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
     }
 
     double match = 0.0;
     if(block[0].left == ancestor) {
-        if(block[0].pos > end) return 1.0;
-
-        match += (block[0].pos - start);
+        if(block[0].pos > end) {
+            return 1.0;
+        } else {
+            match += (block[0].pos - start);
+        }
     }
+
     for(int i = 1; i < block.size(); ++i) {
         double local_left = block[i-1].pos;
         if(local_left > end) break;
@@ -425,8 +430,12 @@ double assess_match(const std::vector<junction> chrom,
 
         if(block[i].left == ancestor) match += (local_right - local_left);
     }
+
     match *= 1.0 / (end - start);
-    
+
+    Rcout << start << "\t" << end << "\t" << block.size() << "\t" << match << "\n";
+
+
     return(match);
 }
 
