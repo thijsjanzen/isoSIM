@@ -372,13 +372,15 @@ std::vector< double > calculate_mean_allelefreq(const std::vector< Fish >& pop,
 
 int draw_prop_fitness(const std::vector<double> fitness,
                       double maxFitness) {
+
     for(int i = 0; i < 1e6; ++i) {
         int index = random_number(fitness.size());
-        if(uniform() < fitness[index] / maxFitness) {
+        double prob = 1.0 * fitness[index] / maxFitness
+        if(uniform() < prob) {
             return index;
         }
     }
-    Rcout << "\nERROR! ERROR! Couldn't pick proportional to fitness\n";
+    Rcout << "\nERROR! ERROR! Couldn't pick proportional to fitness\t" << maxFitness << "\n";
     return -1;
 }
 
@@ -630,17 +632,24 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
-    std::vector<double> selectMatrix = Rcpp::as<std::vector<double>>(selectM);
-
     std::vector< std::vector< double > > select;
     std::vector<double> temp_select;
-    for(int i = 0; i < selectMatrix.size(); ++i) {
-        temp_select.push_back(selectMatrix[i]);
+    for(int i = 0; i < selectM.size(); ++i) {
+        temp_select.push_back(selectM[i]);
         if(temp_select.size() == 3) {
             select.push_back(temp_select);
             temp_select.clear();
         }
     }
+
+    for(int i = 0; i < select.size(); ++i){
+        for(int j = 0; j < 3; ++j) {
+            Rcout << select[i][j] << " "; flush_console();
+        }
+        Rcout << "\n"; flush_console();
+    }
+
+
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                               select,
@@ -784,16 +793,8 @@ List create_femaleLine(NumericVector v,
         }
     }
 
-    //Rcout << "Founders: ";
-    //output_alleles(founders);
-
-
     std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan);
-
-
-    //Rcout << "Final: ";
-    //output_alleles(Pop);
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
@@ -855,7 +856,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     double left = 0.0;
     double right = step_size;
-    double correction = 1.0 / (2.0 * v.size());
+
     for(int i = 0; i < numSteps; ++i) {
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
             double local_freq = 0.0;
