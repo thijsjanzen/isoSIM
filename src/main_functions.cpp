@@ -849,8 +849,10 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     double right = step_size;
     double correction = 1.0 / (2.0 * v.size());
     for(int i = 0; i < numSteps; ++i) {
-
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
+            int index = ancestor * numSteps + i;
+            spectrum(index, 0) = right;
+            spectrum(index, 1) = ancestor + 1;
 
             for(auto it = v.begin(); it != v.end(); ++it) {
                 double a = assess_match((*it).chromosome1, left, right, ancestor);
@@ -858,9 +860,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
                 double freq =  (a+b) * correction;
 
-                int index = ancestor * numSteps + i;
-                spectrum(index, 0) = right;
-                spectrum(index, 1) = ancestor;
                 spectrum(index, 2) += freq;
             }
         }
@@ -914,21 +913,14 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
         }
     }
 
-    //std::vector< std::vector< double > > spectrum = allele_spectrum(Pop, step_size, numFounders);
+    NumerMatrix output = allele_spectrum(Pop, step_size, numFounders);
 
-    //NumericMatrix output(spectrum.size() * spectrum[0].size(), 3);
-    //for(int i = 0; i < spectrum.size(); ++i) {
-    //    for(int j = 0; j < spectrum[i].size(); ++j) {
-    //        int index = i * spectrum[0].size() + j;
-    //        output(index, 0) = j * step_size;
-    //        output(index, 1) = i;
-    //        output(index, 2) = spectrum[i][j];
-    //    }
-    //}
+    double maxFreq = Rcpp::max(output(_ , 3));
+    double maxPos = Rcpp::max(output_, 1));
 
+    Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
 
-
-    return allele_spectrum(Pop, step_size, numFounders);
+    return output;
 }
 
 
