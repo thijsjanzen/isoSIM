@@ -373,6 +373,11 @@ std::vector< double > calculate_mean_allelefreq(const std::vector< Fish >& pop,
 int draw_prop_fitness(const std::vector<double> fitness,
                       double maxFitness) {
 
+    if(maxFitness < 0.0) {
+        Rcout << "Cannot draw fitness if maxFitness < 0, terminating";
+        exit(0);
+    }
+
     for(int i = 0; i < 1e6; ++i) {
         int index = random_number(fitness.size());
         double prob = 1.0 * fitness[index] / maxFitness;
@@ -476,10 +481,14 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
-    double maxFitness = -1;
+    double maxFitness = -1e6;
 
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
+        if(fit < 0.0) {
+            Rcout << "ERROR in calculating fitness\n"; flush_console();
+        }
+
         if(fit > maxFitness) maxFitness = fit;
         fitness.push_back(fit);
     }
