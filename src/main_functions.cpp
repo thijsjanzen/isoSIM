@@ -374,7 +374,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
                       double maxFitness) {
 
     if(maxFitness < 0.0) {
-        Rcout << "Cannot draw fitness if maxFitness < 0, terminating";
+     //   Rcout << "Cannot draw fitness if maxFitness < 0, terminating\n";
         return(-1);
     }
 

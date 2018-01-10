@@ -118,7 +118,7 @@ test_that("allele frequencies", {
                                             seed = 1234,
                                             write_to_file = FALSE)
   
-  freq_output <- calculate_allele_frequencies(selected_pop, 
+  freq_output <- isoSIM::calculate_allele_frequencies(selected_pop, 
                                               number_of_founders = 2,
                                               step_size = 0.01)
   
