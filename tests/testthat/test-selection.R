@@ -63,14 +63,14 @@ test_that("allele frequencies", {
         group_by(as.factor(ancestor)) %>%
         summarise("mean_freq" = mean(frequency))
   
-  testthat::expect_equal(b$mean_freq[[1]], 1.0, tolerance = 0.05)
+  testthat::expect_equal(b$mean_freq[[1]], 1.0, tolerance = 0.15)
   
   
   a <- subset(freq_output, freq_output$location > 0.5)
   b <- a %>%
     group_by(as.factor(ancestor)) %>%
     summarise("mean_freq" = mean(frequency))
-  testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.05)
+  testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.15)
   
   
   number_founders <- 20
