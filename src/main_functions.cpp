@@ -673,7 +673,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
        writePoptoFile(outputPop, "population_1.pop");
     }
 
-    return List::create( Named("population") = createPopVector(Pop) );
+    return List::create( Named("population") = createPopVector(outputPop) );
 }
 
 
