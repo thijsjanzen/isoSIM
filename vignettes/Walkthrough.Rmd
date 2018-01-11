@@ -11,6 +11,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.width=6) 
 library(isoSIM)
+require(ggplot2)
 ```
 
 # ISOSIM
@@ -228,11 +229,11 @@ Obtained results can be analyzed using the function calculate_allele_frequencies
 ```{r allele frequencies}
 freq_output <- calculate_allele_frequencies(selected_pop, 
                                             number_of_founders = number_founders,
-                                            step_size = 0.0001)
+                                            step_size = 0.001)
 ```
 calculate_allele_frequencies returns a tibble (from the tidyverse) and can easily be plotted:
 ```{r plot allele frequencies}
-require(ggplot2)
+
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_line() +
   geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)

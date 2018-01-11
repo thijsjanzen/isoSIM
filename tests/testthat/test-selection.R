@@ -145,10 +145,33 @@ test_that("allele frequencies", {
        summarise("mean_freq" = mean(frequency))
   v <- which.max(b$mean_freq)
   testthat::expect_equal(v , under_selection + 1) #returns ancestor + 1
-  
-  
 })
   
+context("selection")
 
-
-
+test_that("selection abuse", {
+  
+  sourcepop =  isoSIM::create_full_population(pop_size = 100, 
+                                              number_of_founders = 2,
+                                              total_runtime = 100, 
+                                              morgan = 1, 
+                                              seed = 123, 
+                                              write_to_file = FALSE)
+  
+  selectMatrix = matrix(ncol=3, nrow = 3)
+  selectMatrix[1,] = c(0.0, 0.5, 0)
+  selectMatrix[2,] = c(0.5, 1.0, 1)
+  
+  
+  testthat::expect_error(
+        select_population(sourcepop, selectMatrix,
+                                            selection = 5,
+                                            pop_size = 1000,
+                                            total_runtime = 1000,
+                                            morgan = 1,
+                                            seed = 1234,
+                                            write_to_file = FALSE)
+  
+  )
+  
+})

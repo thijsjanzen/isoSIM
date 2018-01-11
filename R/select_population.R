@@ -22,7 +22,7 @@ select_population <- function(source_pop,
   #then selectMatrix to vector
   select <- as.vector(t(selectMatrix))
   if(sum(is.na(select))) {
-    cat("Can't start, there are NA values in the selection matrix!\n")
+    stop("Can't start, there are NA values in the selection matrix!\n")
     return()
   }
   
