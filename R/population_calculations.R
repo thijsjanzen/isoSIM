@@ -8,7 +8,7 @@ calc_heterozygosity_indiv <- function(indiv) {
     left <- 0
     right <- 1
     while (chrom1 < length(indiv$chromosome1[, 1]) &&
-           chrom2 < length(indiv$chromosome2[, 1]) ) {
+           chrom2 < length(indiv$chromosome2[, 1])) {
       is_hetero <- 0
       if (indiv$chromosome1[chrom1 - 1, 2] !=
          indiv$chromosome2[chrom2 - 1, 2]) {
@@ -63,7 +63,7 @@ calculate_dist_junctions <- function(pop) {
 }
 
 plot_dist_junctions <- function(pop) {
-  junct <- calculate_dist_junctions(pop)
+  junct <- isoSIM::calculate_dist_junctions(pop)
   vx <- table(junct)
   barplot(vx)
 }
@@ -81,10 +81,10 @@ calc_allele_frequencies <- function(indiv, alleles) {
     alleles[allele] <- alleles[allele] + (right - left)
   }
 
-  for (i in seq_along(indiv$chromosome2[,1])) {
+  for (i in seq_along(indiv$chromosome2[, 1])) {
     left <- indiv$chromosome2[i, 1]
     right <- 1
-    if (i + 1 <= length(indiv$chromosome2[,1])) {
+    if (i + 1 <= length(indiv$chromosome2[, 1])) {
       right <- indiv$chromosome2[i + 1, 1]
     }
 

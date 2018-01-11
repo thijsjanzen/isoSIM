@@ -77,7 +77,7 @@ test_that("calculate_heterozygosity", {
   testthat::expect_equal(avg_hetero3$freq_pop[1], 0.5, tolerance = 0.05)
   testthat::expect_equal(avg_hetero3$freq_pop[2], 0.5, tolerance = 0.05)
 
-  testthat::expect_equal(avg_hetero3$freq_pop[1] + avg_hetero3$freq_pop[2], 
+  testthat::expect_equal(avg_hetero3$freq_pop[1] + avg_hetero3$freq_pop[2],
                          1.0, tolerance = 0.05)
 })
 
@@ -116,7 +116,7 @@ test_that("calculate_allele_frequencies", {
     vx <- create_full_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
     for (i in 1:pop_size) {
-      found <- rbind(found, calc_allele_frequencies(vx[[i]], 
+      found <- rbind(found, calc_allele_frequencies(vx[[i]],
                             alleles = rep(0, number_of_founders * 2))
                     )
     }

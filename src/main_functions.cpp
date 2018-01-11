@@ -910,6 +910,46 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
     return output;
 }
 
+// [[Rcpp::export]]
+void test_fish_functions() {
+    Fish test_fish();
+
+    junction temp;
+    junction temp2(0.5, -1, 0);
+    junction temp3(0.5, -1, 0);
+    if(temp2 == temp3) {
+        temp = temp2;
+    }
+    if(temp2 != temp3) {
+        temp = temp3;
+    }
+
+    junction temp4(temp);
+
+    test_fish.chromosome1.push_back(temp);
+    test_fish.chromosome1.push_back(temp2);
+    test_fish.chromosome1.push_back(temp3);
+    test_fish.chromosome1.push_back(temp4);
+
+    fish test_fish2 = test_fish;
+
+    if(test_fish == test_fish2) {
+        Rcout << "fishes are equal!\n";
+    }
+
+    fish test_fish3(5);
+    if(test_fish == test_fish3) {
+        Rcout << "these fishes were supposed to be different!\n";
+    }
+
+    std::vector< junction > chrom;
+    chrom.push_back(temp);
+
+    fish test_fish4(temp, temp);
+
+    return;
+}
+
 /*
  void output_alleles(const std::vector<Fish>& v) {
  std::vector< int > alleles;

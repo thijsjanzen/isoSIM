@@ -37,3 +37,7 @@ calculate_allele_spectrum_cpp <- function(v1, numFounders, step_size) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, numFounders, step_size)
 }
 
+test_fish_functions <- function() {
+    invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
+}
+

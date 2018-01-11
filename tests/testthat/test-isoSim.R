@@ -58,7 +58,7 @@ test_that("sim_inf_chrom accuracy", {
   found <- colMeans(found)
 
   K <- 2 * init_heterozygosity * pop_size * morgan
-  pred <- K - K *(1 - init_heterozygosity * morgan / K) ^ (0:(max_time - 1))
+  pred <- K - K * (1 - init_heterozygosity * morgan / K) ^ (0:(max_time - 1))
 
   rel_error <- abs(found[2:length(found)] / pred[2:length(pred)] - 1)
 

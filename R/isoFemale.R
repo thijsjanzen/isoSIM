@@ -58,10 +58,5 @@ create_iso_female <- function(source_pop,
     output_females[[i]] <- vx
     class(output_females[[i]]) <- "individual"
   }
-  
- # if(n == 1) {
- #    output_females = output_females[[1]]
- #  }
-  
   return(output_females)
 }

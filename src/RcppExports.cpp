@@ -138,6 +138,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test_fish_functions
+void test_fish_functions();
+RcppExport SEXP _isoSIM_test_fish_functions() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    test_fish_functions();
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
@@ -149,6 +158,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
     {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
+    {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {NULL, NULL, 0}
 };
 

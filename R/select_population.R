@@ -1,12 +1,12 @@
 select_population <- function(source_pop,
-                              selectMatrix,
+                              select_matrix,
                               selection,
                               pop_size,
                               total_runtime,
                               morgan,
                               seed,
                               write_to_file) {
-  
+
   # first we have to convert source_pop to vector...
   pop_for_cpp <- c()
   for (i in seq_along(source_pop)) {
@@ -16,16 +16,12 @@ select_population <- function(source_pop,
     chrom2 <- as.vector(t(x))
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
-  
-  
-  
-  #then selectMatrix to vector
-  select <- as.vector(t(selectMatrix))
-  if(sum(is.na(select))) {
+  #then select_matrix to vector
+  select <- as.vector(t(select_matrix))
+  if (sum(is.na(select))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
-    return()
   }
-  
+
   selected_pop <- isoSIM::select_population_cpp(pop_for_cpp,
                                         select,
                                         selection,
@@ -34,9 +30,9 @@ select_population <- function(source_pop,
                                         morgan,
                                         seed,
                                         write_to_file)
-  
+
   selected_pop <- isoSIM::create_pop_class(selected_pop$population)
-  
+
   return(selected_pop)
 }
 
@@ -55,10 +51,9 @@ calculate_allele_frequencies <- function(source_pop,
   frequency_table <- isoSIM::calculate_allele_spectrum_cpp(pop_for_cpp,
                                                            number_of_founders,
                                                            step_size)
-  
-  require(tibble)
-  output <- as.tibble(frequency_table)
+
+  output <- tibble::as.tibble(frequency_table)
   colnames(output) <- c("location", "ancestor", "frequency")
-  
+
   return(output)
 }

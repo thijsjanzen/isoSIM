@@ -206,16 +206,16 @@ wildpop =  create_full_population(pop_size = 1000,
                              seed = 666, 
                              write_to_file = FALSE)
 
-selectionMatrix = matrix(ncol=3, nrow = 2)
+selection_matrix = matrix(ncol=3, nrow = 2)
 
-selectionMatrix[1,] = c(0.2, 0.3, 1)
-selectionMatrix[2,] = c(0.6, 0.7, 2)
+selection_matrix[1,] = c(0.2, 0.3, 1)
+selection_matrix[2,] = c(0.6, 0.7, 2)
 
 selection_coefficient <- 1 #we choose a large coefficient to reduce the number of generations required to display the effect of selection
 
 
 
-selected_pop <- select_population(wildpop, selectionMatrix,
+selected_pop <- select_population(wildpop, selection_matrix,
                                   selection = selection_coefficient,
                                   pop_size = 1000,
                                   total_runtime = 1000,

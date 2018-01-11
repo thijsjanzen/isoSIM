@@ -47,8 +47,7 @@ create_population_from_individuals <- function(indiv_1,
                                                total_runtime,
                                                morgan,
                                                seed,
-                                               write_to_file)
-{
+                                               write_to_file) {
   indiv <- c()
   for (i in seq_along(indiv_1$chromosome1[, 1])) {
     indiv <- c(indiv, indiv_1$chromosome1[i, ])
@@ -56,20 +55,19 @@ create_population_from_individuals <- function(indiv_1,
   for (i in seq_along(indiv_1$chromosome2[, 1])) {
     indiv <- c(indiv, indiv_1$chromosome2[i, ])
   }
-  
+
   for (i in seq_along(indiv_2$chromosome1[, 1])) {
     indiv <- c(indiv, indiv_2$chromosome1[i, ])
   }
   for (i in seq_along(indiv_2$chromosome2[, 1])) {
     indiv <- c(indiv, indiv_2$chromosome2[i, ])
   }
-  
+
   inbred_pop <- create_femaleLine(indiv, pop_size,
                                   total_runtime, morgan,
                                   seed)
-  
+
   inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
-  
+
   return(inbred_population)
 }
-  

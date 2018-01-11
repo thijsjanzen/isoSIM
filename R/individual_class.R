@@ -20,7 +20,7 @@ print.population <- function(x, ...) {
 plot.individual <- function(x, ...) {
   alleles_chrom1 <- unique(x$chromosome1[, 2])
   alleles_chrom2 <- unique(x$chromosome2[, 2])
-  num_colors <- 1 + max(alleles_chrom1, alleles_chrom2)    #length(unique(c(alleles_chrom1, alleles_chrom2)))
+  num_colors <- 1 + max(alleles_chrom1, alleles_chrom2)
   color_palette <- grDevices::rainbow(num_colors)
 
   par(mfrow = c(2, 1))
@@ -82,9 +82,7 @@ plot_chromosome <- function(chrom, xmin, xmax) {
   alleles <- unique(chrom[, 2])
   num_colors <- 1 + max(alleles)
   color_palette <- grDevices::rainbow(num_colors)
-  
-  #par(mfrow = c(1, 1))
-  #par(mar = c(2, 2, 2, 2))
+
   plot(NA,
        xlim = c(xmin, xmax),
        ylim = c(0, 1),
@@ -102,7 +100,7 @@ plot_chromosome <- function(chrom, xmin, xmax) {
     }
     colour_index <- 1 + chrom[i, 2]
     colour_to_plot <- color_palette[colour_index]
-    
+
     rect(xleft = xleft,
          xright = xrght,
          ybottom = 0,
@@ -111,8 +109,6 @@ plot_chromosome <- function(chrom, xmin, xmax) {
          border = NA)
   }
 }
-
-
 
 create_pop_class <- function(pop) {
   whole_pop <- list()
