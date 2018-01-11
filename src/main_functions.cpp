@@ -228,32 +228,6 @@ bool is_fixed(const std::vector< Fish >& v) {
     return true;
 }
 
-void output_alleles(const std::vector<Fish>& v) {
-    std::vector< int > alleles;
-    for(int i = 0; i < v.size(); ++i) {
-        for(int j = 0; j < v[i].chromosome1.size(); ++j) {
-            int a = v[i].chromosome1[j].right;
-            alleles.push_back(a);
-        }
-        for(int j = 0; j < v[i].chromosome2.size(); ++j) {
-            int a = v[i].chromosome2[j].right;
-            alleles.push_back(a);
-        }
-    }
-
-    std::sort(alleles.begin(), alleles.end() );
-    alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
-
-    for(int i = 0; i < alleles.size(); ++i) {
-        Rcout << alleles[i] << "\t";
-    }
-    Rcout << "\n";
-
-    return;
-}
-
-
-
 std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
                              int maxTime,
@@ -862,8 +836,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     NumericMatrix spectrum(numSteps * numAncestors, 3);
 
-   // Rcout << Rcpp::nrow(spectrum) << "\t" << Rcpp::ncol(spectrum) << "\t" << numSteps * numAncestors << "\t" << 3 << "\n";
-
     double left = 0.0;
     double right = step_size;
 
@@ -930,21 +902,39 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
-            // Rcout << v.size() << "\t" << v1.size() << "\t" << Pop.size() << "\n"; flush_console();
         }
     }
 
     NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
 
-  //  double maxFreq = Rcpp::max(output( _ , 2));
-  //  double maxPos = Rcpp::max(output( _, 1));
-
-   // Rcout << maxPos << "\t" << maxFreq << "\n"; flush_console();
-
     return output;
 }
 
+/*
+ void output_alleles(const std::vector<Fish>& v) {
+ std::vector< int > alleles;
+ for(int i = 0; i < v.size(); ++i) {
+ for(int j = 0; j < v[i].chromosome1.size(); ++j) {
+ int a = v[i].chromosome1[j].right;
+ alleles.push_back(a);
+ }
+ for(int j = 0; j < v[i].chromosome2.size(); ++j) {
+ int a = v[i].chromosome2[j].right;
+ alleles.push_back(a);
+ }
+ }
 
+ std::sort(alleles.begin(), alleles.end() );
+ alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
+
+ for(int i = 0; i < alleles.size(); ++i) {
+ Rcout << alleles[i] << "\t";
+ }
+ Rcout << "\n";
+
+ return;
+ }
+ */
 
 
 
