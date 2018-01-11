@@ -92,7 +92,7 @@ double assess_match_old(const std::vector<junction>& chrom,
 void assess_matches(const std::vector<junction>& chrom,
                     double start,
                     double end,
-                    std::vector< std::vector< double > >& spectrum,
+                    NumericMatrix& spectrum,
                     int numSteps,
                     int progress,
                     double pop_correction) {
@@ -130,7 +130,7 @@ void assess_matches(const std::vector<junction>& chrom,
         int ancestor = block[i].right;
         int index = ancestor * numSteps + progress;
         if(ancestor >= 0) {
-            spectrum[index][2] += stretch;
+            spectrum(index, 3) += stretch;
         }
     }
     
@@ -146,8 +146,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     int numSteps = 1.0 / step_size;
 
     NumericMatrix spectrum(numSteps * numAncestors, 3);
-
-    double step_size = 1.0 / numSteps;
 
     for(int a = 0; a < numAncestors; ++a) {
         for(int i = 0; i < numSteps; ++i) {
@@ -172,10 +170,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
         left = right;
         right += step_size;
     }
-
-    
-    return;
-
     return spectrum;
 }
 
@@ -209,8 +203,8 @@ NumericMatrix allele_spectrum_old(const std::vector<Fish>& v,
             double local_freq = 0.0;
             for(auto it = v.begin(); it != v.end(); ++it) {
 
-                double a = assess_match( (*it).chromosome1, left, right, ancestor);
-                double b = assess_match( (*it).chromosome2, left, right, ancestor);
+                double a = assess_match_old( (*it).chromosome1, left, right, ancestor);
+                double b = assess_match_old( (*it).chromosome2, left, right, ancestor);
 
                 double freq =  (a+b);
 
@@ -231,7 +225,7 @@ NumericMatrix allele_spectrum_old(const std::vector<Fish>& v,
 
 
 // [[Rcpp::export]]
-NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
+NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
@@ -277,7 +271,8 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
     return output;
 }
 
-NumericMatrix calculate_allele_spectrum_cpp_old(NumericVector v1,
+// [[Rcpp::export]]
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
@@ -318,7 +313,7 @@ NumericMatrix calculate_allele_spectrum_cpp_old(NumericVector v1,
         }
     }
 
-    NumericMatrix output = allele_spectrum_old(Pop, step_size, numFounders);
+    NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
     
     return output;
 }
