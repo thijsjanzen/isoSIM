@@ -74,7 +74,7 @@ void assess_matches(const std::vector<junction>& chrom,
         int ancestor = block[i].right;
         int index = ancestor * numSteps + progress;
         if(ancestor >= 0) {
-            spectrum(index, 3) += stretch;
+            spectrum(index, 2) += stretch;
         }
     }
     
