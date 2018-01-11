@@ -94,9 +94,9 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     for(int a = 0; a < numAncestors; ++a) {
         for(int i = 0; i < numSteps; ++i) {
 
-            int index = numAncestors * numSteps + i;
+            int index = a * numSteps + i;
             spectrum(index, 0) = i * step_size;
-            spectrum(index, 1) = a;
+            spectrum(index, 1) = a + 1;
             spectrum(index, 2) = 0;
         }
     }
