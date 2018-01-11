@@ -33,63 +33,6 @@ void flush_console2() {
 
 }
 
-
-
-double assess_match_old(const std::vector<junction>& chrom,
-                    double start,
-                    double end,
-                    int ancestor) {
-
-    std::vector< junction > block;
-
-    for(int i = 0; i < chrom.size(); ++i) {
-        if(chrom[i].pos > end) { // stop after block
-            break;
-        } else {
-            if(chrom[i].pos > start) {
-                block.push_back(chrom[i]); //junctions within the block should be stored
-            } else {
-                if(i+1 < chrom.size()) {
-                    if(chrom[i+1].pos > start) { //one junction before the end as well.
-                        block.push_back(chrom[i]);
-                    }
-                }
-            }
-        }
-    }
-
-    if(block.size() == 1) {
-        if(block[0].right == ancestor) {
-            return 1.0;
-        } else {
-            return 0.0;
-        }
-    }
-
-
-    double match = 0.0;
-
-    for(int i = 0; i < block.size(); ++i) {
-        if(block[i].right == ancestor) {
-
-            double local_right = end;
-            if(i+1 < block.size()) {
-                local_right = block[i+1].pos;
-            }
-
-            double local_left = block[i].pos;
-            if(local_left < start) local_left = start;
-
-            match += local_right - local_left;
-        }
-    }
-
-    match *= 1.0 / (end - start);
-    
-    return(match);
-}
-
-
 void assess_matches(const std::vector<junction>& chrom,
                     double start,
                     double end,
@@ -185,54 +128,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     return spectrum;
 }
 
-NumericMatrix allele_spectrum_old(const std::vector<Fish>& v,
-                              double step_size,
-                              int numAncestors) {
 
-    int numSteps = 1.0 / step_size;
-
-    NumericMatrix spectrum(numSteps * numAncestors, 3);
-
-    double left = 0.0;
-    double right = step_size;
-
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
-
-    int updateFreq = numSteps / 20;
-    if(updateFreq < 1) updateFreq = 1;
-
-
-    for(int i = 0; i < numSteps; ++i) {
-
-        if(i % updateFreq == 0) {
-            Rcout << "**";
-        }
-        Rcpp::checkUserInterrupt();
-
-
-        for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
-            double local_freq = 0.0;
-            for(auto it = v.begin(); it != v.end(); ++it) {
-
-                double a = assess_match_old( (*it).chromosome1, left, right, ancestor);
-                double b = assess_match_old( (*it).chromosome2, left, right, ancestor);
-
-                double freq =  (a+b);
-
-                local_freq += freq;
-            }
-            int index = ancestor * numSteps + i;
-            spectrum(index, 0) = right;
-            spectrum(index, 1) = ancestor + 1;
-            spectrum(index, 2) = local_freq / (2.0 * v.size());
-        }
-        left = right;
-        right += step_size;
-    }
-    
-    return spectrum;
-}
 
 
 
@@ -283,6 +179,112 @@ NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
     return output;
 }
 
+
+
+double assess_match_old(const std::vector<junction>& chrom,
+                        double start,
+                        double end,
+                        int ancestor) {
+
+    std::vector< junction > block;
+
+    for(int i = 0; i < chrom.size(); ++i) {
+        if(chrom[i].pos > end) { // stop after block
+            break;
+        } else {
+            if(chrom[i].pos > start) {
+                block.push_back(chrom[i]); //junctions within the block should be stored
+            } else {
+                if(i+1 < chrom.size()) {
+                    if(chrom[i+1].pos > start) { //one junction before the end as well.
+                        block.push_back(chrom[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    if(block.size() == 1) {
+        if(block[0].right == ancestor) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+
+    double match = 0.0;
+
+    for(int i = 0; i < block.size(); ++i) {
+        if(block[i].right == ancestor) {
+
+            double local_right = end;
+            if(i+1 < block.size()) {
+                local_right = block[i+1].pos;
+            }
+
+            double local_left = block[i].pos;
+            if(local_left < start) local_left = start;
+
+            match += local_right - local_left;
+        }
+    }
+    
+    match *= 1.0 / (end - start);
+    
+    return(match);
+}
+
+
+NumericMatrix allele_spectrum_old(const std::vector<Fish>& v,
+                                  double step_size,
+                                  int numAncestors) {
+
+    int numSteps = 1.0 / step_size;
+
+    NumericMatrix spectrum(numSteps * numAncestors, 3);
+
+    double left = 0.0;
+    double right = step_size;
+
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+
+    int updateFreq = numSteps / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+
+    for(int i = 0; i < numSteps; ++i) {
+
+        if(i % updateFreq == 0) {
+            Rcout << "**";
+        }
+        Rcpp::checkUserInterrupt();
+
+
+        for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
+            double local_freq = 0.0;
+            for(auto it = v.begin(); it != v.end(); ++it) {
+
+                double a = assess_match_old( (*it).chromosome1, left, right, ancestor);
+                double b = assess_match_old( (*it).chromosome2, left, right, ancestor);
+
+                double freq =  (a+b);
+
+                local_freq += freq;
+            }
+            int index = ancestor * numSteps + i;
+            spectrum(index, 0) = right;
+            spectrum(index, 1) = ancestor + 1;
+            spectrum(index, 2) = local_freq / (2.0 * v.size());
+        }
+        left = right;
+        right += step_size;
+    }
+    
+    return spectrum;
+}
+
 // [[Rcpp::export]]
 NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
                                             int numFounders,
@@ -325,7 +327,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
         }
     }
 
-    NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
+    NumericMatrix output = allele_spectrum_old(Pop, step_size, numFounders);
     
     return output;
 }
