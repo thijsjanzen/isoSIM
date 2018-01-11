@@ -133,7 +133,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
 
 // [[Rcpp::export]]
-NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
@@ -284,8 +284,7 @@ NumericMatrix allele_spectrum_old(const std::vector<Fish>& v,
     return spectrum;
 }
 
-// [[Rcpp::export]]
-NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
+NumericMatrix calculate_allele_spectrum_cpp_old(NumericVector v1,
                                             int numFounders,
                                             double step_size)
 {
