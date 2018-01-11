@@ -839,7 +839,20 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     double left = 0.0;
     double right = step_size;
 
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+
+    int updateFreq = numSteps / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+
     for(int i = 0; i < numSteps; ++i) {
+
+        if(i % updateFreq == 0) {
+            Rcout << "**";
+        }
+
+
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
             double local_freq = 0.0;
             for(auto it = v.begin(); it != v.end(); ++it) {
