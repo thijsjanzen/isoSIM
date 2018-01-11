@@ -139,10 +139,7 @@ NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
 {
     std::vector< Fish > Pop;
 
-    Rcout << "Starting allele calcs\n"; flush_console2();
     std::vector<double> v = Rcpp::as<std::vector<double> >(v1);
-
-    Rcout << "v1 to v\n"; flush_console2();
 
     Fish temp;
     int indic_chrom = 1;
@@ -174,10 +171,8 @@ NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
             indic_chrom = 1;
             temp.chromosome1.clear();
             temp.chromosome2.clear();
-            Rcout << Pop.size() << "\n";
         }
     }
-    Rcout << "Data loaded from R, starting allele extraction\n"; flush_console2();
     NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
     
     return output;
