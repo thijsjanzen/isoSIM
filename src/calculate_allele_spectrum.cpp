@@ -26,14 +26,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
-void flush_console() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-
-}
-
 double assess_match_old(const std::vector<junction>& chrom,
                     double start,
                     double end,

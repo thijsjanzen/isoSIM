@@ -26,12 +26,6 @@
 using namespace Rcpp;
 
 
-void flush_console() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-
-}
 
 
 
