@@ -26,6 +26,15 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+void flush_console2() {
+    R_FlushConsole();
+    R_ProcessEvents();
+    R_CheckUserInterrupt();
+
+}
+
+
+
 double assess_match_old(const std::vector<junction>& chrom,
                     double start,
                     double end,
@@ -137,15 +146,15 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     int numSteps = 1.0 / step_size;
 
-    NumericMatrix spectrum(numSteps * numAncestors, 3);
+    NumericMatrix spectrum(1 + numSteps * numAncestors, 3);
 
     for(int a = 0; a < numAncestors; ++a) {
         for(int i = 0; i < numSteps; ++i) {
 
             int index = numAncestors * numSteps + i;
-            spectrum(index, 1) = i * step_size;
-            spectrum(index, 2) = a;
-            spectrum(index, 3) = 0;
+            spectrum(index, 0) = i * step_size;
+            spectrum(index, 1) = a;
+            spectrum(index, 2) = 0;
         }
     }
 
@@ -153,6 +162,12 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     double left = 0.0;
     double right = step_size;
     double correction = 1.0 / (2.0 * v.size());
+
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+    int updateFreq = numSteps / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
     for(int i = 0; i < numSteps; ++i) {
 
         for(auto it = v.begin(); it != v.end(); ++it) {
@@ -161,6 +176,11 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
         }
         left = right;
         right += step_size;
+
+        if(i % updateFreq == 0) {
+            Rcout << "**"; flush_console2();
+        }
+        Rcpp::checkUserInterrupt();
     }
     return spectrum;
 }
@@ -257,7 +277,7 @@ NumericMatrix calculate_allele_spectrum_cpp_new(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
-    
+    Rcout << "Data loaded from R, starting allele extraction\n"; flush_console2();
     NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
     
     return output;
