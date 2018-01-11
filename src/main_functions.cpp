@@ -97,6 +97,7 @@ Output doSimulation(int popSize,
 
         Pop = newGeneration;
         newGeneration.clear();
+        Rcpp::checkUserInterrupt();
     }
 
     return O;
@@ -141,6 +142,7 @@ Output continue_simulation(std::vector< Fish > Pop,
 
         Pop = newGeneration;
         newGeneration.clear();
+        Rcpp::checkUserInterrupt();
     }
     
     return O;
@@ -210,6 +212,7 @@ std::vector<Fish> createPopulation(int popSize,
         if(t % updateFreq == 0) {
             Rcout << "**";
         }
+        Rcpp::checkUserInterrupt();
     }
     Rcout << "\n";
     return(Pop);
@@ -278,6 +281,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
             Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n";
             return(Pop);
         }
+        Rcpp::checkUserInterrupt();
     }
     Rcout << "\n";
     return(Pop);
@@ -504,6 +508,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         if(t % updateFreq == 0) {
             Rcout << "**";
         }
+        Rcpp::checkUserInterrupt();
     }
 
     return(Pop);
@@ -625,15 +630,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
             temp_select.clear();
         }
     }
-
-    //for(int i = 0; i < select.size(); ++i){
-    //    for(int j = 0; j < 3; ++j) {
-    //        Rcout << select[i][j] << " "; flush_console();
-    //    }
-    //    Rcout << "\n"; flush_console();
-   // }
-
-
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                               select,
@@ -851,6 +847,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
         if(i % updateFreq == 0) {
             Rcout << "**";
         }
+        Rcpp::checkUserInterrupt();
 
 
         for(int ancestor = 0; ancestor < numAncestors; ++ancestor) {
