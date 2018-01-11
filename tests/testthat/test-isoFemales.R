@@ -39,4 +39,6 @@ test_that("create_population_from_isofemales", {
                                      write_to_file)
   
   testthat::expect_equal(length(vy), pop_size)
+  
+  isoSIM::plot_chromosome(female_1[[1]]$chromosome1, 0, 1)
 })

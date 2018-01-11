@@ -21,6 +21,10 @@ select_population <- function(source_pop,
   
   #then selectMatrix to vector
   select <- as.vector(t(selectMatrix))
+  if(length(is.na(select))) {
+    cat("Can't start, there are NA values in the selection matrix!\n")
+    return()
+  }
   
   selected_pop <- isoSIM::select_population_cpp(pop_for_cpp,
                                         select,

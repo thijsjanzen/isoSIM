@@ -191,3 +191,57 @@ par(mfrow=c(1,1))
 par(mar=c(4,4,2,2))
 plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", ylab = "LD",xlim = c(0, 1), ylim = c(0, 1))
 ```
+
+# Selection
+
+Selection for genomic material of a particular ancestor can affect found patterns. isoSIM provides tools to implement such selection pressures. 
+Starting from a wild population, we can simulate inbreeding with selection, in the following manner:
+```{r selection}
+number_founders = 20
+wildpop =  create_full_population(pop_size = 1000, 
+                             number_of_founders = number_founders,
+                             total_runtime = 10, 
+                             morgan = 1, 
+                             seed = 666, 
+                             write_to_file = FALSE)
+
+selectionMatrix = matrix(ncol=3, nrow = 2)
+
+selectionMatrix[1,] = c(0.2, 0.3, 1)
+selectionMatrix[2,] = c(0.6, 0.7, 2)
+
+selection_coefficient <- 1 #we choose a large coefficient to reduce the number of generations required to display the effect of selection
+
+
+
+selected_pop <- select_population(wildpop, selectionMatrix,
+                                  selection = selection_coefficient,
+                                  pop_size = 1000,
+                                  total_runtime = 1000,
+                                  morgan = 1,
+                                  seed = 12345,
+                                  write_to_file = FALSE)
+```
+Here, we define a selectionMatrix, which defines the areas of selection. Each row in the matrix contains 3 elements: the start of the area under selection, the end of the area under selection, and the ancestor which is favoured. Then, using the function select_population, which is very similar to other 'create_population' functions, we simulate the process. An extra argument is the argument 'selection', which indicates the strength of selection. Fitness of individuals is determined by their match to the area under selection, e.g. individuals without the ancestor have fitness 1, and individuals with the ancestor have fitness 1 + s. 
+
+Obtained results can be analyzed using the function calculate_allele_frequencies, which estimates allele frequencies across the genome.
+```{r allele frequencies}
+freq_output <- calculate_allele_frequencies(selected_pop, 
+                                            number_of_founders = number_founders,
+                                            step_size = 0.0001)
+```
+calculate_allele_frequencies returns a tibble (from the tidyverse) and can easily be plotted:
+```{r plot allele frequencies}
+require(ggplot2)
+ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
+  geom_line() +
+  geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
+```
+
+
+
+
+
+
+
+
