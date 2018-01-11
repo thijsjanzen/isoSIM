@@ -50,7 +50,8 @@ test_that("allele frequencies", {
                                                    step_size = 0.01)
 
   a <- subset(freq_output, freq_output$location < 0.5)
-  b <- a %>%
+  require(magrittr)
+  b <- a  %>%
         group_by(as.factor(ancestor)) %>%
         summarise("mean_freq" = mean(frequency))
 
