@@ -7,8 +7,8 @@ Author: Thijs Janzen
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
 Description: Simulation of source populations, and simulation of the creation of isofemale lines from these populations.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.12), hierfstat, tibble
-Suggests: testit, testthat, knitr, rmarkdown, magrittr, ggplot2
+Imports: Rcpp (>= 0.12.12), hierfstat, tibble, magrittr
+Suggests: testit, testthat, knitr, rmarkdown, ggplot2
 LinkingTo: Rcpp
 SystemRequirements: C++11
 VignetteBuilder: knitr
