@@ -33,7 +33,7 @@ test_that("allele frequencies", {
                                               seed = 123,
                                               write_to_file = FALSE)
 
-  select_matrix = matrix(ncol = 3, nrow = 2)
+  select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.0, 0.5, 0)
   select_matrix[2, ] <- c(0.5, 1.0, 1)
 
@@ -45,7 +45,7 @@ test_that("allele frequencies", {
                                             seed = 1234,
                                             write_to_file = FALSE)
 
-  freq_output <- calculate_allele_frequencies(selected_pop, 
+  freq_output <- calculate_allele_frequencies(selected_pop,
                                                    number_of_founders = 2,
                                                    step_size = 0.01)
 
@@ -65,16 +65,17 @@ test_that("allele frequencies", {
 
 
   number_founders <- 20
-  sourcepop <- isoSIM::create_full_population(pop_size = 10000,
-                                              number_of_founders = number_founders,
-                                              total_runtime = 1,
-                                              morgan = 1,
-                                              seed = 123,
-                                              write_to_file = FALSE)
-  
+  sourcepop <- isoSIM::create_full_population(
+                          pop_size = 10000,
+                          number_of_founders = number_founders,
+                          total_runtime = 1,
+                          morgan = 1,
+                          seed = 123,
+                          write_to_file = FALSE)
+
   freq_output <- calculate_allele_frequencies(sourcepop,
-                                              number_of_founders = number_founders,
-                                              step_size = 0.01)
+                                  number_of_founders = number_founders,
+                                  step_size = 0.01)
 
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
@@ -84,14 +85,15 @@ test_that("allele frequencies", {
 
   number_founders <- 5
   sourcepop <- isoSIM::create_full_population(pop_size = 1000,
-                                              number_of_founders = number_founders,
-                                              total_runtime = 1000,
-                                              morgan = 1,
-                                              seed = 123,
-                                              write_to_file = FALSE)
+                                  number_of_founders = number_founders,
+                                  total_runtime = 1000,
+                                  morgan = 1,
+                                  seed = 123,
+                                  write_to_file = FALSE)
+
   freq_output <- calculate_allele_frequencies(sourcepop, 
-                                              number_of_founders = number_founders,
-                                              step_size = 0.01)
+                                  number_of_founders = number_founders,
+                                  step_size = 0.01)
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
@@ -100,13 +102,13 @@ test_that("allele frequencies", {
 
   number_founders <- 20
   sourcepop <- isoSIM::create_full_population(pop_size = 1000,
-                                              number_of_founders = number_founders,
-                                              total_runtime = 1,
-                                              morgan = 1,
-                                              seed = 123,
-                                              write_to_file = FALSE)
+                                number_of_founders = number_founders,
+                                total_runtime = 1,
+                                morgan = 1,
+                                seed = 123,
+                                write_to_file = FALSE)
 
-  select_matrix = matrix(ncol=3, nrow = 1)
+  select_matrix <- matrix(ncol = 3, nrow = 1)
 
   under_selection <- 1
 
@@ -120,16 +122,16 @@ test_that("allele frequencies", {
                                             seed = 12345,
                                             write_to_file = FALSE)
 
-  freq_output <- calculate_allele_frequencies(selected_pop, 
-                                              number_of_founders = number_founders,
-                                              step_size = 0.001)
+  freq_output <- calculate_allele_frequencies(selected_pop,
+                                  number_of_founders = number_founders,
+                                  step_size = 0.001)
 
   a <- subset(freq_output, location > 0.2 & location < 0.4)
   b <- a %>%
       dplyr::group_by(as.factor(ancestor)) %>%
       dplyr::summarise("mean_freq" = mean(frequency))
   v <- which.max(b$mean_freq)
-  testthat::expect_equal(v , under_selection + 1) #returns ancestor + 1
+  testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
 })
 
 test_that("selection abuse", {

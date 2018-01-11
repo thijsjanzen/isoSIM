@@ -91,7 +91,7 @@ plot_chromosome <- function(chrom, xmin, xmax) {
        xaxt = "n",
        yaxt = "n",
        bty  = "n")
-  
+
   for (i in seq_along(chrom[, 1])) {
     xleft <- chrom[i, 1]
     xrght <- 1;

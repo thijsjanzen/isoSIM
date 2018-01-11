@@ -15,7 +15,7 @@ calculate_average_LD <- function(alleles_pos_1,
           countAB <- countAB + 1
         }
 
-        if ((alleles_pos_1[a, 2]) == i && (alleles_pos_2[a, 2] == j)) {
+        if ( (alleles_pos_1[a, 2]) == i && (alleles_pos_2[a, 2] == j)) {
           countAB <- countAB + 1
         }
       }
