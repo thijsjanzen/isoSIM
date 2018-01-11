@@ -5,6 +5,19 @@
 
 using namespace Rcpp;
 
+// calculate_allele_spectrum_cpp
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1, int numFounders, double step_size);
+RcppExport SEXP _isoSIM_calculate_allele_spectrum_cpp(SEXP v1SEXP, SEXP numFoundersSEXP, SEXP step_sizeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type v1(v1SEXP);
+    Rcpp::traits::input_parameter< int >::type numFounders(numFoundersSEXP);
+    Rcpp::traits::input_parameter< double >::type step_size(step_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(calculate_allele_spectrum_cpp(v1, numFounders, step_size));
+    return rcpp_result_gen;
+END_RCPP
+}
 // calc_heterozygosity_cpp
 double calc_heterozygosity_cpp(NumericVector v);
 RcppExport SEXP _isoSIM_calc_heterozygosity_cpp(SEXP vSEXP) {
@@ -125,19 +138,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// calculate_allele_spectrum_cpp
-NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1, int numFounders, double step_size);
-RcppExport SEXP _isoSIM_calculate_allele_spectrum_cpp(SEXP v1SEXP, SEXP numFoundersSEXP, SEXP step_sizeSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type v1(v1SEXP);
-    Rcpp::traits::input_parameter< int >::type numFounders(numFoundersSEXP);
-    Rcpp::traits::input_parameter< double >::type step_size(step_sizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(calculate_allele_spectrum_cpp(v1, numFounders, step_size));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_fish_functions
 void test_fish_functions();
 RcppExport SEXP _isoSIM_test_fish_functions() {
@@ -149,6 +149,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
     {"_isoSIM_calc_heterozygosity_cpp", (DL_FUNC) &_isoSIM_calc_heterozygosity_cpp, 1},
     {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 8},
     {"_isoSIM_calculate_summaryStats", (DL_FUNC) &_isoSIM_calculate_summaryStats, 2},
@@ -157,7 +158,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
-    {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {NULL, NULL, 0}
 };
