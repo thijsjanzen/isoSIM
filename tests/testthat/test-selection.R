@@ -52,15 +52,15 @@ test_that("allele frequencies", {
   a <- subset(freq_output, freq_output$location < 0.5)
   require(magrittr)
   b <- a  %>%
-        group_by(as.factor(ancestor)) %>%
-        summarise("mean_freq" = mean(frequency))
+        dplyr::group_by(as.factor(ancestor)) %>%
+        dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(b$mean_freq[[1]], 1.0, tolerance = 0.15)
 
   a <- subset(freq_output, freq_output$location > 0.5)
   b <- a %>%
-    group_by(as.factor(ancestor)) %>%
-    summarise("mean_freq" = mean(frequency))
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
   testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.15)
 
 
@@ -77,8 +77,8 @@ test_that("allele frequencies", {
                                               step_size = 0.01)
 
   b <- freq_output %>%
-    group_by(as.factor(ancestor)) %>%
-    summarise("mean_freq" = mean(frequency))
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
 
@@ -93,8 +93,8 @@ test_that("allele frequencies", {
                                               number_of_founders = number_founders,
                                               step_size = 0.01)
   b <- freq_output %>%
-    group_by(as.factor(ancestor)) %>%
-    summarise("mean_freq" = mean(frequency))
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
 
@@ -126,8 +126,8 @@ test_that("allele frequencies", {
 
   a <- subset(freq_output, location > 0.2 & location < 0.4)
   b <- a %>%
-       group_by(as.factor(ancestor)) %>%
-       summarise("mean_freq" = mean(frequency))
+      dplyr::group_by(as.factor(ancestor)) %>%
+      dplyr::summarise("mean_freq" = mean(frequency))
   v <- which.max(b$mean_freq)
   testthat::expect_equal(v , under_selection + 1) #returns ancestor + 1
 })
