@@ -96,7 +96,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
             int index = a * numSteps + i;
             spectrum(index, 0) = i * step_size;
-            spectrum(index, 1) = a + 1;
+            spectrum(index, 1) = a;
             spectrum(index, 2) = 0;
         }
     }
@@ -178,7 +178,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
     return output;
 }
 
-
+/*
 
 double assess_match_old(const std::vector<junction>& chrom,
                         double start,
@@ -329,3 +329,4 @@ NumericMatrix calculate_allele_spectrum_cpp_old(NumericVector v1,
     
     return output;
 }
+*/
