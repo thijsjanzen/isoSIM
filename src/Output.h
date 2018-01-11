@@ -16,18 +16,6 @@
 
 #include "Fish.h"
 
-#include <Rcpp.h>
-using namespace Rcpp;
-
-
-void flush_console() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-
-}
-
-
 struct Output {
     std::vector<double> avgJunct;
     std::vector<double> avg_detected_Junctions;
