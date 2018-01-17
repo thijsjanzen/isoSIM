@@ -287,6 +287,96 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     return(Pop);
 }
 
+std::vector<Fish> update_pop(const std::vector< Fish>& main_pop,
+                             const std::vector< Fish>& immigrant_pop,
+                             double Morgan,
+                             double m) {
+
+    std::vector< Fish > offspring;
+    int pop_size = main_pop.size();
+
+    for(int i = 0; i < pop_size; ++i)  {
+
+        int index1 = random_number(pop_size);
+        int index2 = random_number(pop_size);
+        while(index2 == index1) index2 = random_number(pop_size);
+
+        Fish kid;
+
+        if(uniform() < m) {
+            kid = mate(immigrant_pop[index1], immigrant_pop[index2], Morgan);
+        } else {
+            kid = mate(main_pop[index1], main_pop[index2], Morgan);
+        }
+
+        offspring.push_back(kid);
+    }
+    return offspring;
+}
+
+
+void create_two_pop_migration( std::vector< Fish >& p1,
+                              std::vector< Fish >& p2,
+                              int num_ancestors_per_pop,
+                              int pop_size,
+                              int max_time,
+                              double Morgan,
+                              double m)
+{
+    std::vector<Fish> Pop1;
+    std::vector<Fish> Pop2;
+
+    std::vector<Fish> parents1;
+    std::vector<Fish> parents2;
+
+    for(int i = 0; i < num_ancestors_per_pop; ++i) {
+        parents1.push_back(Fish(i));
+        parents2.push_back(Fish(i + num_ancestors_per_pop));
+
+    }
+
+    for(int i = 0; i < pop_size; ++i) {
+        Fish parent1 = parents1[ random_number( num_ancestors_per_pop ) ];
+        Fish parent2 = parents1[ random_number( num_ancestors_per_pop ) ];
+
+        Pop1.push_back(mate(parent1, parent2, Morgan));
+    }
+
+    for(int i = 0; i < pop_size; ++i) {
+        Fish parent1 = parents2[ random_number( num_ancestors_per_pop ) ];
+        Fish parent2 = parents2[ random_number( num_ancestors_per_pop ) ];
+
+        Pop2.push_back(mate(parent1, parent2, Morgan));
+    }
+
+    int updateFreq = max_time / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+
+    for(int t = 0; t < max_time; ++t) {
+
+        std::vector<Fish> newGeneration1 = update_pop(Pop1, Pop2, Morgan, m);
+        std::vector<Fish> newGeneration2 = update_pop(Pop2, Pop1, Morgan, m);
+
+        Pop1 = newGeneration1;
+        newGeneration1.clear();
+
+        Pop2 = newGeneration2;
+        newGeneration2.clear();
+
+        if(t % updateFreq == 0) {
+            Rcout << "**";
+        }
+    }
+    
+    p1 = Pop1;
+    p2 = Pop2;
+    
+    return;
+}
+
 
 
 std::vector<double> createPopVector(const std::vector< Fish >& v) {
@@ -807,6 +897,33 @@ List create_two_populations_cpp(int pop_size,
                          Named("population_2") = createPopVector(Pop2)
                        );
 }
+
+// [[Rcpp::export]]
+List create_two_populations_migration_cpp(int pop_size,
+                                          int number_of_founders,
+                                          int total_runtime,
+                                          double morgan,
+                                          int seed,
+                                          double migration,
+                                          bool writeToFile) {
+    set_seed(seed);
+    std::vector< Fish > Pop1;
+    std::vector< Fish > Pop2;
+
+    create_two_pop_migration(Pop1, Pop2, number_of_founders, pop_size, total_runtime, morgan, migration);
+
+    if(writeToFile) {
+        writePoptoFile(Pop1, "population_1.pop");
+        writePoptoFile(Pop2, "population_2.pop");
+    }
+
+    return List::create( Named("population_1") = createPopVector(Pop1),
+                        Named("population_2") = createPopVector(Pop2)
+                        );
+}
+
+
+
 
 // [[Rcpp::export]]
 List sim_inf_chrom(int pop_size,

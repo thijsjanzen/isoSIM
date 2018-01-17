@@ -122,6 +122,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// create_two_populations_migration_cpp
+List create_two_populations_migration_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, int seed, double migration, bool writeToFile);
+RcppExport SEXP _isoSIM_create_two_populations_migration_cpp(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP seedSEXP, SEXP migrationSEXP, SEXP writeToFileSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< double >::type migration(migrationSEXP);
+    Rcpp::traits::input_parameter< bool >::type writeToFile(writeToFileSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_two_populations_migration_cpp(pop_size, number_of_founders, total_runtime, morgan, seed, migration, writeToFile));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sim_inf_chrom
 List sim_inf_chrom(int pop_size, double initial_heterozygosity, int total_runtime, double morgan, int markers, int seed);
 RcppExport SEXP _isoSIM_sim_inf_chrom(SEXP pop_sizeSEXP, SEXP initial_heterozygositySEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP markersSEXP, SEXP seedSEXP) {
@@ -157,6 +174,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_population", (DL_FUNC) &_isoSIM_create_population, 6},
     {"_isoSIM_create_femaleLine", (DL_FUNC) &_isoSIM_create_femaleLine, 5},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 7},
+    {"_isoSIM_create_two_populations_migration_cpp", (DL_FUNC) &_isoSIM_create_two_populations_migration_cpp, 7},
     {"_isoSIM_sim_inf_chrom", (DL_FUNC) &_isoSIM_sim_inf_chrom, 6},
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {NULL, NULL, 0}

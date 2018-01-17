@@ -33,6 +33,10 @@ create_two_populations_cpp <- function(pop_size, number_of_founders, total_runti
     .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile)
 }
 
+create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, seed, migration, writeToFile) {
+    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, migration, writeToFile)
+}
+
 sim_inf_chrom <- function(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed) {
     .Call('_isoSIM_sim_inf_chrom', PACKAGE = 'isoSIM', pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed)
 }

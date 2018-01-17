@@ -41,6 +41,31 @@ create_two_populations <- function(pop_size,
   return(output)
 }
 
+create_two_populations_migration <- function(pop_size,
+                                   number_of_founders,
+                                   total_runtime,
+                                   morgan,
+                                   seed,
+                                   migration,
+                                   write_to_file) {
+
+  pops <- create_two_populations_migration_cpp(pop_size,
+                                     number_of_founders,
+                                     total_runtime,
+                                     morgan,
+                                     seed,
+                                     migration,
+                                     write_to_file)
+
+  pop1 <- isoSIM::create_pop_class(pops$population_1)
+  pop2 <- isoSIM::create_pop_class(pops$population_2)
+
+  output <- list("Population_1" = pop1,
+                 "Population_2" = pop2)
+  return(output)
+}
+
+
 create_population_from_individuals <- function(indiv_1,
                                                indiv_2,
                                                pop_size,
