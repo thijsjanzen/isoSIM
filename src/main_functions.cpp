@@ -369,6 +369,7 @@ void create_two_pop_migration( std::vector< Fish >& p1,
         if(t % updateFreq == 0) {
             Rcout << "**";
         }
+        Rcpp::checkUserInterrupt();
     }
     
     p1 = Pop1;
