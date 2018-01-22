@@ -260,3 +260,27 @@ test_that("continue_from_file", {
                            morgan,
                            -1, 42)
 })
+
+test_that("migration",{
+  pops_migration <- create_two_populations_migration(pop_size = 100,
+                                                             number_of_founders = 10,
+                                                             total_runtime = 1000,
+                                                             morgan = 1,
+                                                             seed = 1234,
+                                                             migration = 0.0,
+                                                             write_to_file = FALSE)
+
+  testthat::expect_equal(length(pops_migration$Population_1), 100)
+  testthat::expect_equal(length(pops_migration$Population_2), 100)
+  testthat::expect_equal(length(pops_migration$Population_1),
+                         length(pops_migration$Population_2))
+
+  FST <- hierfstat_fst_wc(pops_migration$Population_1,
+                          pops_migration$Population_2,
+                          number_of_founders = 10,
+                          sampled_individuals = 10,
+                          number_of_markers = 100,
+                          random_markers = TRUE)
+
+  testthat::expect_equal(FST, 1.0, tolerance = 0.05)
+})

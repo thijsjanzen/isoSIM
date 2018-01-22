@@ -239,6 +239,32 @@ ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
 ```
 
+# Migration
+To simulate two populations with a fixed degree of migration between them, we can use:
+
+```{r}
+pops_migration <- create_two_populations_migration(pop_size = 1000,
+                                         number_of_founders = 10,
+                                         total_runtime = 100,
+                                         morgan = 1,
+                                         seed = 1234,
+                                         migration = 0.01,
+                                         write_to_file = FALSE)
+```
+This creates two populations, where with a probability of 0.01 (e.g. 'migration') offspring in the next generation is the product of a mating event of two randomly picked individuals from the other population.
+
+FST values drop rapidly depending on the rate of migration, migration of 0.01 already decreases FST to about 0 in 100 generations:
+```{r}
+FST <- hierfstat_fst_wc(pops_migration$Population_1,
+                 pops_migration$Population_2,
+                 number_of_founders = 10,
+                 sampled_individuals = 10,
+                 number_of_markers = 100,
+                 random_markers = TRUE)
+FST
+```
+
+
 
 
 
