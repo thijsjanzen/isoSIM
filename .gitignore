@@ -20,3 +20,5 @@ codecov_junctions_and_isoSIM.R
 calc_LD.R
 
 .Rhistory
+
+parallel_for.R
