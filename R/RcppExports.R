@@ -13,6 +13,10 @@ select_population_cpp <- function(v1, selectM, s, population_size, run_time, mor
     .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan, seed, writeToFile)
 }
 
+create_population_selection <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, seed, write_to_file) {
+    .Call('_isoSIM_create_population_selection', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, seed, write_to_file)
+}
+
 calculate_summaryStats <- function(v, number_of_founders) {
     .Call('_isoSIM_calculate_summaryStats', PACKAGE = 'isoSIM', v, number_of_founders)
 }
@@ -21,12 +25,12 @@ simulate_from_population <- function(file_name, total_runtime, morgan, number_of
     .Call('_isoSIM_simulate_from_population', PACKAGE = 'isoSIM', file_name, total_runtime, morgan, number_of_markers, seed)
 }
 
-create_population <- function(pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile) {
-    .Call('_isoSIM_create_population', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile)
+create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile) {
+    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, writeToFile)
 }
 
-create_femaleLine <- function(v, pop_size, total_runtime, morgan, seed) {
-    .Call('_isoSIM_create_femaleLine', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, seed)
+create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan, seed) {
+    .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, seed)
 }
 
 create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, seed, overlap, writeToFile) {
@@ -35,10 +39,6 @@ create_two_populations_cpp <- function(pop_size, number_of_founders, total_runti
 
 create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, seed, migration, writeToFile) {
     .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, seed, migration, writeToFile)
-}
-
-sim_inf_chrom <- function(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed) {
-    .Call('_isoSIM_sim_inf_chrom', PACKAGE = 'isoSIM', pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed)
 }
 
 test_fish_functions <- function() {

@@ -2,7 +2,7 @@ context("selection")
 
 test_that("select on population", {
 
-  sourcepop <- isoSIM::create_full_population(pop_size = 100,
+  sourcepop <- isoSIM::create_population(pop_size = 100,
                                     number_of_founders = 10,
                                     total_runtime = 1000,
                                     morgan = 1,
@@ -26,7 +26,7 @@ test_that("select on population", {
 
 test_that("allele frequencies", {
 
-  sourcepop <- isoSIM::create_full_population(pop_size = 100,
+  sourcepop <- isoSIM::create_population(pop_size = 100,
                                               number_of_founders = 2,
                                               total_runtime = 100,
                                               morgan = 1,
@@ -65,7 +65,7 @@ test_that("allele frequencies", {
 
 
   number_founders <- 20
-  sourcepop <- isoSIM::create_full_population(
+  sourcepop <- isoSIM::create_population(
                           pop_size = 10000,
                           number_of_founders = number_founders,
                           total_runtime = 1,
@@ -84,14 +84,14 @@ test_that("allele frequencies", {
   testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
 
   number_founders <- 5
-  sourcepop <- isoSIM::create_full_population(pop_size = 1000,
+  sourcepop <- isoSIM::create_population(pop_size = 1000,
                                   number_of_founders = number_founders,
                                   total_runtime = 1000,
                                   morgan = 1,
                                   seed = 123,
                                   write_to_file = FALSE)
 
-  freq_output <- calculate_allele_frequencies(sourcepop, 
+  freq_output <- calculate_allele_frequencies(sourcepop,
                                   number_of_founders = number_founders,
                                   step_size = 0.01)
   b <- freq_output %>%
@@ -101,7 +101,7 @@ test_that("allele frequencies", {
   testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
 
   number_founders <- 20
-  sourcepop <- isoSIM::create_full_population(pop_size = 1000,
+  sourcepop <- isoSIM::create_population(pop_size = 1000,
                                 number_of_founders = number_founders,
                                 total_runtime = 1,
                                 morgan = 1,
@@ -136,7 +136,7 @@ test_that("allele frequencies", {
 
 test_that("selection abuse", {
 
-  sourcepop <- isoSIM::create_full_population(pop_size = 100,
+  sourcepop <- isoSIM::create_population(pop_size = 100,
                                               number_of_founders = 2,
                                               total_runtime = 100,
                                               morgan = 1,

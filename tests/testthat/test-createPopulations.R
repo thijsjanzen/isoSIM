@@ -11,14 +11,14 @@ test_that("create_population", {
                     run_time, morgan, 42, write_to_file)
 })
 
-test_that("create_full_population", {
+test_that("create_population", {
   pop_size <- 100
   number_of_founders <- 10
   run_time <- 100
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders,
+  vx <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42, write_to_file)
 
   print(vx)
@@ -34,7 +34,7 @@ test_that("calculate_heterozygosity", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders,
+  vx <- create_population(pop_size, number_of_founders,
                                run_time, morgan, 42, write_to_file)
 
   avg_hetero <- 0
@@ -54,7 +54,7 @@ test_that("calculate_heterozygosity", {
   morgan <- 1
   write_to_file <- FALSE
 
-  vx <- create_full_population(pop_size, number_of_founders,
+  vx <- create_population(pop_size, number_of_founders,
                                run_time, morgan, 42, write_to_file)
 
   avg_hetero <- 0
@@ -87,7 +87,7 @@ test_that("calculate_dist_junctions", {
   run_time <- 100
   morgan <- 1
   for (r in 1:100) {
-    vx <- create_full_population(pop_size, 2,
+    vx <- create_population(pop_size, 2,
                                  run_time, morgan, r, FALSE)
     junct <- calculate_dist_junctions(vx)
     mean(junct)
@@ -99,7 +99,7 @@ test_that("calculate_dist_junctions", {
 
   expect_equal(mean(found), expected, tolerance = 1)
 
-  vx <- create_full_population(pop_size, 2,
+  vx <- create_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
   plot_dist_junctions(vx)
 })
@@ -113,7 +113,7 @@ test_that("calculate_allele_frequencies", {
 
   found <- c();
   for (r in 1:100) {
-    vx <- create_full_population(pop_size, 2,
+    vx <- create_population(pop_size, 2,
                                run_time, morgan, r, FALSE)
     for (i in 1:pop_size) {
       found <- rbind(found, calc_allele_frequencies(vx[[i]],
@@ -129,7 +129,7 @@ test_that("calculate_allele_frequencies", {
 
   found <- c();
   for (r in 1:100) {
-    vx <- create_full_population(pop_size, 4,
+    vx <- create_population(pop_size, 4,
                                  run_time, morgan, r, FALSE)
     for (i in 1:pop_size) {
       found <- rbind(found,
@@ -213,11 +213,11 @@ test_that("stats", {
 
   number_of_markers <- 100
   sampled_individuals <- 10
-  v1 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
+  v1 <- isoSIM::calculate_fst(pop1, pop2, number_of_founders,
                                  sampled_individuals,
                          number_of_markers, random_markers = TRUE)
 
-  v2 <- isoSIM::hierfstat_fst_wc(pop1, pop2, number_of_founders,
+  v2 <- isoSIM::calculate_fst(pop1, pop2, number_of_founders,
                                  sampled_individuals,
                          number_of_markers, random_markers = FALSE)
 
@@ -238,7 +238,7 @@ test_that("stats", {
   pop2 <- vx$Population_2
 
   number_of_markers <- 100
-  v1 <- hierfstat_fst_wc(pop1, pop2, number_of_founders,
+  v1 <- calculate_fst(pop1, pop2, number_of_founders,
                          number_of_markers, random_markers = TRUE)
 
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
@@ -275,7 +275,7 @@ test_that("migration",{
   testthat::expect_equal(length(pops_migration$Population_1),
                          length(pops_migration$Population_2))
 
-  FST <- hierfstat_fst_wc(pops_migration$Population_1,
+  FST <- calculate_fst(pops_migration$Population_1,
                           pops_migration$Population_2,
                           number_of_founders = 10,
                           sampled_individuals = 10,

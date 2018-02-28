@@ -606,22 +606,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 }
 
 
-
-/*
- //c++ code for independent compiling
- int main(int argc, const char * argv[]) {
-
- macstart(argv);
-
-	set_seed(seed);
-
- Output O = doSimulation(popSize, initRatio, maxTime, numRecombinations);
-
-	return 0;
- }
- */
-
-
 // [[Rcpp::export]]
 double calc_heterozygosity_cpp(NumericVector v) {
     std::vector< Fish > pop;
@@ -737,6 +721,51 @@ List select_population_cpp(Rcpp::NumericVector v1,
     return List::create( Named("population") = createPopVector(outputPop) );
 }
 
+// [[Rcpp::export]]
+List create_population_selection(int pop_size,
+                                 int number_of_founders,
+                                 int total_runtime,
+                                 double morgan,
+                           Rcpp::NumericVector select_matrix,
+                           double selection,
+                           int seed,
+                           bool write_to_file) {
+
+    set_seed(seed);
+    std::vector< Fish > Pop;
+    for(int i = 0; i < pop_size; ++i) {
+        Fish p1 = Fish( random_number( number_of_founders ) );
+        Fish p2 = Fish( random_number( number_of_founders ) );
+
+        Pop.push_back(mate(p1,p2, morgan));
+    }
+
+    std::vector< std::vector< double > > select;
+    std::vector<double> temp_select;
+    for(int i = 0; i < select_matrix.size(); ++i) {
+        temp_select.push_back(select_matrix[i]);
+        if(temp_select.size() == 3) {
+            select.push_back(temp_select);
+            temp_select.clear();
+        }
+    }
+
+    std::vector<Fish> outputPop = selectPopulation(Pop,
+                                                   select,
+                                                   selection,
+                                                   pop_size,
+                                                   total_runtime,
+                                                   morgan);
+
+    if(write_to_file) {
+        writePoptoFile(outputPop, "population_1.pop");
+    }
+    
+    return List::create( Named("population") = createPopVector(outputPop) );
+}
+
+
+
 
 // [[Rcpp::export]]
 List calculate_summaryStats(NumericVector v,
@@ -804,7 +833,7 @@ List simulate_from_population(std::string file_name,
 }
 
 // [[Rcpp::export]]
-List create_population(int pop_size,
+List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
                        double morgan,
@@ -822,7 +851,7 @@ List create_population(int pop_size,
 }
 
 // [[Rcpp::export]]
-List create_femaleLine(NumericVector v,
+List create_isofemale_line_cpp(NumericVector v,
                        int pop_size,
                        int total_runtime,
                        double morgan,
@@ -921,24 +950,6 @@ List create_two_populations_migration_cpp(int pop_size,
     return List::create( Named("population_1") = createPopVector(Pop1),
                         Named("population_2") = createPopVector(Pop2)
                         );
-}
-
-
-
-
-// [[Rcpp::export]]
-List sim_inf_chrom(int pop_size,
-                   double initial_heterozygosity,
-                   int total_runtime,
-                   double morgan,
-                   int markers,
-                   int seed) {
-    set_seed(seed);
-    double p = 0.5 * (1 - sqrt(1 - 2 * initial_heterozygosity));
-
-    Output O = doSimulation(pop_size, p, total_runtime, morgan, markers);
-    return List::create(Named("avgJunctions") = O.avgJunct,
-                        Named("detectedJunctions") = O.avg_detected_Junctions);
 }
 
 

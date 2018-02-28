@@ -20,7 +20,7 @@ The package isoSIM was designed to simulate the generation of iso-female lines, 
 ## Simulating an iso-female line
 In order to create an iso-female line, we first have to create a 'wild' population, from which we will draw individuals. To create such a population, we make use of the function 'create_population':
 ```{r create wildpop}
-wildpop =  create_full_population(pop_size = 100, 
+wildpop =  create_population(pop_size = 100, 
                              number_of_founders = 10,
                              total_runtime = 1000, 
                              morgan = 1, 
@@ -58,7 +58,7 @@ plot(isofemale[[1]])
 
 Because we have chosen 10 ancestors, these plots are not terribly informative, let's try a toy example:
 ```{r toyexample}
-wildpop =  create_full_population(pop_size = 100, 
+wildpop =  create_population(pop_size = 100, 
                              number_of_founders = 2,
                              total_runtime = 10, 
                              morgan = 1, 
@@ -131,7 +131,7 @@ plot(mixed_population[[1]])
 We can show the effect of overlap by calculating the Fst value:
 ```{r calc FST}
 
-FST <- hierfstat_fst_wc(two_populations$Population_1,
+FST <- calculate_fst(two_populations$Population_1,
                  two_populations$Population_2,
                  number_of_founders = 20,
                  sampled_individuals = 10,
@@ -147,7 +147,7 @@ Although this seems to be quite right, I have no right intuition how the FST sho
 We can also calculate LD statistics. LD is only defined for markers, so again we have to simulate artificial markers along the chromosome. 
 
 ```{r}
-  LD_results <- calculate_LD_matrix(wildpop, number_of_markers = 10,
+  LD_results <- calculate_LD(wildpop, number_of_markers = 10,
                             number_of_founders = 20, random_markers = TRUE)
 
   par(mfrow=c(1,3))
@@ -159,14 +159,14 @@ We can also calculate LD statistics. LD is only defined for markers, so again we
 To analyze LD patterns better, it makes more sense to create a population from scratch. We expect for a strongly inbred population, that there is no LD:
 
 ```{r no LD}
-no_LD_pop <- create_full_population(pop_size = 100, 
+no_LD_pop <- create_population(pop_size = 100, 
                              number_of_founders = 10,
                              total_runtime = 1000, 
                              morgan = 1, 
                              seed = 42, 
                              write_to_file = FALSE)
 
-LD_results <- calculate_LD_matrix(no_LD_pop, sampled_individuals = 10,
+LD_results <- calculate_LD(no_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10, number_of_founders = 20, random_markers = TRUE)
 
 par(mfrow=c(1,1))
@@ -177,14 +177,14 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 Alternatively, for a barely inbred population, we expect a negative relationship between LD and distance:
 
 ```{r strong LD}
-strong_LD_pop <- create_full_population(pop_size = 1000, 
+strong_LD_pop <- create_population(pop_size = 1000, 
                              number_of_founders = 10,
                              total_runtime = 10, 
                              morgan = 1, 
                              seed = 42, 
                              write_to_file = FALSE)
 
-LD_results <- calculate_LD_matrix(strong_LD_pop, sampled_individuals = 10,
+LD_results <- calculate_LD(strong_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10,
                             number_of_founders = 20, random_markers = TRUE)
 
@@ -199,7 +199,7 @@ Selection for genomic material of a particular ancestor can affect found pattern
 Starting from a wild population, we can simulate inbreeding with selection, in the following manner:
 ```{r selection}
 number_founders = 20
-wildpop =  create_full_population(pop_size = 1000, 
+wildpop =  create_population(pop_size = 1000, 
                              number_of_founders = number_founders,
                              total_runtime = 10, 
                              morgan = 1, 
@@ -212,8 +212,6 @@ selection_matrix[1,] = c(0.2, 0.3, 1)
 selection_matrix[2,] = c(0.6, 0.7, 2)
 
 selection_coefficient <- 1 #we choose a large coefficient to reduce the number of generations required to display the effect of selection
-
-
 
 selected_pop <- select_population(wildpop, selection_matrix,
                                   selection = selection_coefficient,
@@ -255,7 +253,7 @@ This creates two populations, where with a probability of 0.01 (e.g. 'migration'
 
 FST values drop rapidly depending on the rate of migration, migration of 0.01 already decreases FST to about 0 in 100 generations:
 ```{r}
-FST <- hierfstat_fst_wc(pops_migration$Population_1,
+FST <- calculate_fst(pops_migration$Population_1,
                  pops_migration$Population_2,
                  number_of_founders = 10,
                  sampled_individuals = 10,

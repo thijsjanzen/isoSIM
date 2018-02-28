@@ -101,7 +101,7 @@ hierfstat_basic_stats <- function(pop1,
 }
 
 
-hierfstat_fst_wc <- function(pop1,
+calculate_fst <- function(pop1,
                              pop2,
                              number_of_founders,
                              sampled_individuals,

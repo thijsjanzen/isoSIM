@@ -1,4 +1,4 @@
-create_full_population <- function(pop_size,
+create_population <- function(pop_size,
                                    number_of_founders,
                                    total_runtime,
                                    morgan,
@@ -6,7 +6,7 @@ create_full_population <- function(pop_size,
                                    write_to_file) {
 
   #call C_function
-  pop <- isoSIM::create_population(pop_size,
+  pop <- isoSIM::create_population_cpp(pop_size,
                            number_of_founders,
                            total_runtime,
                            morgan,
@@ -88,7 +88,7 @@ create_population_from_individuals <- function(indiv_1,
     indiv <- c(indiv, indiv_2$chromosome2[i, ])
   }
 
-  inbred_pop <- create_femaleLine(indiv, pop_size,
+  inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,
                                   total_runtime, morgan,
                                   seed)
 

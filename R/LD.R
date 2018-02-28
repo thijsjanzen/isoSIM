@@ -48,7 +48,7 @@ calculate_average_LD <- function(alleles_pos_1,
          )
 }
 
-calculate_LD_matrix <- function(pop,
+calculate_LD <- function(pop,
                                 sampled_individuals,
                                 number_of_markers,
                                 number_of_founders,

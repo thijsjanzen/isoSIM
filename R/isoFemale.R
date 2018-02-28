@@ -20,7 +20,7 @@ create_iso_female_line <- function(parents,
     indiv <- c(indiv, parents[[2]]$chromosome2[i, ])
   }
 
-  inbred_pop <- create_femaleLine(indiv, pop_size,
+  inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,
                                   run_time, morgan,
                                   seed)
 
