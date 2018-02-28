@@ -194,7 +194,6 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 ```
 
 # Selection
-
 Selection for genomic material of a particular ancestor can affect found patterns. isoSIM provides tools to implement such selection pressures. 
 Starting from a wild population, we can simulate inbreeding with selection, in the following manner:
 ```{r selection}
@@ -221,7 +220,7 @@ selected_pop <- select_population(wildpop, selection_matrix,
                                   seed = 12345,
                                   write_to_file = FALSE)
 ```
-Here, we define a selectionMatrix, which defines the areas of selection. Each row in the matrix contains 3 elements: the start of the area under selection, the end of the area under selection, and the ancestor which is favoured. Then, using the function select_population, which is very similar to other 'create_population' functions, we simulate the process. An extra argument is the argument 'selection', which indicates the strength of selection. Fitness of individuals is determined by their match to the area under selection, e.g. individuals without the ancestor have fitness 1, and individuals with the ancestor have fitness 1 + s. 
+Here, we define a selection matrix, which defines the areas of selection. Each row in the matrix contains 3 elements: the start of the area under selection, the end of the area under selection, and the ancestor which is favoured. Then, using the function select_population, which is very similar to other 'create_population' functions, we simulate the process. An extra argument is the argument 'selection', which indicates the strength of selection. Fitness of individuals is determined by their match to the area under selection, e.g. individuals without the ancestor have fitness 1, and individuals with the ancestor have fitness 1 + s. 
 
 Obtained results can be analyzed using the function calculate_allele_frequencies, which estimates allele frequencies across the genome.
 ```{r allele frequencies}
@@ -235,6 +234,17 @@ calculate_allele_frequencies returns a tibble (from the tidyverse) and can easil
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_line() +
   geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
+```
+Alternatively, selection can be implemented from scratch, without supplying a source population:
+```{r selection from scratch}
+selected_pop_2 <- create_population_selection(pop_size = 1000,
+                                  number_of_founders = 10, 
+                                  total_runtime = 1000,
+                                  morgan = 1,
+                                  select_matrix = selection_matrix,
+                                  selection = selection_coefficient,
+                                  seed = 12345,
+                                  write_to_file = FALSE)
 ```
 
 # Migration
@@ -261,12 +271,3 @@ FST <- calculate_fst(pops_migration$Population_1,
                  random_markers = TRUE)
 FST
 ```
-
-
-
-
-
-
-
-
-

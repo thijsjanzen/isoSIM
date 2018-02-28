@@ -15,6 +15,8 @@
 #include <string>
 
 #include "Fish.h"
+#include <Rcpp.h>
+using namespace Rcpp;
 
 struct Output {
     std::vector<double> avgJunct;
@@ -32,7 +34,9 @@ void readPopfromFile(      std::vector< Fish >& Pop,
                            std::string filename);
 
 double calculate_heterozygosity(const std::vector < Fish >& v);
-
+void flush_console();
+bool is_fixed(const std::vector< Fish >& v);
+std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v);
 
 
 #endif /* Output_hpp */
