@@ -10,12 +10,16 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.width=6) 
-library(isoSIM)
-require(ggplot2)
 ```
 
 # ISOSIM
 The package isoSIM was designed to simulate the generation of iso-female lines, and simulate genomic changes during, and after, formation of iso-female lines. Furthermore, it allows for simulation of effects after crossing individuals from iso-female lines.
+
+```{r}
+library(isoSIM)
+library(ggplot2)
+```
+
 
 ## Simulating an iso-female line
 In order to create an iso-female line, we first have to create a 'wild' population, from which we will draw individuals. To create such a population, we make use of the function 'create_population':
@@ -122,7 +126,7 @@ mixed_population <- create_population_from_individuals(isofemale_1[[1]], isofema
 ```
 And plot some individuals from our new population:
 ```{r plot mixed_population}
-plot(mixed_population[[1]])
+#plot(mixed_population[[1]])
 ```
 
 # Statistics
@@ -133,7 +137,6 @@ We can show the effect of overlap by calculating the Fst value:
 
 FST <- calculate_fst(two_populations$Population_1,
                  two_populations$Population_2,
-                 number_of_founders = 20,
                  sampled_individuals = 10,
                  number_of_markers = 100,
                  random_markers = TRUE)
@@ -147,8 +150,7 @@ Although this seems to be quite right, I have no right intuition how the FST sho
 We can also calculate LD statistics. LD is only defined for markers, so again we have to simulate artificial markers along the chromosome. 
 
 ```{r}
-  LD_results <- calculate_LD(wildpop, number_of_markers = 10,
-                            number_of_founders = 20, random_markers = TRUE)
+  LD_results <- calculate_LD(wildpop, number_of_markers = 10, random_markers = TRUE)
 
   par(mfrow=c(1,3))
   plot(LD_results$LD_matrix~LD_results$dist_matrix, xlab = "Genetic Distance (Morgan)", ylab = "LD", pch = 16)
@@ -167,7 +169,7 @@ no_LD_pop <- create_population(pop_size = 100,
                              write_to_file = FALSE)
 
 LD_results <- calculate_LD(no_LD_pop, sampled_individuals = 10,
-                                  number_of_markers = 10, number_of_founders = 20, random_markers = TRUE)
+                                  number_of_markers = 10, random_markers = TRUE)
 
 par(mfrow=c(1,1))
 par(mar=c(4,4,2,2))
@@ -184,9 +186,8 @@ strong_LD_pop <- create_population(pop_size = 1000,
                              seed = 42, 
                              write_to_file = FALSE)
 
-LD_results <- calculate_LD(strong_LD_pop, sampled_individuals = 10,
-                                  number_of_markers = 10,
-                            number_of_founders = 20, random_markers = TRUE)
+LD_results <- isoSIM::calculate_LD(strong_LD_pop, sampled_individuals = 100,
+                                  number_of_markers = 10, random_markers = TRUE)
 
 par(mfrow=c(1,1))
 par(mar=c(4,4,2,2))
@@ -245,6 +246,15 @@ selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   selection = selection_coefficient,
                                   seed = 12345,
                                   write_to_file = FALSE)
+
+freq_output <- calculate_allele_frequencies(selected_pop, 
+                                            number_of_founders = number_founders,
+                                            step_size = 0.01)
+
+ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
+  geom_line() +
+  geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
+
 ```
 
 # Migration
@@ -265,7 +275,6 @@ FST values drop rapidly depending on the rate of migration, migration of 0.01 al
 ```{r}
 FST <- calculate_fst(pops_migration$Population_1,
                  pops_migration$Population_2,
-                 number_of_founders = 10,
                  sampled_individuals = 10,
                  number_of_markers = 100,
                  random_markers = TRUE)
