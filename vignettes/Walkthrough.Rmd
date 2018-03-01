@@ -119,14 +119,14 @@ plot_chromosome(isofemale_2[[1]]$chromosome1, 0, 1)
 
 We can now use these two isofemales to seed a new inbreeding population:
 ```{r seed mixed population}
-mixed_population <- create_population_from_individuals(isofemale_1[[1]], isofemale_2[[1]],
+mixed_population <- create_population_from_individuals(list(isofemale_1[[1]], isofemale_2[[1]]),
                                                        pop_size = 100, total_runtime = 100,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
 
 ```
 And plot some individuals from our new population:
 ```{r plot mixed_population}
-#plot(mixed_population[[1]])
+plot(mixed_population[[1]])
 ```
 
 # Statistics
