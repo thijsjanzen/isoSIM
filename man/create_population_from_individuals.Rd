@@ -8,7 +8,7 @@
   Create a population from isofemale individuals
 }
 \usage{
-create_population_from_individuals(indiv_1, indiv_2, pop_size,
+create_population_from_individuals(individuals, pop_size,
               total_runtime, morgan, seed, write_to_file)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -62,9 +62,9 @@ create_population_from_individuals(indiv_1, indiv_2, pop_size,
                                run_time = 1000000,
                                morgan = 1)
 
-  mixed_population <- create_population_from_individuals(c(isofemale_1[[1]],
+  mixed_population <- create_population_from_individuals(list(isofemale_1[[1]],
                                                          isofemale_2[[1]]),
-                                                       pop_size = 100, total_runtime = 100,
+                                                       pop_size = 100, total_runtime = 10,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
 
 

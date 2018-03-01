@@ -8,7 +8,7 @@ Authors@R: c(person("Thijs","Janzen", email = "thijsjanzen@gmail.com", role=c("a
 Description: Simulation of source populations, and simulation of the creation of isofemale lines from these populations.
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.12), hierfstat, tibble
-Suggests: testit, testthat, knitr, rmarkdown, ggplot2, magrittr, dplyr
+Suggests: testit, testthat, knitr, rmarkdown, ggplot2, magrittr, dplyr, junctions
 LinkingTo: Rcpp
 SystemRequirements: C++11
 VignetteBuilder: knitr

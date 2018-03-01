@@ -104,6 +104,31 @@ test_that("calculate_dist_junctions", {
   plot_dist_junctions(vx)
 })
 
+test_that("expected_number_junctions", {
+  found <- c();
+  pop_size <- 100
+  run_time <- 100
+  morgan <- 1
+  for (r in 1:100) {
+    vx <- create_population(pop_size, 2,
+                            run_time, morgan, r, FALSE)
+    junct <- calculate_dist_junctions(vx)
+    mean(junct)
+    found <- c(found, mean(junct))
+    cat(r, mean(junct), "\n")
+  }
+  require(junctions)
+  expected <- junctions::number_of_junctions(N = pop_size, H_0 = 0.5, C = 1, t = run_time)
+
+  expect_equal(mean(found), expected, tolerance = 1)
+
+  vx <- create_population(pop_size, 2,
+                          run_time, morgan, r, FALSE)
+  plot_dist_junctions(vx)
+})
+
+
+
 test_that("calculate_allele_frequencies", {
   pop_size <- 100
   number_of_founders <- 2
@@ -282,7 +307,7 @@ test_that("create_population_from_individuals", {
                                    run_time = 1000000,
                                    morgan = 1)
 
-  mixed_population <- create_population_from_individuals(c(isofemale_1[[1]],
+  mixed_population <- create_population_from_individuals(list(isofemale_1[[1]],
                                                            isofemale_2[[1]]),
                                                          pop_size = 100, total_runtime = 100,
                                                          morgan = 1, seed = 42, write_to_file = FALSE)

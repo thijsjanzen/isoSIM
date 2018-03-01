@@ -32,7 +32,7 @@ test_that("create_population_from_isofemales", {
   female_1 <- isoSIM::create_iso_female(vx$Population_1, n = 1)
   female_2 <- isoSIM::create_iso_female(vx$Population_2, n = 1)
 
-  vy <- isoSIM::create_population_from_individuals(female_1[[1]], female_2[[1]],
+  vy <- isoSIM::create_population_from_individuals(list(female_1[[1]], female_2[[1]]),
                                      pop_size, run_time,
                                      morgan,
                                      seed = 666,
