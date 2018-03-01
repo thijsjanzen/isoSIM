@@ -166,13 +166,26 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 {
     std::vector<Fish> Pop;
 
-    for(int i = 0; i < popSize; ++i) {
-        Fish temp = mate( founders[0], founders[1], Morgan);
-        std::vector< Fish > to_print;
-        to_print.push_back(temp);
-       Pop.push_back( temp);
-    }
+    if(founders.size() == 2) {
+        for(int i = 0; i < popSize; ++i) {
+            Fish temp = mate( founders[0], founders[1], Morgan);
+            std::vector< Fish > to_print;
+            to_print.push_back(temp);
+           Pop.push_back( temp);
+        }
+    } else {
+        for(int i = 0; i < popSize; ++i) {
+            int index1 = random_number(founders.size());
+            int index2 = random_number(founders.size());
+            while(index1 == index2) index2 = random_number(founders.size());
 
+            Fish temp = mate( founders[index1], founders[index2], Morgan);
+            std::vector< Fish > to_print;
+            to_print.push_back(temp);
+            Pop.push_back( temp);
+        }
+
+    }
     Pop = simulate(Pop, popSize, maxTime, Morgan);
     return(Pop);
 }

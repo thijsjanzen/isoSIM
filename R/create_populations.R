@@ -66,26 +66,22 @@ create_two_populations_migration <- function(pop_size,
 }
 
 
-create_population_from_individuals <- function(indiv_1,
-                                               indiv_2,
+create_population_from_individuals <- function(individuals,
                                                pop_size,
                                                total_runtime,
                                                morgan,
                                                seed,
                                                write_to_file) {
   indiv <- c()
-  for (i in seq_along(indiv_1$chromosome1[, 1])) {
-    indiv <- c(indiv, indiv_1$chromosome1[i, ])
-  }
-  for (i in seq_along(indiv_1$chromosome2[, 1])) {
-    indiv <- c(indiv, indiv_1$chromosome2[i, ])
-  }
 
-  for (i in seq_along(indiv_2$chromosome1[, 1])) {
-    indiv <- c(indiv, indiv_2$chromosome1[i, ])
-  }
-  for (i in seq_along(indiv_2$chromosome2[, 1])) {
-    indiv <- c(indiv, indiv_2$chromosome2[i, ])
+  for(j in seq_along(individuals)) {
+
+    for (i in seq_along(individuals[[j]]$chromosome1[, 1])) {
+      indiv <- c(indiv, individuals[[j]]$chromosome1[i, ])
+    }
+    for (i in seq_along(individuals[[j]]$chromosome2[, 1])) {
+      indiv <- c(indiv, individuals[[j]]$chromosome2[i, ])
+    }
   }
 
   inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,

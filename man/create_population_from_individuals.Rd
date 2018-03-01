@@ -13,11 +13,8 @@ create_population_from_individuals(indiv_1, indiv_2, pop_size,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{indiv_1}{
-  Isofemale parent 1
-}
-  \item{indiv_2}{
- Isofemale parent 2
+  \item{individuals}{
+  List of isofemale individuals to be used to create a population from.
 }
   \item{pop_size}{
   Number of individuals in the population
@@ -65,8 +62,8 @@ create_population_from_individuals(indiv_1, indiv_2, pop_size,
                                run_time = 1000000,
                                morgan = 1)
 
-  mixed_population <- create_population_from_individuals(isofemale_1[[1]],
-                                                         isofemale_2[[1]],
+  mixed_population <- create_population_from_individuals(c(isofemale_1[[1]],
+                                                         isofemale_2[[1]]),
                                                        pop_size = 100, total_runtime = 100,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
 
