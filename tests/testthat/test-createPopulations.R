@@ -262,40 +262,47 @@ test_that("continue_from_file", {
 
 
 test_that("create_population_from_individuals", {
-two_populations <- create_two_populations(pop_size = 100,
-                                          number_of_founders = 20,
-                                          total_runtime = 5,
-                                          morgan = 1,
-                                          seed = 42,
-                                          overlap = 0.25,
-                                          write_to_file = FALSE)
+  two_populations <- create_two_populations(pop_size = 100,
+                                            number_of_founders = 20,
+                                            total_runtime = 5,
+                                            morgan = 1,
+                                            seed = 42,
+                                            overlap = 0.25,
+                                            write_to_file = FALSE)
 
-isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
-                                 n = 1,
-                                 inbreeding_pop_size = 100,
-                                 run_time = 1000000,
-                                 morgan = 1)
+  isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
+                                   n = 1,
+                                   inbreeding_pop_size = 100,
+                                   run_time = 1000000,
+                                   morgan = 1)
 
-isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
-                                 n = 1,
-                                 inbreeding_pop_size = 100,
-                                 run_time = 1000000,
-                                 morgan = 1)
+  isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
+                                   n = 1,
+                                   inbreeding_pop_size = 100,
+                                   run_time = 1000000,
+                                   morgan = 1)
 
-mixed_population <- create_population_from_individuals(c(isofemale_1[[1]],
-                                                         isofemale_2[[1]]),
-                                                       pop_size = 100, total_runtime = 100,
-                                                       morgan = 1, seed = 42, write_to_file = FALSE)
+  mixed_population <- create_population_from_individuals(c(isofemale_1[[1]],
+                                                           isofemale_2[[1]]),
+                                                         pop_size = 100, total_runtime = 100,
+                                                         morgan = 1, seed = 42, write_to_file = FALSE)
 
 
-isofemales <- create_iso_female(source_pop = two_populations$Population_1,
-                                 n = 5,
-                                 inbreeding_pop_size = 100,
-                                 run_time = 1000000,
-                                 morgan = 1)
+  a1 <- list(isofemale_1[[1]],
+             isofemale_2[[1]])
 
-mixed_population_2 <- create_population_from_individuals(isofemales,
-                                                       pop_size = 100, total_runtime = 100,
+  a2 <- c(isofemale_1[[1]],
+               isofemale_2[[1]])
+
+
+  isofemales <- create_iso_female(source_pop = two_populations$Population_1,
+                                   n = 5,
+                                   inbreeding_pop_size = 100,
+                                   run_time = 1000000,
+                                   morgan = 1)
+
+  mixed_population_2 <- create_population_from_individuals(isofemales,
+                                                         pop_size = 100, total_runtime = 100,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
 
 })
