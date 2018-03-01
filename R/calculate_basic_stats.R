@@ -34,7 +34,6 @@ calculate_heterozygosity <- function(pop) {
 
 create_loci_matrix <- function(pop1,
                                pop2,
-                               number_of_founders,
                                number_of_markers,
                                random_markers) {
 
@@ -85,14 +84,12 @@ create_loci_matrix <- function(pop1,
 
 hierfstat_basic_stats <- function(pop1,
                               pop2,
-                              number_of_founders,
                               number_of_markers = 100,
                               random_markers = FALSE) {
 
   number_of_markers <- round(number_of_markers)
 
-  all_loci <- create_loci_matrix(pop1, pop2,
-                                 number_of_founders, number_of_markers,
+  all_loci <- create_loci_matrix(pop1, pop2, number_of_markers,
                                  random_markers)
 
   hierf_sum_overall <- hierfstat::basic.stats(as.data.frame(all_loci))$overall
@@ -103,7 +100,6 @@ hierfstat_basic_stats <- function(pop1,
 
 calculate_fst <- function(pop1,
                              pop2,
-                             number_of_founders,
                              sampled_individuals,
                              number_of_markers = 100,
                              random_markers = FALSE) {
@@ -113,7 +109,7 @@ calculate_fst <- function(pop1,
   all_loci <- create_loci_matrix(
                 pop1[sample(1:length(pop1), sampled_individuals)],
                 pop2[sample(1:length(pop2), sampled_individuals)],
-                number_of_founders, number_of_markers,
+                number_of_markers,
                 random_markers)
 
   hierf_wc <- hierfstat::wc(as.data.frame(all_loci))

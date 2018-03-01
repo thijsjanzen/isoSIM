@@ -191,7 +191,6 @@ test_that("basic stats", {
   pop2 <- vx$Population_2
 
   a <- hierfstat_basic_stats(pop1, pop2,
-                             number_of_founders,
                              number_of_markers = 100,
                              random_markers = TRUE)
 })
@@ -213,11 +212,11 @@ test_that("stats", {
 
   number_of_markers <- 100
   sampled_individuals <- 10
-  v1 <- isoSIM::calculate_fst(pop1, pop2, number_of_founders,
+  v1 <- isoSIM::calculate_fst(pop1, pop2,
                                  sampled_individuals,
                          number_of_markers, random_markers = TRUE)
 
-  v2 <- isoSIM::calculate_fst(pop1, pop2, number_of_founders,
+  v2 <- isoSIM::calculate_fst(pop1, pop2,
                                  sampled_individuals,
                          number_of_markers, random_markers = FALSE)
 
@@ -238,7 +237,7 @@ test_that("stats", {
   pop2 <- vx$Population_2
 
   number_of_markers <- 100
-  v1 <- calculate_fst(pop1, pop2, number_of_founders,
+  v1 <- calculate_fst(pop1, pop2,
                          number_of_markers, random_markers = TRUE)
 
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
@@ -277,7 +276,6 @@ test_that("migration",{
 
   FST <- calculate_fst(pops_migration$Population_1,
                           pops_migration$Population_2,
-                          number_of_founders = 10,
                           sampled_individuals = 10,
                           number_of_markers = 100,
                           random_markers = TRUE)

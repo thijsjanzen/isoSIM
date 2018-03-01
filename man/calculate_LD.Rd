@@ -9,7 +9,7 @@
 }
 \usage{
 calculate_LD(pop, sampled_individuals,
-                    number_of_markers, number_of_founders, random_markers)
+                    number_of_markers, random_markers)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,9 +21,6 @@ calculate_LD(pop, sampled_individuals,
 }
   \item{number_of_markers}{
   Number of markers used to calculate the LD matrices
-}
-  \item{number_of_founders}{
-  Number of founders in the focal population
 }
   \item{random_markers}{
   If TRUE, markers are randomly spaced along the chromosome, if FALSE, markers are equidistantly spaced along the chromosome.
@@ -54,6 +51,5 @@ calculate_LD(pop, sampled_individuals,
 
   LD_results <- calculate_LD(wildpop,
                                     number_of_markers = 10,
-                                    number_of_founders = 10,
                                     random_markers = TRUE)
 }

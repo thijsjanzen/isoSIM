@@ -1,11 +1,13 @@
-calculate_average_LD <- function(alleles_pos_1,
-                                 alleles_pos_2,
-                                 number_of_founders) {
+calculate_average_LD <- function(alleles_pos_1, alleles_pos_2) {
+  all_alleles <- unique( unique(alleles_pos_1[,1]), unique(alleles_pos_1[,2]),
+                         unique(alleles_pos_2[,1]), unique(alleles_pos_2[,2]))
+
+  all_alleles <- sort(all_alleles)
 
   LD <- 0
   r_squared <- 0
-  for (i in seq_len(number_of_founders)) {
-    for (j in seq_len(number_of_founders)) {
+  for (i in all_alleles) {
+    for (j in all_alleles) {
       p_A_i <- length(which(alleles_pos_1 == i)) / length(alleles_pos_1)
       p_B_j <- length(which(alleles_pos_2 == j)) / length(alleles_pos_2)
 
@@ -49,10 +51,9 @@ calculate_average_LD <- function(alleles_pos_1,
 }
 
 calculate_LD <- function(pop,
-                                sampled_individuals,
-                                number_of_markers,
-                                number_of_founders,
-                                random_markers) {
+                         sampled_individuals,
+                         number_of_markers,
+                         random_markers) {
 
   all_loci <- matrix(nrow = length(pop), ncol = 2 * number_of_markers, 0)
 
@@ -100,7 +101,7 @@ calculate_LD <- function(pop,
         g1 <- all_loci[, index1]
         g2 <- all_loci[, index2]
 
-        ld <- isoSIM::calculate_average_LD(g1, g2, number_of_founders)
+        ld <- calculate_average_LD(g1, g2)
         LD_matrix[x, y] <- ld$LD
         rsq_matrix[x, y] <- ld$r_sq
         gen_dist <- abs(markers[x] - markers[y])

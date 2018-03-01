@@ -31,7 +31,7 @@ test_that("calculate_average_LD", {
   g1 <- all_loci[, 1:2]
   g2 <- all_loci[, 3:4]
 
-  vv <- calculate_average_LD(g1, g2, number_of_founders)
+  vv <- calculate_average_LD(g1, g2)
   expect_equal(vv$LD, 1)
 })
 
@@ -46,8 +46,8 @@ test_that("calculate_LD_matrix", {
   pop1 <- create_population(pop_size, number_of_founders,
                                  run_time, morgan, 42, write_to_file)
 
-  vv <- calculate_LD(pop1, sampled_individuals, number_of_markers = 10,
-                            number_of_founders, random_markers = TRUE)
+  vv <- calculate_LD(pop1, sampled_individuals,
+                     number_of_markers = 10, random_markers = TRUE)
 
   vv1 <- as.vector(vv$LD_matrix[!is.na(vv$LD_matrix)])
   vv2 <- as.vector(vv$dist_matrix[!is.na(vv$dist_matrix)])
