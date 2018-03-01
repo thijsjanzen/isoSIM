@@ -1,6 +1,4 @@
 calculate_average_LD <- function(alleles_pos_1, alleles_pos_2) {
-  #all_alleles <- unique( unique(alleles_pos_1[,1]), unique(alleles_pos_1[,2]),
-  #                       unique(alleles_pos_2[,1]), unique(alleles_pos_2[,2]))
 
   all_alleles <- c( as.vector(alleles_pos_1), as.vector(alleles_pos_2))
   all_alleles <- sort(unique(all_alleles))
