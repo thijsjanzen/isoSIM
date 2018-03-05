@@ -70,9 +70,3 @@ create_population_selection <- function(pop_size, number_of_founders, total_runt
   popstruct <- isoSIM::create_pop_class(pop$population)
   return(popstruct)
 }
-
-
-
-
-}
-

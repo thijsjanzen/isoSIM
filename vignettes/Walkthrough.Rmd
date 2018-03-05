@@ -233,12 +233,17 @@ ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
 ```
 Alternatively, selection can be implemented from scratch, without supplying a source population:
 ```{r selection from scratch}
+selection_matrix = matrix(ncol=3, nrow = 2)
+
+selection_matrix[1,] = c(0.1, 0.12, 1)
+selection_matrix[2,] = c(0.78, 0.8, 2)
+
 selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   number_of_founders = 10, 
-                                  total_runtime = 100,
+                                  total_runtime = 1000,
                                   morgan = 1,
                                   select_matrix = selection_matrix,
-                                  selection = selection_coefficient,
+                                  selection = 10,
                                   seed = 12345,
                                   write_to_file = FALSE)
 
@@ -248,7 +253,7 @@ freq_output <- calculate_allele_frequencies(selected_pop,
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_line() +
-  geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
+  geom_vline(xintercept = c(0.1, 0.12, 0.78, 0.8), lty = 2)
 
 ```
 
