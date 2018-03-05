@@ -22,3 +22,5 @@ calc_LD.R
 .Rhistory
 
 parallel_for.R
+
+*.png

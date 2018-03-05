@@ -20,9 +20,9 @@ create_iso_female_line <- function(parents,
     indiv <- c(indiv, parents[[2]]$chromosome2[i, ])
   }
 
+  set.seed(seed)
   inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,
-                                  run_time, morgan,
-                                  seed)
+                                  run_time, morgan)
 
   inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
 
@@ -58,11 +58,11 @@ create_iso_female <- function(source_pop,
   for (i in seq_len(n)) {
     parents <- list(iso_females[[i]], iso_females[[i + n]])
 
+    set.seed(i)
     vx <- create_iso_female_line(parents,
                                  pop_size = inbreeding_pop_size,
                                  run_time = run_time,
-                                 morgan = morgan,
-                                 seed = i)
+                                 morgan = morgan)
     output_females[[i]] <- vx
     class(output_females[[i]]) <- "individual"
   }

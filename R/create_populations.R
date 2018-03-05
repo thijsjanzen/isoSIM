@@ -5,12 +5,12 @@ create_population <- function(pop_size,
                                    seed,
                                    write_to_file) {
 
+  set.seed(seed)
   #call C_function
   pop <- isoSIM::create_population_cpp(pop_size,
                            number_of_founders,
                            total_runtime,
                            morgan,
-                           seed,
                            write_to_file)
 
   popstruct <- isoSIM::create_pop_class(pop$population)
@@ -25,11 +25,11 @@ create_two_populations <- function(pop_size,
                                         overlap,
                                         write_to_file) {
 
+  set.seed(seed)
   pops <- create_two_populations_cpp(pop_size,
                                  number_of_founders,
                                  total_runtime,
                                  morgan,
-                                 seed,
                                  overlap,
                                  write_to_file)
 
@@ -86,9 +86,9 @@ create_population_from_individuals <- function(individuals,
     }
   }
 
+  set.seed(seed)
   inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,
-                                  total_runtime, morgan,
-                                  seed)
+                                  total_runtime, morgan)
 
   inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
 

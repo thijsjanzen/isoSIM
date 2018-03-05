@@ -285,10 +285,8 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 List simulate_from_population(std::string file_name,
                               int total_runtime,
                               double morgan,
-                              int number_of_markers,
-                              int seed)
+                              int number_of_markers)
 {
-    set_seed(seed);
     std::vector< Fish > Pop;
     readPopfromFile(Pop, file_name);
 
@@ -302,10 +300,8 @@ List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
                        double morgan,
-                       int seed,
                        bool writeToFile)
 {
-    set_seed(seed);
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
                                              total_runtime, morgan, 0.0, 0);
     if(writeToFile) {
@@ -319,10 +315,8 @@ List create_population_cpp(int pop_size,
 List create_isofemale_line_cpp(NumericVector v,
                        int pop_size,
                        int total_runtime,
-                       double morgan,
-                       int seed)
+                       double morgan)
 {
-    set_seed(seed);
 
     std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
 
@@ -338,10 +332,9 @@ List create_two_populations_cpp(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,
-                            int seed,
                             double overlap,
                             bool writeToFile) {
-    set_seed(seed);
+
     std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 0);
     if(writeToFile) {
@@ -364,10 +357,8 @@ List create_two_populations_migration_cpp(int pop_size,
                                           int number_of_founders,
                                           int total_runtime,
                                           double morgan,
-                                          int seed,
                                           double migration,
                                           bool writeToFile) {
-    set_seed(seed);
     std::vector< Fish > Pop1;
     std::vector< Fish > Pop2;
 
