@@ -120,7 +120,7 @@ mixed_population <- create_population_from_individuals(list(isofemales[[1]], iso
 ```
 And plot some individuals from our new population:
 ```{r plot mixed_population}
-plot(mixed_population[[1]])
+#plot(mixed_population[[1]])
 ```
 
 # Statistics
@@ -180,7 +180,7 @@ strong_LD_pop <- create_population(pop_size = 1000,
                              seed = 42, 
                              write_to_file = FALSE)
 
-LD_results <- isoSIM::calculate_LD(strong_LD_pop, sampled_individuals = 100,
+LD_results <- isoSIM::calculate_LD(strong_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10, random_markers = TRUE)
 
 par(mfrow=c(1,1))
@@ -226,6 +226,7 @@ freq_output <- calculate_allele_frequencies(selected_pop,
 calculate_allele_frequencies returns a tibble (from the tidyverse) and can easily be plotted:
 ```{r plot allele frequencies}
 
+require(ggplot2)
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_line() +
   geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
