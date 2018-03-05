@@ -231,7 +231,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 }
 
 // [[Rcpp::export]]
-List create_population_selection(int pop_size,
+List create_population_selection_cpp(int pop_size,
                                  int number_of_founders,
                                  int total_runtime,
                                  double morgan,

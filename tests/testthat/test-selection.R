@@ -10,7 +10,7 @@ test_that("select population", {
                                             total_runtime = 100,
                                             morgan = 1,
                                             select_matrix,
-                                            selection = 1,x``
+                                            selection = 1,
                                             seed = 1234,
                                             write_to_file = FALSE)
 
