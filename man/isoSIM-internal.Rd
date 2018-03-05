@@ -15,6 +15,7 @@
 \alias{plot_dist_junctions}
 \alias{simulate_from_population}
 \alias{create_isofemale_line_cpp}
+\alias{create_population_selection_cpp}
 \alias{plot.individual}
 \alias{print.population}
 \alias{print.individual}
