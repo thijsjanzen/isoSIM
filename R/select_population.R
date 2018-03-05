@@ -58,10 +58,16 @@ calculate_allele_frequencies <- function(source_pop,
   return(output)
 }
 
-create_population_selection <- function(pop_size, number_of_founders, total_runtime, morgan,
-                                        select_matrix, selection, seed, write_to_file = FALSE) {
+create_population_selection <- function(pop_size,
+                                        number_of_founders,
+                                        total_runtime,
+                                        morgan,
+                                        select_matrix,
+                                        selection,
+                                        seed,
+                                        write_to_file = FALSE) {
 
-  if (sum(is.na(select))) {
+  if (sum(is.na(select_matrix))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
 
