@@ -49,11 +49,11 @@ create_two_populations_migration <- function(pop_size,
                                    migration,
                                    write_to_file) {
 
+  set.seed(seed)
   pops <- create_two_populations_migration_cpp(pop_size,
                                      number_of_founders,
                                      total_runtime,
                                      morgan,
-                                     seed,
                                      migration,
                                      write_to_file)
 
