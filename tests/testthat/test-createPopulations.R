@@ -41,7 +41,10 @@ test_that("expected_number_junctions", {
     cat(r, mean(junct), "\n")
   }
   require(junctions)
-  expected <- junctions::number_of_junctions(N = pop_size, H_0 = 0.5, C = 1, t = run_time)
+  expected <- junctions::number_of_junctions(N = pop_size,
+                                             H_0 = 0.5,
+                                             C = 1,
+                                             t = run_time)
 
   expect_equal(mean(found), expected, tolerance = 1)
 
@@ -212,9 +215,12 @@ test_that("create_population_from_individuals", {
                                    morgan = 1)
 
   mixed_population <- create_population_from_individuals(list(isofemale_1[[1]],
-                                                           isofemale_2[[1]]),
-                                                         pop_size = 100, total_runtime = 100,
-                                                         morgan = 1, seed = 42, write_to_file = FALSE)
+                                                              isofemale_2[[1]]),
+                                                         pop_size = 100,
+                                                         total_runtime = 100,
+                                                         morgan = 1,
+                                                         seed = 42,
+                                                         write_to_file = FALSE)
 
 
   a1 <- list(isofemale_1[[1]],
@@ -231,29 +237,32 @@ test_that("create_population_from_individuals", {
                                    morgan = 1)
 
   mixed_population_2 <- create_population_from_individuals(isofemales,
-                                                         pop_size = 100, total_runtime = 100,
-                                                       morgan = 1, seed = 42, write_to_file = FALSE)
+                                                         pop_size = 100,
+                                                         total_runtime = 100,
+                                                         morgan = 1,
+                                                         seed = 42,
+                                                         write_to_file = FALSE)
 
 })
 test_that("migration",{
   pops_migration <- create_two_populations_migration(pop_size = 100,
-                                                             number_of_founders = 10,
-                                                             total_runtime = 1000,
-                                                             morgan = 1,
-                                                             seed = 1234,
-                                                             migration = 0.0,
-                                                             write_to_file = FALSE)
+                                                     number_of_founders = 10,
+                                                     total_runtime = 1000,
+                                                     morgan = 1,
+                                                     seed = 1234,
+                                                     migration = 0.0,
+                                                     write_to_file = FALSE)
 
   testthat::expect_equal(length(pops_migration$Population_1), 100)
   testthat::expect_equal(length(pops_migration$Population_2), 100)
   testthat::expect_equal(length(pops_migration$Population_1),
                          length(pops_migration$Population_2))
 
-  FST <- calculate_fst(pops_migration$Population_1,
+  fst <- calculate_fst(pops_migration$Population_1,
                           pops_migration$Population_2,
                           sampled_individuals = 10,
                           number_of_markers = 100,
                           random_markers = TRUE)
 
-  testthat::expect_equal(FST, 1.0, tolerance = 0.05)
+  testthat::expect_equal(fst, 1.0, tolerance = 0.05)
 })

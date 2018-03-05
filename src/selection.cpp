@@ -16,9 +16,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "randomc.h"
 #include "Fish.h"
 #include "Output.h"
+#include "random_functions.h"
 
 #include <Rcpp.h>
 using namespace Rcpp;

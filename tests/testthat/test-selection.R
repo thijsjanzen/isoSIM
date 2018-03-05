@@ -1,18 +1,18 @@
 context("selection")
 
 test_that("select population", {
-  select_matrix = matrix(ncol = 3, nrow = 2)
+  select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.05, 0.1, 0)
   select_matrix[2, ] <- c(0.15, 0.5, 1)
 
   selected_pop <- isoSIM::create_population_selection(pop_size = 100,
                                                       number_of_founders = 10,
-                                            total_runtime = 100,
-                                            morgan = 1,
-                                            select_matrix,
-                                            selection = 1,
-                                            seed = 1234,
-                                            write_to_file = FALSE)
+                                                      total_runtime = 100,
+                                                      morgan = 1,
+                                                      select_matrix,
+                                                      selection = 1,
+                                                      seed = 1234,
+                                                      write_to_file = FALSE)
 
   testthat::expect_equal(length(selected_pop), 100)
 })
@@ -27,7 +27,7 @@ test_that("select on population", {
                                     seed = 123,
                                     write_to_file = FALSE)
 
-  select_matrix = matrix(ncol = 3, nrow = 2)
+  select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.05, 0.1, 0)
   select_matrix[2, ] <- c(0.15, 0.5, 1)
 
@@ -99,7 +99,7 @@ test_that("allele frequencies", {
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
-  testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
 
   number_founders <- 5
   sourcepop <- isoSIM::create_population(pop_size = 1000,
@@ -116,7 +116,7 @@ test_that("allele frequencies", {
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
-  testthat::expect_equal(mean(b$mean_freq), 1/number_founders, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
 
   number_founders <- 20
   sourcepop <- isoSIM::create_population(pop_size = 1000,

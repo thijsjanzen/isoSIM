@@ -18,8 +18,6 @@
 #include <algorithm>
 
 #include <unistd.h> //for sleep
-
-#include "randomc.h"
 #include "Fish.h"
 #include "Output.h"
 
@@ -82,7 +80,6 @@ void assess_matches(const std::vector<junction>& chrom,
 }
 
 
-
 NumericMatrix allele_spectrum(const std::vector<Fish>& v,
                               double step_size,
                               int numAncestors) {
@@ -127,9 +124,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     }
     return spectrum;
 }
-
-
-
 
 
 // [[Rcpp::export]]

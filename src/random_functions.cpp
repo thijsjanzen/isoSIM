@@ -1,0 +1,32 @@
+//
+//  random_functions.cpp
+//  
+//
+//  Created by Thijs Janzen on 05/03/2018.
+//
+//
+
+#include "random_functions.h"
+#include <Rcpp.h>
+using namespace Rcpp;
+
+void set_seed(int seed) {
+    // do nothing, place holder
+}
+
+
+double uniform()
+{
+    return R::runif(0, 1);
+}
+
+int random_number(int n)
+{
+    return (int)(R::runif(0, n));
+}
+
+double poisson(double lambda)
+{
+    return R::rpois(lambda);
+}
+
