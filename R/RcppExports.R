@@ -5,10 +5,6 @@ calculate_allele_spectrum_cpp <- function(v1, numFounders, step_size) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, numFounders, step_size)
 }
 
-simulate_from_population_cpp <- function(file_name, total_runtime, morgan, number_of_markers) {
-    .Call('_isoSIM_simulate_from_population_cpp', PACKAGE = 'isoSIM', file_name, total_runtime, morgan, number_of_markers)
-}
-
 create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, writeToFile) {
     .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, writeToFile)
 }

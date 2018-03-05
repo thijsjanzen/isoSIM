@@ -18,20 +18,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// simulate_from_population_cpp
-List simulate_from_population_cpp(std::string file_name, int total_runtime, double morgan, int number_of_markers);
-RcppExport SEXP _isoSIM_simulate_from_population_cpp(SEXP file_nameSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP number_of_markersSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type file_name(file_nameSEXP);
-    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
-    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
-    Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_from_population_cpp(file_name, total_runtime, morgan, number_of_markers));
-    return rcpp_result_gen;
-END_RCPP
-}
 // create_population_cpp
 List create_population_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, bool writeToFile);
 RcppExport SEXP _isoSIM_create_population_cpp(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP writeToFileSEXP) {
@@ -139,7 +125,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
-    {"_isoSIM_simulate_from_population_cpp", (DL_FUNC) &_isoSIM_simulate_from_population_cpp, 4},
     {"_isoSIM_create_population_cpp", (DL_FUNC) &_isoSIM_create_population_cpp, 5},
     {"_isoSIM_create_isofemale_line_cpp", (DL_FUNC) &_isoSIM_create_isofemale_line_cpp, 4},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 6},

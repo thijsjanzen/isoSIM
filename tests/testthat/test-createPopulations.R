@@ -175,24 +175,6 @@ test_that("fst", {
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
 })
 
-test_that("continue_from_file", {
-  pop_size <- 100
-  number_of_founders <- 2
-  run_time <- 10
-  morgan <- 1
-  write_to_file <- FALSE
-
-  vx1 <- create_population(pop_size, number_of_founders,
-                    run_time, morgan, 42, write_to_file)
-
-  total_runtime <- 100
-  vx2 <- simulate_from_population("population_1.pop",
-                           total_runtime,
-                           morgan,
-                           -1, 42)
-})
-
-
 test_that("create_population_from_individuals", {
   two_populations <- create_two_populations(pop_size = 100,
                                             number_of_founders = 20,

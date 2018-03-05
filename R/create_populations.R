@@ -17,22 +17,6 @@ create_population <- function(pop_size,
   return(popstruct)
 }
 
-simulate_from_population <- function(file_name,
-                                     total_runtime,
-                                     morgan,
-                                     number_of_markers,
-                                     seed) {
-  set.seed(seed)
-  simulate_from_population_cpp(file_name,
-                               total_runtime,
-                               morgan,
-                               number_of_markers)
-}
-
-
-
-
-
 create_two_populations <- function(pop_size,
                                         number_of_founders,
                                         total_runtime,

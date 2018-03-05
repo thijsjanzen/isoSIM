@@ -282,20 +282,6 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 
 
 // [[Rcpp::export]]
-List simulate_from_population_cpp(std::string file_name,
-                              int total_runtime,
-                              double morgan,
-                              int number_of_markers)
-{
-    std::vector< Fish > Pop;
-    readPopfromFile(Pop, file_name);
-
-    Output O = continue_simulation(Pop, total_runtime, number_of_markers, morgan);
-    return List::create(Named("avgJunctions") = O.avgJunct,
-                        Named("detectedJunctions") = O.avg_detected_Junctions);
-}
-
-// [[Rcpp::export]]
 List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
