@@ -4,6 +4,7 @@ select_population <- function(source_pop,
                               pop_size,
                               total_runtime,
                               morgan,
+                              seed,
                               write_to_file) {
 
   # first we have to convert source_pop to vector...
