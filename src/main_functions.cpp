@@ -282,7 +282,7 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 
 
 // [[Rcpp::export]]
-List simulate_from_population(std::string file_name,
+List simulate_from_population_cpp(std::string file_name,
                               int total_runtime,
                               double morgan,
                               int number_of_markers)
