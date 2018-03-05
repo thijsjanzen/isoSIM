@@ -29,11 +29,11 @@ test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }
 
-select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan, seed, writeToFile) {
-    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan, seed, writeToFile)
+select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan, writeToFile) {
+    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan, writeToFile)
 }
 
-create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, seed, write_to_file) {
-    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, seed, write_to_file)
+create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, write_to_file) {
+    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, write_to_file)
 }
 
