@@ -1,37 +1,3 @@
-calculate_heterozygosity_and_freq_table <- function(pop,
-                                                 number_of_founders) {
-  pop_for_cpp <- c()
-  for (i in seq_along(pop)) {
-    x <- pop[[i]]$chromosome1
-    chrom1 <- as.vector(t(x))
-    x <- pop[[i]]$chromosome2
-    chrom2 <- as.vector(t(x))
-    pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
-  }
-
-  results <- calculate_summaryStats(pop_for_cpp,
-                                    number_of_founders)
-  return(results)
-}
-
-calculate_heterozygosity <- function(pop) {
-
-  #first we have to unwind all the individuals into one large vector
-  pop_for_cpp <- c()
-  for (i in seq_along(pop)) {
-     x <- pop[[i]]$chromosome1
-     chrom1 <- as.vector(t(x))
-     x <- pop[[i]]$chromosome2
-     chrom2 <- as.vector(t(x))
-     pop_for_cpp <- c(pop_for_cpp,
-                      chrom1,
-                      chrom2)
-  }
-
-  heterozygosity <- isoSIM::calc_heterozygosity_cpp(pop_for_cpp)
-  return(heterozygosity)
-}
-
 create_loci_matrix <- function(pop1,
                                pop2,
                                number_of_markers,
@@ -81,22 +47,6 @@ create_loci_matrix <- function(pop1,
 
   return(all_loci)
 }
-
-hierfstat_basic_stats <- function(pop1,
-                              pop2,
-                              number_of_markers = 100,
-                              random_markers = FALSE) {
-
-  number_of_markers <- round(number_of_markers)
-
-  all_loci <- create_loci_matrix(pop1, pop2, number_of_markers,
-                                 random_markers)
-
-  hierf_sum_overall <- hierfstat::basic.stats(as.data.frame(all_loci))$overall
-
-  return(hierf_sum_overall)
-}
-
 
 calculate_fst <- function(pop1,
                              pop2,

@@ -42,9 +42,12 @@ create_population_from_individuals(individuals, pop_size,
 }
 
 \examples{
+
+\dontrun{
+
   two_populations <- create_two_populations(pop_size = 100,
                                           number_of_founders = 20,
-                                          total_runtime = 5,
+                                          total_runtime = 2,
                                           morgan = 1,
                                           seed = 42,
                                           overlap = 0.25,
@@ -66,6 +69,6 @@ create_population_from_individuals(individuals, pop_size,
                                                          isofemale_2[[1]]),
                                                        pop_size = 100, total_runtime = 10,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
-
+}
 
 }

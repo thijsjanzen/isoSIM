@@ -45,9 +45,9 @@ create_two_populations_migration(pop_size, number_of_founders,
 }
 
 \examples{
- two_populations <- create_two_populations_migration(pop_size = 1000,
+ two_populations <- create_two_populations_migration(pop_size = 100,
                                           number_of_founders = 20,
-                                          total_runtime = 100,
+                                          total_runtime = 10,
                                           morgan = 1,
                                           seed = 42,
                                           migration = 0.25,

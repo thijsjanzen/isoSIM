@@ -40,6 +40,7 @@ create_iso_female(source_pop, n = 1,
 }
 
 \examples{
+\dontrun{
   wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 5,
@@ -52,4 +53,5 @@ create_iso_female(source_pop, n = 1,
                                inbreeding_pop_size = 100,
                                run_time = 100,
                                morgan = 1)
+ }
 }

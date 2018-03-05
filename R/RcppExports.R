@@ -5,14 +5,6 @@ calculate_allele_spectrum_cpp <- function(v1, numFounders, step_size) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, numFounders, step_size)
 }
 
-calc_heterozygosity_cpp <- function(v) {
-    .Call('_isoSIM_calc_heterozygosity_cpp', PACKAGE = 'isoSIM', v)
-}
-
-calculate_summaryStats <- function(v, number_of_founders) {
-    .Call('_isoSIM_calculate_summaryStats', PACKAGE = 'isoSIM', v, number_of_founders)
-}
-
 simulate_from_population <- function(file_name, total_runtime, morgan, number_of_markers, seed) {
     .Call('_isoSIM_simulate_from_population', PACKAGE = 'isoSIM', file_name, total_runtime, morgan, number_of_markers, seed)
 }

@@ -34,6 +34,7 @@ calculate_allele_frequencies(source_pop, number_of_founders, step_size)
 }
 
 \examples{
+\dontrun{
   number_founders = 20
   wildpop =  create_population(pop_size = 1000,
                              number_of_founders = number_founders,
@@ -49,4 +50,5 @@ calculate_allele_frequencies(source_pop, number_of_founders, step_size)
   require(ggplot2)
   ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
     geom_line()
+}
 }

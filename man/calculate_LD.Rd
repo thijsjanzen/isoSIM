@@ -42,6 +42,7 @@ calculate_LD(pop, sampled_individuals,
 }
 
 \examples{
+\dontrun{
   wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 1000,
@@ -52,4 +53,5 @@ calculate_LD(pop, sampled_individuals,
   LD_results <- calculate_LD(wildpop,
                                     number_of_markers = 10,
                                     random_markers = TRUE)
+  }
 }

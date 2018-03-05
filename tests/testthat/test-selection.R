@@ -1,5 +1,23 @@
 context("selection")
 
+test_that("select population", {
+  select_matrix = matrix(ncol = 3, nrow = 2)
+  select_matrix[1, ] <- c(0.05, 0.1, 0)
+  select_matrix[2, ] <- c(0.15, 0.5, 1)
+
+  selected_pop <- isoSIM::create_population_selection(pop_size = 100,
+                                                      number_of_founders = 10,
+                                            total_runtime = 100,
+                                            morgan = 1,
+                                            select_matrix,
+                                            selection = 1,x``
+                                            seed = 1234,
+                                            write_to_file = FALSE)
+
+  testthat::expect_equal(length(selected_pop), 100)
+})
+
+
 test_that("select on population", {
 
   sourcepop <- isoSIM::create_population(pop_size = 100,

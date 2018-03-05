@@ -42,7 +42,7 @@ create_population(pop_size, number_of_founders,
 \examples{
 wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
-                             total_runtime = 1000,
+                             total_runtime = 10,
                              morgan = 1,
                              seed = 42,
                              write_to_file = FALSE)

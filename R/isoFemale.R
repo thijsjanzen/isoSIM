@@ -26,6 +26,14 @@ create_iso_female_line <- function(parents,
 
   inbred_population <- isoSIM::create_pop_class(inbred_pop$population)
 
+  if(length(inbred_population) < 1) {
+    stop("creating isofemale failed\n")
+  }
+
+  if(length(inbred_population) == 1) {
+    return(inbred_population)
+  }
+
   output <- inbred_population[[sample(1:length(inbred_population), 1)]]
 
   return(output)

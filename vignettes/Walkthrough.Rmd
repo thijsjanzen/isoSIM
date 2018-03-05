@@ -90,7 +90,7 @@ First, we have to create two populations.
 ```{r create two populations}
 two_populations <- create_two_populations(pop_size = 1000, 
                                           number_of_founders = 20,
-                                          total_runtime = 100, 
+                                          total_runtime = 10, 
                                           morgan = 1, 
                                           seed = 42,
                                           overlap = 0.25, 
@@ -100,26 +100,20 @@ Syntax to create two populations is identical to creating one, save the paramete
 
 Now that we have two populations, we can generate two different iso-females from them:
 ```{r draw two isofemales}
-isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
-                               n = 1,
-                               inbreeding_pop_size = 100,
-                               run_time = 1000000,
-                               morgan = 1)
-
-isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
-                               n = 1,
+isofemales <- create_iso_female(source_pop = two_populations$Population_1,
+                               n = 2,
                                inbreeding_pop_size = 100,
                                run_time = 1000000,
                                morgan = 1)
 
 par(mfrow=c(1,2))
-plot_chromosome(isofemale_1[[1]]$chromosome1, 0, 1)
-plot_chromosome(isofemale_2[[1]]$chromosome1, 0, 1)
+plot_chromosome(isofemales[[1]]$chromosome1, 0, 1)
+plot_chromosome(isofemales[[2]]$chromosome1, 0, 1)
 ```
 
 We can now use these two isofemales to seed a new inbreeding population:
 ```{r seed mixed population}
-mixed_population <- create_population_from_individuals(list(isofemale_1[[1]], isofemale_2[[1]]),
+mixed_population <- create_population_from_individuals(list(isofemales[[1]], isofemales[[2]]),
                                                        pop_size = 100, total_runtime = 100,
                                                        morgan = 1, seed = 42, write_to_file = FALSE)
 
@@ -216,7 +210,7 @@ selection_coefficient <- 1 #we choose a large coefficient to reduce the number o
 selected_pop <- select_population(wildpop, selection_matrix,
                                   selection = selection_coefficient,
                                   pop_size = 1000,
-                                  total_runtime = 1000,
+                                  total_runtime = 100,
                                   morgan = 1,
                                   seed = 12345,
                                   write_to_file = FALSE)
@@ -240,7 +234,7 @@ Alternatively, selection can be implemented from scratch, without supplying a so
 ```{r selection from scratch}
 selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   number_of_founders = 10, 
-                                  total_runtime = 1000,
+                                  total_runtime = 100,
                                   morgan = 1,
                                   select_matrix = selection_matrix,
                                   selection = selection_coefficient,

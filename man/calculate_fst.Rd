@@ -43,6 +43,7 @@ Thijs Janzen
 
 
 \examples{
+\dontrun{
 two_populations <- create_two_populations(pop_size = 1000,
                                           number_of_founders = 20,
                                           total_runtime = 100,
@@ -56,4 +57,5 @@ two_populations <- create_two_populations(pop_size = 1000,
                  sampled_individuals = 10,
                  number_of_markers = 100,
                  random_markers = TRUE)
+  }
 }

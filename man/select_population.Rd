@@ -56,6 +56,7 @@ select_population(source_pop, select_matrix, selection,
 }
 
 \examples{
+\dontrun{
 number_founders = 20
 wildpop =  create_population(pop_size = 100,
                              number_of_founders = number_founders,
@@ -78,4 +79,5 @@ selected_pop <- select_population(wildpop, selection_matrix,
                                   morgan = 1,
                                   seed = 12345,
                                   write_to_file = FALSE)
+  }
 }
