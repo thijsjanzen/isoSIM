@@ -103,7 +103,7 @@ isofemales <- create_iso_female(source_pop = two_populations$Population_1,
                                run_time = 1000000,
                                morgan = 1)
 
-par(mfrow=c(2,1))
+par(mfrow=c(1,2))
 plot_chromosome(isofemales[[1]]$chromosome1, 0, 1)
 plot_chromosome(isofemales[[2]]$chromosome1, 0, 1)
 ```
