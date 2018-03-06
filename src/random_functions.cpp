@@ -10,11 +10,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void set_seed(int seed) {
-    // do nothing, place holder
-}
-
-
 double uniform()
 {
     return R::runif(0, 1);

@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 
-void set_seed(int seed);
 double uniform();
 int random_number(int n);
 double poisson(double lambda);

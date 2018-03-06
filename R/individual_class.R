@@ -21,7 +21,7 @@ plot.individual <- function(x, ...) {
   alleles_chrom1 <- unique(x$chromosome1[, 2])
   alleles_chrom2 <- unique(x$chromosome2[, 2])
   num_colors <- 1 + max(alleles_chrom1, alleles_chrom2)
-  color_palette <- grDevices::rainbow(num_colors)
+  color_palette <- colors(num_colors)
 
   par(mfrow = c(2, 1))
   par(mar = c(2, 2, 2, 2))
@@ -81,7 +81,7 @@ plot.individual <- function(x, ...) {
 plot_chromosome <- function(chrom, xmin = 0, xmax = 1) {
   alleles <- unique(chrom[, 2])
   num_colors <- 1 + max(alleles)
-  color_palette <- grDevices::rainbow(num_colors)
+  color_palette <- colors(num_colors)
 
   plot(NA,
        xlim = c(xmin, xmax),
