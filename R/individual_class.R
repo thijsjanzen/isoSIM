@@ -123,11 +123,11 @@ create_pop_class <- function(pop) {
   for (i in seq(from = 1, to = length(pop), by = 2)) {
     focal <- pop[c(i, i + 1)]
 
-    if(focal[2] > 1e4 || focal[2] < -1) {
+    #if(focal[2] > 1e4 || focal[2] < -1) {
       # crude hack to avoid junctions that have invalid regions
       # (due to some weird memory error somewhere)
-      next
-    }
+    #  next
+    #}
 
     if (indic_chrom == 1) {
       chrom1 <- rbind(chrom1, focal)
