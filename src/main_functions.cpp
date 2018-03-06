@@ -19,6 +19,7 @@
 #include <unistd.h> //for sleep
 
 #include "Fish.h"
+#include "main.h"
 #include "random_functions.h"
 
 #include <Rcpp.h>
@@ -28,49 +29,6 @@ using namespace Rcpp;
 /***********************************************************************
  Start of simulation code
  ***********************************************************************/
-
-Output continue_simulation(std::vector< Fish > Pop,
-                           int max_time,
-                           double morgan,
-                           int numberOfMarkers)
-{
-    Output O;
-    int popSize = (int)Pop.size();
-
-    std::vector<double> markers;
-    if(numberOfMarkers > 0) {
-        for(int i = 0; i < numberOfMarkers; ) {
-            double pos = uniform();
-            if(pos > 0 && pos < 1.0) {
-                ++i;
-                markers.push_back(pos);
-            }
-        }
-        std::sort(markers.begin(), markers.end());
-    }
-
-    for(int t = 0; t < max_time; ++t) {
-        O.update(Pop);
-        if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
-
-        std::vector<Fish> newGeneration;
-
-        for(int i = 0; i < popSize; ++i)  {
-            int index1 = random_number(popSize);
-            int index2 = random_number(popSize);
-
-            Fish kid = mate(Pop[index1], Pop[index2], morgan);
-
-            newGeneration.push_back(kid);
-        }
-
-        Pop = newGeneration;
-        newGeneration.clear();
-        Rcpp::checkUserInterrupt();
-    }
-    
-    return O;
-}
 
 std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
                              int popSize,
@@ -458,6 +416,51 @@ void test_fish_functions() {
     return;
 }
 
+
+/*
+ Output continue_simulation(std::vector< Fish > Pop,
+ int max_time,
+ double morgan,
+ int numberOfMarkers)
+ {
+ Output O;
+ int popSize = (int)Pop.size();
+
+ std::vector<double> markers;
+ if(numberOfMarkers > 0) {
+ for(int i = 0; i < numberOfMarkers; ) {
+ double pos = uniform();
+ if(pos > 0 && pos < 1.0) {
+ ++i;
+ markers.push_back(pos);
+ }
+ }
+ std::sort(markers.begin(), markers.end());
+ }
+
+ for(int t = 0; t < max_time; ++t) {
+ O.update(Pop);
+ if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
+
+ std::vector<Fish> newGeneration;
+
+ for(int i = 0; i < popSize; ++i)  {
+ int index1 = random_number(popSize);
+ int index2 = random_number(popSize);
+
+ Fish kid = mate(Pop[index1], Pop[index2], morgan);
+
+ newGeneration.push_back(kid);
+ }
+
+ Pop = newGeneration;
+ newGeneration.clear();
+ Rcpp::checkUserInterrupt();
+ }
+
+ return O;
+ }
+ */
 
 /*
  void output_alleles(const std::vector<Fish>& v) {

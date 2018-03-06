@@ -107,6 +107,5 @@ struct Fish {
 
 
 Fish mate(const Fish& A, const Fish& B, double numRecombinations);
-std::vector<double> createPopVector(const std::vector< Fish >& v);
 
 #endif /* Fish_hpp */

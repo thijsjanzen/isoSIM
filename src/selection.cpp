@@ -17,6 +17,7 @@
 #include <algorithm>
 
 #include "Fish.h"
+#include "main.h"
 #include "random_functions.h"
 
 #include <Rcpp.h>
