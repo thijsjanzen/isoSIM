@@ -88,7 +88,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     NumericMatrix spectrum(1 + numSteps * (1 + max_num_ancestors), 3);
 
-    for(int a = 0; a < max_num_ancestors; ++a) {
+    for(int a = 0; a < (1 + max_num_ancestors); ++a) {
         for(int i = 0; i < numSteps; ++i) {
 
             int index = a * numSteps + i;
@@ -97,7 +97,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
             spectrum(index, 2) = 0;
         }
     }
-
 
     double left = 0.0;
     double right = step_size;
@@ -170,7 +169,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
-    Rcout << "number of ancestors in sample\t" << max_num_ancestor << "\n";
+    Rcout << "number of ancestors in sample\t" << 1 + max_num_ancestor << "\n";
     NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor);
     
     return output;

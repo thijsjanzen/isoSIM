@@ -61,6 +61,8 @@ test_that("allele frequencies", {
   freq_output <- calculate_allele_frequencies(selected_pop,
                                                    step_size = 0.01)
 
+  testthat::expect_equal(length(unique(freq_output$ancestor)), 2)
+
   a <- subset(freq_output, freq_output$location < 0.5)
   require(magrittr)
   b <- a  %>%
@@ -73,8 +75,9 @@ test_that("allele frequencies", {
   b <- a %>%
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
-  testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.05)
 
+  testthat::expect_equal(b$mean_freq[[2]], 1.0, tolerance = 0.05)
+  testthat::expect_equal(sum(b$mean_freq), 1)
 
   number_founders <- 20
   sourcepop <- isoSIM::create_population(
@@ -92,6 +95,7 @@ test_that("allele frequencies", {
     dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
+  testthat::expect_equal(sum(b$mean_freq), 1)
 
   number_founders <- 5
   sourcepop <- isoSIM::create_population(pop_size = 1000,
@@ -102,10 +106,14 @@ test_that("allele frequencies", {
 
   freq_output <- calculate_allele_frequencies(sourcepop,
                                   step_size = 0.01)
+
+  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
+
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
+  testthat::expect_equal(sum(b$mean_freq), 1)
   testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
 
   number_founders <- 20
@@ -130,6 +138,8 @@ test_that("allele frequencies", {
 
   freq_output <- calculate_allele_frequencies(selected_pop,
                                   step_size = 0.001)
+
+  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
 
   a <- subset(freq_output, location > 0.2 & location < 0.4)
   b <- a %>%
