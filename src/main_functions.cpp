@@ -411,7 +411,7 @@ void test_fish_functions() {
 
     double mean_vals = 0;
 
-    for(int i = 0; i < 100; ++i) {
+    for(int i = 0; i < 1000; ++i) {
         double temp = R::runif(0.0, 1.0);
         if(temp < 0 || temp > 1.0) {
             Rcout << "Something went wrong with R::runif";
@@ -425,6 +425,17 @@ void test_fish_functions() {
         Rcout << "Something went wrong with R::runif(0.0, n)\n";
     }
 
+    Rcout << "R::runif(0.0, 1.0) "
+    for(int i = 0; i < 10; ++i) {
+        Rcout << R::runif(0.0, 1.0) << " ";
+    }
+    Rcout << "\n";
+
+    Rcout << "R::runif(0.0, n = 50) "
+    for(int i = 0; i < 10; ++i) {
+        Rcout << R::runif(0.0, 50) << " ";
+    }
+    Rcout << "\n";
 
     
     return;
