@@ -12,12 +12,14 @@ using namespace Rcpp;
 
 double uniform()
 {
-    return R::runif(1, 0, 1);
+    return R::runif(0.0, 1.0);
+    //return Rcpp::as<double>Rcpp::runif(1, 0.0, 1.0);
 }
 
 int random_number(int n)
 {
-    return (int)(R::runif(1, 0, n));
+    return (int)(n * R::runif(0.0, 1.0));
+   // return Rcpp::as<int>(Rcpp::runif(1, 0.0, 1.0 * n));
 }
 
 double poisson(double lambda)
