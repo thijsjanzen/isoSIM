@@ -4,8 +4,7 @@ select_population <- function(source_pop,
                               pop_size,
                               total_runtime,
                               morgan,
-                              seed,
-                              write_to_file) {
+                              seed) {
 
   # first we have to convert source_pop to vector...
   pop_for_cpp <- c()
@@ -28,8 +27,7 @@ select_population <- function(source_pop,
                                         selection,
                                         pop_size,
                                         total_runtime,
-                                        morgan,
-                                        write_to_file)
+                                        morgan)
 
   selected_pop <- isoSIM::create_pop_class(selected_pop$population)
 
@@ -64,8 +62,7 @@ create_population_selection <- function(pop_size,
                                         morgan,
                                         select_matrix,
                                         selection,
-                                        seed,
-                                        write_to_file = FALSE) {
+                                        seed) {
 
   if (sum(is.na(select_matrix))) {
     stop("Can't start, there are NA values in the selection matrix!\n")

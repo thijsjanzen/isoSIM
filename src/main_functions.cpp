@@ -285,14 +285,10 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
-                       double morgan,
-                       bool writeToFile)
+                       double morgan)
 {
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
                                              total_runtime, morgan, 0.0, 0);
-    if(writeToFile) {
-        writePoptoFile(Pop, "population_1.pop");
-    }
 
     return List::create( Named("population") = createPopVector(Pop) );
 }
@@ -318,20 +314,13 @@ List create_two_populations_cpp(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,
-                            double overlap,
-                            bool writeToFile) {
+                            double overlap) {
 
     std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 0);
-    if(writeToFile) {
-        writePoptoFile(Pop1, "population_1.pop");
-    }
 
     std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 1);
-    if(writeToFile) {
-        writePoptoFile(Pop2, "population_2.pop");
-    }
 
     return List::create( Named("population_1") = createPopVector(Pop1),
                          Named("population_2") = createPopVector(Pop2)
@@ -343,17 +332,11 @@ List create_two_populations_migration_cpp(int pop_size,
                                           int number_of_founders,
                                           int total_runtime,
                                           double morgan,
-                                          double migration,
-                                          bool writeToFile) {
+                                          double migration) {
     std::vector< Fish > Pop1;
     std::vector< Fish > Pop2;
 
     create_two_pop_migration(Pop1, Pop2, number_of_founders, pop_size, total_runtime, morgan, migration);
-
-    if(writeToFile) {
-        writePoptoFile(Pop1, "population_1.pop");
-        writePoptoFile(Pop2, "population_2.pop");
-    }
 
     return List::create( Named("population_1") = createPopVector(Pop1),
                         Named("population_2") = createPopVector(Pop2)

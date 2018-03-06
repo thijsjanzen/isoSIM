@@ -48,8 +48,7 @@ test_that("allele frequencies", {
                                               number_of_founders = 2,
                                               total_runtime = 100,
                                               morgan = 1,
-                                              seed = 123,
-                                              write_to_file = FALSE)
+                                              seed = 123)
 
   select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.0, 0.5, 0)
@@ -60,8 +59,7 @@ test_that("allele frequencies", {
                                             pop_size = 1000,
                                             total_runtime = 1000,
                                             morgan = 1,
-                                            seed = 1234,
-                                            write_to_file = FALSE)
+                                            seed = 1234)
 
   freq_output <- calculate_allele_frequencies(selected_pop,
                                                    number_of_founders = 2,
@@ -88,8 +86,7 @@ test_that("allele frequencies", {
                           number_of_founders = number_founders,
                           total_runtime = 1,
                           morgan = 1,
-                          seed = 123,
-                          write_to_file = FALSE)
+                          seed = 123)
 
   freq_output <- calculate_allele_frequencies(sourcepop,
                                   number_of_founders = number_founders,
@@ -106,8 +103,7 @@ test_that("allele frequencies", {
                                   number_of_founders = number_founders,
                                   total_runtime = 1000,
                                   morgan = 1,
-                                  seed = 123,
-                                  write_to_file = FALSE)
+                                  seed = 123)
 
   freq_output <- calculate_allele_frequencies(sourcepop,
                                   number_of_founders = number_founders,
@@ -123,8 +119,7 @@ test_that("allele frequencies", {
                                 number_of_founders = number_founders,
                                 total_runtime = 1,
                                 morgan = 1,
-                                seed = 123,
-                                write_to_file = FALSE)
+                                seed = 123)
 
   select_matrix <- matrix(ncol = 3, nrow = 1)
 
@@ -137,8 +132,7 @@ test_that("allele frequencies", {
                                             pop_size = 100,
                                             total_runtime = 1000,
                                             morgan = 1,
-                                            seed = 12345,
-                                            write_to_file = FALSE)
+                                            seed = 12345)
 
   freq_output <- calculate_allele_frequencies(selected_pop,
                                   number_of_founders = number_founders,
@@ -158,8 +152,7 @@ test_that("selection abuse", {
                                               number_of_founders = 2,
                                               total_runtime = 100,
                                               morgan = 1,
-                                              seed = 123,
-                                              write_to_file = FALSE)
+                                              seed = 123)
 
   select_matrix <- matrix(ncol = 3, nrow = 3)
   select_matrix[1, ] <- c(0.0, 0.5, 0)
@@ -172,8 +165,7 @@ test_that("selection abuse", {
                                             pop_size = 1000,
                                             total_runtime = 1000,
                                             morgan = 1,
-                                            seed = 1234,
-                                            write_to_file = FALSE)
+                                            seed = 1234)
 
   )
 })

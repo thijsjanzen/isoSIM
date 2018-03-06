@@ -40,8 +40,7 @@ calculate_allele_frequencies(source_pop, number_of_founders, step_size)
                              number_of_founders = number_founders,
                              total_runtime = 10,
                              morgan = 1,
-                             seed = 666,
-                             write_to_file = FALSE)
+                             seed = 666)
 
  freq_output <- calculate_allele_frequencies(wildpop,
                                             number_of_founders = number_founders,

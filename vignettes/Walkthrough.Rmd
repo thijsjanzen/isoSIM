@@ -28,8 +28,7 @@ wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 1000, 
                              morgan = 1, 
-                             seed = 42, 
-                             write_to_file = FALSE)
+                             seed = 42)
 
 ```
 This creates a population of 100 diploid individuals (e.g. 2N = 200), based upon 10 founders (e.g. 10 individuals that can be genetically distinguished from each other). Then, for 1000 generations, this population is inbred and genomes of the 20 founders are allowed to mix. All individuals have 2 chromosomes (for simplicity and computational speed, we only model one chromosome pair), which are 1 Morgan long. The result can be written to file (optional), which can be usefull when generating for instance an extremely large wild population, which can be used later (e.g. read from file).
@@ -66,8 +65,7 @@ wildpop =  create_population(pop_size = 100,
                              number_of_founders = 2,
                              total_runtime = 10, 
                              morgan = 1, 
-                             seed = 666, 
-                             write_to_file = FALSE)
+                             seed = 666)
 
 isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
@@ -93,8 +91,7 @@ two_populations <- create_two_populations(pop_size = 1000,
                                           total_runtime = 10, 
                                           morgan = 1, 
                                           seed = 42,
-                                          overlap = 0.25, 
-                                          write_to_file = FALSE)
+                                          overlap = 0.25)
 ```
 Syntax to create two populations is identical to creating one, save the parameter 'overlap'. This determines the fraction of founders shared by the two populations. 
 
@@ -115,7 +112,7 @@ We can now use these two isofemales to seed a new inbreeding population:
 ```{r seed mixed population}
 mixed_population <- create_population_from_individuals(list(isofemales[[1]], isofemales[[2]]),
                                                        pop_size = 100, total_runtime = 100,
-                                                       morgan = 1, seed = 42, write_to_file = FALSE)
+                                                       morgan = 1, seed = 42)
 
 ```
 And plot some individuals from our new population:
@@ -159,8 +156,7 @@ no_LD_pop <- create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 1000, 
                              morgan = 1, 
-                             seed = 42, 
-                             write_to_file = FALSE)
+                             seed = 42)
 
 LD_results <- calculate_LD(no_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10, random_markers = TRUE)
@@ -177,8 +173,7 @@ strong_LD_pop <- create_population(pop_size = 1000,
                              number_of_founders = 10,
                              total_runtime = 10, 
                              morgan = 1, 
-                             seed = 42, 
-                             write_to_file = FALSE)
+                             seed = 42)
 
 LD_results <- isoSIM::calculate_LD(strong_LD_pop, sampled_individuals = 10,
                                   number_of_markers = 10, random_markers = TRUE)
@@ -197,8 +192,7 @@ wildpop =  create_population(pop_size = 1000,
                              number_of_founders = number_founders,
                              total_runtime = 10, 
                              morgan = 1, 
-                             seed = 666, 
-                             write_to_file = FALSE)
+                             seed = 666)
 
 selection_matrix = matrix(ncol=3, nrow = 2)
 
@@ -212,8 +206,7 @@ selected_pop <- select_population(wildpop, selection_matrix,
                                   pop_size = 1000,
                                   total_runtime = 100,
                                   morgan = 1,
-                                  seed = 12345,
-                                  write_to_file = FALSE)
+                                  seed = 12345)
 ```
 Here, we define a selection matrix, which defines the areas of selection. Each row in the matrix contains 3 elements: the start of the area under selection, the end of the area under selection, and the ancestor which is favoured. Then, using the function select_population, which is very similar to other 'create_population' functions, we simulate the process. An extra argument is the argument 'selection', which indicates the strength of selection. Fitness of individuals is determined by their match to the area under selection, e.g. individuals without the ancestor have fitness 1, and individuals with the ancestor have fitness 1 + s. 
 
@@ -244,8 +237,7 @@ selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   morgan = 1,
                                   select_matrix = selection_matrix,
                                   selection = 10,
-                                  seed = 12345,
-                                  write_to_file = FALSE)
+                                  seed = 12345)
 
 freq_output <- calculate_allele_frequencies(selected_pop, 
                                             number_of_founders = number_founders,
@@ -266,8 +258,7 @@ pops_migration <- create_two_populations_migration(pop_size = 1000,
                                          total_runtime = 100,
                                          morgan = 1,
                                          seed = 1234,
-                                         migration = 0.01,
-                                         write_to_file = FALSE)
+                                         migration = 0.01)
 ```
 This creates two populations, where with a probability of 0.01 (e.g. 'migration') offspring in the next generation is the product of a mating event of two randomly picked individuals from the other population.
 

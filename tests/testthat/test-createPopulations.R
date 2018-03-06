@@ -3,12 +3,11 @@ context("create_populations")
 test_that("create_population", {
   pop_size <- 100
   number_of_founders <- 10
-  run_time <- 100
+  run_time <- 10
   morgan <- 1
-  write_to_file <- TRUE
 
   vx <- create_population(pop_size, number_of_founders,
-                    run_time, morgan, 42, write_to_file)
+                    run_time, morgan, 42)
 })
 
 test_that("create_population", {
@@ -16,10 +15,9 @@ test_that("create_population", {
   number_of_founders <- 10
   run_time <- 100
   morgan <- 1
-  write_to_file <- FALSE
 
   vx <- create_population(pop_size, number_of_founders,
-                    run_time, morgan, 42, write_to_file)
+                    run_time, morgan, 42e)
 
   print(vx)
   print(vx[[1]])
@@ -60,12 +58,11 @@ test_that("calculate_allele_frequencies", {
   number_of_founders <- 2
   run_time <- 5
   morgan <- 1
-  write_to_file <- FALSE
 
   found <- c();
   for (r in 1:100) {
     vx <- create_population(pop_size, 2,
-                               run_time, morgan, r, FALSE)
+                               run_time, morgan, r)
     for (i in 1:pop_size) {
       found <- rbind(found, calc_allele_frequencies(vx[[i]],
                             alleles = rep(0, number_of_founders * 2))
@@ -100,11 +97,10 @@ test_that("create_two_populations", {
   run_time <- 100
   morgan <- 1
   overlap <- 0.5
-  write_to_file <- FALSE
 
   vx <- create_two_populations(pop_size, number_of_founders,
                          run_time, morgan, 42,
-                         overlap, write_to_file)
+                         overlap)
 })
 
 test_that("create_two_full_populations", {
@@ -113,11 +109,10 @@ test_that("create_two_full_populations", {
   run_time <- 100
   morgan <- 1
   overlap <- 0.5
-  write_to_file <- FALSE
 
   vx <- create_two_populations(pop_size, number_of_founders,
                          run_time, morgan, 42,
-                         overlap, write_to_file)
+                         overlap)
 
   expect_equal(length(vx$Population_1), pop_size)
   expect_equal(length(vx$Population_2), pop_size)
@@ -133,11 +128,10 @@ test_that("fst", {
   run_time <- 1
   morgan <- 1
   overlap <- 0.1
-  write_to_file <- FALSE
 
   vx <- create_two_populations(pop_size, number_of_founders,
                                     run_time, morgan, 42,
-                                    overlap, write_to_file)
+                                    overlap)
 
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
@@ -159,11 +153,10 @@ test_that("fst", {
   run_time <- 10000
   morgan <- 1
   overlap <- 0.0
-  write_to_file <- FALSE
 
   vx <- create_two_populations(pop_size, number_of_founders,
                                     run_time, morgan, 42,
-                                    overlap, write_to_file)
+                                    overlap)
 
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
@@ -181,8 +174,7 @@ test_that("create_population_from_individuals", {
                                             total_runtime = 5,
                                             morgan = 1,
                                             seed = 42,
-                                            overlap = 0.25,
-                                            write_to_file = FALSE)
+                                            overlap = 0.25)
 
   isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
                                    n = 1,
@@ -201,9 +193,7 @@ test_that("create_population_from_individuals", {
                                                          pop_size = 100,
                                                          total_runtime = 100,
                                                          morgan = 1,
-                                                         seed = 42,
-                                                         write_to_file = FALSE)
-
+                                                         seed = 42)
 
   a1 <- list(isofemale_1[[1]],
              isofemale_2[[1]])
@@ -222,8 +212,7 @@ test_that("create_population_from_individuals", {
                                                          pop_size = 100,
                                                          total_runtime = 100,
                                                          morgan = 1,
-                                                         seed = 42,
-                                                         write_to_file = FALSE)
+                                                         seed = 42)
 
 })
 test_that("migration",{
@@ -232,8 +221,7 @@ test_that("migration",{
                                                      total_runtime = 1000,
                                                      morgan = 1,
                                                      seed = 1234,
-                                                     migration = 0.0,
-                                                     write_to_file = FALSE)
+                                                     migration = 0.0)
 
   testthat::expect_equal(length(pops_migration$Population_1), 100)
   testthat::expect_equal(length(pops_migration$Population_2), 100)

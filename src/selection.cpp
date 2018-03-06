@@ -198,8 +198,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                            double s,
                            int population_size,
                            int run_time,
-                           double morgan,
-                           bool writeToFile) {
+                           double morgan) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
@@ -220,11 +219,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    run_time,
                                                    morgan);
 
-
-    if(writeToFile) {
-        writePoptoFile(outputPop, "population_1.pop");
-    }
-    
     return List::create( Named("population") = createPopVector(outputPop) );
 }
 
@@ -234,8 +228,7 @@ List create_population_selection_cpp(int pop_size,
                                  int total_runtime,
                                  double morgan,
                                  Rcpp::NumericVector select_matrix,
-                                 double selection,
-                                 bool write_to_file) {
+                                 double selection) {
 
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
@@ -261,10 +254,6 @@ List create_population_selection_cpp(int pop_size,
                                                    pop_size,
                                                    total_runtime,
                                                    morgan);
-
-    if(write_to_file) {
-        writePoptoFile(outputPop, "population_1.pop");
-    }
 
     return List::create( Named("population") = createPopVector(outputPop) );
 }

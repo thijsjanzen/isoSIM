@@ -9,7 +9,7 @@ test_that("create_isofemale", {
   write_to_file <- FALSE
 
   pop <- create_population(pop_size, number_of_founders,
-                           run_time, morgan, 42, write_to_file)
+                           run_time, morgan, 42)
 
   females <- create_iso_female(pop, n = 1)
 
@@ -27,7 +27,7 @@ test_that("create_population_from_isofemales", {
 
   vx <- isoSIM::create_two_populations(pop_size, number_of_founders,
                                run_time, morgan, 42,
-                               overlap, write_to_file)
+                               overlap)
 
   female_1 <- isoSIM::create_iso_female(vx$Population_1, n = 1)
   female_2 <- isoSIM::create_iso_female(vx$Population_2, n = 1)
@@ -35,8 +35,7 @@ test_that("create_population_from_isofemales", {
   vy <- isoSIM::create_population_from_individuals(list(female_1[[1]], female_2[[1]]),
                                      pop_size, run_time,
                                      morgan,
-                                     seed = 666,
-                                     write_to_file)
+                                     seed = 666)
   testthat::expect_equal(length(vy), pop_size)
 
   isoSIM::plot_chromosome(female_1[[1]]$chromosome1, 0, 1)

@@ -9,7 +9,7 @@
 }
 \usage{
 create_two_populations(pop_size, number_of_founders,
-                      total_runtime, morgan, seed, overlap, write_to_file)
+                      total_runtime, morgan, seed, overlap)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,9 +31,7 @@ create_two_populations(pop_size, number_of_founders,
   \item{overlap}{
     Degree of shared ancestry between the populations, reflected in the probability of sharing an ancestor.
 }
-  \item{write_to_file}{
-    Boolean flag indicating whether output should be written to file.
-}
+
 }
 
 \value{
@@ -50,7 +48,6 @@ two_populations <- create_two_populations(pop_size = 100,
                                           total_runtime = 10,
                                           morgan = 1,
                                           seed = 42,
-                                          overlap = 0.25,
-                                          write_to_file = FALSE)
+                                          overlap = 0.25)
 
 }

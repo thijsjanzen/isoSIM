@@ -9,7 +9,7 @@
 }
 \usage{
 select_population(source_pop, select_matrix, selection,
-                  pop_size, total_runtime, morgan, seed, write_to_file)
+                  pop_size, total_runtime, morgan, seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,9 +43,7 @@ select_population(source_pop, select_matrix, selection,
   \item{seed}{
   Seed of the pseudo-random number generator
 }
-  \item{write_to_file}{
-  Boolean indicating whether the population should be stored into a text file as well.
-}
+
 }
 
 \value{
@@ -62,8 +60,7 @@ wildpop =  create_population(pop_size = 100,
                              number_of_founders = number_founders,
                              total_runtime = 10,
                              morgan = 1,
-                             seed = 666,
-                             write_to_file = FALSE)
+                             seed = 666)
 
 selection_matrix = matrix(ncol=3, nrow = 2)
 
@@ -77,7 +74,6 @@ selected_pop <- select_population(wildpop, selection_matrix,
                                   pop_size = 100,
                                   total_runtime = 10,
                                   morgan = 1,
-                                  seed = 12345,
-                                  write_to_file = FALSE)
+                                  seed = 12345)
   }
 }

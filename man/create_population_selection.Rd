@@ -9,7 +9,7 @@
 }
 \usage{
 create_population_selection(pop_size, number_of_founders,
-            total_runtime, morgan, select_matrix, selection, seed, write_to_file)
+            total_runtime, morgan, select_matrix, selection, seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,9 +44,7 @@ create_population_selection(pop_size, number_of_founders,
 \item{seed}{
   Seed of the pseudo-random number generator
 }
-  \item{write_to_file}{
-  Boolean indicating whether the population should be stored into a text file as well.
-}
+
 }
 
 \value{
@@ -70,6 +68,5 @@ selected_pop <- create_population_selection(pop_size = 100,
                                             morgan = 1,
                                             selection_matrix,
                                             selection = selection_coefficient,
-                                            seed = 12345,
-                                            write_to_file = FALSE)
+                                            seed = 12345)
 }

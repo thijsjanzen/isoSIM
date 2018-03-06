@@ -9,7 +9,7 @@
 }
 \usage{
 create_population_from_individuals(individuals, pop_size,
-              total_runtime, morgan, seed, write_to_file)
+              total_runtime, morgan, seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,9 +28,7 @@ create_population_from_individuals(individuals, pop_size,
   \item{seed}{
   Seed of the pseudo-random number generator
 }
-  \item{write_to_file}{
-  Boolean indicating whether the population should be stored into a text file as well.
-}
+
 }
 
 \value{
@@ -50,8 +48,7 @@ create_population_from_individuals(individuals, pop_size,
                                           total_runtime = 2,
                                           morgan = 1,
                                           seed = 42,
-                                          overlap = 0.25,
-                                          write_to_file = FALSE)
+                                          overlap = 0.25)
 
   isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
                                n = 1,
@@ -68,7 +65,7 @@ create_population_from_individuals(individuals, pop_size,
   mixed_population <- create_population_from_individuals(list(isofemale_1[[1]],
                                                          isofemale_2[[1]]),
                                                        pop_size = 100, total_runtime = 10,
-                                                       morgan = 1, seed = 42, write_to_file = FALSE)
+                                                       morgan = 1, seed = 42)
 }
 
 }

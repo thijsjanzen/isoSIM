@@ -5,31 +5,31 @@ calculate_allele_spectrum_cpp <- function(v1, numFounders, step_size) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, numFounders, step_size)
 }
 
-create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, writeToFile) {
-    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, writeToFile)
+create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan) {
+    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan)
 }
 
 create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan) {
     .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan)
 }
 
-create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, overlap, writeToFile) {
-    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, overlap, writeToFile)
+create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, overlap) {
+    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, overlap)
 }
 
-create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration, writeToFile) {
-    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration, writeToFile)
+create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration) {
+    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration)
 }
 
 test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }
 
-select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan, writeToFile) {
-    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan, writeToFile)
+select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan) {
+    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan)
 }
 
-create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, write_to_file) {
-    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, write_to_file)
+create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection) {
+    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection)
 }
 

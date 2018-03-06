@@ -9,7 +9,7 @@
 }
 \usage{
 create_population(pop_size, number_of_founders,
-                       total_runtime, morgan, seed, write_to_file)
+                       total_runtime, morgan, seed)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,9 +28,7 @@ create_population(pop_size, number_of_founders,
   \item{seed}{
   Seed of the pseudo-random number generator
 }
-  \item{write_to_file}{
-  Boolean indicating whether the population should be stored into a text file as well.
-}
+
 }
 \value{
   A population structure
@@ -44,6 +42,5 @@ wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 10,
                              morgan = 1,
-                             seed = 42,
-                             write_to_file = FALSE)
+                             seed = 42)
 }

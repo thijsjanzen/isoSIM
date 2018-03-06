@@ -45,8 +45,7 @@ create_iso_female(source_pop, n = 1,
                              number_of_founders = 10,
                              total_runtime = 5,
                              morgan = 1,
-                             seed = 42,
-                             write_to_file = FALSE)
+                             seed = 42)
 
   isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
