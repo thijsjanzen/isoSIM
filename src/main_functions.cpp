@@ -425,13 +425,13 @@ void test_fish_functions() {
         Rcout << "Something went wrong with R::runif(0.0, n)\n";
     }
 
-    Rcout << "R::runif(0.0, 1.0) "
+    Rcout << "R::runif(0.0, 1.0) ";
     for(int i = 0; i < 10; ++i) {
         Rcout << R::runif(0.0, 1.0) << " ";
     }
     Rcout << "\n";
 
-    Rcout << "R::runif(0.0, n = 50) "
+    Rcout << "R::runif(0.0, n = 50) ";
     for(int i = 0; i < 10; ++i) {
         Rcout << R::runif(0.0, 50) << " ";
     }
