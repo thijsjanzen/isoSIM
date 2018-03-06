@@ -19,7 +19,6 @@
 #include <unistd.h> //for sleep
 
 #include "Fish.h"
-#include "Output.h"
 #include "random_functions.h"
 
 #include <Rcpp.h>

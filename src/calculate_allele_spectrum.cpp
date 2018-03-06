@@ -19,7 +19,6 @@
 
 #include <unistd.h> //for sleep
 #include "Fish.h"
-#include "Output.h"
 
 #include <Rcpp.h>
 using namespace Rcpp;
