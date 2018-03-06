@@ -4,41 +4,16 @@ create_iso_female_line <- function(parents,
                                  morgan = 1,
                                  seed = 42) {
 
-  #we have to convert the parents back to a vector
-  indiv <- c()
-  for (i in seq_along(parents[[1]]$chromosome1[, 1])) {
-    indiv <- c(indiv, parents[[1]]$chromosome1[i, ])
-  }
-  for (i in seq_along(parents[[1]]$chromosome2[, 1])) {
-    indiv <- c(indiv, parents[[1]]$chromosome2[i, ])
-  }
-
-  for (i in seq_along(parents[[2]]$chromosome1[, 1])) {
-    indiv <- c(indiv, parents[[2]]$chromosome1[i, ])
-  }
-  for (i in seq_along(parents[[2]]$chromosome2[, 1])) {
-    indiv <- c(indiv, parents[[2]]$chromosome2[i, ])
-  }
-
-  set.seed(seed)
-  inbred_pop <- create_isofemale_line_cpp(indiv, pop_size,
-                                  run_time, morgan)
-
-  inbred_population <- create_pop_class(inbred_pop$population)
-
-  if (length(inbred_population) < 1) {
-    stop("creating isofemale failed\n")
-  }
-
-  if (length(inbred_population) == 1) {
-    return(inbred_population)
-  }
+  inbred_population <- create_population_from_individuals(parents,
+                                                          pop_size,
+                                                          run_time,
+                                                          morgan,
+                                                          seed)
 
   output <- inbred_population[[sample(1:length(inbred_population), 1)]]
 
   return(output)
 }
-
 
 create_iso_female <- function(source_pop,
                              n = 1,
