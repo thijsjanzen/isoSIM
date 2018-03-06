@@ -32,7 +32,7 @@ test_that("expected_number_junctions", {
   morgan <- 1
   for (r in 1:100) {
     vx <- create_population(pop_size, 2,
-                            run_time, morgan, r, FALSE)
+                            run_time, morgan, r)
     junct <- calculate_dist_junctions(vx)
     mean(junct)
     found <- c(found, mean(junct))
@@ -47,7 +47,7 @@ test_that("expected_number_junctions", {
   expect_equal(mean(found), expected, tolerance = 1)
 
   vx <- create_population(pop_size, 2,
-                          run_time, morgan, r, FALSE)
+                          run_time, morgan, r)
   plot_dist_junctions(vx)
 })
 
@@ -78,7 +78,7 @@ test_that("calculate_allele_frequencies", {
   found <- c();
   for (r in 1:100) {
     vx <- create_population(pop_size, 4,
-                                 run_time, morgan, r, FALSE)
+                                 run_time, morgan, r)
     for (i in 1:pop_size) {
       found <- rbind(found,
         calc_allele_frequencies(vx[[i]],
