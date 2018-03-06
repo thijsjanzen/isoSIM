@@ -31,9 +31,7 @@ create_two_populations_migration(pop_size, number_of_founders,
   \item{migration}{
     Probability of having an individual in the next generation being the result of a migration event from the other population, rather than the result of a reproduction event in the focal population.
 }
- \item{write_to_file}{
-    Boolean flag indicating whether output should be written to file.
-}
+
 }
 
 \value{

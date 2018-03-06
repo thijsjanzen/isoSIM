@@ -56,7 +56,7 @@ Here, n indicates the number of isofemales to be created from the same source po
 # Visualizing individuals
 Now, we can plot the isofemales, this plots the two chromosomes next to each other, where colors indicate different ancestors:
 ```{r}
-plot(isofemale[[1]])
+#plot(isofemale[[1]])
 ```
 
 Because we have chosen 10 ancestors, these plots are not terribly informative, let's try a toy example:
@@ -72,13 +72,13 @@ isofemale <- create_iso_female(source_pop = wildpop,
                                inbreeding_pop_size = 100,
                                run_time = 1000000,
                                morgan = 1)
-plot(wildpop[[1]])
-plot(isofemale[[1]])
+#plot(wildpop[[1]])
+#plot(isofemale[[1]])
 ```
 
 We can also plot a (section of) a single chromosome:
 ```{r plot selection of chromosome}
-plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
+#plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
 ```
 
 # Multiple source populations
@@ -104,8 +104,8 @@ isofemales <- create_iso_female(source_pop = two_populations$Population_1,
                                morgan = 1)
 
 par(mfrow=c(1,2))
-plot_chromosome(isofemales[[1]]$chromosome1, 0, 1)
-plot_chromosome(isofemales[[2]]$chromosome1, 0, 1)
+#plot_chromosome(isofemales[[1]]$chromosome1, 0, 1)
+#plot_chromosome(isofemales[[2]]$chromosome1, 0, 1)
 ```
 
 We can now use these two isofemales to seed a new inbreeding population:
@@ -213,7 +213,6 @@ Here, we define a selection matrix, which defines the areas of selection. Each r
 Obtained results can be analyzed using the function calculate_allele_frequencies, which estimates allele frequencies across the genome.
 ```{r allele frequencies}
 freq_output <- calculate_allele_frequencies(selected_pop, 
-                                            number_of_founders = number_founders,
                                             step_size = 0.001)
 ```
 calculate_allele_frequencies returns a tibble (from the tidyverse) and can easily be plotted:
@@ -229,7 +228,7 @@ Alternatively, selection can be implemented from scratch, without supplying a so
 selection_matrix = matrix(ncol=3, nrow = 2)
 
 selection_matrix[1,] = c(0.1, 0.12, 1)
-selection_matrix[2,] = c(0.78, 0.8, 2)
+selection_matrix[2,] = c(0.78, 0.8, 4)
 
 selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   number_of_founders = 10, 
@@ -240,7 +239,6 @@ selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   seed = 12345)
 
 freq_output <- calculate_allele_frequencies(selected_pop, 
-                                            number_of_founders = number_founders,
                                             step_size = 0.01)
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +

@@ -8,15 +8,12 @@
   Calculate for a number of regularly spaced markers the relative frequency of each ancestor in the population.
 }
 \usage{
-calculate_allele_frequencies(source_pop, number_of_founders, step_size)
+calculate_allele_frequencies(source_pop, step_size)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{source_pop}{
   Population for which to estimate allele frequencies
-}
-  \item{number_of_founders}{
-  Number of founders in the population
 }
   \item{step_size}{
   Distance between markers, a smaller step_size provides a more complete overview, but is also more computationally heavy.
@@ -43,7 +40,6 @@ calculate_allele_frequencies(source_pop, number_of_founders, step_size)
                              seed = 666)
 
  freq_output <- calculate_allele_frequencies(wildpop,
-                                            number_of_founders = number_founders,
                                             step_size = 0.001)
 
   require(ggplot2)

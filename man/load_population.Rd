@@ -35,7 +35,7 @@ wildpop <- create_population(pop_size = 10,
                                morgan = 1,
                                seed = 123)
 
-save_population(sourcepop, file_name = "wildpop.pop")
+save_population(wildpop, file_name = "wildpop.pop")
 wildpop2 <- load_population(file_name = "wildpop.pop")
 all.equal(wildpop[[1]], wildpop2[[1]])
 }

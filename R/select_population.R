@@ -22,20 +22,19 @@ select_population <- function(source_pop,
   }
 
   set.seed(seed)
-  selected_pop <- isoSIM::select_population_cpp(pop_for_cpp,
+  selected_pop <- select_population_cpp(pop_for_cpp,
                                         select,
                                         selection,
                                         pop_size,
                                         total_runtime,
                                         morgan)
 
-  selected_pop <- isoSIM::create_pop_class(selected_pop$population)
+  selected_pop <- create_pop_class(selected_pop$population)
 
   return(selected_pop)
 }
 
 calculate_allele_frequencies <- function(source_pop,
-                                         number_of_founders,
                                          step_size) {
   pop_for_cpp <- c()
   for (i in seq_along(source_pop)) {
@@ -46,9 +45,8 @@ calculate_allele_frequencies <- function(source_pop,
     pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
   }
 
-  frequency_table <- isoSIM::calculate_allele_spectrum_cpp(pop_for_cpp,
-                                                           number_of_founders,
-                                                           step_size)
+  frequency_table <- calculate_allele_spectrum_cpp(pop_for_cpp,
+                                                   step_size)
 
   output <- tibble::as.tibble(frequency_table)
   colnames(output) <- c("location", "ancestor", "frequency")

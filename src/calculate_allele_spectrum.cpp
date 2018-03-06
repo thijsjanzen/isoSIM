@@ -128,7 +128,6 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
 // [[Rcpp::export]]
 NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
-                                            int numFounders,
                                             double step_size)
 {
     std::vector< Fish > Pop;
@@ -139,11 +138,14 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
     int indic_chrom = 1;
     bool add_indiv = false;
 
+    int max_num_ancestor = -1;
+
     for(int i = 0; i < (v.size() - 1); i += 2) {
         junction temp_j;
         temp_j.pos = v[i];
         if(i+1 > v.size()) break;
         temp_j.right = v[i+1];
+        if(temp_j.right > max_num_ancestor) max_num_ancestor = temp_j.right;
 
         if(indic_chrom == 1) {
             temp.chromosome1.push_back(temp_j);
@@ -167,7 +169,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
-    NumericMatrix output = allele_spectrum(Pop, step_size, numFounders);
+    NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor);
     
     return output;
 }
