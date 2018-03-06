@@ -396,11 +396,13 @@ std::vector<double> createPopVector(const std::vector< Fish >& v) {
     return(output);
 }
 
+/*
 void flush_console() {
     R_FlushConsole();
     R_ProcessEvents();
     R_CheckUserInterrupt();
 }
+ */
 
 bool is_fixed(const std::vector< Fish >& v) {
 

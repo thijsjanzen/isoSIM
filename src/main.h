@@ -17,7 +17,5 @@ using namespace Rcpp;
 bool is_fixed(const std::vector< Fish >& v);
 std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v);
 std::vector<double> createPopVector(const std::vector< Fish >& v);
-void flush_console();
-
 
 #endif /* main_h */
