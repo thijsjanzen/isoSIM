@@ -20,6 +20,8 @@
 \alias{print.population}
 \alias{print.individual}
 \alias{create_population_cpp}
+\alias{verify_individual}
+\alias{verify_population}
 
 \description{Internal Guilds functions}
 \details{These are not to be called by the user}

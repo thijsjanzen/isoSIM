@@ -10,9 +10,13 @@ test_that("save_population", {
   vx <- create_population(pop_size, number_of_founders,
                           run_time, morgan, 42)
 
+  testthat::expect_true(verify_population(vx))
+
   save_population(vx, file_name = "test.pop")
 
   vy <- load_population(file_name = "test.pop")
+
+  testthat::expect_true(verify_population(vy))
 
   testthat::expect_equal(length(vx), length(vy))
 

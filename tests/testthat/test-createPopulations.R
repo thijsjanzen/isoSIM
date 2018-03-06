@@ -8,6 +8,8 @@ test_that("create_population", {
 
   vx <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42)
+
+  testthat::expect_true(verify_population(vx))
 })
 
 test_that("create_population", {
@@ -18,6 +20,8 @@ test_that("create_population", {
 
   vx <- create_population(pop_size, number_of_founders,
                     run_time, morgan, 42)
+
+  testthat::expect_true(verify_population(vx))
 
   print(vx)
   print(vx[[1]])
@@ -33,6 +37,9 @@ test_that("expected_number_junctions", {
   for (r in 1:100) {
     vx <- create_population(pop_size, 2,
                             run_time, morgan, r)
+
+    testthat::expect_true(verify_population(vx))
+
     junct <- calculate_dist_junctions(vx)
     mean(junct)
     found <- c(found, mean(junct))
@@ -48,6 +55,9 @@ test_that("expected_number_junctions", {
 
   vx <- create_population(pop_size, 2,
                           run_time, morgan, r)
+
+  testthat::expect_true(verify_population(vx))
+
   plot_dist_junctions(vx)
 })
 
@@ -63,6 +73,9 @@ test_that("calculate_allele_frequencies", {
   for (r in 1:100) {
     vx <- create_population(pop_size, 2,
                                run_time, morgan, r)
+
+    testthat::expect_true(verify_population(vx))
+
     for (i in 1:pop_size) {
       found <- rbind(found, calc_allele_frequencies(vx[[i]],
                             alleles = rep(0, number_of_founders * 2))
@@ -79,6 +92,9 @@ test_that("calculate_allele_frequencies", {
   for (r in 1:100) {
     vx <- create_population(pop_size, 4,
                                  run_time, morgan, r)
+
+    testthat::expect_true(verify_population(vx))
+
     for (i in 1:pop_size) {
       found <- rbind(found,
         calc_allele_frequencies(vx[[i]],
@@ -117,6 +133,10 @@ test_that("create_two_full_populations", {
   expect_equal(length(vx$Population_1), pop_size)
   expect_equal(length(vx$Population_2), pop_size)
 
+  testthat::expect_true(verify_population(vx$Population_1))
+  testthat::expect_true(verify_population(vx$Population_2))
+
+
   print(vx$Population_1)
   print(vx$Population_2)
 })
@@ -132,6 +152,9 @@ test_that("fst", {
   vx <- create_two_populations(pop_size, number_of_founders,
                                     run_time, morgan, 42,
                                     overlap)
+
+  testthat::expect_true(verify_population(vx$Population_1))
+  testthat::expect_true(verify_population(vx$Population_2))
 
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
@@ -158,6 +181,9 @@ test_that("fst", {
                                     run_time, morgan, 42,
                                     overlap)
 
+  testthat::expect_true(verify_population(vx$Population_1))
+  testthat::expect_true(verify_population(vx$Population_2))
+
   pop1 <- vx$Population_1
   pop2 <- vx$Population_2
 
@@ -175,6 +201,9 @@ test_that("create_population_from_individuals", {
                                             morgan = 1,
                                             seed = 42,
                                             overlap = 0.25)
+
+  testthat::expect_true(verify_population(two_populations$Population_1))
+  testthat::expect_true(verify_population(two_populations$Population_2))
 
   isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
                                    n = 1,
@@ -195,6 +224,8 @@ test_that("create_population_from_individuals", {
                                                          morgan = 1,
                                                          seed = 42)
 
+  testthat::expect_true(verify_population(mixed_population))
+
   a1 <- list(isofemale_1[[1]],
              isofemale_2[[1]])
 
@@ -214,6 +245,9 @@ test_that("create_population_from_individuals", {
                                                          morgan = 1,
                                                          seed = 42)
 
+  testthat::expect_true(verify_population(mixed_population_2))
+
+
 })
 test_that("migration",{
   pops_migration <- create_two_populations_migration(pop_size = 100,
@@ -222,6 +256,10 @@ test_that("migration",{
                                                      morgan = 1,
                                                      seed = 1234,
                                                      migration = 0.0)
+
+  testthat::expect_true(verify_population(pops_migration$Population_1))
+  testthat::expect_true(verify_population(pops_migration$Population_2))
+
 
   testthat::expect_equal(length(pops_migration$Population_1), 100)
   testthat::expect_equal(length(pops_migration$Population_2), 100)

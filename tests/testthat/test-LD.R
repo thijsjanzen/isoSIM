@@ -46,6 +46,8 @@ test_that("calculate_LD_matrix", {
   pop1 <- create_population(pop_size, number_of_founders,
                                  run_time, morgan, 42)
 
+  testthat::expect_true(verify_population(pop1))
+
   vv <- calculate_LD(pop1, sampled_individuals,
                      number_of_markers = 10, random_markers = TRUE)
 

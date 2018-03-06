@@ -14,6 +14,7 @@ test_that("select population", {
                                                       seed = 1234)
 
   testthat::expect_equal(length(selected_pop), 100)
+  testthat::expect_true(verify_population(selected_pop))
 })
 
 
@@ -24,6 +25,8 @@ test_that("select on population", {
                                     total_runtime = 1000,
                                     morgan = 1,
                                     seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
 
   select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.05, 0.1, 0)
@@ -37,6 +40,7 @@ test_that("select on population", {
                                     seed = 1234)
 
   testthat::expect_equal(length(selected_pop), 100)
+  testthat::expect_true(verify_population(selected_pop))
 })
 
 test_that("allele frequencies", {
@@ -46,6 +50,8 @@ test_that("allele frequencies", {
                                               total_runtime = 100,
                                               morgan = 1,
                                               seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
 
   select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.0, 0.5, 0)
@@ -57,6 +63,8 @@ test_that("allele frequencies", {
                                             total_runtime = 1000,
                                             morgan = 1,
                                             seed = 1234)
+
+  testthat::expect_true(verify_population(selected_pop))
 
   freq_output <- calculate_allele_frequencies(selected_pop,
                                                    step_size = 0.01)
@@ -87,6 +95,8 @@ test_that("allele frequencies", {
                           morgan = 1,
                           seed = 123)
 
+  testthat::expect_true(verify_population(sourcepop))
+
   freq_output <- calculate_allele_frequencies(sourcepop,
                                   step_size = 0.01)
 
@@ -103,6 +113,8 @@ test_that("allele frequencies", {
                                   total_runtime = 100,
                                   morgan = 1,
                                   seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
 
   freq_output <- calculate_allele_frequencies(sourcepop,
                                   step_size = 0.01)
@@ -123,6 +135,8 @@ test_that("allele frequencies", {
                                 morgan = 1,
                                 seed = 123)
 
+  testthat::expect_true(verify_population(sourcepop))
+
   select_matrix <- matrix(ncol = 3, nrow = 1)
 
   under_selection <- 1
@@ -136,6 +150,8 @@ test_that("allele frequencies", {
                                             morgan = 1,
                                             seed = 12345)
 
+  testthat::expect_true(verify_population(selected_pop))
+
   freq_output <- calculate_allele_frequencies(selected_pop,
                                   step_size = 0.001)
 
@@ -146,7 +162,6 @@ test_that("allele frequencies", {
   v <- which.max(b$mean_freq)
   testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
-
 })
 
 test_that("selection abuse", {
@@ -156,6 +171,8 @@ test_that("selection abuse", {
                                               total_runtime = 100,
                                               morgan = 1,
                                               seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
 
   select_matrix <- matrix(ncol = 3, nrow = 3)
   select_matrix[1, ] <- c(0.0, 0.5, 0)

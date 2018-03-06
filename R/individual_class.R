@@ -165,6 +165,52 @@ create_pop_class <- function(pop) {
   return(whole_pop)
 }
 
+verify_individual <- function(indiv) {
+
+  if(!is(indiv, "individual")) return(FALSE)
+
+  if(indiv$chromosome1[1,1] != 0) {
+     cat("Chromosome doesn't start at 0\n")
+     return(FALSE)
+  }
+  if(tail(indiv$chromosome1,1)[2] != -1) {
+    cat("Chromosome doesn't end with -1\n")
+    return(FALSE)
+  }
+
+  if(max(abs(indiv$chromosome1[,2])) > 10000) {
+    cat("Memory error recorded in chromosome\n")
+    return(FALSE)
+  }
+
+  if(indiv$chromosome2[1,1] != 0) {
+    cat("Chromosome doesn't start at 0\n")
+    return(FALSE)
+  }
+
+  if(tail(indiv$chromosome2,1)[2] != -1) {
+    cat("Chromosome doesn't end with -1\n")
+    return(FALSE)
+  }
+
+  if(max(abs(indiv$chromosome2[,2])) > 10000) {
+    cat("Memory error recorded in chromosome\n")
+    return(FALSE)
+  }
+
+  return(TRUE)
+}
+
+verify_population <- function(pop) {
+
+  if(!is(pop, "population")) return(FALSE)
+  v <- unlist(lapply(pop, verify_individual))
+  if(sum(v) != length(v)) return(FALSE)
+
+  return(TRUE)
+}
+
+
 findtype <- function(chrom, pos) {
 
   if (length(chrom) == 2) {

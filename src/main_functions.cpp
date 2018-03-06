@@ -25,6 +25,36 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+bool verify_individual_cpp(const Fish& Nemo) {
+    for(int i = 0; i < Nemo.chromosome1.size(); ++i) {
+        if(Nemo.chromosome1[i].right >  10000 |
+           Nemo.chromosome1[i].right < -10000) {
+            return false;
+        }
+    }
+
+    for(int i = 0; i < Nemo.chromosome2.size(); ++i) {
+        if(Nemo.chromosome2[i].right >  10000 |
+           Nemo.chromosome2[i].right < -10000) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool verify_pop_cpp(const std::vector< Fish >& pop) {
+    for(auto it = pop.begin(); it != pop.end(); ++it) {
+        if(!verify_individual_cpp((*it))) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
 
 /***********************************************************************
  Start of simulation code
@@ -66,6 +96,10 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         if(is_fixed(Pop)) {
             Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n";
             return(Pop);
+        }
+
+        if(!verify_pop_cpp(Pop)) {
+            Rcout << "\n After " << t << " generations, verify population failed\n";
         }
 
         Rcpp::checkUserInterrupt();
@@ -139,6 +173,15 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
         }
 
     }
+
+    if(!verify_pop_cpp(founders)) {
+        Rcout << "Verify founders in create_line failed\n";
+    }
+
+    if(!verify_pop_cpp(Pop)) {
+        Rcout << "Creation in create_line failed\n";
+    }
+
     Pop = simulate(Pop, popSize, maxTime, Morgan);
     return(Pop);
 }

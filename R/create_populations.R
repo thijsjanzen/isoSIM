@@ -66,11 +66,11 @@ create_population_from_individuals <- function(individuals,
                                                morgan,
                                                seed) {
   indiv <- c()
-
   for (j in seq_along(individuals)) {
     if (class(individuals[[j]]) != "individual") {
       stop("Input individuals not found\n are you sure you provided a list() ?")
     }
+
     for (i in seq_along(individuals[[j]]$chromosome1[, 1])) {
       indiv <- c(indiv, individuals[[j]]$chromosome1[i, ])
     }
