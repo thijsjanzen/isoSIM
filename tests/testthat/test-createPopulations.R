@@ -273,4 +273,14 @@ test_that("migration",{
                           random_markers = TRUE)
 
   testthat::expect_equal(fst, 1.0, tolerance = 0.05)
+
+  pops_migration <- create_two_populations_migration(pop_size = 100,
+                                                     number_of_founders = 10,
+                                                     total_runtime = 1000,
+                                                     morgan = 1,
+                                                     seed = 1234,
+                                                     migration = 0.1)
+
+  testthat::expect_true(verify_population(pops_migration$Population_1))
+  testthat::expect_true(verify_population(pops_migration$Population_2))
 })
