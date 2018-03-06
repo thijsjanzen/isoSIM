@@ -21,7 +21,8 @@ plot.individual <- function(x, ...) {
   alleles_chrom1 <- unique(x$chromosome1[, 2])
   alleles_chrom2 <- unique(x$chromosome2[, 2])
   num_colors <- 1 + max(alleles_chrom1, alleles_chrom2)
-  color_palette <- colors(num_colors)
+  if(num_colors > 20) num_colors <- 20
+  color_palette <- grDevices::rainbow(num_colors)
 
   par(mfrow = c(2, 1))
   par(mar = c(2, 2, 2, 2))
@@ -81,7 +82,8 @@ plot.individual <- function(x, ...) {
 plot_chromosome <- function(chrom, xmin = 0, xmax = 1) {
   alleles <- unique(chrom[, 2])
   num_colors <- 1 + max(alleles)
-  color_palette <- colors(num_colors)
+  if(num_colors > 20) num_colors <- 20
+  ccolor_palette <- grDevices::rainbow(num_colors)
 
   plot(NA,
        xlim = c(xmin, xmax),
@@ -120,6 +122,13 @@ create_pop_class <- function(pop) {
 
   for (i in seq(from = 1, to = length(pop), by = 2)) {
     focal <- pop[c(i, i + 1)]
+
+    if(focal[2] > 1e4 || focal[2] < -1) {
+      # crude hack to avoid junctions that have invalid regions
+      # (due to some weird memory error somewhere)
+      next
+    }
+
     if (indic_chrom == 1) {
       chrom1 <- rbind(chrom1, focal)
     }
@@ -150,6 +159,7 @@ create_pop_class <- function(pop) {
       chrom1 <- c()
       chrom2 <- c()
     }
+
   }
   class(whole_pop) <- "population"
   return(whole_pop)

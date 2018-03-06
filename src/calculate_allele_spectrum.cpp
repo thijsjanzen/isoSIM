@@ -168,7 +168,6 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
-    Rcout << "number of ancestors in sample\t" << 1 + max_num_ancestor << "\n";
     NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor);
     
     return output;
