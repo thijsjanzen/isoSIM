@@ -50,4 +50,45 @@ test_that("create_population_from_isofemales", {
 
 test_that("cpp classes", {
   test_fish_functions()
+
+  a <- matrix(c(0.1,1, 2, 2), nrow = 2)
+  b <- matrix(c(0,1,1,-1), nrow = 2)
+  indiv <- list(chromosome1 = a, chromosome2 = a)
+  class(indiv) = "individual"
+
+  # chromosome 1
+  testthat::expect_output(v <- verify_individual(indiv),
+                           "Chromosome doesn't start at 0")
+
+  indiv <- list(chromosome1 = b, chromosome2 = a)
+  class(indiv) = "individual"
+
+  # chromosome 2
+  testthat::expect_output(v <- verify_individual(indiv),
+                          "Chromosome doesn't start at 0")
+
+  a <- matrix(c(0.0, 1, 2, 2), nrow = 2)
+  b <- matrix(c(0,1,1,-1), nrow = 2)
+  indiv <- list(chromosome1 = b, chromosome2 = a)
+  class(indiv) = "individual"
+  testthat::expect_output(v <- verify_individual(indiv),
+                          "Chromosome doesn't end with -1")
+  indiv$chromosome2 =  indiv$chromosome1
+  indiv$chromosome1 = a
+  testthat::expect_output(v <- verify_individual(indiv),
+                          "Chromosome doesn't end with -1")
+
+
+  a <- matrix(c(0.0, 1, 0.5, 29192875037,  1, -1), ncol = 2)
+
+  indiv$chromosome1 = a
+  testthat::expect_output(v <- verify_individual(indiv),
+                          "Memory error recorded in chromosome")
+
+  a <- matrix(c(0.0, 1, 0.5, -92875037,  1, -1), ncol = 2)
+  indiv$chromosome2 = a
+  indiv$chromosome1 = b
+  testthat::expect_output(v <- verify_individual(indiv),
+                          "Memory error recorded in chromosome")
+
 })

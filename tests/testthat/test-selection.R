@@ -188,4 +188,22 @@ test_that("selection abuse", {
                                             seed = 1234)
 
   )
+
+  select_matrix <- matrix(ncol = 3, nrow = 3)
+  select_matrix[1, ] <- c(0.0, NA, 0)
+  select_matrix[2, ] <- c(NA, 1.0, 1)
+
+
+  testthat::expect_error(
+    select_population(sourcepop, select_matrix,
+                      selection = 5,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234)
+
+  )
+
+
+
 })
