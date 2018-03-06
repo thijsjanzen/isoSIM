@@ -238,7 +238,7 @@ selected_pop_2 <- create_population_selection(pop_size = 1000,
                                   selection = 10,
                                   seed = 12345)
 
-freq_output <- calculate_allele_frequencies(selected_pop, 
+freq_output <- calculate_allele_frequencies(selected_pop_2, 
                                             step_size = 0.01)
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +

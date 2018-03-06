@@ -95,7 +95,7 @@ test_that("allele frequencies", {
     dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
-  testthat::expect_equal(sum(b$mean_freq), 1)
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
   number_founders <- 5
   sourcepop <- isoSIM::create_population(pop_size = 1000,
@@ -113,7 +113,7 @@ test_that("allele frequencies", {
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
-  testthat::expect_equal(sum(b$mean_freq), 1)
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
   testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
 
   number_founders <- 20
@@ -139,14 +139,14 @@ test_that("allele frequencies", {
   freq_output <- calculate_allele_frequencies(selected_pop,
                                   step_size = 0.001)
 
-  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
-
   a <- subset(freq_output, location > 0.2 & location < 0.4)
   b <- a %>%
       dplyr::group_by(as.factor(ancestor)) %>%
       dplyr::summarise("mean_freq" = mean(frequency))
   v <- which.max(b$mean_freq)
   testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
+
 })
 
 test_that("selection abuse", {
