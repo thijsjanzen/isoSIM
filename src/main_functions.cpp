@@ -417,10 +417,10 @@ void test_fish_functions() {
             Rcout << "Something went wrong with R::runif";
         }
 
-        mean_vals += (int)(100 * R::runif(0.0, 1.0));
+        mean_vals += (int)(R::runif(0.0, 100.0));
     }
 
-    mean_vals = mean_vals * 1.0 / 100;
+    mean_vals = mean_vals * 1.0 / 1000;
     if(abs(mean_vals - 50) > 10) {
         Rcout << "Something went wrong with R::runif(0.0, n)\n";
     }
