@@ -69,7 +69,7 @@ create_population_selection <- function(pop_size,
   }
   set.seed(seed)
   pop <- create_population_selection_cpp(pop_size, number_of_founders, total_runtime, morgan,
-                                                  select_matrix, selection, write_to_file)
+                                                  select_matrix, selection)
   popstruct <- create_pop_class(pop$population)
   return(popstruct)
 }
