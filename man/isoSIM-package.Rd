@@ -3,11 +3,18 @@
 \alias{isoSIM}
 \docType{package}
 \title{
-  A short title line describing what the package does
+ This package simulates the generation of an isofemale line
 }
 \description{
-  A more detailed description of what the package does. A length
-  of about one to five lines is recommended.
+
+   Version 0.25 - squashed plotting bug
+   Version 0.24 - removed Output.cpp
+   Version 0.23 - Removed number_of_founders from calc_allele_spectrum
+   Version 0.22 - Added save and load functions
+   Version 0.21 - changed random-seed management
+   Version 0.20 - Removed superfluous code
+   Version 0.19 - Removed number_of_founders from Fst and LD code
+   Version 0.18 - Start of tracking changes
 }
 \details{
   This section should provide a more detailed overview of how to use the
@@ -29,6 +36,6 @@ Maintainer: Your Name <your@email.com>
 \examples{
   \dontrun{
      ## Optional simple examples of the most important functions
-     ## These can be in \dontrun{} and \donttest{} blocks.   
+     ## These can be in \dontrun{} and \donttest{} blocks.
   }
 }
