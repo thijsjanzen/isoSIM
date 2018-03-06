@@ -59,7 +59,6 @@ test_that("allele frequencies", {
                                             seed = 1234)
 
   freq_output <- calculate_allele_frequencies(selected_pop,
-                                                   number_of_founders = 2,
                                                    step_size = 0.01)
 
   a <- subset(freq_output, freq_output$location < 0.5)
@@ -86,7 +85,6 @@ test_that("allele frequencies", {
                           seed = 123)
 
   freq_output <- calculate_allele_frequencies(sourcepop,
-                                  number_of_founders = number_founders,
                                   step_size = 0.01)
 
   b <- freq_output %>%
@@ -103,7 +101,6 @@ test_that("allele frequencies", {
                                   seed = 123)
 
   freq_output <- calculate_allele_frequencies(sourcepop,
-                                  number_of_founders = number_founders,
                                   step_size = 0.01)
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
@@ -132,7 +129,6 @@ test_that("allele frequencies", {
                                             seed = 12345)
 
   freq_output <- calculate_allele_frequencies(selected_pop,
-                                  number_of_founders = number_founders,
                                   step_size = 0.001)
 
   a <- subset(freq_output, location > 0.2 & location < 0.4)

@@ -72,11 +72,7 @@ void assess_matches(const std::vector<junction>& chrom,
         int ancestor = block[i].right;
         int index = ancestor * numSteps + progress;
         if(ancestor >= 0) {
-
-            if(index > spectrum.size()) {
-                Rcout << "index > spectrum.size\n";
-            }
-            spectrum(index, 2) += stretch;
+           spectrum(index, 2) += stretch;
         }
     }
     
@@ -90,7 +86,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
     int numSteps = 1.0 / step_size;
 
-    NumericMatrix spectrum(1 + numSteps * numAncestors, 3);
+    NumericMatrix spectrum(1 + numSteps * (1 + numAncestors), 3);
 
     for(int a = 0; a < numAncestors; ++a) {
         for(int i = 0; i < numSteps; ++i) {
