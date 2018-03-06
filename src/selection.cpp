@@ -141,7 +141,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
         if(fit < 0.0) {
-            Rcout << "ERROR in calculating fitness\n"; flush_console();
+            Rcout << "ERROR in calculating fitness\n"; 
         }
 
         if(fit > maxFitness) maxFitness = fit;

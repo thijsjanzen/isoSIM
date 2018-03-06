@@ -23,13 +23,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void flush_console2() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-
-}
-
 void assess_matches(const std::vector<junction>& chrom,
                     double start,
                     double end,
@@ -116,7 +109,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
         right += step_size;
 
         if(i % updateFreq == 0) {
-            Rcout << "**"; flush_console2();
+            Rcout << "**";
         }
         Rcpp::checkUserInterrupt();
     }
