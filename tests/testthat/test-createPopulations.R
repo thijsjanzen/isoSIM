@@ -17,7 +17,7 @@ test_that("create_population", {
   morgan <- 1
 
   vx <- create_population(pop_size, number_of_founders,
-                    run_time, morgan, 42e)
+                    run_time, morgan, 42)
 
   print(vx)
   print(vx[[1]])

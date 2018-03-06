@@ -11,8 +11,7 @@ test_that("select population", {
                                                       morgan = 1,
                                                       select_matrix,
                                                       selection = 1,
-                                                      seed = 1234,
-                                                      write_to_file = FALSE)
+                                                      seed = 1234)
 
   testthat::expect_equal(length(selected_pop), 100)
 })
@@ -24,8 +23,7 @@ test_that("select on population", {
                                     number_of_founders = 10,
                                     total_runtime = 1000,
                                     morgan = 1,
-                                    seed = 123,
-                                    write_to_file = FALSE)
+                                    seed = 123)
 
   select_matrix <- matrix(ncol = 3, nrow = 2)
   select_matrix[1, ] <- c(0.05, 0.1, 0)
@@ -36,8 +34,7 @@ test_that("select on population", {
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
-                                    seed = 1234,
-                                    write_to_file = FALSE)
+                                    seed = 1234)
 
   testthat::expect_equal(length(selected_pop), 100)
 })
