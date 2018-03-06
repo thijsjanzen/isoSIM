@@ -82,13 +82,13 @@ void assess_matches(const std::vector<junction>& chrom,
 
 NumericMatrix allele_spectrum(const std::vector<Fish>& v,
                               double step_size,
-                              int numAncestors) {
+                              int max_num_ancestors) {
 
     int numSteps = 1.0 / step_size;
 
-    NumericMatrix spectrum(1 + numSteps * (1 + numAncestors), 3);
+    NumericMatrix spectrum(1 + numSteps * (1 + max_num_ancestors), 3);
 
-    for(int a = 0; a < numAncestors; ++a) {
+    for(int a = 0; a < max_num_ancestors; ++a) {
         for(int i = 0; i < numSteps; ++i) {
 
             int index = a * numSteps + i;
@@ -145,6 +145,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
         temp_j.pos = v[i];
         if(i+1 > v.size()) break;
         temp_j.right = v[i+1];
+
         if(temp_j.right > max_num_ancestor) max_num_ancestor = temp_j.right;
 
         if(indic_chrom == 1) {
@@ -169,6 +170,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
+    Rcout << "number of ancestors in sample\t" << max_num_ancestor << "\n";
     NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor);
     
     return output;

@@ -96,7 +96,7 @@ test_that("allele frequencies", {
   number_founders <- 5
   sourcepop <- isoSIM::create_population(pop_size = 1000,
                                   number_of_founders = number_founders,
-                                  total_runtime = 1000,
+                                  total_runtime = 100,
                                   morgan = 1,
                                   seed = 123)
 
