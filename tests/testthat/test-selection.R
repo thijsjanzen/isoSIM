@@ -32,7 +32,7 @@ test_that("select on population", {
   select_matrix[1, ] <- c(0.05, 0.1, 0)
   select_matrix[2, ] <- c(0.15, 0.5, 1)
 
-  selected_pop <- isoSIM::select_population(sourcepop, select_matrix,
+  selected_pop <- select_population(sourcepop, select_matrix,
                                     selection = 0.1,
                                     pop_size = 100,
                                     total_runtime = 100,

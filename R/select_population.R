@@ -1,4 +1,4 @@
-population_to_vector <- function(pop) {
+population_to_vector <- function(source_pop) {
   pop_for_cpp <- c()
   for (i in seq_along(source_pop)) {
     x <- source_pop[[i]]$chromosome1
