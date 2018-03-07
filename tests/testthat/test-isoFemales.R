@@ -13,10 +13,12 @@ test_that("create_isofemale", {
 
   testthat::expect_true(verify_population(pop))
 
+  females <- create_iso_female(pop, n = 5)
+
   females <- create_iso_female(pop, n = 1)
 
-  testthat::expect_equal(length(females), 1)
 
+  testthat::expect_equal(length(females), 1)
 })
 
 test_that("create_population_from_isofemales", {
