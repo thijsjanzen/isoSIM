@@ -32,7 +32,7 @@ void Recombine(      std::vector<junction>& offspring,
 
 
     int numRecombinations = poisson(MORGAN);
-    
+
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
                          chromosome1.begin(),
@@ -42,26 +42,26 @@ void Recombine(      std::vector<junction>& offspring,
     }
 
     /*
-    if (numRecombinations == 1) {
-        double pos = getRecomPos();
-        for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
-            if((*i).pos > pos) break;
-            offspring.push_back((*i));
-        }
-        bool added = false;
-        for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
-            if((*j).pos > pos) {
-                if(!added) {
-                    added = true;
-                    junction toAdd(pos,offspring.back().right , (*j).left);
-                    if(toAdd.left != toAdd.right) offspring.push_back(toAdd);
-                }
-                offspring.push_back((*j));
-            }
-        }
-        return;
-    }
-*/
+     if (numRecombinations == 1) {
+     double pos = getRecomPos();
+     for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
+     if((*i).pos > pos) break;
+     offspring.push_back((*i));
+     }
+     bool added = false;
+     for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
+     if((*j).pos > pos) {
+     if(!added) {
+     added = true;
+     junction toAdd(pos,offspring.back().right , (*j).left);
+     if(toAdd.left != toAdd.right) offspring.push_back(toAdd);
+     }
+     offspring.push_back((*j));
+     }
+     }
+     return;
+     }
+     */
     //if the number of recombinations is larger than 1, we need some more complicated (slower) code:
 
     std::vector<double> recomPos(numRecombinations, 0);
@@ -85,7 +85,6 @@ void Recombine(      std::vector<junction>& offspring,
     std::vector< junction > toAdd; //first create junctions on exactly the recombination positions
     for(int i = 0; i < recomPos.size(); ++i) {
         junction temp;
-        temp.left = -1.0; // default values to be sure
         temp.right = -1.0;
         temp.pos = recomPos[i];
         toAdd.push_back(temp);
@@ -100,11 +99,11 @@ void Recombine(      std::vector<junction>& offspring,
                 if(recomPos[j] < rightpos) {
                     if(j % 2 == 0) { // even, so chrom1 = L, chrom2 = R
                         if(j < toAdd.size()) {
-                            toAdd[j].left = (*i).left;
+                            //       toAdd[j].left = (*i).left;
                         }
                     } else { // uneven so chrom1 = R, chrom2 = L
                         if(j < toAdd.size()) {
-                            toAdd[j].right = (*i).left;
+                            toAdd[j].right = (*(i-1)).right;
 
                         }
                     }
@@ -122,11 +121,11 @@ void Recombine(      std::vector<junction>& offspring,
                 if(recomPos[j] < rightpos) {
                     if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
                         if(j < toAdd.size()) {
-                            toAdd[j].right = (*i).left;
+                            toAdd[j].right = (*(i-1)).right;
                         }
                     } else { //uneven so chrom1 = R, chrom2 = L
                         if(j < toAdd.size()) {
-                            toAdd[j].left = (*i).left;
+                            //    toAdd[j].left = (*i).left;
                         }
                     }
                 }
@@ -135,9 +134,7 @@ void Recombine(      std::vector<junction>& offspring,
     }
 
     for(int i = 0; i < toAdd.size(); ++i) {
-        if(toAdd[i].left != toAdd[i].right) {
-            offspring.push_back(toAdd[i]);
-        }
+        offspring.push_back(toAdd[i]);
     }
 
     //now we have to add the other junctions from chrom1 and chrom2.
@@ -176,7 +173,7 @@ void Recombine(      std::vector<junction>& offspring,
     }
 
     std::sort(offspring.begin(), offspring.end());
- //   offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
+    //   offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
 
 
     // gatekeeper code to not allow false junctions to be introduced
@@ -186,23 +183,19 @@ void Recombine(      std::vector<junction>& offspring,
     for(int i = 0; i < temp_offspring.size(); ++i) {  // extra checks to make sure no memory access errors
         bool add = true;
 
-        if(temp_offspring[i].left == temp_offspring[i].right) add = false;
-        if(i+1 < temp_offspring.size()) {
-          if(temp_offspring[i].pos == temp_offspring[i+1].pos) add = false;
+        if(i > 0) {
+            if(temp_offspring[i].right == temp_offspring[i-1].right) add = false;
+
+            if(temp_offspring[i].pos == temp_offspring[i-1].pos) add = false;
         }
-
-        if(abs(temp_offspring[i].left) > 1000) add = false;
+        
         if(abs(temp_offspring[i].right) > 1000) add = false;
-
+        
         if(add) {
             offspring.push_back(temp_offspring[i]);
         }
     }
-
-    if(offspring.empty()) {
-        Rcout << "Offspring is EMPTY! No wonder memory problems!\n";
-    }
-
+    
     return;
 }
 

@@ -44,7 +44,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
     return -1;
 }
 
-double assess_match(const std::vector<junction>& chrom,
+double assess_match(const std::vector<junction> chrom,
                     double start,
                     double end,
                     int ancestor) {
@@ -92,11 +92,12 @@ double assess_match(const std::vector<junction>& chrom,
             match += local_right - local_left;
         }
     }
-
+    
     match *= 1.0 / (end - start);
-
+    
     return(match);
 }
+
 
 double calculate_fitness(const Fish& focal,
                          const std::vector< std::vector< double > >& select,

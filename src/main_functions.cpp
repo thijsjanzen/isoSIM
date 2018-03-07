@@ -396,6 +396,7 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
         }
     }
 
+    /*
     for(int i = 0; i < output.size(); ++i) {
         for(int j = 1; j < output[i].chromosome1.size(); ++j) {
             output[i].chromosome1[j].left = output[i].chromosome1[j].right;
@@ -408,7 +409,7 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
         output[i].chromosome2[0].left = -1.0;
         
     }
-
+*/
     
     return(output);
 }
@@ -516,8 +517,8 @@ void test_fish_functions() {
     Fish test_fish;
 
     junction temp;
-    junction temp2(0.5, -1, 0);
-    junction temp3(0.5, -1, 0);
+    junction temp2(0.5, 0);
+    junction temp3(0.5, 0);
     if(temp2 == temp3) {
         temp = temp2;
     }
