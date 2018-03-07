@@ -404,8 +404,8 @@ List convert_to_list(const std::vector<Fish>& v) {
         }
 
         Rcout << "Chromosome 2 ready\n";
-        List toAdd = List::create( Named("chromosome_1") = chrom1,
-                                   Named("chromosome_2") = chrom2
+        List toAdd = List::create( Named("chromosome1") = chrom1,
+                                   Named("chromosome2") = chrom2
                                  );
 
         output(i) = toAdd;
