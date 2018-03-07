@@ -12,6 +12,10 @@
 #include <algorithm>
 
 
+#include <Rcpp.h>
+using namespace Rcpp;
+
+
 double getRecomPos() {
     double pos = uniform();
     while(pos == 0 || pos == 1.0) {
