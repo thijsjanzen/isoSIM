@@ -63,49 +63,6 @@ test_that("expected_number_junctions", {
 
 
 
-test_that("calculate_allele_frequencies", {
-  pop_size <- 100
-  number_of_founders <- 2
-  run_time <- 5
-  morgan <- 1
-
-  found <- c();
-  for (r in 1:100) {
-    vx <- create_population(pop_size, 2,
-                               run_time, morgan, r)
-
-    testthat::expect_true(verify_population(vx))
-
-    for (i in 1:pop_size) {
-      found <- rbind(found, calc_allele_frequencies(vx[[i]],
-                            alleles = rep(0, number_of_founders * 2))
-                    )
-    }
-  }
-
-  v <- colMeans(found)
-  expect_equal(v[[1]], 0.5, tolerance = 0.01)
-
-  expect_equal(v[[2]], 0.5, tolerance = 0.01)
-
-  found <- c();
-  for (r in 1:100) {
-    vx <- create_population(pop_size, 4,
-                                 run_time, morgan, r)
-
-    testthat::expect_true(verify_population(vx))
-
-    for (i in 1:pop_size) {
-      found <- rbind(found,
-        calc_allele_frequencies(vx[[i]],
-          alleles = rep(0, number_of_founders * 2))
-      )
-    }
-  }
-
-  v <- mean(colMeans(found))
-  expect_equal(v, 0.25, tolerance = 0.01)
-})
 
 test_that("create_two_populations", {
   pop_size <- 100
@@ -141,58 +98,6 @@ test_that("create_two_full_populations", {
   print(vx$Population_2)
 })
 
-
-test_that("fst", {
-  pop_size <- 100
-  number_of_founders <- 20
-  run_time <- 1
-  morgan <- 1
-  overlap <- 0.1
-
-  vx <- create_two_populations(pop_size, number_of_founders,
-                                    run_time, morgan, 42,
-                                    overlap)
-
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
-
-  pop1 <- vx$Population_1
-  pop2 <- vx$Population_2
-
-  number_of_markers <- 100
-  sampled_individuals <- 10
-  v1 <- isoSIM::calculate_fst(pop1, pop2,
-                                 sampled_individuals,
-                         number_of_markers, random_markers = TRUE)
-
-  v2 <- isoSIM::calculate_fst(pop1, pop2,
-                                 sampled_individuals,
-                         number_of_markers, random_markers = FALSE)
-
-  testthat::expect_equal(v1, v2, tolerance = 0.05)
-
-  pop_size <- 100
-  number_of_founders <- 10
-  run_time <- 10000
-  morgan <- 1
-  overlap <- 0.0
-
-  vx <- create_two_populations(pop_size, number_of_founders,
-                                    run_time, morgan, 42,
-                                    overlap)
-
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
-
-  pop1 <- vx$Population_1
-  pop2 <- vx$Population_2
-
-  number_of_markers <- 100
-  v1 <- calculate_fst(pop1, pop2,
-                         number_of_markers, random_markers = TRUE)
-
-  testthat::expect_equal(1.0, v1, tolerance = 0.01)
-})
 
 test_that("create_population_from_individuals", {
   two_populations <- create_two_populations(pop_size = 100,
@@ -249,6 +154,7 @@ test_that("create_population_from_individuals", {
 
 
 })
+
 test_that("migration",{
   pops_migration <- create_two_populations_migration(pop_size = 100,
                                                      number_of_founders = 10,
