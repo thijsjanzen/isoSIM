@@ -395,6 +395,20 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
             temp.chromosome2.clear();
         }
     }
+
+    for(int i = 0; i < output.size(); ++i) {
+        for(int j = 1; j < output[i].chromosome1.size(); ++j) {
+            output[i].chromosome1[j].left = output[i].chromosome1[j].right;
+        }
+        output[i].chromosome1[0].left = -1.0;
+
+        for(int j = 1; j < output[i].chromosome2.size(); ++j) {
+            output[i].chromosome2[j].left = output[i].chromosome2[j].right;
+        }
+        output[i].chromosome2[0].left = -1.0;
+        
+    }
+
     
     return(output);
 }

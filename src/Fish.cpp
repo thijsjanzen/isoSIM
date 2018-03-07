@@ -195,6 +195,10 @@ void Recombine(      std::vector<junction>& offspring,
         }
     }
 
+    if(offspring.empty()) {
+        Rcout << "Offspring is EMPTY! No wonder memory problems!\n";
+    }
+
     return;
 }
 

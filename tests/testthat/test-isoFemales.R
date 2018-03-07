@@ -122,6 +122,9 @@ test_that("create_population_from_individuals", {
   testthat::expect_true(verify_population(two_populations$Population_1))
   testthat::expect_true(verify_population(two_populations$Population_2))
 
+
+
+
   isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
                                    n = 1,
                                    inbreeding_pop_size = 100,
