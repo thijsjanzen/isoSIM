@@ -219,7 +219,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    run_time,
                                                    morgan);
 
-    return List::create( Named("population") = createPopVector(outputPop) );
+    return List::create( Named("population") = convert_to_list(outputPop) );
 }
 
 // [[Rcpp::export]]
@@ -255,6 +255,6 @@ List create_population_selection_cpp(int pop_size,
                                                    total_runtime,
                                                    morgan);
 
-    return List::create( Named("population") = createPopVector(outputPop) );
+    return List::create( Named("population") = convert_to_list(outputPop) );
 }
 
