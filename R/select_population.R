@@ -1,3 +1,15 @@
+population_to_vector <- function(pop) {
+  pop_for_cpp <- c()
+  for (i in seq_along(source_pop)) {
+    x <- source_pop[[i]]$chromosome1
+    chrom1 <- as.vector(t(x))
+    x <- source_pop[[i]]$chromosome2
+    chrom2 <- as.vector(t(x))
+    pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
+  }
+  return(pop_for_cpp)
+}
+
 select_population <- function(source_pop,
                               select_matrix,
                               selection,
@@ -7,14 +19,7 @@ select_population <- function(source_pop,
                               seed) {
 
   # first we have to convert source_pop to vector...
-  pop_for_cpp <- c()
-  for (i in seq_along(source_pop)) {
-    x <- source_pop[[i]]$chromosome1
-    chrom1 <- as.vector(t(x))
-    x <- source_pop[[i]]$chromosome2
-    chrom2 <- as.vector(t(x))
-    pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
-  }
+  pop_for_cpp <- population_to_vector(source_pop)
   #then select_matrix to vector
   select <- as.vector(t(select_matrix))
   if (sum(is.na(select))) {
@@ -36,14 +41,7 @@ select_population <- function(source_pop,
 
 calculate_allele_frequencies <- function(source_pop,
                                          step_size) {
-  pop_for_cpp <- c()
-  for (i in seq_along(source_pop)) {
-    x <- source_pop[[i]]$chromosome1
-    chrom1 <- as.vector(t(x))
-    x <- source_pop[[i]]$chromosome2
-    chrom2 <- as.vector(t(x))
-    pop_for_cpp <- c(pop_for_cpp, chrom1, chrom2)
-  }
+  pop_for_cpp <- population_to_vector(source_pop)
 
   frequency_table <- calculate_allele_spectrum_cpp(pop_for_cpp,
                                                    step_size)

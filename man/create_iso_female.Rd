@@ -9,7 +9,8 @@
 }
 \usage{
 create_iso_female(source_pop, n = 1,
-                  inbreeding_pop_size = 100, run_time = 1000, morgan = 1)
+                  inbreeding_pop_size = 100, run_time = 1000,
+                  morgan = 1, seed = 42)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,6 +29,9 @@ create_iso_female(source_pop, n = 1,
   \item{morgan}{
   Size of the chromosome in Morgan (e.g. the number of crossovers during meiosis)
 }
+  \item{seed}{
+  Random number generator seed
+  }
 }
 \details{
   To create an isofemale, two individuals are randomly picked from the source population. Using these two individuals, a new population is seeded, of size \code{inbreeding_pop_size}. Then, this population is allowed to inbreed until either \code{run_time} is reached, or until all individuals are homozygous and genetically identical, whatever happens first.
@@ -51,6 +55,7 @@ create_iso_female(source_pop, n = 1,
                                n = 1,
                                inbreeding_pop_size = 100,
                                run_time = 100,
-                               morgan = 1)
+                               morgan = 1,
+                               seed = 42)
  }
 }

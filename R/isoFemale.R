@@ -1,25 +1,9 @@
-create_iso_female_line <- function(parents,
-                                 pop_size = 100,
-                                 run_time = 100,
-                                 morgan = 1,
-                                 seed = 42) {
-
-  inbred_population <- create_population_from_individuals(parents,
-                                                          pop_size,
-                                                          run_time,
-                                                          morgan,
-                                                          seed)
-
-  output <- inbred_population[[sample(1:length(inbred_population), 1)]]
-
-  return(output)
-}
-
 create_iso_female <- function(source_pop,
                              n = 1,
                              inbreeding_pop_size = 100,
                              run_time = 1000,
-                             morgan = 1) {
+                             morgan = 1,
+                             seed = 42) {
 
   # first we select the individuals that will be the parents of the isofemales
   indices <- sample(seq_along(source_pop), n * 2, replace = FALSE)
@@ -33,12 +17,12 @@ create_iso_female <- function(source_pop,
   for (i in seq_len(n)) {
     parents <- list(iso_females[[i]], iso_females[[i + n]])
 
-    set.seed(i)
-    vx <- create_iso_female_line(parents,
-                                 pop_size = inbreeding_pop_size,
-                                 run_time = run_time,
-                                 morgan = morgan)
-    output_females[[i]] <- vx
+    inbred_population <- create_population_from_individuals(parents,
+                                             pop_size,
+                                             run_time,
+                                             morgan,
+                                             seed + i)
+    output_females[[i]] <- inbred_population[[sample(1:length(inbred_population), 1)]]
     class(output_females[[i]]) <- "individual"
   }
   return(output_females)

@@ -22,6 +22,7 @@
 \alias{create_population_cpp}
 \alias{verify_individual}
 \alias{verify_population}
+\alias{population_to_vector}
 
 \description{Internal Guilds functions}
 \details{These are not to be called by the user}
