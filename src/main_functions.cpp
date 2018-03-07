@@ -98,9 +98,9 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
             return(Pop);
         }
 
-        //if(!verify_pop_cpp(Pop)) {
-        //    Rcout << "\n After " << t << " generations, verify population failed\n";
-        //}
+        if(!verify_pop_cpp(Pop)) {
+            Rcout << "\n After " << t << " generations, verify population failed\n";
+        }
 
         Rcpp::checkUserInterrupt();
     }
