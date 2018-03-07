@@ -21,9 +21,9 @@ double getRecomPos() {
     return pos;
 }
 
-void Recombine(std::vector<junction>& offspring,
-               std::vector<junction> chromosome1,
-               std::vector<junction> chromosome2,
+void Recombine(      std::vector<junction>& offspring,
+               const std::vector<junction>& chromosome1,
+               const std::vector<junction>& chromosome2,
                double MORGAN)  {
 
 
@@ -81,11 +81,12 @@ void Recombine(std::vector<junction>& offspring,
     std::vector< junction > toAdd; //first create junctions on exactly the recombination positions
     for(int i = 0; i < recomPos.size(); ++i) {
         junction temp;
+        temp.left = -1.0; // default values to be sure
+        temp.right = -1.0;
         temp.pos = recomPos[i];
         toAdd.push_back(temp);
     }
 
-    //for(int i = 1; i < chromosome1.size(); ++i) {
     for(auto i = (chromosome1.begin()+1); i != chromosome1.end(); ++i) {
         double leftpos = (*(i-1)).pos;
         double rightpos = (*i).pos;
@@ -93,10 +94,15 @@ void Recombine(std::vector<junction>& offspring,
         for(int j = 0; j < recomPos.size(); ++j) {
             if(recomPos[j] > leftpos) {
                 if(recomPos[j] < rightpos) {
-                    if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                        toAdd[j].left = (*i).left;
-                    } else { //uneven so chrom1 = R, chrom2 = L
-                        toAdd[j].right = (*i).left;
+                    if(j % 2 == 0) { // even, so chrom1 = L, chrom2 = R
+                        if(j < toAdd.size()) {
+                            toAdd[j].left = (*i).left;
+                        }
+                    } else { // uneven so chrom1 = R, chrom2 = L
+                        if(j < toAdd.size()) {
+                            toAdd[j].right = (*i).left;
+
+                        }
                     }
                 }
             }
@@ -111,9 +117,13 @@ void Recombine(std::vector<junction>& offspring,
             if(recomPos[j] > leftpos) {
                 if(recomPos[j] < rightpos) {
                     if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
-                        toAdd[j].right = (*i).left;
+                        if(j < toAdd.size()) {
+                            toAdd[j].right = (*i).left;
+                        }
                     } else { //uneven so chrom1 = R, chrom2 = L
-                        toAdd[j].left = (*i).left;
+                        if(j < toAdd.size()) {
+                            toAdd[j].left = (*i).left;
+                        }
                     }
                 }
             }
@@ -136,7 +146,7 @@ void Recombine(std::vector<junction>& offspring,
         if(i < recomPos.size()) rightpos = recomPos[i];
 
         if(i % 2 == 0) { //even, so take from chromosome 1
-            for(std::vector<junction>::iterator it = chromosome1.begin(); it != chromosome1.end(); ++it) {
+            for(auto it = chromosome1.begin(); it != chromosome1.end(); ++it) {
                 if((*it).pos >= leftpos && (*it).pos <= rightpos) {
                     offspring.push_back((*it));
                 }
@@ -147,7 +157,7 @@ void Recombine(std::vector<junction>& offspring,
         }
 
         if(i % 2 == 1) { //odd, so take from chromosome 2
-            for(std::vector<junction>::iterator it = chromosome2.begin(); it != chromosome2.end(); ++it) {
+            for(auto it = chromosome2.begin(); it != chromosome2.end(); ++it) {
                 if((*it).pos >= leftpos && (*it).pos <= rightpos) {
                     offspring.push_back((*it));
                 }
@@ -162,12 +172,27 @@ void Recombine(std::vector<junction>& offspring,
     }
 
     std::sort(offspring.begin(), offspring.end());
-    offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
+ //   offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
+
+
+    // gatekeeper code to not allow false junctions to be introduced
 
     std::vector<junction> temp_offspring = offspring;
     offspring.clear();
-    for(int i = 0; i < temp_offspring.size(); ++i) {
-        if(temp_offspring[i].left != temp_offspring[i].right) offspring.push_back(temp_offspring[i]);
+    for(int i = 0; i < temp_offspring.size(); ++i) {  // extra checks to make sure no memory access errors
+        bool add = true;
+
+        if(temp_offspring[i].left == temp_offspring[i].right) add = false;
+        if(i+1 < temp_offspring.size()) {
+          if(temp_offspring[i].pos == temp_offspring[i+1].pos) add = false;
+        }
+
+        if(abs(temp_offspring[i].left) > 1000) add = false;
+        if(abs(temp_offspring[i].right) > 1000) add = false;
+
+        if(add) {
+            offspring.push_back(temp_offspring[i]);
+        }
     }
 
     return;

@@ -30,15 +30,15 @@ using namespace Rcpp;
 
 bool verify_individual_cpp(const Fish& Nemo) {
     for(int i = 0; i < Nemo.chromosome1.size(); ++i) {
-        if(Nemo.chromosome1[i].right >  10000 |
-           Nemo.chromosome1[i].right < -10000) {
+        if(Nemo.chromosome1[i].right >  1000 |
+           Nemo.chromosome1[i].right < -1000) {
             return false;
         }
     }
 
     for(int i = 0; i < Nemo.chromosome2.size(); ++i) {
-        if(Nemo.chromosome2[i].right >  10000 |
-           Nemo.chromosome2[i].right < -10000) {
+        if(Nemo.chromosome2[i].right >  1000 |
+           Nemo.chromosome2[i].right < -1000) {
             return false;
         }
     }
@@ -81,13 +81,14 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         std::vector<Fish> newGeneration;
 
         for(int i = 0; i < popSize; ++i)  {
-            int index1 = random_number(popSize);
-            while(index1 >= Pop.size()) index1 = random_number(popSize);
+            int index1 = random_number(Pop.size());
+            while(index1 >= Pop.size()) index1 = random_number(Pop.size());
 
-            int index2 = random_number(popSize);
-            while(index2 >= Pop.size() || index1 == index2) index2 = random_number(popSize);
+            int index2 = random_number(Pop.size());
+            while(index2 >= Pop.size() || index1 == index2) index2 = random_number(Pop.size());
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
+            
             if(verify_individual_cpp(kid)) {
                 newGeneration.push_back(kid);
             } else {
