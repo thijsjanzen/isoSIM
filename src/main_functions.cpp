@@ -379,11 +379,13 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
 }
 
 List convert_to_list(const std::vector<Fish>& v) {
-    List output = List::create(v.size());
+    List output = List::create(1 + v.size());
+    Rcout << "Starting conversion of << "output.size << " fish\n";
 
     for(int i = 0; i < v.size(); ++i) {
 
-        Fish focal =v[i];
+        Fish focal = v[i];
+        Rcout << i << "\n"
 
         NumericMatrix chrom1(focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome1.size(); ++j) {
@@ -396,6 +398,7 @@ List convert_to_list(const std::vector<Fish>& v) {
             chrom2(j, 1) = focal.chromosome2[j].right;
         }
 
+        Rcout << "chromosomes ready\n";
         List toAdd = List::create( Named("chromosome_1") = chrom1,
                                    Named("chromosome_2") = chrom2
                                  );
