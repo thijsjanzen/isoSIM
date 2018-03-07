@@ -286,7 +286,7 @@ List create_population_cpp(int pop_size,
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
                                              total_runtime, morgan, 0.0, 0);
 
-    return List::create( Named("population") = createPopVector(Pop) );
+    return List::create( Named("population") = convert_to_list(Pop) );
 }
 
 // [[Rcpp::export]]
@@ -301,7 +301,7 @@ List create_isofemale_line_cpp(NumericVector v,
     std::vector<Fish> Pop = create_line(founders, pop_size,
                                         total_runtime, morgan);
 
-    return List::create( Named("population") = createPopVector(Pop) );
+    return List::create( Named("population") = convert_to_list(Pop) );
 }
 
 
@@ -318,8 +318,8 @@ List create_two_populations_cpp(int pop_size,
     std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 1);
 
-    return List::create( Named("population_1") = createPopVector(Pop1),
-                         Named("population_2") = createPopVector(Pop2)
+    return List::create( Named("population_1") = convert_to_list(Pop1),
+                         Named("population_2") = convert_to_list(Pop2)
                        );
 }
 
@@ -334,8 +334,8 @@ List create_two_populations_migration_cpp(int pop_size,
 
     create_two_pop_migration(Pop1, Pop2, number_of_founders, pop_size, total_runtime, morgan, migration);
 
-    return List::create( Named("population_1") = createPopVector(Pop1),
-                        Named("population_2") = createPopVector(Pop2)
+    return List::create( Named("population_1")  = convert_to_list(Pop1),
+                         Named("population_2")  = convert_to_list(Pop2)
                         );
 }
 
@@ -379,23 +379,18 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
 }
 
 List convert_to_list(const std::vector<Fish>& v) {
-    //List output;// = List::create(1 + v.size());
     int list_size = (int)v.size();
     List output(list_size);
-
-    Rcout << "Starting conversion of " << output.size() << " fish\n";
 
     for(int i = 0; i < v.size(); ++i) {
 
         Fish focal = v[i];
-        Rcout << "Starting on Fish " << i << "\n";
 
         NumericMatrix chrom1(focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome1.size(); ++j) {
             chrom1(j, 0) = focal.chromosome1[j].pos;
             chrom1(j, 1) = focal.chromosome1[j].right;
         }
-        Rcout << "Chromosome 1 ready\n";
 
         NumericMatrix chrom2(focal.chromosome2.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome2.size(); ++j) {
@@ -403,13 +398,11 @@ List convert_to_list(const std::vector<Fish>& v) {
             chrom2(j, 1) = focal.chromosome2[j].right;
         }
 
-        Rcout << "Chromosome 2 ready\n";
         List toAdd = List::create( Named("chromosome1") = chrom1,
                                    Named("chromosome2") = chrom2
                                  );
 
         output(i) = toAdd;
-       // output.push_back(toAdd);
     }
 
     return output;
@@ -417,7 +410,7 @@ List convert_to_list(const std::vector<Fish>& v) {
 
 
 
-
+/*
 // [[Rcpp::export]]
 List test_conversion_fish(NumericVector v)
 {
@@ -439,7 +432,7 @@ List test_conversion_fish_old(NumericVector v)
 
     return List::create( Named("population") = createPopVector(founders));
 }
-
+*/
 
 
 

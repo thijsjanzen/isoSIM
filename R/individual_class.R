@@ -113,6 +113,17 @@ plot_chromosome <- function(chrom, xmin = 0, xmax = 1) {
 }
 
 create_pop_class <- function(pop) {
+
+  set_indiv_class <- function(indiv) {
+    class(indiv) <- "individual"
+    indiv
+  }
+  pop <- lapply(pop, set_indiv_class)
+  class(pop) <- "population"
+  return(pop)
+
+  if(1 == 2) {
+
   whole_pop <- list()
   cntr <- 1
   chrom1 <- c()
@@ -163,6 +174,7 @@ create_pop_class <- function(pop) {
   }
   class(whole_pop) <- "population"
   return(whole_pop)
+  }
 }
 
 verify_individual <- function(indiv) {
