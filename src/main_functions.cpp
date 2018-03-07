@@ -379,7 +379,10 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
 }
 
 List convert_to_list(const std::vector<Fish>& v) {
-    List output;// = List::create(1 + v.size());
+    //List output;// = List::create(1 + v.size());
+    int list_size = (int)v.size();
+    List output(list_size);
+
     Rcout << "Starting conversion of " << output.size() << " fish\n";
 
     for(int i = 0; i < v.size(); ++i) {
@@ -387,14 +390,14 @@ List convert_to_list(const std::vector<Fish>& v) {
         Fish focal = v[i];
         Rcout << "Starting on Fish " << i << "\n";
 
-        NumericMatrix chrom1(1 + focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
+        NumericMatrix chrom1(focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome1.size(); ++j) {
             chrom1(j, 0) = focal.chromosome1[j].pos;
             chrom1(j, 1) = focal.chromosome1[j].right;
         }
         Rcout << "Chromosome 1 ready\n";
 
-        NumericMatrix chrom2(1 + focal.chromosome2.size(), 2); // nrow = number of junctions, ncol = 2
+        NumericMatrix chrom2(focal.chromosome2.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome2.size(); ++j) {
             chrom2(j, 0) = focal.chromosome2[j].pos;
             chrom2(j, 1) = focal.chromosome2[j].right;
@@ -405,8 +408,8 @@ List convert_to_list(const std::vector<Fish>& v) {
                                    Named("chromosome_2") = chrom2
                                  );
 
-       // output(i) = toAdd;
-        output.push_back(toAdd);
+        output(i) = toAdd;
+       // output.push_back(toAdd);
     }
 
     return output;
