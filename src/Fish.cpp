@@ -62,7 +62,7 @@ void Recombine(      std::vector<junction>& offspring,
          }
          return;
      }
-     */
+     
     //if the number of recombinations is larger than 1, we need some more complicated (slower) code:
 
     std::vector<double> recomPos(numRecombinations, 0);
