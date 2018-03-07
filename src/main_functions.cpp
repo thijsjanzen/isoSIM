@@ -380,7 +380,7 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
 
 List convert_to_list(const std::vector<Fish>& v) {
     List output = List::create(1 + v.size());
-    Rcout << "Starting conversion of << "output.size << " fish\n";
+    Rcout << "Starting conversion of " << output.size() << " fish\n";
 
     for(int i = 0; i < v.size(); ++i) {
 
@@ -419,7 +419,7 @@ List test_conversion_fish(NumericVector v)
     std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
     Rcout << "convert_NumericVector_to_fishVector done\n";
 
-    //List output = convert_to_list(founders);
+    List output = convert_to_list(founders);
 
     Rcout << "output list done\n";
     return output;
