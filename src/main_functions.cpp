@@ -378,6 +378,60 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
     return(output);
 }
 
+List convert_to_list(const std::vector<Fish>& v) {
+    List output = List::create(v.size());
+
+    for(int i = 0; i < v.size(); ++i) {
+
+        Fish focal =v[i];
+
+        NumericMatrix chrom1(focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
+        for(int j = 0; j < focal.chromosome1.size(); ++j) {
+            chrom1(j, 0) = focal.chromosome1[j].pos;
+            chrom1(j, 1) = focal.chromosome1[j].right;
+        }
+        NumericMatrix chrom2(focal.chromosome2.size(), 2); // nrow = number of junctions, ncol = 2
+        for(int j = 0; j < focal.chromosome2.size(); ++j) {
+            chrom2(j, 0) = focal.chromosome2[j].pos;
+            chrom2(j, 1) = focal.chromosome2[j].right;
+        }
+
+        List toAdd = List::create( Named("chromosome_1") = chrom1,
+                                   Named("chromosome_2") = chrom2
+                                 );
+
+        output(i) = toAdd;
+    }
+
+    return output;
+}
+
+
+
+
+// [[Rcpp::export]]
+List test_conversion_fish(NumericVector v)
+{
+    std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
+
+    List output = convert_to_list(founders);
+
+    return output;
+}
+
+// [[Rcpp::export]]
+List test_conversion_fish_old(NumericVector v)
+{
+
+    std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
+
+    return List::create( Named("population") = createPopVector(founders));
+}
+
+
+
+
+
 
 std::vector<double> createPopVector(const std::vector< Fish >& v) {
     std::vector<double> output;

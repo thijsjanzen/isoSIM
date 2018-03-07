@@ -9,11 +9,9 @@
 #ifndef random_functions_hpp
 #define random_functions_hpp
 
-#include <stdio.h>
 
 double uniform();
 int random_number(int n);
 double poisson(double lambda);
-
 
 #endif /* random_functions_hpp */
