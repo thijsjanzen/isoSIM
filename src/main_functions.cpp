@@ -385,7 +385,7 @@ List convert_to_list(const std::vector<Fish>& v) {
     for(int i = 0; i < v.size(); ++i) {
 
         Fish focal = v[i];
-        Rcout << i << "\n"
+        Rcout << i << "\n";
 
         NumericMatrix chrom1(focal.chromosome1.size(), 2); // nrow = number of junctions, ncol = 2
         for(int j = 0; j < focal.chromosome1.size(); ++j) {
