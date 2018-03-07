@@ -178,10 +178,10 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     } else {
         for(int i = 0; i < popSize; ++i) {
             int index1 = random_number(founders.size());
-            while(index1 >= founders.size()) index1 = random_number(founders.size());
+            while(index1 >= (int)founders.size()) index1 = random_number(founders.size());
 
             int index2 = random_number(founders.size());
-            while(index >= founders.size()) index = random_number(founders.size());
+            while(index2 >= (int)founders.size()) index2 = random_number(founders.size());
 
             while(index1 == index2) index2 = random_number(founders.size());
 
