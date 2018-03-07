@@ -20,7 +20,10 @@
 
 #include "Fish.h"
 #include "main.h"
-#include "random_functions.h"
+// #include "random_functions.h"
+
+#include "randomc.h"
+
 
 #include <Rcpp.h>
 using namespace Rcpp;
