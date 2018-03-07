@@ -41,25 +41,26 @@ void Recombine(      std::vector<junction>& offspring,
         return;
     }
 
-    /*
+
      if (numRecombinations == 1) {
-     double pos = getRecomPos();
-     for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
-     if((*i).pos > pos) break;
-     offspring.push_back((*i));
-     }
-     bool added = false;
-     for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
-     if((*j).pos > pos) {
-     if(!added) {
-     added = true;
-     junction toAdd(pos,offspring.back().right , (*j).left);
-     if(toAdd.left != toAdd.right) offspring.push_back(toAdd);
-     }
-     offspring.push_back((*j));
-     }
-     }
-     return;
+         double pos = getRecomPos();
+         for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
+                if((*i).pos > pos) break;
+
+             offspring.push_back((*i));
+         }
+         bool added = false;
+         for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
+            if((*j).pos > pos) {
+                if(!added) {
+                    added = true;
+                    junction toAdd(pos, (*(j-1)).right);
+                    if(toAdd.right != (*j).right) offspring.push_back(toAdd);
+                }
+                offspring.push_back((*j));
+            }
+         }
+         return;
      }
      */
     //if the number of recombinations is larger than 1, we need some more complicated (slower) code:

@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.29 - Changed internal junction representation: removed .left
    Version 0.28 - Reverted to Agner Fog Random number generation \cr
    Version 0.27 - Speed up return types \cr
    Version 0.26 - Added class verification code \cr

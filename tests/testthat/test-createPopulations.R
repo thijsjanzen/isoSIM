@@ -29,40 +29,6 @@ test_that("create_population", {
   plot(vx[[1]])
 })
 
-test_that("expected_number_junctions", {
-  found <- c();
-  pop_size <- 100
-  run_time <- 100
-  morgan <- 1
-  for (r in 1:100) {
-    vx <- create_population(pop_size, 2,
-                            run_time, morgan, r)
-
-    testthat::expect_true(verify_population(vx))
-
-    junct <- calculate_dist_junctions(vx)
-    mean(junct)
-    found <- c(found, mean(junct))
-    cat(r, mean(junct), "\n")
-  }
-  require(junctions)
-  expected <- junctions::number_of_junctions(N = pop_size,
-                                             H_0 = 0.5,
-                                             C = 1,
-                                             t = run_time)
-
-  expect_equal(mean(found), expected, tolerance = 1)
-
-  vx <- create_population(pop_size, 2,
-                          run_time, morgan, r)
-
-  testthat::expect_true(verify_population(vx))
-
-  plot_dist_junctions(vx)
-})
-
-
-
 
 test_that("create_two_populations", {
   pop_size <- 100
