@@ -82,8 +82,11 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
             int index2 = random_number(popSize);
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
-
-            newGeneration.push_back(kid);
+            if(verify_individual_cpp(kid)) {
+                newGeneration.push_back(kid);
+            } else {
+                Rcout << "\n After " << t << " generations, verify individual failed\n";
+            }
         }
 
         Pop = newGeneration;
