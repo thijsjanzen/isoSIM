@@ -415,10 +415,13 @@ List convert_to_list(const std::vector<Fish>& v) {
 // [[Rcpp::export]]
 List test_conversion_fish(NumericVector v)
 {
+    Rcout << "This is test_conversion_fish\n";
     std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
+    Rcout << "convert_NumericVector_to_fishVector done\n";
 
     List output = convert_to_list(founders);
 
+    Rcout << "output list done\n";
     return output;
 }
 
