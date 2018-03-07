@@ -6,7 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
-
+   Version 0.27 - Speed up return types \cr
    Version 0.26 - Added class verification code \cr
    Version 0.25 - Squashed plotting bug \cr
    Version 0.24 - Removed Output.cpp \cr

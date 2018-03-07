@@ -21,14 +21,6 @@ create_two_populations_migration_cpp <- function(pop_size, number_of_founders, t
     .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration)
 }
 
-test_conversion_fish <- function(v) {
-    .Call('_isoSIM_test_conversion_fish', PACKAGE = 'isoSIM', v)
-}
-
-test_conversion_fish_old <- function(v) {
-    .Call('_isoSIM_test_conversion_fish_old', PACKAGE = 'isoSIM', v)
-}
-
 test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }

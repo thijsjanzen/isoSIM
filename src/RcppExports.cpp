@@ -75,28 +75,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test_conversion_fish
-List test_conversion_fish(NumericVector v);
-RcppExport SEXP _isoSIM_test_conversion_fish(SEXP vSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_conversion_fish(v));
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_conversion_fish_old
-List test_conversion_fish_old(NumericVector v);
-RcppExport SEXP _isoSIM_test_conversion_fish_old(SEXP vSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type v(vSEXP);
-    rcpp_result_gen = Rcpp::wrap(test_conversion_fish_old(v));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_fish_functions
 void test_fish_functions();
 RcppExport SEXP _isoSIM_test_fish_functions() {
@@ -145,8 +123,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_isofemale_line_cpp", (DL_FUNC) &_isoSIM_create_isofemale_line_cpp, 4},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 5},
     {"_isoSIM_create_two_populations_migration_cpp", (DL_FUNC) &_isoSIM_create_two_populations_migration_cpp, 5},
-    {"_isoSIM_test_conversion_fish", (DL_FUNC) &_isoSIM_test_conversion_fish, 1},
-    {"_isoSIM_test_conversion_fish_old", (DL_FUNC) &_isoSIM_test_conversion_fish_old, 1},
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 6},
     {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 6},
