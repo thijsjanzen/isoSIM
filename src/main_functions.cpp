@@ -379,7 +379,7 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
 }
 
 List convert_to_list(const std::vector<Fish>& v) {
-    List output = List::create(1 + v.size());
+    List output;// = List::create(1 + v.size());
     Rcout << "Starting conversion of " << output.size() << " fish\n";
 
     for(int i = 0; i < v.size(); ++i) {
@@ -405,7 +405,8 @@ List convert_to_list(const std::vector<Fish>& v) {
                                    Named("chromosome_2") = chrom2
                                  );
 
-        output(i) = toAdd;
+       // output(i) = toAdd;
+        output.push_back(toAdd);
     }
 
     return output;
