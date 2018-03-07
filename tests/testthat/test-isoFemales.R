@@ -145,7 +145,7 @@ test_that("create_population_from_individuals", {
                                                          pop_size = 100,
                                                          total_runtime = 100,
                                                          morgan = 1,
-                                                         seed = 42)
+                                                         seed = 44)
 
   testthat::expect_true(verify_population(mixed_population))
 
@@ -153,7 +153,7 @@ test_that("create_population_from_individuals", {
                                                          pop_size = 100,
                                                          total_runtime = 100,
                                                          morgan = 1,
-                                                         seed = 42)
+                                                         seed = 43)
 
   testthat::expect_true(verify_population(mixed_population))
 

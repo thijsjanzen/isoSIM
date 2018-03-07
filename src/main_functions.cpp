@@ -82,7 +82,10 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
 
         for(int i = 0; i < popSize; ++i)  {
             int index1 = random_number(popSize);
+            while(index1 >= Pop.size()) index1 = random_number(popSize);
+
             int index2 = random_number(popSize);
+            while(index2 >= Pop.size() || index1 == index2) index2 = random_number(popSize);
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
             if(verify_individual_cpp(kid)) {
@@ -175,7 +178,11 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
     } else {
         for(int i = 0; i < popSize; ++i) {
             int index1 = random_number(founders.size());
+            while(index1 >= founders.size()) index1 = random_number(founders.size());
+
             int index2 = random_number(founders.size());
+            while(index >= founders.size()) index = random_number(founders.size());
+
             while(index1 == index2) index2 = random_number(founders.size());
 
             Fish temp = mate( founders[index1], founders[index2], Morgan);
