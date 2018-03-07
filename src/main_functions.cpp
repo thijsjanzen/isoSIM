@@ -287,8 +287,10 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
-                       double morgan)
+                       double morgan,
+                       int seed)
 {
+    set_seed(seed);
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
                                              total_runtime, morgan, 0.0, 0);
 
@@ -299,9 +301,10 @@ List create_population_cpp(int pop_size,
 List create_isofemale_line_cpp(NumericVector v,
                        int pop_size,
                        int total_runtime,
-                       double morgan)
+                       double morgan,
+                       int seed)
 {
-
+    set_seed(seed);
     std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
 
     std::vector<Fish> Pop = create_line(founders, pop_size,
@@ -316,8 +319,10 @@ List create_two_populations_cpp(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,
-                            double overlap) {
+                            double overlap,
+                            int seed) {
 
+    set_seed(seed);
     std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
                                               total_runtime, morgan, overlap, 0);
 
@@ -334,7 +339,9 @@ List create_two_populations_migration_cpp(int pop_size,
                                           int number_of_founders,
                                           int total_runtime,
                                           double morgan,
-                                          double migration) {
+                                          double migration,
+                                          int seed) {
+    set_seed(seed);
     std::vector< Fish > Pop1;
     std::vector< Fish > Pop2;
 
@@ -518,7 +525,7 @@ void test_fish_functions() {
     chrom.push_back(temp);
 
     Fish test_fish4(chrom, chrom);
-
+/*
     double mean_vals = 0;
 
     for(int i = 0; i < 1000; ++i) {
@@ -546,7 +553,7 @@ void test_fish_functions() {
         Rcout << R::runif(0.0, 50) << " ";
     }
     Rcout << "\n";
-
+*/
     
     return;
 }

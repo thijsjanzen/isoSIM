@@ -13,6 +13,7 @@ create_iso_female <- function(source_pop,
                                                             run_time,
                                                             morgan,
                                                             seed)
+    output_females <- list()
     output_females[[1]] <- inbred_population[[sample(1:length(inbred_population), 1)]]
     class(output_females[[1]]) <- "individual"
     return(output_females)

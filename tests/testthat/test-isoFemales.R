@@ -35,8 +35,8 @@ test_that("create_population_from_isofemales", {
   testthat::expect_true(verify_population(vx$Population_1))
   testthat::expect_true(verify_population(vx$Population_2))
 
-  female_1 <- isoSIM::create_iso_female(vx$Population_1, n = 1)
-  female_2 <- isoSIM::create_iso_female(vx$Population_2, n = 1)
+  female_1 <- create_iso_female(vx$Population_1, n = 1)
+  female_2 <- create_iso_female(vx$Population_2, n = 1)
 
   testthat::expect_true(verify_individual(female_1[[1]]))
   testthat::expect_true(verify_individual(female_2[[1]]))

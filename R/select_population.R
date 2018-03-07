@@ -26,13 +26,13 @@ select_population <- function(source_pop,
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
 
-  set.seed(seed)
   selected_pop <- select_population_cpp(pop_for_cpp,
                                         select,
                                         selection,
                                         pop_size,
                                         total_runtime,
-                                        morgan)
+                                        morgan,
+                                        seed)
 
   selected_pop <- create_pop_class(selected_pop$population)
 
@@ -63,9 +63,8 @@ create_population_selection <- function(pop_size,
   if (sum(is.na(select_matrix))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
-  set.seed(seed)
   pop <- create_population_selection_cpp(pop_size, number_of_founders, total_runtime, morgan,
-                                                  select_matrix, selection)
+                                                  select_matrix, selection, seed)
   popstruct <- create_pop_class(pop$population)
   return(popstruct)
 }
