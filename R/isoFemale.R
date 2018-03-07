@@ -9,7 +9,7 @@ create_iso_female <- function(source_pop,
     indices <- sample(1:length(source_pop), 2, replace = FALSE)
     parents = list(source_pop[[indices[1]]], source_pop[[indices[2]]])
     inbred_population <- create_population_from_individuals(parents,
-                                                            pop_size,
+                                                            inbreeding_pop_size,
                                                             run_time,
                                                             morgan,
                                                             seed)
@@ -34,7 +34,7 @@ create_iso_female <- function(source_pop,
     parents <- list(iso_females[[i]], iso_females[[i + n]])
 
     inbred_population <- create_population_from_individuals(parents,
-                                             pop_size,
+                                                            inbreeding_pop_size,
                                              run_time,
                                              morgan,
                                              seed + i)

@@ -88,7 +88,7 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
             if(verify_individual_cpp(kid)) {
                 newGeneration.push_back(kid);
             } else {
-                Rcout << "\n After " << t << " generations, verify individual failed\n";
+                Rcout << "\n After " << t << " generations, verify individual failed\n"; R_FlushConsole();
             }
         }
 
@@ -100,12 +100,12 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         }
 
         if(is_fixed(Pop)) {
-            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n";
+            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n"; R_FlushConsole();
             return(Pop);
         }
 
         if(!verify_pop_cpp(Pop)) {
-            Rcout << "\n After " << t << " generations, verify population failed\n";
+            Rcout << "\n After " << t << " generations, verify population failed\n"; R_FlushConsole();
         }
 
         Rcpp::checkUserInterrupt();
@@ -163,6 +163,10 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 {
     std::vector<Fish> Pop;
 
+    if(!verify_pop_cpp(founders)) {
+        Rcout << "Verify founders in create_line failed\n"; R_FlushConsole();
+    }
+
     if(founders.size() == 2) {
         for(int i = 0; i < popSize; ++i) {
             Fish temp = mate( founders[0], founders[1], Morgan);
@@ -180,12 +184,8 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 
     }
 
-    if(!verify_pop_cpp(founders)) {
-        Rcout << "Verify founders in create_line failed\n";
-    }
-
     if(!verify_pop_cpp(Pop)) {
-        Rcout << "Creation in create_line failed\n";
+        Rcout << "Creation in create_line failed\n"; R_FlushConsole();
     }
 
     Pop = simulate(Pop, popSize, maxTime, Morgan);
