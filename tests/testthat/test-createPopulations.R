@@ -29,7 +29,6 @@ test_that("create_population", {
   plot(vx[[1]])
 })
 
-
 test_that("create_two_populations", {
   pop_size <- 100
   number_of_founders <- 10

@@ -47,7 +47,7 @@ In order to create an iso-female line, two random individuals are drawn from the
 isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
                                inbreeding_pop_size = 100,
-                               run_time = 1000000,
+                               run_time = 10000,
                                morgan = 1)
 ```
 
@@ -70,7 +70,7 @@ wildpop =  create_population(pop_size = 100,
 isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
                                inbreeding_pop_size = 100,
-                               run_time = 1000000,
+                               run_time = 10000,
                                morgan = 1)
 plot(wildpop[[1]])
 plot(isofemale[[1]])
@@ -100,7 +100,7 @@ Now that we have two populations, we can generate two different iso-females from
 isofemales <- create_iso_female(source_pop = two_populations$Population_1,
                                n = 2,
                                inbreeding_pop_size = 100,
-                               run_time = 1000000,
+                               run_time = 10000,
                                morgan = 1)
 
 par(mfrow=c(1,2))
