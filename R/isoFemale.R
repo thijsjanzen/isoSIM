@@ -1,7 +1,7 @@
 create_iso_female <- function(source_pop,
                              n = 1,
                              inbreeding_pop_size = 100,
-                             run_time = 1000,
+                             run_time = 2000,
                              morgan = 1,
                              seed = 42) {
 
@@ -16,11 +16,6 @@ create_iso_female <- function(source_pop,
   output_females <- list()
   for (i in 1:n) {
     parents <- list(iso_females[[i]], iso_females[[i + n]])
-
-   # va = isoSIM::population_to_vector(two_populations$Population_1)
-
-  #  cat(va, file="va.txt")
-
 
     inbred_population <- create_population_from_individuals(parents,
                                                             inbreeding_pop_size,

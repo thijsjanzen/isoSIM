@@ -201,10 +201,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                            double s,
                            int population_size,
                            int run_time,
-                           double morgan,
-                           int seed) {
+                           double morgan) {
 
-    set_seed(seed);
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
     std::vector< std::vector< double > > select;
@@ -233,10 +231,8 @@ List create_population_selection_cpp(int pop_size,
                                  int total_runtime,
                                  double morgan,
                                  Rcpp::NumericVector select_matrix,
-                                 double selection,
-                                 int seed) {
+                                 double selection) {
 
-    set_seed(seed);
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
         Fish p1 = Fish( random_number( number_of_founders ) );

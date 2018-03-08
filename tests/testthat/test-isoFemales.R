@@ -13,9 +13,9 @@ test_that("create_isofemale", {
 
   testthat::expect_true(verify_population(pop))
 
-  females <- create_iso_female(pop, n = 5)
+  females <- create_iso_female(pop, n = 5, run_time = 3000)
 
-  females <- create_iso_female(pop, n = 1)
+  females <- create_iso_female(pop, n = 1, run_time = 3000)
 
 
   testthat::expect_equal(length(females), 1)
@@ -48,7 +48,7 @@ test_that("create_population_from_isofemales", {
   females <- isoSIM::create_iso_female(vx$Population_1, n = 2, run_time = 2000)
 
   vy <- isoSIM::create_population_from_individuals(females,
-                                                   pop_size, run_time,
+                                                   pop_size, 2000,
                                                    morgan,
                                                    seed = 666)
 
@@ -56,7 +56,7 @@ test_that("create_population_from_isofemales", {
   testthat::expect_true(verify_population(vy))
 
   vy <- isoSIM::create_population_from_individuals(list(female_1[[1]], female_2[[1]]),
-                                     pop_size, run_time,
+                                     pop_size, 2000,
                                      morgan,
                                      seed = 666)
 
@@ -175,9 +175,10 @@ test_that("create_population_from_individuals", {
 
   mixed_population_2 <- create_population_from_individuals(isofemales,
                                                            pop_size = 100,
-                                                           total_runtime = 100,
+                                                           total_runtime = 2000,
                                                            morgan = 1,
                                                            seed = 42)
 
   testthat::expect_true(verify_population(mixed_population_2))
 })
+
