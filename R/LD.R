@@ -58,7 +58,7 @@ calculate_LD <- function(pop,
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
   if (random_markers) {
-    markers <- create_random_markers()
+    markers <- create_random_markers(number_of_markers)
   }
 
   for (x in 1:length(markers)) {

@@ -1,4 +1,4 @@
-create_random_markers <- function() {
+create_random_markers <- function(number_of_markers) {
   markers <- c();
   while (length(markers) < number_of_markers) {
     markers <- runif(number_of_markers, 0, 1)
