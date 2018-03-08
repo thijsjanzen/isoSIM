@@ -7,3 +7,18 @@ Genetic admixture simulation for isofemale lines and further
 
 # What is isoSIM?
 A package under construction to simulate genetic admixture in relation to isofemale lines
+
+# Version history
+Version 0.30 - Added Recombination = 1 code <br />
+Version 0.29 - Changed internal junction representation: removed .left <br />
+Version 0.28 - Reverted to Agner Fog Random number generation <br />
+Version 0.27 - Speed up return types <br />
+Version 0.26 - Added class verification code <br />
+Version 0.25 - Squashed plotting bug <br />
+Version 0.24 - Removed Output.cpp <br />
+Version 0.23 - Removed number_of_founders from calc_allele_spectrum <br />
+Version 0.22 - Added save and load functions <br />
+Version 0.21 - Changed random-seed management <br />
+Version 0.20 - Removed superfluous code <br />
+Version 0.19 - Removed number_of_founders from Fst and LD code <br />
+Version 0.18 - Start of tracking changes <br />
