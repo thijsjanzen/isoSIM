@@ -514,30 +514,23 @@ bool matching_chromosomes(const std::vector< junction >& v1,
 }
 
 
-bool is_fixed(const std::vector< Fish >& v) {
 
-    if(v[0].chromosome1 != v[0].chromosome2) return false;
+bool is_fixed(const std::vector< Fish >& v) {
 
     if(!matching_chromosomes(v[0].chromosome1, v[0].chromosome2)) {
         return false;
     }
 
     for(auto it = v.begin(); it != v.end(); ++it) {
-      //  if((*it).chromosome1 != v[0].chromosome1) return false;
-      //  if((*it).chromosome2 != v[0].chromosome2) return false;
-
-        if(!matching_chromosomes((*it).chromosome1), v[0].chromosome1) {
+        if(!matching_chromosomes((*it).chromosome1, v[0].chromosome1)) {
             return false;
         }
         if(!matching_chromosomes((*it).chromosome1, (*it).chromosome2)) {
             return false;
         }
-
     }
-
     return true;
 }
-
 
 // [[Rcpp::export]]
 void test_fish_functions() {
