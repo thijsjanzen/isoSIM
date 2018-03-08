@@ -23,6 +23,7 @@
 \alias{verify_individual}
 \alias{verify_population}
 \alias{population_to_vector}
+\alias{create_random_markers}
 
 \description{Internal Guilds functions}
 \details{These are not to be called by the user}

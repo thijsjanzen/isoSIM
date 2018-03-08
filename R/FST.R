@@ -10,22 +10,7 @@ create_loci_matrix <- function(pop1,
 
   markers <- seq(1e-9, 1 - (1e-9), length.out = number_of_markers)
   if (random_markers) {
-    markers <- c();
-    while (length(markers) < number_of_markers) {
-      markers <- runif(number_of_markers, 0, 1)
-      #if (length(which(markers == 0.0))) {
-      if (sum(markers == 0.0)) {
-        markers <- markers[- (markers == 0.0)] #remove borders
-      }
-      if (sum(markers == 1.0)) {
-        markers <- markers[- (markers == 1.0)]
-      }
-      #remove duplicates
-      if (length(which(duplicated(markers)))) {
-        markers <- markers[-which(duplicated(markers))]
-      }
-    }
-    markers <- sort(markers)
+    markers <- create_random_markers()
   }
 
   for (x in seq_along(markers)) {
