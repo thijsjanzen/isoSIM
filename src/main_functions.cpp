@@ -466,7 +466,7 @@ List test_conversion_fish_old(NumericVector v)
 
 
 
-
+/*
 
 std::vector<double> createPopVector(const std::vector< Fish >& v) {
     std::vector<double> output;
@@ -484,7 +484,7 @@ std::vector<double> createPopVector(const std::vector< Fish >& v) {
     }
     return(output);
 }
-
+*/
 /*
 void flush_console() {
     R_FlushConsole();
