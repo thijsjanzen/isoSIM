@@ -116,7 +116,7 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         Rcpp::checkUserInterrupt();
     }
     Rcout << "\n";
-    Rcout << "No fixation before maximum run time was reached\n"; R_FlushConsole();
+   // Rcout << "No fixation before maximum run time was reached\n"; R_FlushConsole();
     return(Pop);
 }
 

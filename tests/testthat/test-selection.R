@@ -147,7 +147,7 @@ test_that("allele frequencies", {
 
   selected_pop <- isoSIM::select_population(sourcepop, select_matrix,
                                             selection = 2,
-                                            pop_size = 100,
+                                            pop_size = 1000,
                                             total_runtime = 1000,
                                             morgan = 1,
                                             seed = 12345)
@@ -155,7 +155,7 @@ test_that("allele frequencies", {
   testthat::expect_true(verify_population(selected_pop))
 
   freq_output <- calculate_allele_frequencies(selected_pop,
-                                  step_size = 0.001)
+                                  step_size = 0.01)
 
   a <- subset(freq_output, location > 0.2 & location < 0.4)
   b <- a %>%

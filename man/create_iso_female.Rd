@@ -9,7 +9,7 @@
 }
 \usage{
 create_iso_female(source_pop, n = 1,
-                  inbreeding_pop_size = 100, run_time = 1000,
+                  inbreeding_pop_size = 100, run_time = 2000,
                   morgan = 1, seed = 42)
 }
 %- maybe also 'usage' for other objects documented here.
