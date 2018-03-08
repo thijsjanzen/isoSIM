@@ -499,13 +499,40 @@ void flush_console() {
 }
  */
 
+bool matching_chromosomes(const std::vector< junction >& v1,
+                          const std::vector< junction >& v2)
+{
+    if(v1.size() != v2.size()) {
+        return false;
+    }
+    for(int i = 0; i < v1.size(); ++i) {
+        if(v1[i] != v2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
 bool is_fixed(const std::vector< Fish >& v) {
 
     if(v[0].chromosome1 != v[0].chromosome2) return false;
 
+    if(!matching_chromosomes(v[0].chromosome1, v[0].chromosome2)) {
+        return false;
+    }
+
     for(auto it = v.begin(); it != v.end(); ++it) {
-        if((*it).chromosome1 != v[0].chromosome1) return false;
-        if((*it).chromosome2 != v[0].chromosome2) return false;
+      //  if((*it).chromosome1 != v[0].chromosome1) return false;
+      //  if((*it).chromosome2 != v[0].chromosome2) return false;
+
+        if(!matching_chromosomes((*it).chromosome1), v[0].chromosome1) {
+            return false;
+        }
+        if(!matching_chromosomes((*it).chromosome1, (*it).chromosome2)) {
+            return false;
+        }
+
     }
 
     return true;

@@ -121,60 +121,6 @@ create_pop_class <- function(pop) {
   pop <- lapply(pop, set_indiv_class)
   class(pop) <- "population"
   return(pop)
-
-  if(1 == 2) {
-
-  whole_pop <- list()
-  cntr <- 1
-  chrom1 <- c()
-  chrom2 <- c()
-  indic_chrom <- 1
-  add_indiv <- FALSE
-
-  for (i in seq(from = 1, to = length(pop), by = 2)) {
-    focal <- pop[c(i, i + 1)]
-
-    if(focal[2] > 1e4 || focal[2] < -1) {
-      # crude hack to avoid junctions that have invalid regions
-      # (due to some weird memory error somewhere)
-      next
-    }
-
-    if (indic_chrom == 1) {
-      chrom1 <- rbind(chrom1, focal)
-    }
-
-    if (indic_chrom == 2) {
-      chrom2 <- rbind(chrom2, focal)
-    }
-
-    if (focal[2] == -1) {
-      if (indic_chrom == 1) {
-        indic_chrom <- 2
-      } else {
-        add_indiv <- TRUE;
-      }
-    }
-
-    if (add_indiv == TRUE) {
-      indiv <- list(chromosome1 = chrom1,
-                    chromosome2 = chrom2)
-
-      class(indiv) <- "individual"
-
-      whole_pop[[cntr]] <- indiv
-      cntr <- cntr + 1
-
-      indic_chrom <- 1
-      add_indiv <- FALSE
-      chrom1 <- c()
-      chrom2 <- c()
-    }
-
-  }
-  class(whole_pop) <- "population"
-  return(whole_pop)
-  }
 }
 
 verify_individual <- function(indiv) {
