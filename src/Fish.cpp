@@ -7,8 +7,8 @@
 //
 
 #include "Fish.h"
-// #include "random_functions.h"
-#include "randomc.h"
+#include "random_functions.h"
+//#include "randomc.h"
 #include <algorithm>
 
 

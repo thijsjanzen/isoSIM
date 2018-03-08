@@ -22,7 +22,7 @@ create_two_populations <- function(pop_size,
                                         seed,
                                         overlap) {
 
-  set.seed(see)
+  set.seed(seed)
   pops <- create_two_populations_cpp(pop_size,
                                  number_of_founders,
                                  total_runtime,
