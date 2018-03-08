@@ -50,47 +50,48 @@ double assess_match(const std::vector<junction> chrom,
                     int ancestor) {
 
     std::vector< junction > block;
+    for(int i = 1; i < chrom.size(); ++i) {
+        if(chrom[i].pos > start) {
+            block.push_back(chrom[i-1]);
 
-    for(int i = 0; i < chrom.size(); ++i) {
-        if(chrom[i].pos > end) { // stop after block
-            break;
-        } else {
-            if(chrom[i].pos > start) {
-                block.push_back(chrom[i]); //junctions within the block should be stored
-            } else {
-                if(i+1 < chrom.size()) {
-                    if(chrom[i+1].pos > start) { //one junction before the end as well.
-                        block.push_back(chrom[i]);
-                    }
-                }
+            if(chrom[i].pos > end) {
+                break;
             }
+
+
         }
     }
 
-    if(block.size() == 1) {
-        if(block[0].right == ancestor) {
-            return 1.0;
-        } else {
-            return 0.0;
-        }
-    }
+    // now we have:
+    //  | |  |   |   |     |  |
+    // j0 | j1  j2  j3 .. jn  |
+    //    s                   e
+
+    // we add a junction indicating the start, and remove the one
+    // just before the start
+
+    junction start_corner;
+    start_corner.pos = start;
+    start_corner.right = block[0].right;
+    block[0] = start_corner;
+
+    // we add a junction indicating the end
+
+    junction end_corner;
+    end_corner.pos = end;
+    end_corner.right = -1;
+
+    block.push_back(end_corner);
+
+    // now we have:
+    //  |   |   |  |     | |
+    //  s  j1  j2 j3 .. jn e
 
 
     double match = 0.0;
-
-    for(int i = 0; i < block.size(); ++i) {
-        if(block[i].right == ancestor) {
-
-            double local_right = end;
-            if(i+1 < block.size()) {
-                local_right = block[i+1].pos;
-            }
-
-            double local_left = block[i].pos;
-            if(local_left < start) local_left = start;
-
-            match += local_right - local_left;
-        }
+    for(int i = 1; i < block.size(); ++i) {
+        double stretch = block[i].pos - block[i-1].pos;
+        if(block[i-1].right == ancestor) match += stretch;
     }
     
     match *= 1.0 / (end - start);

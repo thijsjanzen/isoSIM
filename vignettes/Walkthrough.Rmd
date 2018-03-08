@@ -18,6 +18,7 @@ The package isoSIM was designed to simulate the generation of iso-female lines, 
 ```{r}
 library(isoSIM)
 library(ggplot2)
+packageVersion("isoSIM")
 ```
 
 
@@ -25,7 +26,7 @@ library(ggplot2)
 In order to create an iso-female line, we first have to create a 'wild' population, from which we will draw individuals. To create such a population, we make use of the function 'create_population':
 ```{r create wildpop}
 wildpop =  create_population(pop_size = 100, 
-                             number_of_founders = 10,
+                             number_of_founders = 4,
                              total_runtime = 1000, 
                              morgan = 1, 
                              seed = 42)
@@ -47,7 +48,7 @@ In order to create an iso-female line, two random individuals are drawn from the
 isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
                                inbreeding_pop_size = 100,
-                               run_time = 10000,
+                               run_time = 2000,
                                morgan = 1)
 ```
 
@@ -59,7 +60,7 @@ Now, we can plot the isofemales, this plots the two chromosomes next to each oth
 plot(isofemale[[1]])
 ```
 
-Because we have chosen 10 ancestors, these plots are not terribly informative, let's try a toy example:
+Because we have chosen 4 ancestors, these plots are not terribly informative, let's try a toy example:
 ```{r toyexample}
 wildpop =  create_population(pop_size = 100, 
                              number_of_founders = 2,
@@ -133,7 +134,7 @@ FST <- calculate_fst(two_populations$Population_1,
                  random_markers = TRUE)
 FST
 ```
-The FST calculation function uses the library hierfstat to calculate the FST. To do so, it samples 10 random individuals (the parameter sampled individuals) from the population, and then assesses the genetic content at 100 randomly placed markers (number of markers, and random_markers = TRUE). 
+The FST calculation function uses the library hierfstat to calculate the FST. To do so, it samples 10 random individuals (the parameter sampled individuals) from the population, and then assesses the genetic content at 100 randomly placed markers (number of markers, and random_markers = TRUE). To increase power, a higher number of individuals can be sampled, although this does increase computational load.
 
 Although this seems to be quite right, I have no right intuition how the FST should relate to the overlap - I thought it would be inversely related (FST = 1 - overlap) but this doesn't hold. Either my intuition is wrong, or I calculate the FST wrongly...
 
@@ -153,7 +154,7 @@ To analyze LD patterns better, it makes more sense to create a population from s
 
 ```{r no LD}
 no_LD_pop <- create_population(pop_size = 100, 
-                             number_of_founders = 10,
+                             number_of_founders = 4,
                              total_runtime = 1000, 
                              morgan = 1, 
                              seed = 42)
@@ -170,7 +171,7 @@ Alternatively, for a barely inbred population, we expect a negative relationship
 
 ```{r strong LD}
 strong_LD_pop <- create_population(pop_size = 1000, 
-                             number_of_founders = 10,
+                             number_of_founders = 4,
                              total_runtime = 10, 
                              morgan = 1, 
                              seed = 42)
@@ -187,7 +188,7 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 Selection for genomic material of a particular ancestor can affect found patterns. isoSIM provides tools to implement such selection pressures. 
 Starting from a wild population, we can simulate inbreeding with selection, in the following manner:
 ```{r selection}
-number_founders = 20
+number_founders = 4
 wildpop =  create_population(pop_size = 1000, 
                              number_of_founders = number_founders,
                              total_runtime = 10, 
@@ -231,11 +232,11 @@ selection_matrix[1,] = c(0.1, 0.12, 1)
 selection_matrix[2,] = c(0.78, 0.8, 4)
 
 selected_pop_2 <- create_population_selection(pop_size = 1000,
-                                  number_of_founders = 10, 
+                                  number_of_founders = 4, 
                                   total_runtime = 1000,
                                   morgan = 1,
                                   select_matrix = selection_matrix,
-                                  selection = 10,
+                                  selection = 100,
                                   seed = 12345)
 
 freq_output <- calculate_allele_frequencies(selected_pop_2, 
@@ -252,7 +253,7 @@ To simulate two populations with a fixed degree of migration between them, we ca
 
 ```{r}
 pops_migration <- create_two_populations_migration(pop_size = 1000,
-                                         number_of_founders = 10,
+                                         number_of_founders = 4,
                                          total_runtime = 100,
                                          morgan = 1,
                                          seed = 1234,
