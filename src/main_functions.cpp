@@ -105,7 +105,7 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         }
 
         if(is_fixed(Pop)) {
-            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n iso-females are ready!\n"; R_FlushConsole();
+            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n"; R_FlushConsole();
             return(Pop);
         }
 
