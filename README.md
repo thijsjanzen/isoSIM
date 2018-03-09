@@ -9,6 +9,7 @@ Genetic admixture simulation for isofemale lines and further
 A package under construction to simulate genetic admixture in relation to isofemale lines
 
 # Version history
+Version 0.31 - Changed random number generator to R based <br />
 Version 0.30 - Added Recombination = 1 code <br />
 Version 0.29 - Changed internal junction representation: removed .left <br />
 Version 0.28 - Reverted to Agner Fog Random number generation <br />
