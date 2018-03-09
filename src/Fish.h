@@ -18,6 +18,12 @@ struct junction {
     int right;
 
     junction()  {}
+    junction(double loc, int B) ;
+    junction(const junction& other);
+    bool operator ==(const junction& other) const;
+    bool operator <(const junction& other) const;
+    bool operator !=(const junction& other) const;
+    /*
 
     junction(double loc, int B)  {
         pos = loc;
@@ -42,6 +48,7 @@ struct junction {
     bool operator !=(const junction& other) const {
         return( !( (*this) == other) );
     }
+     */
 };
 
 
@@ -51,6 +58,14 @@ struct Fish {
 
     Fish()
     {}
+
+    Fish(int initLoc);
+    Fish(const std::vector<junction>& A,
+         const std::vector<junction>& B);
+
+    bool operator ==(const Fish& other) const;
+
+/*
 
     Fish(int initLoc)    {
         junction left(0.0, initLoc);
@@ -87,6 +102,7 @@ struct Fish {
         
         return true;
     }
+ */
 };
 
 

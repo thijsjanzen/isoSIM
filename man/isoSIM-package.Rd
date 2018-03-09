@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.32 - Moved Fish.h code to Fish.cpp \cr
    Version 0.31 - Changed random number generator to R based \cr
    Version 0.30 - Added Recombination = 1 code \cr
    Version 0.29 - Changed internal junction representation: removed .left \cr
