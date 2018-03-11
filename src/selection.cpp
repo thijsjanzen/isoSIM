@@ -28,8 +28,8 @@ using namespace Rcpp;
 int draw_prop_fitness(const std::vector<double> fitness,
                       double maxFitness) {
 
-    if(maxFitness < 0.0) {
-        //   Rcout << "Cannot draw fitness if maxFitness < 0, terminating\n";
+    if(maxFitness <= 0.0) {
+        Rcpp::stop("Cannot draw fitness if maxFitness <= 0);
         return(-1);
     }
 
@@ -222,7 +222,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
-    double maxFitness = -1e6;
+    double maxFitness = -1.0;
 
    // Rcout << select(0, 0) << "\t" << select(0, 1) << "\t" << select(0, 2) << "\n";
    // Rcout << select(1, 0) << "\t" << select(1, 1) << "\t" << select(1, 2) << "\n";
@@ -265,16 +265,15 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
 
-            newGeneration.push_back(kid);
-
             double fit = calculate_fitness(kid, select, s);
             if(fit > newMaxFitness) newMaxFitness = fit;
+
+            newGeneration.push_back(kid);
             newFitness.push_back(fit);
 
             if(fit < 0.0) {
                 Rcpp::stop("ERROR in calculating fitness");
             }
-
         }
 
         Pop = newGeneration;
