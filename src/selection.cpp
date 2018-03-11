@@ -168,7 +168,7 @@ double calculate_fitness(const Fish& focal,
             for(int i = 0; i < focal.chromosome1.size(); ++i) {
                 Rcout << focal.chromosome1[i].pos << "\t" << focal.chromosome1[i].right << "\n";
             }
-            exit(0);
+            Rcpp::stop("ERROR! assess_match with chromosome 1 failure\n")
         }
 
 
@@ -180,7 +180,7 @@ double calculate_fitness(const Fish& focal,
             for(int i = 0; i < focal.chromosome2.size(); ++i) {
                 Rcout << focal.chromosome2[i].pos << "\t" << focal.chromosome2[i].right << "\n";
             }
-            exit(0);
+            Rcpp::stop("ERROR! assess_match with chromosome 2 failure")
         }
 
         if(end - start < 0.0) {
@@ -212,8 +212,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
         if(fit < 0.0) {
-            Rcout << "ERROR in calculating fitness\n";
-            exit(0);
+            Rcpp::stop("ERROR in calculating fitness")
         }
 
         if(fit > maxFitness) maxFitness = fit;
@@ -248,8 +247,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
             newFitness.push_back(fit);
 
             if(fit < 0.0) {
-                Rcout << "ERROR in calculating fitness\n";
-                exit(0);
+                Rcpp::stop("ERROR in calculating fitness")
+
             }
 
         }
