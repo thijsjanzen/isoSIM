@@ -21,7 +21,8 @@ select_population <- function(source_pop,
   # first we have to convert source_pop to vector...
   pop_for_cpp <- population_to_vector(source_pop)
   #then select_matrix to vector
-  select <- as.vector(t(select_matrix))
+  #select <- as.vector(t(select_matrix))
+  select <- select_matrix
   if (sum(is.na(select))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
   }

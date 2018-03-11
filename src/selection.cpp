@@ -318,7 +318,7 @@ List create_population_selection_cpp(int pop_size,
                                  int number_of_founders,
                                  int total_runtime,
                                  double morgan,
-                                 Rcpp::NumericVector select_matrix,
+                                 Rcpp::NumericMatrix select_matrix,
                                  double selection) {
 
     std::vector< Fish > Pop;
@@ -329,18 +329,18 @@ List create_population_selection_cpp(int pop_size,
         Pop.push_back(mate(p1,p2, morgan));
     }
 
-    std::vector< std::vector< double > > select;
-    std::vector<double> temp_select;
-    for(int i = 0; i < select_matrix.size(); ++i) {
-        temp_select.push_back(select_matrix[i]);
-        if(temp_select.size() == 3) {
-            select.push_back(temp_select);
-            temp_select.clear();
-        }
-    }
+  //  std::vector< std::vector< double > > select;
+  //  std::vector<double> temp_select;
+  //  for(int i = 0; i < select_matrix.size(); ++i) {
+  //      temp_select.push_back(select_matrix[i]);
+  //      if(temp_select.size() == 3) {
+  //          select.push_back(temp_select);
+  //          temp_select.clear();
+  //      }
+  //  }
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
-                                                   select,
+                                                   select_matrix,
                                                    selection,
                                                    pop_size,
                                                    total_runtime,
