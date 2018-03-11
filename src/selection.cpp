@@ -49,7 +49,7 @@ double assess_match(const std::vector<junction> chrom,
                     double end,
                     int ancestor) {
 
-    std::vector< junction > block;
+   /* std::vector< junction > block;
     for(int i = 1; i < chrom.size(); ++i) {
         if(chrom[i].pos > start) {
             block.push_back(chrom[i-1]);
@@ -97,6 +97,55 @@ double assess_match(const std::vector<junction> chrom,
     match *= 1.0 / (end - start);
     
     return(match);
+    */
+    std::vector< junction > block;
+
+    for(int i = 0; i < chrom.size(); ++i) {
+        if(chrom[i].pos > end) { // stop after block
+            break;
+        } else {
+            if(chrom[i].pos > start) {
+                block.push_back(chrom[i]); //junctions within the block should be stored
+            } else {
+                if(i+1 < chrom.size()) {
+                    if(chrom[i+1].pos > start) { //one junction before the end as well.
+                        block.push_back(chrom[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    if(block.size() == 1) {
+        if(block[0].right == ancestor) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+
+    double match = 0.0;
+
+    for(int i = 0; i < block.size(); ++i) {
+        if(block[i].right == ancestor) {
+
+            double local_right = end;
+            if(i+1 < block.size()) {
+                local_right = block[i+1].pos;
+            }
+
+            double local_left = block[i].pos;
+            if(local_left < start) local_left = start;
+
+            match += local_right - local_left;
+        }
+    }
+
+    match *= 1.0 / (end - start);
+    
+    return(match);
+
 }
 
 
@@ -104,8 +153,7 @@ double calculate_fitness(const Fish& focal,
                          const std::vector< std::vector< double > >& select,
                          double s) {
 
-    // double fitness = 2.0 * select[0][0];
-    double fitness = 2.0;
+    double fitness = 0.0;
 
     for(int i = 0; i < select.size(); ++i) {
         double start = select[i][0];
@@ -116,12 +164,6 @@ double calculate_fitness(const Fish& focal,
         double a2 = assess_match(focal.chromosome2, start, end, ancestor);
 
         fitness += (end - start) * (s * (a1 + a2));
-
-        // double nextStart = 1.0;
-        // if((i+1) < select.size()) {
-        //     nextStart = select[i+1][0];
-        // }
-        // fitness += 2.0 * (nextStart - end);
     }
     
     fitness = fitness / 2.0;

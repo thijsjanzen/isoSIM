@@ -2,27 +2,20 @@ create_random_markers <- function(number_of_markers) {
   markers <- c();
   while (length(markers) < number_of_markers) {
     markers <- runif(number_of_markers, 0, 1)
-    #if (length(which(markers == 0.0))) {
-    if (sum(markers == 0.0)) {
-      markers <- markers[- (markers == 0.0)] #remove borders
-    }
-    if (sum(markers == 1.0)) {
-      markers <- markers[- (markers == 1.0)]
-    }
     #remove duplicates
-    if (length(which(duplicated(markers)))) {
-      markers <- markers[-which(duplicated(markers))]
+    which_dupl <- which(duplicated(markers))
+    if (length(which_dupl)) {
+      markers <- markers[-which_dupl]
     }
   }
   markers <- sort(markers)
   return(markers)
 }
 
-
 calculate_dist_junctions <- function(pop) {
   get_num_junctions <- function(indiv) {
-    v1 <- length(indiv$chromosome1[, 1]) - 1
-    v2 <- length(indiv$chromosome2[, 1]) - 1 #subract one for start
+    v1 <- length(indiv$chromosome1[, 1]) - 2
+    v2 <- length(indiv$chromosome2[, 1]) - 2 #subract one for start
     return(c(v1, v2))
   }
 

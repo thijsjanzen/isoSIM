@@ -390,21 +390,6 @@ std::vector< Fish > convert_NumericVector_to_fishVector(const NumericVector v) {
         }
     }
 
-    /*
-    for(int i = 0; i < output.size(); ++i) {
-        for(int j = 1; j < output[i].chromosome1.size(); ++j) {
-            output[i].chromosome1[j].left = output[i].chromosome1[j].right;
-        }
-        output[i].chromosome1[0].left = -1.0;
-
-        for(int j = 1; j < output[i].chromosome2.size(); ++j) {
-            output[i].chromosome2[j].left = output[i].chromosome2[j].right;
-        }
-        output[i].chromosome2[0].left = -1.0;
-        
-    }
-*/
-    
     return(output);
 }
 
@@ -437,61 +422,6 @@ List convert_to_list(const std::vector<Fish>& v) {
 
     return output;
 }
-
-
-
-/*
-// [[Rcpp::export]]
-List test_conversion_fish(NumericVector v)
-{
-    Rcout << "This is test_conversion_fish\n";
-    std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
-    Rcout << "convert_NumericVector_to_fishVector done\n";
-
-    List output = convert_to_list(founders);
-
-    Rcout << "output list done\n";
-    return output;
-}
-
-// [[Rcpp::export]]
-List test_conversion_fish_old(NumericVector v)
-{
-
-    std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
-
-    return List::create( Named("population") = createPopVector(founders));
-}
-*/
-
-
-
-/*
-
-std::vector<double> createPopVector(const std::vector< Fish >& v) {
-    std::vector<double> output;
-    for(auto it = v.begin(); it != v.end(); ++it) {
-
-        for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
-            output.push_back((*i).pos);
-            output.push_back((*i).right);
-        }
-
-        for(auto j = (*it).chromosome2.begin(); j != (*it).chromosome2.end(); ++j) {
-            output.push_back((*j).pos);
-            output.push_back((*j).right);
-        }
-    }
-    return(output);
-}
-*/
-/*
-void flush_console() {
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-}
- */
 
 bool matching_chromosomes(const std::vector< junction >& v1,
                           const std::vector< junction >& v2)
@@ -562,38 +492,64 @@ void test_fish_functions() {
     chrom.push_back(temp);
 
     Fish test_fish4(chrom, chrom);
-/*
-    double mean_vals = 0;
 
-    for(int i = 0; i < 1000; ++i) {
-        double temp = R::runif(0.0, 1.0);
-        if(temp < 0 || temp > 1.0) {
-            Rcout << "Something went wrong with R::runif";
-        }
-
-        mean_vals += (int)(R::runif(0.0, 100.0));
-    }
-
-    mean_vals = mean_vals * 1.0 / 1000;
-    if(abs(mean_vals - 50) > 10) {
-        Rcout << "Something went wrong with R::runif(0.0, n)\n";
-    }
-
-    Rcout << "R::runif(0.0, 1.0) ";
-    for(int i = 0; i < 10; ++i) {
-        Rcout << R::runif(0.0, 1.0) << " ";
-    }
-    Rcout << "\n";
-
-    Rcout << "R::runif(0.0, n = 50) ";
-    for(int i = 0; i < 10; ++i) {
-        Rcout << R::runif(0.0, 50) << " ";
-    }
-    Rcout << "\n";
-*/
-    
     return;
 }
+
+
+
+/*
+ // [[Rcpp::export]]
+ List test_conversion_fish(NumericVector v)
+ {
+ Rcout << "This is test_conversion_fish\n";
+ std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
+ Rcout << "convert_NumericVector_to_fishVector done\n";
+
+ List output = convert_to_list(founders);
+
+ Rcout << "output list done\n";
+ return output;
+ }
+
+ // [[Rcpp::export]]
+ List test_conversion_fish_old(NumericVector v)
+ {
+
+ std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
+
+ return List::create( Named("population") = createPopVector(founders));
+ }
+ */
+
+
+
+/*
+
+ std::vector<double> createPopVector(const std::vector< Fish >& v) {
+ std::vector<double> output;
+ for(auto it = v.begin(); it != v.end(); ++it) {
+
+ for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+ output.push_back((*i).pos);
+ output.push_back((*i).right);
+ }
+
+ for(auto j = (*it).chromosome2.begin(); j != (*it).chromosome2.end(); ++j) {
+ output.push_back((*j).pos);
+ output.push_back((*j).right);
+ }
+ }
+ return(output);
+ }
+ */
+/*
+ void flush_console() {
+ R_FlushConsole();
+ R_ProcessEvents();
+ R_CheckUserInterrupt();
+ }
+ */
 
 
 /*
