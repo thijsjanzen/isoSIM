@@ -43,4 +43,59 @@ test_that("calculate_allele_frequencies", {
 
   v <- mean(colMeans(found))
   expect_equal(v, 0.25, tolerance = 0.05)
+
+
+  number_founders <- 20
+  sourcepop <- isoSIM::create_population(
+    pop_size = 10000,
+    number_of_founders = number_founders,
+    total_runtime = 1,
+    morgan = 1,
+    seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
+
+  freq_output <- calculate_allele_frequencies(sourcepop,
+                                              step_size = 0.01)
+
+
+  require(dplyr)
+  b <- freq_output %>%
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
+
+  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
+
+  number_founders <- 5
+  sourcepop <- isoSIM::create_population(pop_size = 1000,
+                                         number_of_founders = number_founders,
+                                         total_runtime = 100,
+                                         morgan = 1,
+                                         seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
+
+  freq_output <- calculate_allele_frequencies(sourcepop,
+                                              step_size = 0.01)
+
+  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
+
+  b <- freq_output %>%
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
+
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
+
+  number_founders <- 20
+  sourcepop <- isoSIM::create_population(pop_size = 1000,
+                                         number_of_founders = number_founders,
+                                         total_runtime = 1,
+                                         morgan = 1,
+                                         seed = 123)
+
+  testthat::expect_true(verify_population(sourcepop))
+
+
 })

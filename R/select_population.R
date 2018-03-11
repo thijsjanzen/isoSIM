@@ -64,6 +64,13 @@ create_population_selection <- function(pop_size,
   if (sum(is.na(select_matrix))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
+
+  if (sum(select_matrix[,2] < select_matrix[,1])) {
+    stop("Can't start, select matrix incorrect format\n")
+  }
+
+
+
   set.seed(seed)
   pop <- create_population_selection_cpp(pop_size, number_of_founders, total_runtime, morgan,
                                                   select_matrix, selection)

@@ -40,6 +40,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
             return index;
         }
     }
+    Rcout << maxFitness << "\n";
     Rcpp::stop("ERROR!Couldn't pick proportional to fitness");
     return -1;
 }
@@ -223,8 +224,14 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<double> fitness;
     double maxFitness = -1e6;
 
-    Rcout << select(0, 0) << "\t" << select(0, 1) << "\t" << select(0, 2) << "\n";
-    Rcout << select(1, 0) << "\t" << select(1, 1) << "\t" << select(1, 2) << "\n";
+   // Rcout << select(0, 0) << "\t" << select(0, 1) << "\t" << select(0, 2) << "\n";
+   // Rcout << select(1, 0) << "\t" << select(1, 1) << "\t" << select(1, 2) << "\n";
+
+    Rcout << "Applying matrix with:\n";
+    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
+    for(int i = 0; i < select.nrow(); ++i) {
+        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+    }
 
 
     for(auto it = Pop.begin(); it != Pop.end(); ++it){

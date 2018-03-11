@@ -58,7 +58,7 @@ test_that("allele frequencies", {
   select_matrix[2, ] <- c(0.5, 1.0, 1)
 
   selected_pop <- isoSIM::select_population(sourcepop, select_matrix,
-                                            selection = 500,
+                                            selection = 1,
                                             pop_size = 1000,
                                             total_runtime = 1000,
                                             morgan = 1,
@@ -68,6 +68,8 @@ test_that("allele frequencies", {
 
   freq_output <- calculate_allele_frequencies(selected_pop,
                                                    step_size = 0.01)
+
+  #ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) + geom_line()
 
   testthat::expect_equal(length(unique(freq_output$ancestor)), 2)
 
@@ -89,55 +91,6 @@ test_that("allele frequencies", {
   testthat::expect_gt(b$mean_freq[[2]], b$mean_freq[[1]])
   testthat::expect_equal(sum(b$mean_freq), 1)
 
-  number_founders <- 20
-  sourcepop <- isoSIM::create_population(
-                          pop_size = 10000,
-                          number_of_founders = number_founders,
-                          total_runtime = 1,
-                          morgan = 1,
-                          seed = 123)
-
-  testthat::expect_true(verify_population(sourcepop))
-
-  freq_output <- calculate_allele_frequencies(sourcepop,
-                                  step_size = 0.01)
-
-  b <- freq_output %>%
-    dplyr::group_by(as.factor(ancestor)) %>%
-    dplyr::summarise("mean_freq" = mean(frequency))
-
-  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
-  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
-
-  number_founders <- 5
-  sourcepop <- isoSIM::create_population(pop_size = 1000,
-                                  number_of_founders = number_founders,
-                                  total_runtime = 100,
-                                  morgan = 1,
-                                  seed = 123)
-
-  testthat::expect_true(verify_population(sourcepop))
-
-  freq_output <- calculate_allele_frequencies(sourcepop,
-                                  step_size = 0.01)
-
-  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
-
-  b <- freq_output %>%
-    dplyr::group_by(as.factor(ancestor)) %>%
-    dplyr::summarise("mean_freq" = mean(frequency))
-
-  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
-  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
-
-  number_founders <- 20
-  sourcepop <- isoSIM::create_population(pop_size = 1000,
-                                number_of_founders = number_founders,
-                                total_runtime = 1,
-                                morgan = 1,
-                                seed = 123)
-
-  testthat::expect_true(verify_population(sourcepop))
 
   select_matrix <- matrix(ncol = 3, nrow = 1)
 
