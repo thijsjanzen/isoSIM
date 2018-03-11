@@ -156,7 +156,7 @@ double calculate_fitness(const Fish& focal,
 
     double fitness = 0.0;
 
-    for(int i = 0; i < select.size(); ++i) {
+    for(int i = 0; i < select.nrow(); ++i) {
         //double start = select[i][0];
         //double end = select[i][1];
         //int ancestor = select[i][2];
