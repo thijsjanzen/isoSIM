@@ -155,7 +155,7 @@ double calculate_fitness(const Fish& focal,
                          const NumericMatrix& select,
                          double s) {
 
-    double fitness = 0.0;
+    double fitness = 2.0;
 
     for(int i = 0; i < select.nrow(); ++i) {
         //double start = select[i][0];
@@ -220,19 +220,15 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                      double Morgan)
 {
 
-    std::vector<Fish> Pop = sourcePop;
-    std::vector<double> fitness;
-    double maxFitness = -1.0;
-
-   // Rcout << select(0, 0) << "\t" << select(0, 1) << "\t" << select(0, 2) << "\n";
-   // Rcout << select(1, 0) << "\t" << select(1, 1) << "\t" << select(1, 2) << "\n";
-
     Rcout << "Applying matrix with:\n";
     Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
     for(int i = 0; i < select.nrow(); ++i) {
         Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
     }
 
+    std::vector<Fish> Pop = sourcePop;
+    std::vector<double> fitness;
+    double maxFitness = -1.0;
 
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
