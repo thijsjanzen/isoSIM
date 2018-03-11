@@ -40,7 +40,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
             return index;
         }
     }
-    Rcpp::stop("ERROR!Couldn't pick proportional to fitness")
+    Rcpp::stop("ERROR!Couldn't pick proportional to fitness");
     return -1;
 }
 
@@ -189,7 +189,7 @@ double calculate_fitness(const Fish& focal,
         }
 
         double to_add = (end - start) * (s * (a1 + a2));
-        if(to_Add < 0.0) {
+        if(to_add < 0.0) {
             Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
             Rcpp::stop("ERROR! Fitness increase negative!");
         }
