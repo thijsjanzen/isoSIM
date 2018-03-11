@@ -196,7 +196,7 @@ double calculate_fitness(const Fish& focal,
         double to_add = (end - start) * (s * (a1 + a2));
         if(to_add < 0.0) {
        //     Rcout << select[i][0] << "\t" << select[i][1] << "\t" << select[i][2] << "\n";
-            Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+            Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\t" << i << "\n";
             Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
             Rcpp::stop("ERROR! Fitness increase negative!");
         }
@@ -204,8 +204,7 @@ double calculate_fitness(const Fish& focal,
         fitness += (end - start) * (s * (a1 + a2));
     }
     
-  //  fitness = fitness / 2.0;
-    fitness = fitness * 0.5;
+    fitness = fitness / 2.0;
     return fitness;
 }
 
@@ -223,6 +222,10 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
     double maxFitness = -1e6;
+
+    Rcout << select(0, 0) << "\t" << select(0, 1) << "\t" << select(0, 2) << "\n";
+    Rcout << select(1, 0) << "\t" << select(1, 1) << "\t" << select(1, 2) << "\n";
+
 
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
