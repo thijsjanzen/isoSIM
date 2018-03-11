@@ -166,7 +166,7 @@ double calculate_fitness(const Fish& focal,
             std::cout << "ERROR! assess_match with chromosome 1 failure\n";
             std::cout << start <<"\t" << end << "\t" << ancestor << "\n";
             for(int i = 0; i < chromosome1.size(); ++i) {
-                std::cout << chromosome1[i].pos << "\t" << chromosome1.right << "\n";
+                std::cout << chromosome1[i].pos << "\t" << chromosome1[i].right << "\n";
             }
             exit(0);
         }
@@ -175,10 +175,10 @@ double calculate_fitness(const Fish& focal,
         double a2 = assess_match(focal.chromosome2, start, end, ancestor);
 
         if(a2 < 0) {
-            std::cout << "ERROR! assess_match with chromosome 1 failure\n";
+            std::cout << "ERROR! assess_match with chromosome 2 failure\n";
             std::cout << start <<"\t" << end << "\t" << ancestor << "\n";
-            for(int i = 0; i < chromosome1.size(); ++i) {
-                std::cout << chromosome1[i].pos << "\t" << chromosome1.right << "\n";
+            for(int i = 0; i < chromosome2.size(); ++i) {
+                std::cout << chromosome2[i].pos << "\t" << chromosome2[i].right << "\n";
             }
             exit(0);
         }
