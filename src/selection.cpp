@@ -183,13 +183,14 @@ double calculate_fitness(const Fish& focal,
             Rcpp::stop("ERROR! assess_match with chromosome 2 failure");
         }
 
-        if((end - start) < 0.0) {
-            Rcout << end << "\t" << start << "\n";
+     //   if((end - start) < 0.0) {
+     //       Rcout << end << "\t" << start << "\n";
             Rcpp::stop("ERROR! end - start < 0");
-        }
+     //   }
 
         double to_add = (end - start) * (s * (a1 + a2));
         if(to_add < 0.0) {
+            Rcout << select[i][0] << "\t" << select[i][1] << "\t" << select[i][2] << "\n";
             Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
             Rcpp::stop("ERROR! Fitness increase negative!");
         }
