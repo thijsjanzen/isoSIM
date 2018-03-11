@@ -40,7 +40,7 @@ int draw_prop_fitness(const std::vector<double> fitness,
             return index;
         }
     }
-    Rcout << "\nERROR! ERROR! Couldn't pick proportional to fitness\t" << maxFitness << "\n";
+    Rcpp::stop("ERROR!Couldn't pick proportional to fitness")
     return -1;
 }
 
@@ -183,15 +183,22 @@ double calculate_fitness(const Fish& focal,
             Rcpp::stop("ERROR! assess_match with chromosome 2 failure");
         }
 
-        if(end - start < 0.0) {
-
+        if((end - start) < 0.0) {
+            Rcout << end << "\t" << start << "\n";
+            Rcpp::stop("ERROR! end - start < 0");
         }
 
+        double to_add = (end - start) * (s * (a1 + a2));
+        if(to_Add < 0.0) {
+            Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
+            Rcpp::stop("ERROR! Fitness increase negative!");
+        }
 
         fitness += (end - start) * (s * (a1 + a2));
     }
     
-    fitness = fitness / 2.0;
+  //  fitness = fitness / 2.0;
+    fitness = fitness * 0.5;
     return fitness;
 }
 
