@@ -150,15 +150,20 @@ double assess_match(const std::vector<junction> chrom,
 
 
 double calculate_fitness(const Fish& focal,
-                         const std::vector< std::vector< double > >& select,
+                       //  const std::vector< std::vector< double > >& select,
+                         const NumericMatrix& select,
                          double s) {
 
     double fitness = 0.0;
 
     for(int i = 0; i < select.size(); ++i) {
-        double start = select[i][0];
-        double end = select[i][1];
-        int ancestor = select[i][2];
+        //double start = select[i][0];
+        //double end = select[i][1];
+        //int ancestor = select[i][2];
+        double start = select(i, 0);
+        double end = select(i, 1);
+        int ancestor = select(i, 2);
+
 
         double a1 = assess_match(focal.chromosome1, start, end, ancestor);
 
@@ -190,7 +195,8 @@ double calculate_fitness(const Fish& focal,
 
         double to_add = (end - start) * (s * (a1 + a2));
         if(to_add < 0.0) {
-            Rcout << select[i][0] << "\t" << select[i][1] << "\t" << select[i][2] << "\n";
+       //     Rcout << select[i][0] << "\t" << select[i][1] << "\t" << select[i][2] << "\n";
+            Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
             Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
             Rcpp::stop("ERROR! Fitness increase negative!");
         }
@@ -206,7 +212,8 @@ double calculate_fitness(const Fish& focal,
 
 
 std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
-                                     const std::vector< std::vector< double > >& select,
+               //                      const std::vector< std::vector< double > >& select,
+                                     const NumericMatrix& select,
                                      double s,
                                      int popSize,
                                      int maxTime,
@@ -278,7 +285,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
 // [[Rcpp::export]]
 List select_population_cpp(Rcpp::NumericVector v1,
-                           Rcpp::NumericVector selectM,
+                           Rcpp::NumericMatrix selectM,
                            double s,
                            int population_size,
                            int run_time,
@@ -286,18 +293,18 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-    std::vector< std::vector< double > > select;
-    std::vector<double> temp_select;
-    for(int i = 0; i < selectM.size(); ++i) {
-        temp_select.push_back(selectM[i]);
-        if(temp_select.size() == 3) {
-            select.push_back(temp_select);
-            temp_select.clear();
-        }
-    }
+   // std::vector< std::vector< double > > select;
+   // std::vector<double> temp_select;
+  //  for(int i = 0; i < selectM.size(); ++i) {
+   //     temp_select.push_back(selectM[i]);
+   //     if(temp_select.size() == 3) {
+   //         select.push_back(temp_select);
+   //         temp_select.clear();
+   //     }
+   // }
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
-                                                   select,
+                                                   selectM,
                                                    s,
                                                    population_size,
                                                    run_time,
