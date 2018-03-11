@@ -85,13 +85,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_population_cpp
-List select_population_cpp(Rcpp::NumericVector v1, Rcpp::NumericVector selectM, double s, int population_size, int run_time, double morgan);
+List select_population_cpp(Rcpp::NumericVector v1, Rcpp::NumericMatrix selectM, double s, int population_size, int run_time, double morgan);
 RcppExport SEXP _isoSIM_select_population_cpp(SEXP v1SEXP, SEXP selectMSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type v1(v1SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type selectM(selectMSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type selectM(selectMSEXP);
     Rcpp::traits::input_parameter< double >::type s(sSEXP);
     Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
     Rcpp::traits::input_parameter< int >::type run_time(run_timeSEXP);
@@ -101,7 +101,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_population_selection_cpp
-List create_population_selection_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, Rcpp::NumericVector select_matrix, double selection);
+List create_population_selection_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, Rcpp::NumericMatrix select_matrix, double selection);
 RcppExport SEXP _isoSIM_create_population_selection_cpp(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP select_matrixSEXP, SEXP selectionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -110,7 +110,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type select_matrix(select_matrixSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type select_matrix(select_matrixSEXP);
     Rcpp::traits::input_parameter< double >::type selection(selectionSEXP);
     rcpp_result_gen = Rcpp::wrap(create_population_selection_cpp(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection));
     return rcpp_result_gen;
