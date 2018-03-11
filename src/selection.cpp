@@ -163,10 +163,10 @@ double calculate_fitness(const Fish& focal,
         double a1 = assess_match(focal.chromosome1, start, end, ancestor);
 
         if(a1 < 0) {
-            std::cout << "ERROR! assess_match with chromosome 1 failure\n";
-            std::cout << start <<"\t" << end << "\t" << ancestor << "\n";
+            Rcout << "ERROR! assess_match with chromosome 1 failure\n";
+            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
             for(int i = 0; i < focal.chromosome1.size(); ++i) {
-                std::cout << focal.chromosome1[i].pos << "\t" << focal.chromosome1[i].right << "\n";
+                Rcout << focal.chromosome1[i].pos << "\t" << focal.chromosome1[i].right << "\n";
             }
             exit(0);
         }
@@ -175,12 +175,16 @@ double calculate_fitness(const Fish& focal,
         double a2 = assess_match(focal.chromosome2, start, end, ancestor);
 
         if(a2 < 0) {
-            std::cout << "ERROR! assess_match with chromosome 2 failure\n";
-            std::cout << start <<"\t" << end << "\t" << ancestor << "\n";
+            Rcout << "ERROR! assess_match with chromosome 2 failure\n";
+            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
             for(int i = 0; i < focal.chromosome2.size(); ++i) {
-                std::cout << focal.chromosome2[i].pos << "\t" << focal.chromosome2[i].right << "\n";
+                Rcout << focal.chromosome2[i].pos << "\t" << focal.chromosome2[i].right << "\n";
             }
             exit(0);
+        }
+
+        if(end - start < 0.0) {
+
         }
 
 
@@ -208,7 +212,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness((*it), select, s);
         if(fit < 0.0) {
-            Rcout << "ERROR in calculating fitness\n"; 
+            Rcout << "ERROR in calculating fitness\n";
+            exit(0);
         }
 
         if(fit > maxFitness) maxFitness = fit;
@@ -241,6 +246,12 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
             double fit = calculate_fitness(kid, select, s);
             if(fit > newMaxFitness) newMaxFitness = fit;
             newFitness.push_back(fit);
+
+            if(fit < 0.0) {
+                Rcout << "ERROR in calculating fitness\n";
+                exit(0);
+            }
+
         }
 
         Pop = newGeneration;
