@@ -161,18 +161,33 @@ test_that("selection abuse", {
 })
 
 test_that("selection vector", {
+  under_selection <- 0
   select_matrix <- matrix(ncol = 3, nrow = 1)
-  select_matrix[1, ] <- c(0.5, 0, 1)
+  select_matrix[1, ] <- c(0.5, under_selection, 1)
 
-  selected_pop <- isoSIM::create_population_selection_markers(select_matrix,
+  selected_pop <- create_population_selection_markers(select_matrix,
                                                       pop_size = 100,
                                                       number_of_founders = 10,
                                                       total_runtime = 100,
                                                       morgan = 1,
                                                       seed = 1234)
 
+  freq_output <- calculate_allele_frequencies(selected_pop,
+                                              step_size = 0.001)
+
+ # ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
+#    geom_line()
+
+
   testthat::expect_equal(length(selected_pop), 100)
   testthat::expect_true(verify_population(selected_pop))
 
+  a <- subset(freq_output, location > 0.45 & location < 0.55)
+  b <- a %>%
+    dplyr::group_by(as.factor(ancestor)) %>%
+    dplyr::summarise("mean_freq" = mean(frequency))
+  v <- which.max(b$mean_freq)
+  testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
+  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 })
 

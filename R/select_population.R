@@ -96,9 +96,6 @@ create_population_selection_markers <- function(pop_size,
   return(popstruct)
 }
 
-
-
-
 select_population_markers <- function(source_pop,
                               select_matrix,
                               pop_size,
@@ -118,7 +115,6 @@ select_population_markers <- function(source_pop,
   set.seed(seed)
   selected_pop <- select_population_markers_cpp(pop_for_cpp,
                                         select,
-                                        selection,
                                         pop_size,
                                         total_runtime,
                                         morgan)
