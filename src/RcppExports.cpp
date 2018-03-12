@@ -117,17 +117,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_population_selection_markers_cpp
-List create_population_selection_markers_cpp(NumericMatrix select, int pop_size, int total_runtime, int number_of_founders, double morgan);
-RcppExport SEXP _isoSIM_create_population_selection_markers_cpp(SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP number_of_foundersSEXP, SEXP morganSEXP) {
+List create_population_selection_markers_cpp(NumericMatrix select, int pop_size, int number_of_founders, int total_runtime, double morgan);
+RcppExport SEXP _isoSIM_create_population_selection_markers_cpp(SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type select(selectSEXP);
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
-    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
-    rcpp_result_gen = Rcpp::wrap(create_population_selection_markers_cpp(select, pop_size, total_runtime, number_of_founders, morgan));
+    rcpp_result_gen = Rcpp::wrap(create_population_selection_markers_cpp(select, pop_size, number_of_founders, total_runtime, morgan));
     return rcpp_result_gen;
 END_RCPP
 }

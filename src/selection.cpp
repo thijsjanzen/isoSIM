@@ -448,8 +448,8 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
 // [[Rcpp::export]]
 List create_population_selection_markers_cpp(NumericMatrix select,
                                                  int pop_size,
-                                                 int total_runtime,
                                                  int number_of_founders,
+                                                 int total_runtime,
                                                  double morgan)
 {
     std::vector< Fish > Pop;
