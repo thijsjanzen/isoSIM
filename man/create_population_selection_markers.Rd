@@ -54,7 +54,7 @@ A population object
 
 \examples{
   selection_matrix <- matrix(ncol = 3, nrow = 1)
-  select_mselection_matrixatrix[1, ] <- c(0.5, 0, 1)
+  selection_matrix[1, ] <- c(0.5, 0, 1)
 
  selected_pop <- create_population_selection_markers(selection_matrix,
                                                       pop_size = 100,

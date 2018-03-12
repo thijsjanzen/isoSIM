@@ -8,7 +8,7 @@
   A population is forward simulated, given selection for specific ancestors on genetic markers
 }
 \usage{
-select_population(source_pop, select_matrix,
+select_population_markers(source_pop, select_matrix,
                   pop_size, total_runtime, morgan, seed)
 }
 %- maybe also 'usage' for other objects documented here.
