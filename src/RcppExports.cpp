@@ -116,6 +116,37 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// create_population_selection_markers_cpp
+List create_population_selection_markers_cpp(NumericMatrix select, int pop_size, int total_runtime, int number_of_founders, double morgan);
+RcppExport SEXP _isoSIM_create_population_selection_markers_cpp(SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP number_of_foundersSEXP, SEXP morganSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type select(selectSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_founders(number_of_foundersSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_population_selection_markers_cpp(select, pop_size, total_runtime, number_of_founders, morgan));
+    return rcpp_result_gen;
+END_RCPP
+}
+// select_population_markers_cpp
+List select_population_markers_cpp(Rcpp::NumericVector v1, Rcpp::NumericMatrix selectM, double s, int population_size, int run_time, double morgan);
+RcppExport SEXP _isoSIM_select_population_markers_cpp(SEXP v1SEXP, SEXP selectMSEXP, SEXP sSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type v1(v1SEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type selectM(selectMSEXP);
+    Rcpp::traits::input_parameter< double >::type s(sSEXP);
+    Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type run_time(run_timeSEXP);
+    Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_population_markers_cpp(v1, selectM, s, population_size, run_time, morgan));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 2},
@@ -126,6 +157,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 6},
     {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 6},
+    {"_isoSIM_create_population_selection_markers_cpp", (DL_FUNC) &_isoSIM_create_population_selection_markers_cpp, 5},
+    {"_isoSIM_select_population_markers_cpp", (DL_FUNC) &_isoSIM_select_population_markers_cpp, 6},
     {NULL, NULL, 0}
 };
 

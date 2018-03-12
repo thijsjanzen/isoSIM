@@ -33,11 +33,11 @@ test_that("select on population", {
   select_matrix[2, ] <- c(0.15, 0.5, 1)
 
   selected_pop <- select_population(sourcepop, select_matrix,
-                                    selection = 0.1,
+                                    selection = 1,
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
-                                    seed = 1234)
+                                    seed = 1233)
 
   testthat::expect_equal(length(selected_pop), 100)
   testthat::expect_true(verify_population(selected_pop))
@@ -158,7 +158,21 @@ test_that("selection abuse", {
                       seed = 1234)
 
   )
+})
 
+test_that("selection vector", {
+  select_matrix <- matrix(ncol = 3, nrow = 1)
+  select_matrix[1, ] <- c(0.5, 0, 1)
 
+  selected_pop <- isoSIM::create_population_selection_markers(select_matrix,
+                                                      pop_size = 100,
+                                                      number_of_founders = 10,
+                                                      total_runtime = 100,
+                                                      morgan = 1,
+                                                      seed = 1234)
+
+  testthat::expect_equal(length(selected_pop), 100)
+  testthat::expect_true(verify_population(selected_pop))
 
 })
+
