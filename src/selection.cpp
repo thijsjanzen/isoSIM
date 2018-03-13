@@ -417,6 +417,9 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
     int updateFreq = total_runtime / 20;
     if(updateFreq < 1) updateFreq = 1;
 
+    Rcout << "0--------25--------50--------75--------100\n";
+    Rcout << "*";
+
     for(int t = 0; t < total_runtime; ++t) {
 
         std::vector<Fish> newGeneration;
@@ -435,6 +438,10 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
             double fit = calculate_fitness_markers(kid, select);
             if(fit > newMaxFitness) newMaxFitness = fit;
             newFitness.push_back(fit);
+
+            if(t % updateFreq == 0) {
+                Rcout << "**";
+            }
         }
 
         Pop = newGeneration;
@@ -442,6 +449,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
         fitness = newFitness;
         maxFitness = newMaxFitness;
     }
+    Rcout << "\n";
     return(Pop);
 }
 
