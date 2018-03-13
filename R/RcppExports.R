@@ -37,7 +37,7 @@ create_population_selection_markers_cpp <- function(select, pop_size, number_of_
     .Call('_isoSIM_create_population_selection_markers_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan)
 }
 
-select_population_markers_cpp <- function(v1, selectM, s, population_size, run_time, morgan) {
-    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan)
+select_population_markers_cpp <- function(v1, selectM, population_size, run_time, morgan) {
+    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan)
 }
 
