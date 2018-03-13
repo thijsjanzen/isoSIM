@@ -9,6 +9,9 @@ Genetic admixture simulation for isofemale lines and further
 A package under construction to simulate genetic admixture in relation to isofemale lines
 
 # Version history
+Version 0.34 - Added selection_markers <br />
+Version 0.33 - Fixed bugs in selection <br />
+Version 0.32 - Moved Fish.h code to Fish.cpp <br />
 Version 0.31 - Changed random number generator to R based <br />
 Version 0.30 - Added Recombination = 1 code <br />
 Version 0.29 - Changed internal junction representation: removed .left <br />
