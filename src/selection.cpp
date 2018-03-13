@@ -472,16 +472,14 @@ List create_population_selection_markers_cpp(NumericMatrix select,
 // [[Rcpp::export]]
 List select_population_markers_cpp(Rcpp::NumericVector v1,
                            Rcpp::NumericMatrix selectM,
-                           double s,
                            int population_size,
                            int run_time,
                            double morgan) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-    std::vector<Fish> outputPop = selectPopulation(Pop,
+    std::vector<Fish> outputPop = selectPopulation_vector(Pop,
                                                    selectM,
-                                                   s,
                                                    population_size,
                                                    run_time,
                                                    morgan);
