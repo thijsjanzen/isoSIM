@@ -33,6 +33,12 @@ int draw_prop_fitness(const std::vector<double> fitness,
         return(-1);
     }
 
+    if(maxFitness > 100.0) {
+        Rcout << "maxFitness\n";
+        Rcpp::stop("It appears maxfitness has encountered a memory access violation\n");
+        return(-1);
+    }
+
     for(int i = 0; i < 1e6; ++i) {
         int index = random_number(fitness.size());
         double prob = 1.0 * fitness[index] / maxFitness;
@@ -219,6 +225,14 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                      int maxTime,
                                      double Morgan)
 {
+    Rcout << "Applying matrix with:\n";
+    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
+    for(int i = 0; i < select.nrow(); ++i) {
+        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+    }
+
+
+
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
     double maxFitness = -1.0;
@@ -400,7 +414,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
     double expected_max_fitness = 1.0;
 
     Rcout << "Applying matrix with:\n";
-    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
+    Rcout << "Location" << "\t" << "Ancestor" << "\t" << "Selection coefficient" << "\n";
     for(int i = 0; i < select.nrow(); ++i) {
         Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
         expected_max_fitness += select(i, 2);
