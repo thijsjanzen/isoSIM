@@ -219,16 +219,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                      int maxTime,
                                      double Morgan)
 {
-
-    double expected_max_fitness = 1.0;
-
-    Rcout << "Applying matrix with:\n";
-    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
-    for(int i = 0; i < select.nrow(); ++i) {
-        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
-        expected_max_fitness += select(i, 2);
-    }
-
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
     double maxFitness = -1.0;
@@ -237,10 +227,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         double fit = calculate_fitness((*it), select, s);
         if(fit < 0.0) {
             Rcpp::stop("ERROR in calculating fitness");
-        }
-        if(fit > expected_max_fitness) {
-            Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
-            Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
         }
 
         if(fit > maxFitness) maxFitness = fit;
@@ -275,11 +261,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
             if(fit < 0.0) {
                 Rcpp::stop("ERROR in calculating fitness");
-            }
-
-            if(fit > expected_max_fitness) {
-                Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
-                Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
             }
         }
 
@@ -416,12 +397,27 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
                                             int total_runtime,
                                             double morgan) {
 
+    double expected_max_fitness = 1.0;
+
+    Rcout << "Applying matrix with:\n";
+    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
+    for(int i = 0; i < select.nrow(); ++i) {
+        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+        expected_max_fitness += select(i, 2);
+    }
+
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
     double maxFitness = -1;
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
         double fit = calculate_fitness_markers((*it), select);
         if(fit > maxFitness) maxFitness = fit;
+
+        if(fit > expected_max_fitness) {
+            Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+            Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
+        }
+
         fitness.push_back(fit);
     }
 
@@ -448,6 +444,12 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
 
             double fit = calculate_fitness_markers(kid, select);
             if(fit > newMaxFitness) newMaxFitness = fit;
+
+            if(fit > expected_max_fitness) {
+                Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+                Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
+            }
+
             newFitness.push_back(fit);
         }
 
