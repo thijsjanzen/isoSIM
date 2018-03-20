@@ -30,6 +30,21 @@ plot_dist_junctions <- function(pop) {
   barplot(vx)
 }
 
+calculate_marker_frequency <- function(pop, location) {
+
+  fun_chrom <- function(indiv) {
+    return(c(findtype(indiv$chromosome1, location),
+             findtype(indiv$chromosome2, location)))
+  }
+
+  types <- unlist(lapply(pop, fun_chrom))
+
+  vv <- as.tibble(table(types))
+  colnames(vv) <- c("ancestor", "frequency")
+  vv$frequency <- vv$frequency / sum(vv$frequency)
+  return(vv)
+}
+
 calc_allele_frequencies <- function(indiv, alleles) {
 
   for (i in seq_along(indiv$chromosome1[, 1])) {
