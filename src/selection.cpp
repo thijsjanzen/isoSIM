@@ -394,10 +394,10 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
 
     double expected_max_fitness = 1.0;
 
-    Rcout << "Applying matrix with:\n";
+    Rcout << "Applying selection for:\n";
     Rcout << "Location" << "\t" << "Ancestor" << "\t" << "Selection coefficient" << "\n";
     for(int i = 0; i < select.nrow(); ++i) {
-        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+        Rcout << select(i, 0) << "\t\t" << select(i, 1) << "\t\t\t" << select(i, 2) << "\n";
         expected_max_fitness += select(i, 2);
     }
 
