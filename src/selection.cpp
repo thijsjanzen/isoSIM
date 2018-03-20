@@ -443,6 +443,12 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
 
     for(int t = 0; t < total_runtime; ++t) {
 
+        double mean_fitness = 0.0;
+        for(auto it = fitness.begin(); it != fitness.end(); ++it) {
+            mean_fitness += (*it);
+        }
+        std::cout << t << "\t" << mean_fitness / fitness.size() << "\t" << maxFitness << "\n";
+
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
         double newMaxFitness = -1.0;
