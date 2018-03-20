@@ -457,6 +457,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
         if(t % updateFreq == 0) {
             Rcout << "**";
         }
+        Rcpp::checkUserInterrupt();
 
         Pop = newGeneration;
         newGeneration.clear();
