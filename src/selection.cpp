@@ -220,10 +220,13 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                      double Morgan)
 {
 
+    double expected_max_fitness = 1.0;
+
     Rcout << "Applying matrix with:\n";
     Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
     for(int i = 0; i < select.nrow(); ++i) {
         Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+        expected_max_fitness += select(i, 2);
     }
 
     std::vector<Fish> Pop = sourcePop;
@@ -235,6 +238,10 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         if(fit < 0.0) {
             Rcpp::stop("ERROR in calculating fitness");
         }
+        if(fit > expected_max_fitness) {
+            Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+            Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
+        }
 
         if(fit > maxFitness) maxFitness = fit;
         fitness.push_back(fit);
@@ -245,7 +252,6 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
-
 
 
     for(int t = 0; t < maxTime; ++t) {
@@ -269,6 +275,11 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
             if(fit < 0.0) {
                 Rcpp::stop("ERROR in calculating fitness");
+            }
+
+            if(fit > expected_max_fitness) {
+                Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+                Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
             }
         }
 
@@ -363,6 +374,7 @@ double calculate_fitness_markers(const Fish& focal,
 
     double fitness = 2.0;
 
+    
     int focal_marker = 0;
     double pos = select(focal_marker, 0);
     double anc = select(focal_marker, 1);
@@ -372,10 +384,9 @@ double calculate_fitness_markers(const Fish& focal,
         if((*it).pos > pos) {
             if((*(it-1)).right == anc) fitness += s;
             focal_marker++;
-            pos = pos = select(focal_marker, 0);
+            pos = select(focal_marker, 0);
             anc = select(focal_marker, 1);
             s = select(focal_marker, 2);
-
         }
     }
 
@@ -424,7 +435,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
-        double newMaxFitness = - 1.0;
+        double newMaxFitness = -1.0;
 
         for(int i = 0; i < pop_size; ++i)  {
             int index1 = draw_prop_fitness(fitness, maxFitness);
@@ -438,10 +449,10 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
             double fit = calculate_fitness_markers(kid, select);
             if(fit > newMaxFitness) newMaxFitness = fit;
             newFitness.push_back(fit);
+        }
 
-            if(t % updateFreq == 0) {
-                Rcout << "**";
-            }
+        if(t % updateFreq == 0) {
+            Rcout << "**";
         }
 
         Pop = newGeneration;
@@ -494,9 +505,3 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
 
     return List::create( Named("population") = convert_to_list(outputPop) );
 }
-
-
-
-
-
-

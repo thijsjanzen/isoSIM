@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.35 - Added debug marker selection \cr
    Version 0.34 - Added selection_markers \cr
    Version 0.33 - Fixed bugs in selection \cr
    Version 0.32 - Moved Fish.h code to Fish.cpp \cr
