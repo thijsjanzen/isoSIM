@@ -157,16 +157,13 @@ double assess_match(const std::vector<junction> chrom,
 
 
 double calculate_fitness(const Fish& focal,
-                       //  const std::vector< std::vector< double > >& select,
                          const NumericMatrix& select,
                          double s) {
 
     double fitness = 2.0;
 
     for(int i = 0; i < select.nrow(); ++i) {
-        //double start = select[i][0];
-        //double end = select[i][1];
-        //int ancestor = select[i][2];
+
         double start = select(i, 0);
         double end = select(i, 1);
         int ancestor = select(i, 2);
@@ -195,14 +192,10 @@ double calculate_fitness(const Fish& focal,
             Rcpp::stop("ERROR! assess_match with chromosome 2 failure");
         }
 
-     //   if((end - start) < 0.0) {
-     //       Rcout << end << "\t" << start << "\n";
-     //       Rcpp::stop("ERROR! end - start < 0");
-     //   }
+
 
         double to_add = (end - start) * (s * (a1 + a2));
         if(to_add < 0.0) {
-       //     Rcout << select[i][0] << "\t" << select[i][1] << "\t" << select[i][2] << "\n";
             Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\t" << i << "\n";
             Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
             Rcpp::stop("ERROR! Fitness increase negative!");
@@ -304,16 +297,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-   // std::vector< std::vector< double > > select;
-   // std::vector<double> temp_select;
-  //  for(int i = 0; i < selectM.size(); ++i) {
-   //     temp_select.push_back(selectM[i]);
-   //     if(temp_select.size() == 3) {
-   //         select.push_back(temp_select);
-   //         temp_select.clear();
-   //     }
-   // }
-
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
                                                    s,
@@ -340,16 +323,6 @@ List create_population_selection_cpp(int pop_size,
         Pop.push_back(mate(p1,p2, morgan));
     }
 
-  //  std::vector< std::vector< double > > select;
-  //  std::vector<double> temp_select;
-  //  for(int i = 0; i < select_matrix.size(); ++i) {
-  //      temp_select.push_back(select_matrix[i]);
-  //      if(temp_select.size() == 3) {
-  //          select.push_back(temp_select);
-  //          temp_select.clear();
-  //      }
-  //  }
-
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    select_matrix,
                                                    selection,
@@ -368,6 +341,7 @@ double calculate_fitness_markers(const Fish& focal,
                                  const NumericMatrix& select) {
 
     double fitness = 2.0;
+    int number_of_markers = select.nrow();
 
     
     int focal_marker = 0;
@@ -379,10 +353,14 @@ double calculate_fitness_markers(const Fish& focal,
         if((*it).pos > pos) {
             if((*(it-1)).right == anc) fitness += s;
             focal_marker++;
+            if(focal_marker >= number_of_markers) {
+                break;
+            }
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 1);
             s = select(focal_marker, 2);
         }
+
     }
 
     focal_marker = 0;
@@ -394,6 +372,9 @@ double calculate_fitness_markers(const Fish& focal,
         if((*it).pos > pos) {
             if((*(it-1)).right == anc) fitness += s;
             focal_marker++;
+            if(focal_marker >= number_of_markers) {
+                break;
+            }
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 1);
             s = select(focal_marker, 2);
