@@ -42,7 +42,7 @@ create_population_selection_markers(pop_size, number_of_founders,
   Seed of the pseudo-random number generator
 }
 
-\item{progress_bar} {
+\item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 

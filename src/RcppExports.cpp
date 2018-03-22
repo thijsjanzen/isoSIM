@@ -6,14 +6,15 @@
 using namespace Rcpp;
 
 // calculate_allele_spectrum_cpp
-NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1, double step_size);
-RcppExport SEXP _isoSIM_calculate_allele_spectrum_cpp(SEXP v1SEXP, SEXP step_sizeSEXP) {
+NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1, double step_size, bool progress_bar);
+RcppExport SEXP _isoSIM_calculate_allele_spectrum_cpp(SEXP v1SEXP, SEXP step_sizeSEXP, SEXP progress_barSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type v1(v1SEXP);
     Rcpp::traits::input_parameter< double >::type step_size(step_sizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(calculate_allele_spectrum_cpp(v1, step_size));
+    Rcpp::traits::input_parameter< bool >::type progress_bar(progress_barSEXP);
+    rcpp_result_gen = Rcpp::wrap(calculate_allele_spectrum_cpp(v1, step_size, progress_bar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -156,7 +157,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 2},
+    {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
     {"_isoSIM_create_population_cpp", (DL_FUNC) &_isoSIM_create_population_cpp, 5},
     {"_isoSIM_create_isofemale_line_cpp", (DL_FUNC) &_isoSIM_create_isofemale_line_cpp, 5},
     {"_isoSIM_create_two_populations_cpp", (DL_FUNC) &_isoSIM_create_two_populations_cpp, 6},

@@ -28,7 +28,7 @@ create_population_from_individuals(individuals, pop_size,
   \item{seed}{
   Seed of the pseudo-random number generator
 }
-\item{progress_bar} {
+\item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 

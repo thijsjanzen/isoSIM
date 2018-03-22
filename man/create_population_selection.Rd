@@ -44,7 +44,7 @@ create_population_selection(pop_size, number_of_founders,
 \item{seed}{
   Seed of the pseudo-random number generator
 }
-\item{progress_bar} {
+\item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 

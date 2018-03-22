@@ -32,7 +32,7 @@ create_iso_female(source_pop, n = 1,
   \item{seed}{
   Random number generator seed
   }
-  \item{progress_bar} {
+  \item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 }

@@ -74,7 +74,8 @@ void assess_matches(const std::vector<junction>& chrom,
 
 NumericMatrix allele_spectrum(const std::vector<Fish>& v,
                               double step_size,
-                              int max_num_ancestors) {
+                              int max_num_ancestors,
+                              bool progress_bar) {
 
     int numSteps = 1.0 / step_size;
 
@@ -94,8 +95,11 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
     double right = step_size;
     double correction = 1.0 / (2.0 * v.size());
 
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
+
     int updateFreq = numSteps / 20;
     if(updateFreq < 1) updateFreq = 1;
 
@@ -108,7 +112,7 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
         left = right;
         right += step_size;
 
-        if(i % updateFreq == 0) {
+        if(i % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
         Rcpp::checkUserInterrupt();
@@ -119,7 +123,8 @@ NumericMatrix allele_spectrum(const std::vector<Fish>& v,
 
 // [[Rcpp::export]]
 NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
-                                            double step_size)
+                                            double step_size,
+                                            bool progress_bar)
 {
     std::vector< Fish > Pop;
 
@@ -161,7 +166,7 @@ NumericMatrix calculate_allele_spectrum_cpp(NumericVector v1,
             temp.chromosome2.clear();
         }
     }
-    NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor);
+    NumericMatrix output = allele_spectrum(Pop, step_size, max_num_ancestor, progress_bar);
     
     return output;
 }
