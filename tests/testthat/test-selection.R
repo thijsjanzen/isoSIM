@@ -172,23 +172,26 @@ test_that("selection vector", {
                                                       morgan = 1,
                                                       seed = 1234)
 
-  freq_output <- calculate_allele_frequencies(selected_pop,
-                                              step_size = 0.001)
+  v <- calculate_marker_frequency(selected_pop, 0.5)
 
- # ggplot(freq_output, aes(x = location, y = frequency, col = as.factor(ancestor))) +
-#    geom_line()
+  a <- subset(v, v$ancestor == 0)
+  testthat::expect_equal(a$frequency, 1)
 
 
-  testthat::expect_equal(length(selected_pop), 100)
-  testthat::expect_true(verify_population(selected_pop))
+  under_selection <- 0
+  select_matrix <- matrix(ncol = 3, nrow = 1)
+  select_matrix[1, ] <- c(0.5, under_selection, 0)
 
-  a <- subset(freq_output, location > 0.45 & location < 0.55)
-  b <- a %>%
-    dplyr::group_by(as.factor(ancestor)) %>%
-    dplyr::summarise("mean_freq" = mean(frequency))
-  v <- which.max(b$mean_freq)
-  testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
-  testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
+  selected_pop <- create_population_selection_markers(select_matrix,
+                                                      pop_size = 1000,
+                                                      number_of_founders = 20,
+                                                      total_runtime = 100,
+                                                      morgan = 1,
+                                                      seed = 1234)
+
+  v <- calculate_marker_frequency(selected_pop, 0.5)
+  a <- which.max(v$frequency)
+  testthat::expect_false(a == under_selection)
 })
 
 

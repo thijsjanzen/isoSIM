@@ -51,294 +51,6 @@ int draw_prop_fitness(const std::vector<double> fitness,
     return -1;
 }
 
-double assess_match(const std::vector<junction> chrom,
-                    double start,
-                    double end,
-                    int ancestor) {
-
-   /* std::vector< junction > block;
-    for(int i = 1; i < chrom.size(); ++i) {
-        if(chrom[i].pos > start) {
-            block.push_back(chrom[i-1]);
-
-            if(chrom[i].pos > end) {
-                break;
-            }
-
-
-        }
-    }
-
-    // now we have:
-    //  | |  |   |   |     |  |
-    // j0 | j1  j2  j3 .. jn  |
-    //    s                   e
-
-    // we add a junction indicating the start, and remove the one
-    // just before the start
-
-    junction start_corner;
-    start_corner.pos = start;
-    start_corner.right = block[0].right;
-    block[0] = start_corner;
-
-    // we add a junction indicating the end
-
-    junction end_corner;
-    end_corner.pos = end;
-    end_corner.right = -1;
-
-    block.push_back(end_corner);
-
-    // now we have:
-    //  |   |   |  |     | |
-    //  s  j1  j2 j3 .. jn e
-
-
-    double match = 0.0;
-    for(int i = 1; i < block.size(); ++i) {
-        double stretch = block[i].pos - block[i-1].pos;
-        if(block[i-1].right == ancestor) match += stretch;
-    }
-    
-    match *= 1.0 / (end - start);
-    
-    return(match);
-    */
-    std::vector< junction > block;
-
-    for(int i = 0; i < chrom.size(); ++i) {
-        if(chrom[i].pos > end) { // stop after block
-            break;
-        } else {
-            if(chrom[i].pos > start) {
-                block.push_back(chrom[i]); //junctions within the block should be stored
-            } else {
-                if(i+1 < chrom.size()) {
-                    if(chrom[i+1].pos > start) { //one junction before the end as well.
-                        block.push_back(chrom[i]);
-                    }
-                }
-            }
-        }
-    }
-
-    if(block.size() == 1) {
-        if(block[0].right == ancestor) {
-            return 1.0;
-        } else {
-            return 0.0;
-        }
-    }
-
-
-    double match = 0.0;
-
-    for(int i = 0; i < block.size(); ++i) {
-        if(block[i].right == ancestor) {
-
-            double local_right = end;
-            if(i+1 < block.size()) {
-                local_right = block[i+1].pos;
-            }
-
-            double local_left = block[i].pos;
-            if(local_left < start) local_left = start;
-
-            match += local_right - local_left;
-        }
-    }
-
-    match *= 1.0 / (end - start);
-    
-    return(match);
-
-}
-
-
-double calculate_fitness(const Fish& focal,
-                         const NumericMatrix& select,
-                         double s) {
-
-    double fitness = 2.0;
-
-    for(int i = 0; i < select.nrow(); ++i) {
-
-        double start = select(i, 0);
-        double end = select(i, 1);
-        int ancestor = select(i, 2);
-
-
-        double a1 = assess_match(focal.chromosome1, start, end, ancestor);
-
-        if(a1 < 0) {
-            Rcout << "ERROR! assess_match with chromosome 1 failure\n";
-            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
-            for(int i = 0; i < focal.chromosome1.size(); ++i) {
-                Rcout << focal.chromosome1[i].pos << "\t" << focal.chromosome1[i].right << "\n";
-            }
-            Rcpp::stop("ERROR! assess_match with chromosome 1 failure\n");
-        }
-
-
-        double a2 = assess_match(focal.chromosome2, start, end, ancestor);
-
-        if(a2 < 0) {
-            Rcout << "ERROR! assess_match with chromosome 2 failure\n";
-            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
-            for(int i = 0; i < focal.chromosome2.size(); ++i) {
-                Rcout << focal.chromosome2[i].pos << "\t" << focal.chromosome2[i].right << "\n";
-            }
-            Rcpp::stop("ERROR! assess_match with chromosome 2 failure");
-        }
-
-
-
-        double to_add = (end - start) * (s * (a1 + a2));
-        if(to_add < 0.0) {
-            Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\t" << i << "\n";
-            Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
-            Rcpp::stop("ERROR! Fitness increase negative!");
-        }
-
-        fitness += (end - start) * (s * (a1 + a2));
-    }
-    
-    fitness = fitness / 2.0;
-    return fitness;
-}
-
-
-
-std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
-                                     const NumericMatrix& select,
-                                     double s,
-                                     int popSize,
-                                     int maxTime,
-                                     double Morgan,
-                                     bool progress_bar)
-{
-    Rcout << "Applying matrix with:\n";
-    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
-    for(int i = 0; i < select.nrow(); ++i) {
-        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
-    }
-
-
-
-    std::vector<Fish> Pop = sourcePop;
-    std::vector<double> fitness;
-    double maxFitness = -1.0;
-
-    for(auto it = Pop.begin(); it != Pop.end(); ++it){
-        double fit = calculate_fitness((*it), select, s);
-        if(fit < 0.0) {
-            Rcpp::stop("ERROR in calculating fitness");
-        }
-
-        if(fit > maxFitness) maxFitness = fit;
-        fitness.push_back(fit);
-    }
-
-    if(progress_bar) {
-        Rcout << "0--------25--------50--------75--------100\n";
-        Rcout << "*";
-    }
-
-    int updateFreq = maxTime / 20;
-    if(updateFreq < 1) updateFreq = 1;
-
-
-    for(int t = 0; t < maxTime; ++t) {
-
-        std::vector<Fish> newGeneration;
-        std::vector<double> newFitness;
-        double newMaxFitness = - 1.0;
-
-        for(int i = 0; i < popSize; ++i)  {
-            int index1 = draw_prop_fitness(fitness, maxFitness);
-            int index2 = draw_prop_fitness(fitness, maxFitness);
-            while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
-
-            Fish kid = mate(Pop[index1], Pop[index2], Morgan);
-
-            double fit = calculate_fitness(kid, select, s);
-            if(fit > newMaxFitness) newMaxFitness = fit;
-
-            newGeneration.push_back(kid);
-            newFitness.push_back(fit);
-
-            if(fit < 0.0) {
-                Rcpp::stop("ERROR in calculating fitness");
-            }
-        }
-
-        Pop = newGeneration;
-        newGeneration.clear();
-        fitness = newFitness;
-        maxFitness = newMaxFitness;
-
-        if(t % updateFreq == 0 && progress_bar) {
-            Rcout << "**";
-        }
-        Rcpp::checkUserInterrupt();
-    }
-    
-    return(Pop);
-}
-
-
-
-// [[Rcpp::export]]
-List select_population_cpp(Rcpp::NumericVector v1,
-                           Rcpp::NumericMatrix selectM,
-                           double s,
-                           int population_size,
-                           int run_time,
-                           double morgan,
-                           bool progress_bar) {
-
-    std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
-
-    std::vector<Fish> outputPop = selectPopulation(Pop,
-                                                   selectM,
-                                                   s,
-                                                   population_size,
-                                                   run_time,
-                                                   morgan,
-                                                   progress_bar);
-
-    return List::create( Named("population") = convert_to_list(outputPop) );
-}
-
-// [[Rcpp::export]]
-List create_population_selection_cpp(int pop_size,
-                                 int number_of_founders,
-                                 int total_runtime,
-                                 double morgan,
-                                 Rcpp::NumericMatrix select_matrix,
-                                 double selection,
-                                 bool progress_bar) {
-
-    std::vector< Fish > Pop;
-    for(int i = 0; i < pop_size; ++i) {
-        Fish p1 = Fish( random_number( number_of_founders ) );
-        Fish p2 = Fish( random_number( number_of_founders ) );
-
-        Pop.push_back(mate(p1,p2, morgan));
-    }
-
-    std::vector<Fish> outputPop = selectPopulation(Pop,
-                                                   select_matrix,
-                                                   selection,
-                                                   pop_size,
-                                                   total_runtime,
-                                                   morgan,
-                                                   progress_bar);
-
-    return List::create( Named("population") = convert_to_list(outputPop) );
-}
-
 
 double calculate_fitness_markers(const Fish& focal,
                                  const NumericMatrix& select) {
@@ -513,3 +225,305 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
 
     return List::create( Named("population") = convert_to_list(outputPop) );
 }
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////// REGIONS CODE /////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+double assess_match(const std::vector<junction> chrom,
+                    double start,
+                    double end,
+                    int ancestor) {
+
+    /* std::vector< junction > block;
+     for(int i = 1; i < chrom.size(); ++i) {
+     if(chrom[i].pos > start) {
+     block.push_back(chrom[i-1]);
+
+     if(chrom[i].pos > end) {
+     break;
+     }
+
+
+     }
+     }
+
+     // now we have:
+     //  | |  |   |   |     |  |
+     // j0 | j1  j2  j3 .. jn  |
+     //    s                   e
+
+     // we add a junction indicating the start, and remove the one
+     // just before the start
+
+     junction start_corner;
+     start_corner.pos = start;
+     start_corner.right = block[0].right;
+     block[0] = start_corner;
+
+     // we add a junction indicating the end
+
+     junction end_corner;
+     end_corner.pos = end;
+     end_corner.right = -1;
+
+     block.push_back(end_corner);
+
+     // now we have:
+     //  |   |   |  |     | |
+     //  s  j1  j2 j3 .. jn e
+
+
+     double match = 0.0;
+     for(int i = 1; i < block.size(); ++i) {
+     double stretch = block[i].pos - block[i-1].pos;
+     if(block[i-1].right == ancestor) match += stretch;
+     }
+
+     match *= 1.0 / (end - start);
+
+     return(match);
+     */
+    std::vector< junction > block;
+
+    for(int i = 0; i < chrom.size(); ++i) {
+        if(chrom[i].pos > end) { // stop after block
+            break;
+        } else {
+            if(chrom[i].pos > start) {
+                block.push_back(chrom[i]); //junctions within the block should be stored
+            } else {
+                if(i+1 < chrom.size()) {
+                    if(chrom[i+1].pos > start) { //one junction before the end as well.
+                        block.push_back(chrom[i]);
+                    }
+                }
+            }
+        }
+    }
+
+    if(block.size() == 1) {
+        if(block[0].right == ancestor) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+
+    double match = 0.0;
+
+    for(int i = 0; i < block.size(); ++i) {
+        if(block[i].right == ancestor) {
+
+            double local_right = end;
+            if(i+1 < block.size()) {
+                local_right = block[i+1].pos;
+            }
+
+            double local_left = block[i].pos;
+            if(local_left < start) local_left = start;
+
+            match += local_right - local_left;
+        }
+    }
+
+    match *= 1.0 / (end - start);
+
+    return(match);
+
+}
+
+
+double calculate_fitness(const Fish& focal,
+                         const NumericMatrix& select,
+                         double s) {
+
+    double fitness = 2.0;
+
+    for(int i = 0; i < select.nrow(); ++i) {
+
+        double start = select(i, 0);
+        double end = select(i, 1);
+        int ancestor = select(i, 2);
+
+
+        double a1 = assess_match(focal.chromosome1, start, end, ancestor);
+
+        if(a1 < 0) {
+            Rcout << "ERROR! assess_match with chromosome 1 failure\n";
+            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
+            for(int i = 0; i < focal.chromosome1.size(); ++i) {
+                Rcout << focal.chromosome1[i].pos << "\t" << focal.chromosome1[i].right << "\n";
+            }
+            Rcpp::stop("ERROR! assess_match with chromosome 1 failure\n");
+        }
+
+
+        double a2 = assess_match(focal.chromosome2, start, end, ancestor);
+
+        if(a2 < 0) {
+            Rcout << "ERROR! assess_match with chromosome 2 failure\n";
+            Rcout << start <<"\t" << end << "\t" << ancestor << "\n";
+            for(int i = 0; i < focal.chromosome2.size(); ++i) {
+                Rcout << focal.chromosome2[i].pos << "\t" << focal.chromosome2[i].right << "\n";
+            }
+            Rcpp::stop("ERROR! assess_match with chromosome 2 failure");
+        }
+
+
+
+        double to_add = (end - start) * (s * (a1 + a2));
+        if(to_add < 0.0) {
+            Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\t" << i << "\n";
+            Rcout << start << "\t" << end << "\t" << s << "\t" << a1 << "\t" << a2 << "\n";
+            Rcpp::stop("ERROR! Fitness increase negative!");
+        }
+
+        fitness += (end - start) * (s * (a1 + a2));
+    }
+
+    fitness = fitness / 2.0;
+    return fitness;
+}
+
+
+
+std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
+                                     const NumericMatrix& select,
+                                     double s,
+                                     int popSize,
+                                     int maxTime,
+                                     double Morgan,
+                                     bool progress_bar)
+{
+    Rcout << "Applying matrix with:\n";
+    Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
+    for(int i = 0; i < select.nrow(); ++i) {
+        Rcout << select(i, 0) << "\t" << select(i, 1) << "\t" << select(i, 2) << "\n";
+    }
+
+
+
+    std::vector<Fish> Pop = sourcePop;
+    std::vector<double> fitness;
+    double maxFitness = -1.0;
+
+    for(auto it = Pop.begin(); it != Pop.end(); ++it){
+        double fit = calculate_fitness((*it), select, s);
+        if(fit < 0.0) {
+            Rcpp::stop("ERROR in calculating fitness");
+        }
+
+        if(fit > maxFitness) maxFitness = fit;
+        fitness.push_back(fit);
+    }
+
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
+
+    int updateFreq = maxTime / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+
+    for(int t = 0; t < maxTime; ++t) {
+
+        std::vector<Fish> newGeneration;
+        std::vector<double> newFitness;
+        double newMaxFitness = - 1.0;
+
+        for(int i = 0; i < popSize; ++i)  {
+            int index1 = draw_prop_fitness(fitness, maxFitness);
+            int index2 = draw_prop_fitness(fitness, maxFitness);
+            while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
+
+            Fish kid = mate(Pop[index1], Pop[index2], Morgan);
+
+            double fit = calculate_fitness(kid, select, s);
+            if(fit > newMaxFitness) newMaxFitness = fit;
+
+            newGeneration.push_back(kid);
+            newFitness.push_back(fit);
+
+            if(fit < 0.0) {
+                Rcpp::stop("ERROR in calculating fitness");
+            }
+        }
+
+        Pop = newGeneration;
+        newGeneration.clear();
+        fitness = newFitness;
+        maxFitness = newMaxFitness;
+
+        if(t % updateFreq == 0 && progress_bar) {
+            Rcout << "**";
+        }
+        Rcpp::checkUserInterrupt();
+    }
+
+    return(Pop);
+}
+
+
+
+// [[Rcpp::export]]
+List select_population_cpp(Rcpp::NumericVector v1,
+                           Rcpp::NumericMatrix selectM,
+                           double s,
+                           int population_size,
+                           int run_time,
+                           double morgan,
+                           bool progress_bar) {
+
+    std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
+
+    std::vector<Fish> outputPop = selectPopulation(Pop,
+                                                   selectM,
+                                                   s,
+                                                   population_size,
+                                                   run_time,
+                                                   morgan,
+                                                   progress_bar);
+
+    return List::create( Named("population") = convert_to_list(outputPop) );
+}
+
+// [[Rcpp::export]]
+List create_population_selection_cpp(int pop_size,
+                                     int number_of_founders,
+                                     int total_runtime,
+                                     double morgan,
+                                     Rcpp::NumericMatrix select_matrix,
+                                     double selection,
+                                     bool progress_bar) {
+
+    std::vector< Fish > Pop;
+    for(int i = 0; i < pop_size; ++i) {
+        Fish p1 = Fish( random_number( number_of_founders ) );
+        Fish p2 = Fish( random_number( number_of_founders ) );
+
+        Pop.push_back(mate(p1,p2, morgan));
+    }
+
+    std::vector<Fish> outputPop = selectPopulation(Pop,
+                                                   select_matrix,
+                                                   selection,
+                                                   pop_size,
+                                                   total_runtime,
+                                                   morgan,
+                                                   progress_bar);
+    
+    return List::create( Named("population") = convert_to_list(outputPop) );
+}
+
+
+
