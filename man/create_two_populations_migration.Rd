@@ -9,7 +9,7 @@
 }
 \usage{
 create_two_populations_migration(pop_size, number_of_founders,
-            total_runtime, morgan, seed, migration)
+            total_runtime, morgan, seed, migration, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,6 +51,6 @@ create_two_populations_migration(pop_size, number_of_founders,
                                           total_runtime = 10,
                                           morgan = 1,
                                           seed = 42,
-                                          migration = 0.25)
+                                          migration = 0.25,
+                                          progress_bar = TRUE)
 }
-

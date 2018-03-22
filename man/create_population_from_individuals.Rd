@@ -9,7 +9,7 @@
 }
 \usage{
 create_population_from_individuals(individuals, pop_size,
-              total_runtime, morgan, seed)
+              total_runtime, morgan, seed, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,24 +51,28 @@ create_population_from_individuals(individuals, pop_size,
                                           total_runtime = 2,
                                           morgan = 1,
                                           seed = 42,
-                                          overlap = 0.25)
+                                          overlap = 0.25,
+                                          progress_bar = FALSE)
 
   isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
                                n = 1,
                                inbreeding_pop_size = 100,
                                run_time = 1000000,
-                               morgan = 1)
+                               morgan = 1,
+                               progress_bar = FALSE)
 
  isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
                                n = 1,
                                inbreeding_pop_size = 100,
                                run_time = 1000000,
-                               morgan = 1)
+                               morgan = 1,
+                               progress_bar = FALSE)
 
   mixed_population <- create_population_from_individuals(list(isofemale_1[[1]],
                                                          isofemale_2[[1]]),
                                                        pop_size = 100, total_runtime = 10,
-                                                       morgan = 1, seed = 42)
+                                                       morgan = 1, seed = 42,
+                                                       progress_bar = FALSE)
 }
 
 }

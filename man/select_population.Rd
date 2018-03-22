@@ -9,7 +9,7 @@
 }
 \usage{
 select_population(source_pop, select_matrix, selection,
-                  pop_size, total_runtime, morgan, seed)
+                  pop_size, total_runtime, morgan, seed, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

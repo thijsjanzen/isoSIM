@@ -9,7 +9,7 @@
 }
 \usage{
 create_population_selection_markers(pop_size, number_of_founders,
-            total_runtime, morgan, select_matrix, seed)
+            total_runtime, morgan, select_matrix, seed, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -65,5 +65,6 @@ A population object
                                                       number_of_founders = 10,
                                                       total_runtime = 10,
                                                       morgan = 1,
-                                                      seed = 1234)
+                                                      seed = 1234,
+                                                      progress_bar = TRUE)
 }

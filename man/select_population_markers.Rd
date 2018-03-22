@@ -9,7 +9,7 @@
 }
 \usage{
 select_population_markers(source_pop, select_matrix,
-                  pop_size, total_runtime, morgan, seed)
+                  pop_size, total_runtime, morgan, seed, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,7 +61,8 @@ select_population_markers(source_pop, select_matrix,
                              number_of_founders = number_founders,
                              total_runtime = 10,
                              morgan = 1,
-                             seed = 666)
+                             seed = 666,
+                             progress_bar = TRUE)
 
   selection_matrix <- matrix(ncol = 3, nrow = 1)
   selection_matrix[1, ] <- c(0.5, 0, 1)
@@ -70,6 +71,7 @@ select_population_markers(source_pop, select_matrix,
                                   pop_size = 100,
                                   total_runtime = 10,
                                   morgan = 1,
-                                  seed = 12345)
+                                  seed = 12345,
+                                  progress_bar = TRUE)
   }
 }

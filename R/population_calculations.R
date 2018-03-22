@@ -39,7 +39,7 @@ calculate_marker_frequency <- function(pop, location) {
 
   types <- unlist(lapply(pop, fun_chrom))
 
-  vv <- as.tibble(table(types))
+  vv <- tibble::as.tibble(table(types))
   colnames(vv) <- c("ancestor", "frequency")
   vv$frequency <- vv$frequency / sum(vv$frequency)
   return(vv)

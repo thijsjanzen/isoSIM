@@ -9,7 +9,8 @@
 }
 \usage{
 create_population(pop_size, number_of_founders,
-                       total_runtime, morgan, seed)
+                       total_runtime, morgan,
+                       seed, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,5 +46,6 @@ wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 10,
                              morgan = 1,
-                             seed = 42)
+                             seed = 42,
+                             progress_bar = TRUE)
 }

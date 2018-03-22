@@ -8,7 +8,7 @@
   Calculate for a number of regularly spaced markers the relative frequency of each ancestor in the population.
 }
 \usage{
-calculate_allele_frequencies(source_pop, step_size)
+calculate_allele_frequencies(source_pop, step_size, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,7 +43,8 @@ calculate_allele_frequencies(source_pop, step_size)
                              seed = 666)
 
  freq_output <- calculate_allele_frequencies(wildpop,
-                                            step_size = 0.001)
+                                            step_size = 0.001,
+                                            progress_bar = TRUE)
 
   require(ggplot2)
   ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +

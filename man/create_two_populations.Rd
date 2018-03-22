@@ -9,7 +9,7 @@
 }
 \usage{
 create_two_populations(pop_size, number_of_founders,
-                      total_runtime, morgan, seed, overlap)
+                      total_runtime, morgan, seed, overlap, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,6 +51,6 @@ two_populations <- create_two_populations(pop_size = 100,
                                           total_runtime = 10,
                                           morgan = 1,
                                           seed = 42,
-                                          overlap = 0.25)
-
+                                          overlap = 0.25,
+                                          progress_bar = TRUE)
 }

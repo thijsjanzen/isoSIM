@@ -10,7 +10,7 @@
 \usage{
 create_iso_female(source_pop, n = 1,
                   inbreeding_pop_size = 100, run_time = 2000,
-                  morgan = 1, seed = 42)
+                  morgan = 1, seed = 42, progress_bar = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -52,13 +52,15 @@ create_iso_female(source_pop, n = 1,
                              number_of_founders = 10,
                              total_runtime = 5,
                              morgan = 1,
-                             seed = 42)
+                             seed = 42,
+                             progress_bar = TRUE)
 
   isofemale <- create_iso_female(source_pop = wildpop,
                                n = 1,
                                inbreeding_pop_size = 100,
                                run_time = 100,
                                morgan = 1,
-                               seed = 42)
+                               seed = 42,
+                               progress_bar = TRUE)
  }
 }
