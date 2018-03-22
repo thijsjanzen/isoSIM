@@ -67,10 +67,13 @@ bool verify_pop_cpp(const std::vector< Fish >& pop) {
 std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
                              int popSize,
                              int maxTime,
-                             double Morgan)
+                             double Morgan,
+                             bool progress_bar)
 {
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
 
     std::vector< Fish > Pop = input_pop;
 
@@ -100,7 +103,7 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
         Pop = newGeneration;
         newGeneration.clear();
 
-        if(t % updateFreq == 0) {
+        if(t % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
 
@@ -115,7 +118,7 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
 
         Rcpp::checkUserInterrupt();
     }
-    Rcout << "\n";
+   if(progress_bar) Rcout << "\n";
    // Rcout << "No fixation before maximum run time was reached\n"; R_FlushConsole();
     return(Pop);
 }
@@ -125,7 +128,8 @@ std::vector<Fish> createPopulation(int popSize,
                       int maxTime,
                       double Morgan,
                       double overlap,
-                      double populationIndicator)
+                      double populationIndicator,
+                      bool progress_bar)
 {
     std::vector<Fish> Pop;
     std::vector<Fish> parents;
@@ -157,7 +161,7 @@ std::vector<Fish> createPopulation(int popSize,
         Pop.push_back(mate(p1,p2, Morgan));
     }
 
-    Pop = simulate(Pop, popSize, maxTime, Morgan);
+    Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar);
 
     return(Pop);
 }
@@ -165,7 +169,8 @@ std::vector<Fish> createPopulation(int popSize,
 std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
                              int maxTime,
-                             double Morgan)
+                             double Morgan,
+                             bool progress_bar)
 {
     std::vector<Fish> Pop;
 
@@ -198,7 +203,7 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
         Rcout << "Creation in create_line failed\n"; R_FlushConsole();
     }
 
-    Pop = simulate(Pop, popSize, maxTime, Morgan);
+    Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar);
     return(Pop);
 }
 
@@ -235,7 +240,8 @@ void create_two_pop_migration( std::vector< Fish >& p1,
                               int pop_size,
                               int max_time,
                               double Morgan,
-                              double m)
+                              double m,
+                              bool progress_bar)
 {
     std::vector<Fish> Pop1;
     std::vector<Fish> Pop2;
@@ -266,8 +272,10 @@ void create_two_pop_migration( std::vector< Fish >& p1,
     int updateFreq = max_time / 20;
     if(updateFreq < 1) updateFreq = 1;
 
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
 
     for(int t = 0; t < max_time; ++t) {
 
@@ -280,7 +288,7 @@ void create_two_pop_migration( std::vector< Fish >& p1,
         Pop2 = newGeneration2;
         newGeneration2.clear();
 
-        if(t % updateFreq == 0) {
+        if(t % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
         Rcpp::checkUserInterrupt();
@@ -297,10 +305,12 @@ void create_two_pop_migration( std::vector< Fish >& p1,
 List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
-                       double morgan)
+                       double morgan,
+                       bool progress_bar)
 {
     std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
-                                             total_runtime, morgan, 0.0, 0);
+                                             total_runtime, morgan, 0.0, 0,
+                                             progress_bar);
 
     return List::create( Named("population") = convert_to_list(Pop) );
 }
@@ -309,12 +319,13 @@ List create_population_cpp(int pop_size,
 List create_isofemale_line_cpp(NumericVector v,
                        int pop_size,
                        int total_runtime,
-                       double morgan)
+                       double morgan,
+                       bool progress_bar)
 {
     std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
 
     std::vector<Fish> Pop = create_line(founders, pop_size,
-                                        total_runtime, morgan);
+                                        total_runtime, morgan, progress_bar);
 
     return List::create( Named("population") = convert_to_list(Pop) );
 }
@@ -325,13 +336,16 @@ List create_two_populations_cpp(int pop_size,
                             int number_of_founders,
                             int total_runtime,
                             double morgan,
-                            double overlap) {
+                            double overlap,
+                            bool progress_bar) {
 
     std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
-                                              total_runtime, morgan, overlap, 0);
+                                              total_runtime, morgan, overlap, 0,
+                                              progress_bar);
 
     std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
-                                              total_runtime, morgan, overlap, 1);
+                                              total_runtime, morgan, overlap, 1,
+                                              progress_bar);
 
     return List::create( Named("population_1") = convert_to_list(Pop1),
                          Named("population_2") = convert_to_list(Pop2)
@@ -343,11 +357,13 @@ List create_two_populations_migration_cpp(int pop_size,
                                           int number_of_founders,
                                           int total_runtime,
                                           double morgan,
-                                          double migration) {
+                                          double migration,
+                                          bool progress_bar) {
     std::vector< Fish > Pop1;
     std::vector< Fish > Pop2;
 
-    create_two_pop_migration(Pop1, Pop2, number_of_founders, pop_size, total_runtime, morgan, migration);
+    create_two_pop_migration(Pop1, Pop2, number_of_founders,
+                             pop_size, total_runtime, morgan, migration, progress_bar);
 
     return List::create( Named("population_1")  = convert_to_list(Pop1),
                          Named("population_2")  = convert_to_list(Pop2)

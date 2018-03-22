@@ -211,12 +211,12 @@ double calculate_fitness(const Fish& focal,
 
 
 std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
-               //                      const std::vector< std::vector< double > >& select,
                                      const NumericMatrix& select,
                                      double s,
                                      int popSize,
                                      int maxTime,
-                                     double Morgan)
+                                     double Morgan,
+                                     bool progress_bar)
 {
     Rcout << "Applying matrix with:\n";
     Rcout << "Start" << "\t" << "End" << "\t" << "Ancestor" << "\n";
@@ -240,8 +240,10 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         fitness.push_back(fit);
     }
 
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
@@ -276,7 +278,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         fitness = newFitness;
         maxFitness = newMaxFitness;
 
-        if(t % updateFreq == 0) {
+        if(t % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
         Rcpp::checkUserInterrupt();
@@ -293,7 +295,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                            double s,
                            int population_size,
                            int run_time,
-                           double morgan) {
+                           double morgan,
+                           bool progress_bar) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
@@ -302,7 +305,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    s,
                                                    population_size,
                                                    run_time,
-                                                   morgan);
+                                                   morgan,
+                                                   progress_bar);
 
     return List::create( Named("population") = convert_to_list(outputPop) );
 }
@@ -313,7 +317,8 @@ List create_population_selection_cpp(int pop_size,
                                  int total_runtime,
                                  double morgan,
                                  Rcpp::NumericMatrix select_matrix,
-                                 double selection) {
+                                 double selection,
+                                 bool progress_bar) {
 
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
@@ -328,13 +333,11 @@ List create_population_selection_cpp(int pop_size,
                                                    selection,
                                                    pop_size,
                                                    total_runtime,
-                                                   morgan);
+                                                   morgan,
+                                                   progress_bar);
 
     return List::create( Named("population") = convert_to_list(outputPop) );
 }
-
-
-
 
 
 double calculate_fitness_markers(const Fish& focal,
@@ -390,7 +393,8 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
                                             const NumericMatrix& select,
                                             int pop_size,
                                             int total_runtime,
-                                            double morgan) {
+                                            double morgan,
+                                            bool progress_bar) {
 
     double expected_max_fitness = 1.0;
 
@@ -419,16 +423,12 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
     int updateFreq = total_runtime / 20;
     if(updateFreq < 1) updateFreq = 1;
 
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
 
     for(int t = 0; t < total_runtime; ++t) {
-
-    //    double mean_fitness = 0.0;
-    //    for(auto it = fitness.begin(); it != fitness.end(); ++it) {
-    //        mean_fitness += (*it);
-    //    }
-    //    std::cout << t << "\t" << mean_fitness / fitness.size() << "\t" << maxFitness << "\n";
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
@@ -454,7 +454,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
             newFitness.push_back(fit);
         }
 
-        if(t % updateFreq == 0) {
+        if(t % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
         Rcpp::checkUserInterrupt();
@@ -473,7 +473,8 @@ List create_population_selection_markers_cpp(NumericMatrix select,
                                                  int pop_size,
                                                  int number_of_founders,
                                                  int total_runtime,
-                                                 double morgan)
+                                                 double morgan,
+                                                 bool progress_bar)
 {
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
@@ -487,7 +488,8 @@ List create_population_selection_markers_cpp(NumericMatrix select,
                                                           select,
                                                           pop_size,
                                                           total_runtime,
-                                                          morgan);
+                                                          morgan,
+                                                          progress_bar);
     
     return List::create( Named("population") = convert_to_list(outputPop) );
 }
@@ -497,7 +499,8 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
                            Rcpp::NumericMatrix selectM,
                            int population_size,
                            int run_time,
-                           double morgan) {
+                           double morgan,
+                            bool progress_bar) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
@@ -505,7 +508,8 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
                                                    selectM,
                                                    population_size,
                                                    run_time,
-                                                   morgan);
+                                                   morgan,
+                                                   progress_bar);
 
     return List::create( Named("population") = convert_to_list(outputPop) );
 }

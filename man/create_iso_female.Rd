@@ -32,6 +32,9 @@ create_iso_female(source_pop, n = 1,
   \item{seed}{
   Random number generator seed
   }
+  \item{progress_bar} {
+   Displays a progress_bar if TRUE. Default value is TRUE
+}
 }
 \details{
   To create an isofemale, two individuals are randomly picked from the source population. Using these two individuals, a new population is seeded, of size \code{inbreeding_pop_size}. Then, this population is allowed to inbreed until either \code{run_time} is reached, or until all individuals are homozygous and genetically identical, whatever happens first.

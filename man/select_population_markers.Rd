@@ -41,6 +41,10 @@ select_population_markers(source_pop, select_matrix,
   Seed of the pseudo-random number generator
 }
 
+\item{progress_bar} {
+   Displays a progress_bar if TRUE. Default value is TRUE
+}
+
 }
 
 \value{

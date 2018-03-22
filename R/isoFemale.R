@@ -3,7 +3,8 @@ create_iso_female <- function(source_pop,
                              inbreeding_pop_size = 100,
                              run_time = 2000,
                              morgan = 1,
-                             seed = 42) {
+                             seed = 42,
+                             progress_bar = TRUE) {
 
   # first we select the individuals that will be the parents of the isofemales
   indices <- sample(seq_along(source_pop), n * 2, replace = FALSE)

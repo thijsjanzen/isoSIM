@@ -18,6 +18,9 @@ calculate_allele_frequencies(source_pop, step_size)
   \item{step_size}{
   Distance between markers, a smaller step_size provides a more complete overview, but is also more computationally heavy.
 }
+\item{progress_bar} {
+   Displays a progress_bar if TRUE. Default value is TRUE
+}
 }
 \details{
   Markers are equidistantly spaced, with a distance of \code{step_size} in between them.

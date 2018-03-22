@@ -31,6 +31,9 @@ create_two_populations(pop_size, number_of_founders,
   \item{overlap}{
     Degree of shared ancestry between the populations, reflected in the probability of sharing an ancestor.
 }
+\item{progress_bar} {
+   Displays a progress_bar if TRUE. Default value is TRUE
+}
 
 }
 

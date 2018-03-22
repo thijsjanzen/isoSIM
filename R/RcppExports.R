@@ -5,39 +5,39 @@ calculate_allele_spectrum_cpp <- function(v1, step_size) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, step_size)
 }
 
-create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan) {
-    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan)
+create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, progress_bar) {
+    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, progress_bar)
 }
 
-create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan) {
-    .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan)
+create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan, progress_bar) {
+    .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, progress_bar)
 }
 
-create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, overlap) {
-    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, overlap)
+create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, overlap, progress_bar) {
+    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, overlap, progress_bar)
 }
 
-create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration) {
-    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration)
+create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar) {
+    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar)
 }
 
 test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }
 
-select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan) {
-    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan)
+select_population_cpp <- function(v1, selectM, s, population_size, run_time, morgan, progress_bar) {
+    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, s, population_size, run_time, morgan, progress_bar)
 }
 
-create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection) {
-    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection)
+create_population_selection_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, progress_bar) {
+    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, select_matrix, selection, progress_bar)
 }
 
-create_population_selection_markers_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan) {
-    .Call('_isoSIM_create_population_selection_markers_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan)
+create_population_selection_markers_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar) {
+    .Call('_isoSIM_create_population_selection_markers_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar)
 }
 
-select_population_markers_cpp <- function(v1, selectM, population_size, run_time, morgan) {
-    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan)
+select_population_markers_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar) {
+    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar)
 }
 
