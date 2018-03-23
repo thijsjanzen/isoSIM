@@ -10,7 +10,7 @@
 \usage{
 create_population_selection(pop_size, number_of_founders,
             total_runtime, morgan, select_matrix, selection,
-            seed, progress_bar)
+            seed, track_frequency, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,6 +45,11 @@ create_population_selection(pop_size, number_of_founders,
 \item{seed}{
   Seed of the pseudo-random number generator
 }
+
+\item{track_frequency}{
+  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. See also \code{details}
+}
+
 \item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
@@ -52,7 +57,7 @@ create_population_selection(pop_size, number_of_founders,
 }
 
 \value{
-A population object
+A list with: \code{population} a population object, and \code{frequencies} a tibble containing the ancestral frequencies - this tibble is only included if \code{track_frequency} = TRUE.
 }
 
 \author{

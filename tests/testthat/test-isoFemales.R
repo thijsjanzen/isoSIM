@@ -181,4 +181,3 @@ test_that("create_population_from_individuals", {
 
   testthat::expect_true(verify_population(mixed_population_2))
 })
-

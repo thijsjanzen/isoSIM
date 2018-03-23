@@ -147,8 +147,8 @@ freq_output <- calculate_allele_frequencies(selected_pop$population,
 #    geom_line()
 
 
-testthat::expect_equal(length(selected_pop), 1000)
-testthat::expect_true(verify_population(selected_pop))
+testthat::expect_equal(length(selected_pop$population), 1000)
+testthat::expect_true(verify_population(selected_pop$population))
 
 a <- subset(freq_output, location > 0.45 & location < 0.55)
 b <- a %>%
@@ -165,7 +165,7 @@ select_matrix[1, ] <- c(0.25, under_selection, 1)
 select_matrix[2, ] <- c(0.75, under_selection + 1, 1)
 
 
-selected_pop <- isoSIM::select_population_markers(sourcepop,
+selected_pop <- isoSIM::select_population(sourcepop,
                                                   select_matrix,
                                                   pop_size = 1000,
                                                   total_runtime = 1000,

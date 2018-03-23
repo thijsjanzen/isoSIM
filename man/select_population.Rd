@@ -9,7 +9,8 @@
 }
 \usage{
 select_population(source_pop, select_matrix, selection,
-                  pop_size, total_runtime, morgan, seed, progress_bar)
+                  pop_size, total_runtime, morgan, seed,
+                  track_frequency, progress_bar)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -43,6 +44,10 @@ select_population(source_pop, select_matrix, selection,
   \item{seed}{
   Seed of the pseudo-random number generator
 }
+\item{track_frequency}{
+  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. See also \code{details}
+}
+
 \item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
 }
@@ -50,7 +55,7 @@ select_population(source_pop, select_matrix, selection,
 }
 
 \value{
- A population structure
+A list with: \code{population} a population object, and \code{frequencies} a tibble containing the ancestral frequencies - this tibble is only included if \code{track_frequency} = TRUE.
 }
 \author{
  Thijs Janzen
