@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.38 - Added track frequencies \cr
    Version 0.37 - Removed selection on regions \cr
    Version 0.36 - Added progress_bar option \cr
    Version 0.35 - Added calculate_marker_frequency \cr
