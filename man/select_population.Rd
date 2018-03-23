@@ -8,9 +8,9 @@
   A population is forward simulation, given selection on genomic sections for specific ancestors.
 }
 \usage{
-select_population(source_pop, select_matrix, selection,
+select_population(source_pop, select_matrix,
                   pop_size, total_runtime, morgan, seed,
-                  track_frequency, progress_bar)
+                  track_frequency = FALSE, progress_bar = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,20 +18,18 @@ select_population(source_pop, select_matrix, selection,
   Source population with which to start.
 }
   \item{select_matrix}{
-  Selection matrix indicating the areas which are under selection. Each row in the matrix contains three entries:
-    \code{start}{
-      start of the genomic section under selection (in Morgan)
-    }
-    \code{end}{
-      end of the genomic section under selection (in Morgan)
+  Selection matrix indicating the markers which are under selection. Each row in the matrix contains three entries:
+    \code{location}{
+      location of the marker under selection (in Morgan)
     }
     \code{ancestor} {
-      if there is genomic material present of this ancestor between \code{start} and \code{end}, the individual received positive selection.
+      if there is genomic material present of this ancestor at \code{location}, the individual received positive selection.
+    \code{selection} {
+      The amount of positive selection received when there is a matching ancestor at the site.
+    }
     }
 }
-  \item{selection}{
-   Amount of selection. Selection is calculated as (1 + selection) * (end - start), hence, selection is dependent on the length of the genomic stretch as well.
-}
+
   \item{pop_size}{
   Size of the population
 }
@@ -75,10 +73,7 @@ selection_matrix = matrix(ncol=3, nrow = 2)
 selection_matrix[1,] = c(0.2, 0.3, 1)
 selection_matrix[2,] = c(0.6, 0.7, 2)
 
-selection_coefficient <- 0.2
-
 selected_pop <- select_population(wildpop, selection_matrix,
-                                  selection = selection_coefficient,
                                   pop_size = 100,
                                   total_runtime = 10,
                                   morgan = 1,

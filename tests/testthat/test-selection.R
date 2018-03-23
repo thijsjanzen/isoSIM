@@ -49,7 +49,7 @@ test_that("selection abuse", {
                                               morgan = 1,
                                               seed = 123)
 
-  testthat::expect_true(verify_population(selected_pop$population))
+  testthat::expect_true(verify_population(sourcepop))
 
   select_matrix <- matrix(ncol = 3, nrow = 3)
   select_matrix[1, ] <- c(0.0, 0.5, 0)

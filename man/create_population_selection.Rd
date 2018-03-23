@@ -9,8 +9,8 @@
 }
 \usage{
 create_population_selection(pop_size, number_of_founders,
-            total_runtime, morgan, select_matrix, selection,
-            seed, track_frequency, progress_bar)
+            total_runtime, morgan, select_matrix,
+            seed, track_frequency = FALSE, progress_bar = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,21 +27,19 @@ create_population_selection(pop_size, number_of_founders,
    Length of the chromosome in Morgan (e.g. the number of crossovers during meiosis)
 }
 
-  \item{select_matrix}{
-  Selection matrix indicating the areas which are under selection. Each row in the matrix contains three entries:
-    \code{start}{
-      start of the genomic section under selection (in Morgan)
-    }
-    \code{end}{
-      end of the genomic section under selection (in Morgan)
+ \item{select_matrix}{
+  Selection matrix indicating the markers which are under selection. Each row in the matrix contains three entries:
+    \code{location}{
+      location of the marker under selection (in Morgan)
     }
     \code{ancestor} {
-      if there is genomic material present of this ancestor between \code{start} and \code{end}, the individual received positive selection.
+      if there is genomic material present of this ancestor at \code{location}, the individual received positive selection.
+    \code{selection} {
+      The amount of positive selection received when there is a matching ancestor at the site.
+    }
     }
 }
-  \item{selection}{
-   Amount of selection. Selection is calculated as (1 + selection) * (end - start), hence, selection is dependent on the length of the genomic stretch as well.
-}
+
 \item{seed}{
   Seed of the pseudo-random number generator
 }
@@ -65,18 +63,15 @@ A list with: \code{population} a population object, and \code{frequencies} a tib
 }
 
 \examples{
-selection_matrix = matrix(ncol=3, nrow = 2)
-selection_matrix[1,] = c(0.2, 0.3, 1)
-selection_matrix[2,] = c(0.6, 0.7, 2)
-
-selection_coefficient <- 0.2
+selection_matrix <- matrix(ncol=3, nrow = 2)
+selection_matrix[1,] <- c(0.2, 0.3, 1)
+selection_matrix[2,] <- c(0.6, 0.7, 2)
 
 selected_pop <- create_population_selection(pop_size = 100,
                                             number_of_founders = 10,
                                             total_runtime = 10,
                                             morgan = 1,
                                             selection_matrix,
-                                            selection = selection_coefficient,
                                             seed = 12345,
                                             progress_bar = TRUE)
 }
