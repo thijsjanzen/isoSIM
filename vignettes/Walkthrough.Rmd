@@ -199,12 +199,12 @@ selection_matrix[1,] = c(0.5, 0, 1)
 
 selected_pop <- create_population_selection(pop_size = 1000,
                                   number_of_founders = 4, 
-                                  total_runtime = 1000,
+                                  total_runtime = 500,
                                   morgan = 1,
                                   select_matrix = selection_matrix,
                                   seed = 12345)
 
-freq_output <- calculate_allele_frequencies(selected_pop, 
+freq_output <- calculate_allele_frequencies(selected_pop$population, 
                                             step_size = 0.001)
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
@@ -217,10 +217,10 @@ From the allele frequency graph it is clear that around the location 0.5, the fr
 Alternatively, we can assess allele frequency exactly at the marker position:
 ```{r marker frequency}
 # at the selected marker
-calculate_marker_frequency(selected_pop, 0.5)
+calculate_marker_frequency(selected_pop$population, 0.5)
 
 # at a neutral marker
-calculate_marker_frequency(selected_pop, 0.8)
+calculate_marker_frequency(selected_pop$population, 0.8)
 ```
 
 Contrasting selection on a novel population, we also provide code to impose selection on an already existing population.
@@ -239,11 +239,11 @@ selection_matrix[1,] = c(0.5, 0, 1)
 selected_pop <- select_population(wildpop, 
                                   selection_matrix,
                                   pop_size = 1000,
-                                  total_runtime = 1000,
+                                  total_runtime = 500,
                                   morgan = 1,
                                   seed = 12345)
 
-freq_output <- calculate_allele_frequencies(selected_pop, 
+freq_output <- calculate_allele_frequencies(selected_pop$population, 
                                             step_size = 0.001)
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
@@ -251,8 +251,6 @@ ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_vline(xintercept = c(0.5), lty = 2)
 
 ```
-
-
 
 
 # Migration

@@ -222,7 +222,8 @@ test_that("track frequencies", {
                                                     track_frequency = TRUE)
 
   testthat::expect_true(verify_population(selected_pop$population))
-  testthat::expect_true(max(selected_pop$frequencies$time), total_runtime)
+  obs_max_time = max(selected_pop$frequencies$time)
+  testthat::expect_equal(obs_max_time,total_run_time-1)
 
 
   v <- subset(selected_pop$frequencies, selected_pop$frequencies$time > 500 &
@@ -230,9 +231,20 @@ test_that("track frequencies", {
 
   mean_freq <- mean(v$frequency)
   testthat::expect_equal(mean_freq, 1.0)
+
+  under_selection <- 0
+  select_matrix <- matrix(ncol = 3, nrow = 1)
+  select_matrix[1, ] <- c(0.5, under_selection, 0.01)
+
+
+  selected_pop <- create_population_selection(select_matrix,
+                                              pop_size = 1000,
+                                              number_of_founders = 10,
+                                              total_runtime = 1000,
+                                              morgan = 1,
+                                              seed = 1234,
+                                              track_frequency = TRUE)
+
+
+
 })
-
-
-
-
-
