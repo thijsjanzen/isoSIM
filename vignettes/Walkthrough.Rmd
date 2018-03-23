@@ -197,7 +197,7 @@ selection_matrix = matrix(ncol=3, nrow = 1)
 
 selection_matrix[1,] = c(0.5, 0, 1)
 
-selected_pop <- create_population_selection_markers(pop_size = 1000,
+selected_pop <- create_population_selection(pop_size = 1000,
                                   number_of_founders = 4, 
                                   total_runtime = 1000,
                                   morgan = 1,
@@ -205,15 +205,23 @@ selected_pop <- create_population_selection_markers(pop_size = 1000,
                                   seed = 12345)
 
 freq_output <- calculate_allele_frequencies(selected_pop, 
-                                            step_size = 0.01)
+                                            step_size = 0.001)
 
 ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
   geom_line() +
   geom_vline(xintercept = c(0.5), lty = 2)
 
 ```
-
 From the allele frequency graph it is clear that around the location 0.5, the frequency of genetic material of ancestor 0 increases a lot. 
+
+Alternatively, we can assess allele frequency exactly at the marker position:
+```{r marker frequency}
+# at the selected marker
+calculate_marker_frequency(selected_pop, 0.5)
+
+# at a neutral marker
+calculate_marker_frequency(selected_pop, 0.8)
+```
 
 Contrasting selection on a novel population, we also provide code to impose selection on an already existing population.
 
@@ -228,8 +236,8 @@ wildpop =  create_population(pop_size = 1000,
 selection_matrix = matrix(ncol=3, nrow = 1)
 selection_matrix[1,] = c(0.5, 0, 1)
 
-selected_pop <- select_population_markers(wildpop, 
-                                          selection_matrix,
+selected_pop <- select_population(wildpop, 
+                                  selection_matrix,
                                   pop_size = 1000,
                                   total_runtime = 1000,
                                   morgan = 1,
@@ -246,77 +254,6 @@ ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
 
 
 
-
-
-
-
-
-
-## Region based selection
-Selection for genomic material of a particular ancestor can affect found patterns. isoSIM provides tools to implement such selection pressures. 
-Starting from a wild population, we can simulate inbreeding with selection, in the following manner:
-```{r selection}
-number_founders = 4
-wildpop =  create_population(pop_size = 1000, 
-                             number_of_founders = number_founders,
-                             total_runtime = 10, 
-                             morgan = 1, 
-                             seed = 666)
-
-selection_matrix = matrix(ncol=3, nrow = 2)
-
-selection_matrix[1,] = c(0.2, 0.3, 1)
-selection_matrix[2,] = c(0.6, 0.7, 2)
-
-selection_coefficient <- 1 #we choose a large coefficient to reduce the number of generations required to display the effect of selection
-
-selected_pop <- select_population(wildpop, selection_matrix,
-                                  selection = selection_coefficient,
-                                  pop_size = 1000,
-                                  total_runtime = 100,
-                                  morgan = 1,
-                                  seed = 12345)
-
-
-```
-Here, we define a selection matrix, which defines the areas of selection. Each row in the matrix contains 3 elements: the start of the area under selection, the end of the area under selection, and the ancestor which is favoured. Then, using the function select_population, which is very similar to other 'create_population' functions, we simulate the process. An extra argument is the argument 'selection', which indicates the strength of selection. Fitness of individuals is determined by their match to the area under selection, e.g. individuals without the ancestor have fitness 1, and individuals with the ancestor have fitness 1 + s. 
-
-Obtained results can be analyzed using the function calculate_allele_frequencies, which estimates allele frequencies across the genome.
-```{r allele frequencies}
-freq_output <- calculate_allele_frequencies(selected_pop, 
-                                            step_size = 0.001)
-```
-calculate_allele_frequencies returns a tibble (from the tidyverse) and can easily be plotted:
-```{r plot allele frequencies}
-
-require(ggplot2)
-ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
-  geom_line() +
-  geom_vline(xintercept = c(0.2, 0.3, 0.6, 0.7), lty = 2)
-```
-Alternatively, selection can be implemented from scratch, without supplying a source population:
-```{r selection from scratch}
-selection_matrix = matrix(ncol=3, nrow = 2)
-
-selection_matrix[1,] = c(0.1, 0.12, 1)
-selection_matrix[2,] = c(0.78, 0.8, 4)
-
-selected_pop_2 <- create_population_selection(pop_size = 1000,
-                                  number_of_founders = 4, 
-                                  total_runtime = 1000,
-                                  morgan = 1,
-                                  select_matrix = selection_matrix,
-                                  selection = 100,
-                                  seed = 12345)
-
-freq_output <- calculate_allele_frequencies(selected_pop_2, 
-                                            step_size = 0.01)
-
-ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
-  geom_line() +
-  geom_vline(xintercept = c(0.1, 0.12, 0.78, 0.8), lty = 2)
-
-```
 
 # Migration
 To simulate two populations with a fixed degree of migration between them, we can use:

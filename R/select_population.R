@@ -26,7 +26,7 @@ calculate_allele_frequencies <- function(source_pop,
 }
 
 
-create_population_selection_markers <- function(pop_size,
+create_population_selection <- function(pop_size,
                                         number_of_founders,
                                         total_runtime,
                                         morgan,
@@ -49,7 +49,7 @@ create_population_selection_markers <- function(pop_size,
   return(popstruct)
 }
 
-select_population_markers <- function(source_pop,
+select_population <- function(source_pop,
                               select_matrix,
                               pop_size,
                               total_runtime,
