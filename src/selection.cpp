@@ -100,13 +100,42 @@ double calculate_fitness_markers(const Fish& focal,
     return(fitness / 2.0);
 }
 
+NumericVector update_frequency(const std::vector< Fish >& v, double m, int num_alleles) {
+    NumericVector freq(num_alleles);
+
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+            if((*i).pos > m) {
+                int index = (*(i-1)).right;
+                freq(index)++;
+                break;
+            }
+        }
+
+        for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
+            if((*i).pos > m) {
+                int index = (*(i-1)).right;
+                freq(index)++;
+                break;
+            }
+        }
+    }
+
+    for(int i = 0; i < freq.size(); ++i) {
+        freq(i) = freq(i) * 1.0 / (2*v.size());
+    }
+
+    return(freq);
+}
 
 std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
                                             const NumericMatrix& select,
                                             int pop_size,
                                             int total_runtime,
                                             double morgan,
-                                            bool progress_bar) {
+                                            bool progress_bar,
+                                            NumericMatrix& frequencies,
+                                            bool track_frequency) {
 
     double expected_max_fitness = 1.0;
 
@@ -141,6 +170,10 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
     }
 
     for(int t = 0; t < total_runtime; ++t) {
+
+        if(track_frequency) {
+            frequencies(t+1,_) = update_frequency(Pop, select(0, 0), frequencies.ncol());
+        }
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
@@ -186,7 +219,8 @@ List create_population_selection_markers_cpp(NumericMatrix select,
                                                  int number_of_founders,
                                                  int total_runtime,
                                                  double morgan,
-                                                 bool progress_bar)
+                                                 bool progress_bar,
+                                                 bool track_frequency)
 {
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
@@ -196,14 +230,22 @@ List create_population_selection_markers_cpp(NumericMatrix select,
         Pop.push_back(mate(p1,p2, morgan));
     }
 
+    NumericMatrix frequencies_table;
+    if(track_frequency) {
+        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
+    }
+
     std::vector<Fish> outputPop = selectPopulation_vector(Pop,
                                                           select,
                                                           pop_size,
                                                           total_runtime,
                                                           morgan,
-                                                          progress_bar);
+                                                          progress_bar,
+                                                          frequencies_table,
+                                                          track_frequency);
     
-    return List::create( Named("population") = convert_to_list(outputPop) );
+    return List::create( Named("population") = convert_to_list(outputPop),
+                         Named("frequencies") = frequencies_table);
 }
 
 // [[Rcpp::export]]
@@ -212,16 +254,40 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
                            int population_size,
                            int run_time,
                            double morgan,
-                            bool progress_bar) {
+                           bool progress_bar,
+                           bool track_frequency) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
+
+    NumericMatrix frequencies_table;
+    if(track_frequency) {
+        int number_of_founders = 0;
+        for(auto it = Pop.begin(); it != Pop.end(); ++it) {
+            for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+                if((*i).right > number_of_founders) {
+                    number_of_founders = (*i).right;
+                }
+            }
+            for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
+                if((*i).right > number_of_founders) {
+                    number_of_founders = (*i).right;
+                }
+            }
+        }
+
+        frequencies_table = NumericMatrix(run_time, number_of_founders);
+    }
+
 
     std::vector<Fish> outputPop = selectPopulation_vector(Pop,
                                                    selectM,
                                                    population_size,
                                                    run_time,
                                                    morgan,
-                                                   progress_bar);
+                                                   progress_bar,
+                                                   frequencies_table,
+                                                   track_frequency);
 
-    return List::create( Named("population") = convert_to_list(outputPop) );
+    return List::create( Named("population") = convert_to_list(outputPop),
+                        Named("frequencies") = frequencies_table);
 }

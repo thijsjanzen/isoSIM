@@ -25,11 +25,11 @@ test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }
 
-create_population_selection_markers_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar) {
-    .Call('_isoSIM_create_population_selection_markers_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar)
+create_population_selection_markers_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency) {
+    .Call('_isoSIM_create_population_selection_markers_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency)
 }
 
-select_population_markers_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar) {
-    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar)
+select_population_markers_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequeny) {
+    .Call('_isoSIM_select_population_markers_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar, track_frequeny)
 }
 
