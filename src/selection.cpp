@@ -232,7 +232,7 @@ List create_population_selection_markers_cpp(NumericMatrix select,
 
     NumericMatrix frequencies_table;
     if(track_frequency) {
-        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
+        frequencies_table = NumericMatrix(1 + total_runtime, number_of_founders);
     }
 
     std::vector<Fish> outputPop = selectPopulation_vector(Pop,
@@ -275,7 +275,7 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
             }
         }
 
-        frequencies_table = NumericMatrix(run_time, number_of_founders);
+        frequencies_table = NumericMatrix(1 + run_time, number_of_founders);
     }
 
 

@@ -237,9 +237,6 @@ testthat::expect_equal(v, under_selection + 1) #returns ancestor + 1
 testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
 
-
-
-
 under_selection <- 0
 select_matrix <- matrix(ncol = 3, nrow = 2)
 select_matrix[1, ] <- c(0.25, under_selection, 1)
