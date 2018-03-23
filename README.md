@@ -9,6 +9,8 @@ Genetic admixture simulation for isofemale lines and further
 A package under construction to simulate genetic admixture in relation to isofemale lines
 
 # Version history
+Version 0.37 - Removed selection on regions <br />
+Version 0.36 - Added progress_bar option <br />
 Version 0.35 - Added calculate_marker_frequency <br />
 Version 0.34 - Added selection_markers <br />
 Version 0.33 - Fixed bugs in selection <br />
