@@ -200,7 +200,7 @@ testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
 test_that("track frequencies", {
 
-  sourcepop <- isoSIM::create_population(pop_size = 100,
+  sourcepop <- create_population(pop_size = 100,
                                          number_of_founders = 2,
                                          total_runtime = 100,
                                          morgan = 1,
@@ -212,17 +212,21 @@ test_that("track frequencies", {
   select_matrix <- matrix(ncol = 3, nrow = 1)
   select_matrix[1, ] <- c(0.5, under_selection, 1)
 
-  selected_pop <- isoSIM::select_population(sourcepop,
+  total_runtime = 1000
+  selected_pop <- select_population(sourcepop,
                                                     select_matrix,
                                                     pop_size = 1000,
-                                                    total_runtime = 1000,
+                                                    total_runtime = total_runtime,
                                                     morgan = 1,
                                                     seed = 12345,
                                                     track_frequency = TRUE)
 
   testthat::expect_true(verify_population(selected_pop$population))
+  testthat::expect_true(max(selected_pop$frequencies$time), total_runtime)
 
-  v <- subset(selected_pop$frequencies$time > 500 &
+
+  v <- subset(selected_pop$frequencies, selected_pop$frequencies$time > 500)
+  &
               selected_pop$frequencies$ancestor == under_selection)
 
   mean_freq <- mean(v$frequency)
