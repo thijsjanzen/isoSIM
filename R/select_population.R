@@ -39,7 +39,7 @@ create_population_selection <- function(pop_size,
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
 
-  if(track_frequency) {
+  if(track_frequency == TRUE) {
     if(length(select_matrix[,1]) > 1) {
       stop("Can not track the frequency of more than one marker\n")
     }
@@ -57,7 +57,7 @@ create_population_selection <- function(pop_size,
 
   output <- list("population" = popstruct)
 
-  if(track_frequency) {
+  if(track_frequency == TRUE) {
     time <- 0:(length(pop$frequencies[,1])-1)
     freq_tibble <- tibble::as.tibble(cbind(time,pop$frequencies))
     colnames(freq_tibble) <- c("time", 0:(length(pop$frequencies[1,])-1))
@@ -77,7 +77,7 @@ select_population <- function(source_pop,
                               total_runtime,
                               morgan,
                               seed,
-                              track_frequencies,
+                              track_frequency = FALSE,
                               progress_bar = TRUE) {
 
   # first we have to convert source_pop to vector...
@@ -89,7 +89,7 @@ select_population <- function(source_pop,
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
 
-  if(track_frequency) {
+  if(track_frequency == TRUE) {
     if(length(select_matrix[,1]) > 1) {
       stop("Can not track the frequency of more than one marker\n")
     }
@@ -108,7 +108,7 @@ select_population <- function(source_pop,
 
   output <- list("population" = selected_popstruct)
 
-  if(track_frequency) {
+  if(track_frequency == TRUE) {
     time <- 0:(length(pop$frequencies[,1])-1)
     freq_tibble <- tibble::as.tibble(cbind(time,pop$frequencies))
     colnames(freq_tibble) <- c("time", 0:(length(pop$frequencies[1,])-1))

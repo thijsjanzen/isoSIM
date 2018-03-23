@@ -172,7 +172,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
     for(int t = 0; t < total_runtime; ++t) {
 
         if(track_frequency) {
-            frequencies(t+1,_) = update_frequency(Pop, select(0, 0), frequencies.ncol());
+            frequencies(t,_) = update_frequency(Pop, select(0, 0), frequencies.ncol());
         }
 
         std::vector<Fish> newGeneration;
@@ -232,7 +232,7 @@ List create_population_selection_markers_cpp(NumericMatrix select,
 
     NumericMatrix frequencies_table;
     if(track_frequency) {
-        frequencies_table = NumericMatrix(1 + total_runtime, number_of_founders);
+        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
     }
 
     std::vector<Fish> outputPop = selectPopulation_vector(Pop,
@@ -275,7 +275,7 @@ List select_population_markers_cpp(Rcpp::NumericVector v1,
             }
         }
 
-        frequencies_table = NumericMatrix(1 + run_time, number_of_founders);
+        frequencies_table = NumericMatrix(run_time, 1 + number_of_founders);
     }
 
 

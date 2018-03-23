@@ -10,7 +10,6 @@ test_that("select population", {
                                                       total_runtime = 100,
                                                       morgan = 1,
                                                       select_matrix,
-                                                      selection = 1,
                                                       seed = 1234)
 
   testthat::expect_equal(length(selected_pop$population), 100)
@@ -33,7 +32,6 @@ test_that("select on population", {
   select_matrix[2, ] <- c(0.15, 0.5, 1)
 
   selected_pop <- select_population(sourcepop, select_matrix,
-                                    selection = 1,
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
@@ -89,7 +87,7 @@ test_that("selection vector", {
   select_matrix <- matrix(ncol = 3, nrow = 1)
   select_matrix[1, ] <- c(0.5, under_selection, 1)
 
-  selected_pop <- create_population_selection_markers(select_matrix,
+  selected_pop <- create_population_selection(select_matrix,
                                                       pop_size = 100,
                                                       number_of_founders = 10,
                                                       total_runtime = 100,
@@ -106,7 +104,7 @@ test_that("selection vector", {
   select_matrix <- matrix(ncol = 3, nrow = 1)
   select_matrix[1, ] <- c(0.5, under_selection, 0)
 
-  selected_pop <- create_population_selection_markers(select_matrix,
+  selected_pop <- create_population_selection(select_matrix,
                                                       pop_size = 1000,
                                                       number_of_founders = 20,
                                                       total_runtime = 100,
@@ -133,8 +131,8 @@ under_selection <- 0
 select_matrix <- matrix(ncol = 3, nrow = 1)
 select_matrix[1, ] <- c(0.5, under_selection, 1)
 
-selected_pop <- isoSIM::select_population_markers(sourcepop,
-                                                  select_matrix,
+selected_pop <- isoSIM::select_population(sourcepop,
+                                          select_matrix,
                                           pop_size = 1000,
                                           total_runtime = 1000,
                                           morgan = 1,
@@ -214,7 +212,7 @@ test_that("track frequencies", {
   select_matrix <- matrix(ncol = 3, nrow = 1)
   select_matrix[1, ] <- c(0.5, under_selection, 1)
 
-  selected_pop <- isoSIM::select_population_markers(sourcepop,
+  selected_pop <- isoSIM::select_population(sourcepop,
                                                     select_matrix,
                                                     pop_size = 1000,
                                                     total_runtime = 1000,
