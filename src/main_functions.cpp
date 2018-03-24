@@ -483,7 +483,7 @@ void test_fish_functions() {
         temp = temp2;
     }
 
-    bool temp4 = (temp2 != temp3);
+    bool temp400 = (temp2 != temp3);
 
     junction temp4(temp);
 
