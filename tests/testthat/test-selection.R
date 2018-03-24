@@ -115,6 +115,16 @@ test_that("selection abuse", {
                                 track_frequency = TRUE),
     "Can not track the frequency of more than one marker"
   )
+
+  testthat::expect_error(
+    select_population(sourcepop, select_matrix,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234,
+                      track_frequency = TRUE),
+    "Can not track the frequency of more than one marker"
+  )
 })
 
 test_that("selection vector", {

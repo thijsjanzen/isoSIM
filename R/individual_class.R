@@ -170,13 +170,6 @@ verify_population <- function(pop) {
 
 
 findtype <- function(chrom, pos) {
-
-  if (length(chrom) == 2) {
-    # if the chromosome has no junctions
-    # the entire chromosome is the same type
-    return(chrom[1, 2])
-  }
-
   chromtype <- -1
 
   a <- which(chrom[, 1] == pos)
@@ -185,12 +178,6 @@ findtype <- function(chrom, pos) {
   } else {
     b <- which(chrom[, 1] > pos)
     chromtype <- chrom[b[1] - 1, 2]
-  }
-
-  if (chromtype[[1]] < 0) {
-    if (chrom[length(chrom[, 1]), 1] < pos) {
-      chromtype <- chrom[length(chrom[, 1]), 2]
-    }
   }
 
   return(chromtype[[1]])

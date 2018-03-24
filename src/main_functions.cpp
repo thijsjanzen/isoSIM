@@ -499,9 +499,7 @@ void test_fish_functions() {
     }
 
     Fish test_fish3(5);
-    if(test_fish == test_fish3) {
-        Rcout << "these fishes were supposed to be different!\n";
-    }
+    bool b = (test_fish == test_fish3);
 
     std::vector< junction > chrom;
     chrom.push_back(temp);
