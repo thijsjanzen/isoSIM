@@ -1,6 +1,6 @@
 context("fst")
 
-test_that("fst", {
+testthat::test_that("fst", {
   pop_size <- 100
   number_of_founders <- 20
   run_time <- 1
@@ -52,8 +52,8 @@ test_that("fst", {
   testthat::expect_equal(1.0, v1, tolerance = 0.01)
 })
 
-test_that("random markers", {
+testthat::test_that("random markers", {
   set.seed(42)
   create_random_markers(1e3);
   create_random_markers(1e6);
-}
+})

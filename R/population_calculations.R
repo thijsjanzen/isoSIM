@@ -4,7 +4,6 @@ create_random_markers <- function(number_of_markers) {
     temp_markers <- runif(number_of_markers - length(markers), 0, 1)
     which_dupl <- which(duplicated(temp_markers))
     if (length(which_dupl)) {
-      cat("duplicates removed\n")
       temp_markers <- temp_markers[-which_dupl]
     }
     markers <- c(markers, temp_markers)
