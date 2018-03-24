@@ -16,7 +16,6 @@ test_that("select population", {
   testthat::expect_true(verify_population(selected_pop$population))
 })
 
-
 test_that("select on population", {
 
   sourcepop <- isoSIM::create_population(pop_size = 100,
@@ -58,13 +57,23 @@ test_that("selection abuse", {
 
   testthat::expect_error(
         select_population(sourcepop, select_matrix,
-                                            selection = 5,
                                             pop_size = 1000,
                                             total_runtime = 1000,
                                             morgan = 1,
-                                            seed = 1234)
+                                            seed = 1234),
+        "Can't start, there are NA values in the selection matrix!"
 
   )
+
+  testthat::expect_error(
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234),
+    "Can't start, there are NA values in the selection matrix!"
+    )
 
   select_matrix <- matrix(ncol = 3, nrow = 3)
   select_matrix[1, ] <- c(0.0, NA, 0)
@@ -73,12 +82,38 @@ test_that("selection abuse", {
 
   testthat::expect_error(
     select_population(sourcepop, select_matrix,
-                      selection = 5,
                       pop_size = 1000,
                       total_runtime = 1000,
                       morgan = 1,
-                      seed = 1234)
+                      seed = 1234),
+    "Can't start, there are NA values in the selection matrix!"
 
+  )
+
+  testthat::expect_error(
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234),
+    "Can't start, there are NA values in the selection matrix!"
+  )
+
+
+  select_matrix <- matrix(ncol = 3, nrow = 2)
+  select_matrix[1, ] <- c(0.0, 1, 0)
+  select_matrix[2, ] <- c(0.5, 1, 1)
+
+  testthat::expect_error(
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234,
+                                track_frequency = TRUE),
+    "Can not track the frequency of more than one marker"
   )
 })
 

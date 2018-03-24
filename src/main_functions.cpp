@@ -482,9 +482,8 @@ void test_fish_functions() {
     if(temp2 == temp3) {
         temp = temp2;
     }
-    if(temp2 != temp3) {
-        temp = temp3;
-    }
+
+    bool temp4 = (temp2 != temp3);
 
     junction temp4(temp);
 
