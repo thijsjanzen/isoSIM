@@ -484,6 +484,7 @@ void test_fish_functions() {
     }
 
     bool temp400 = (temp2 != temp3);
+    Rcout << temp400 << "\t" << "this is only for testing\n";
 
     junction temp4(temp);
 
@@ -500,6 +501,7 @@ void test_fish_functions() {
 
     Fish test_fish3(5);
     bool b = (test_fish == test_fish3);
+    Rcout << b << "\t" << "this is only for testing\n";
 
     std::vector< junction > chrom;
     chrom.push_back(temp);
