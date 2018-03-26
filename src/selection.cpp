@@ -137,7 +137,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
                                             NumericMatrix& frequencies,
                                             bool track_frequency) {
 
-    double expected_max_fitness = 1.0;
+    double expected_max_fitness = 1.0 + 1e-6;
 
     Rcout << "Applying selection for:\n";
     Rcout << "Location" << "\t" << "Ancestor" << "\t" << "Selection coefficient" << "\n";
@@ -153,7 +153,7 @@ std::vector< Fish > selectPopulation_vector(const std::vector< Fish>& sourcePop,
         double fit = calculate_fitness_markers((*it), select);
         if(fit > maxFitness) maxFitness = fit;
 
-        if(fit > (expected_max_fitness + 1e-6) { // little fix to avoid numerical problems
+        if(fit > (expected_max_fitness) { // little fix to avoid numerical problems
             Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
             Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
         }
