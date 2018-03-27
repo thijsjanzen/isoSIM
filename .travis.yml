@@ -11,3 +11,4 @@ after_success:
   - Rscript -e 'lintr::lint_package()'
   - travis_wait Rscript -e 'library(goodpractice); gp()'
   - travis_wait Rscript -e 'library(covr); codecov()'
+  - Rscript codecov.R;
