@@ -29,18 +29,17 @@ using namespace Rcpp;
 
 double calculate_fitness_twoAllele(const Fish& focal,
                                    const NumericMatrix& select) {
+
     int number_of_markers = select.nrow();
 
     std::vector< int > num_alleles(number_of_markers, 0);
     
     int focal_marker = 0;
     double pos = select(focal_marker, 0);
+    double anc = select(focal_marker, 4);
     // loc aa  Aa  AA ancestor
     //  0  1   2  3  4
 
-
-    double anc = select(focal_marker, 4);
-   
     for(auto it = (focal.chromosome1.begin()+1); it != focal.chromosome1.end(); ++it) {
         if((*it).pos > pos) {
             if((*(it-1)).right == anc) num_alleles[focal_marker]++;
@@ -73,6 +72,11 @@ double calculate_fitness_twoAllele(const Fish& focal,
     double fitness = 0.0;
     for(int i = 0; i < num_alleles.size(); ++i) {
         int fitness_index = 1 + num_alleles[i];
+
+        if(fitness_index > 3) {
+            Rcout << num_alleles[i] "\t" << fitness_index << "\n";
+        }
+
         fitness += select(i, fitness_index);
     }
 
