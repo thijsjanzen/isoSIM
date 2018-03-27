@@ -36,8 +36,10 @@ test_that("create_population_from_isofemales", {
   testthat::expect_true(verify_population(vx$Population_1))
   testthat::expect_true(verify_population(vx$Population_2))
 
-  female_1 <- create_iso_female(vx$Population_1, n = 1, run_time = 2000, seed = 1)
-  female_2 <- create_iso_female(vx$Population_2, n = 1, run_time = 2000, seed = 2)
+  female_1 <- create_iso_female(vx$Population_1, n = 1,
+                                run_time = 2000, seed = 1)
+  female_2 <- create_iso_female(vx$Population_2, n = 1,
+                                run_time = 2000, seed = 2)
 
 
 
@@ -55,10 +57,12 @@ test_that("create_population_from_isofemales", {
   testthat::expect_equal(length(vy), pop_size)
   testthat::expect_true(verify_population(vy))
 
-  vy <- isoSIM::create_population_from_individuals(list(female_1[[1]], female_2[[1]]),
-                                     pop_size, 2000,
-                                     morgan,
-                                     seed = 666)
+  vy <- isoSIM::create_population_from_individuals(list(female_1[[1]],
+                                                        female_2[[1]]),
+                                                   pop_size,
+                                                   2000,
+                                                   morgan,
+                                                   seed = 666)
 
   testthat::expect_equal(length(vy), pop_size)
   testthat::expect_true(verify_population(vy))
@@ -72,14 +76,14 @@ test_that("cpp classes", {
   a <- matrix(c(0.1,1, 2, 2), nrow = 2)
   b <- matrix(c(0,1,1,-1), nrow = 2)
   indiv <- list(chromosome1 = a, chromosome2 = a)
-  class(indiv) = "individual"
+  class(indiv) <- "individual"
 
   # chromosome 1
   testthat::expect_output(v <- verify_individual(indiv),
                            "Chromosome doesn't start at 0")
 
   indiv <- list(chromosome1 = b, chromosome2 = a)
-  class(indiv) = "individual"
+  class(indiv) <- "individual"
 
   # chromosome 2
   testthat::expect_output(v <- verify_individual(indiv),
@@ -88,24 +92,24 @@ test_that("cpp classes", {
   a <- matrix(c(0.0, 1, 2, 2), nrow = 2)
   b <- matrix(c(0,1,1,-1), nrow = 2)
   indiv <- list(chromosome1 = b, chromosome2 = a)
-  class(indiv) = "individual"
+  class(indiv) <- "individual"
   testthat::expect_output(v <- verify_individual(indiv),
                           "Chromosome doesn't end with -1")
-  indiv$chromosome2 =  indiv$chromosome1
-  indiv$chromosome1 = a
+  indiv$chromosome2 <-  indiv$chromosome1
+  indiv$chromosome1 <- a
   testthat::expect_output(v <- verify_individual(indiv),
                           "Chromosome doesn't end with -1")
 
 
   a <- matrix(c(0.0, 1, 0.5, 29192875037,  1, -1), ncol = 2)
 
-  indiv$chromosome1 = a
+  indiv$chromosome1 <- a
   testthat::expect_output(v <- verify_individual(indiv),
                           "Memory error recorded in chromosome")
 
   a <- matrix(c(0.0, 1, 0.5, -92875037,  1, -1), ncol = 2)
-  indiv$chromosome2 = a
-  indiv$chromosome1 = b
+  indiv$chromosome2 <- a
+  indiv$chromosome1 <- b
   testthat::expect_output(v <- verify_individual(indiv),
                           "Memory error recorded in chromosome")
 

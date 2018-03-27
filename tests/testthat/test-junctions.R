@@ -7,7 +7,7 @@ test_that("expected_number_junctions", {
                                             replicates)
   {
     cat(pop_size, run_time, morgan, "\n")
-    found <- c();
+    found <- c()
     for (r in 1:replicates) {
       vx <- create_population(pop_size, 2,
                               run_time, morgan, r)

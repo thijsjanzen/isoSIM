@@ -42,8 +42,8 @@ calculate_fst <- function(pop1,
   number_of_markers <- round(number_of_markers)
 
   all_loci <- create_loci_matrix(
-                pop1[sample(1:length(pop1), sampled_individuals)],
-                pop2[sample(1:length(pop2), sampled_individuals)],
+                pop1[sample(seq_along((pop1), sampled_individuals)],
+                pop2[sample(seq_along((pop2), sampled_individuals)],
                 number_of_markers,
                 random_markers)
 

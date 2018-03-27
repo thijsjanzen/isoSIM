@@ -37,7 +37,7 @@ plot.individual <- function(x, ...) {
 
   for (i in seq_along(x$chromosome1[, 1])) {
     xleft <- x$chromosome1[i, 1]
-    xrght <- 1;
+    xrght <- 1
     if (i < length(x$chromosome1[, 1])) {
       xrght <- x$chromosome1[i + 1, 1]
     }
@@ -96,7 +96,7 @@ plot_chromosome <- function(chrom, xmin = 0, xmax = 1) {
 
   for (i in seq_along(chrom[, 1])) {
     xleft <- chrom[i, 1]
-    xrght <- 1;
+    xrght <- 1
     if (i < length(chrom[, 1])) {
       xrght <- chrom[i + 1, 1]
     }

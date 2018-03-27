@@ -13,11 +13,13 @@ test_that("calculate_average_LD", {
   number_of_markers <- 2
   markers <- c(0.25, 0.26)
 
-  all_loci <- matrix(nrow = length(pop1), ncol = 2 * number_of_markers, 0);
+  all_loci <- matrix(nrow = length(pop1),
+                     ncol = 2 * number_of_markers,
+                     0)
 
-  for (x in 1:length(markers)) {
+  for (x in seq_along(markers)) {
     focal_marker <- markers[x]
-    for (i in 1:length(pop1)) {
+    for (i in seq_along(pop1)) {
       allele_1 <- 1 + isoSIM::findtype(pop1[[i]]$chromosome1, focal_marker)
       allele_2 <- 1 + isoSIM::findtype(pop1[[i]]$chromosome2, focal_marker)
 

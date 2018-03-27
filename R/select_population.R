@@ -62,7 +62,10 @@ create_population_selection <- function(pop_size,
     freq_tibble <- tibble::as.tibble(cbind(time,pop$frequencies))
     colnames(freq_tibble) <- c("time", 0:(length(pop$frequencies[1,])-1))
 
-    freq_tibble <- tidyr::gather(freq_tibble, key = "ancestor", value = "frequency", -1)
+    freq_tibble <- tidyr::gather(freq_tibble,
+                                 key = "ancestor",
+                                 value = "frequency",
+                                 -1)
 
     output <- list("population" = popstruct,
                    "frequencies" = freq_tibble)
@@ -110,14 +113,20 @@ select_population <- function(source_pop,
 
   if(track_frequency == TRUE) {
     time <- 0:(length(selected_pop$frequencies[, 1]) - 1)
-    freq_tibble <- tibble::as.tibble(cbind(time, selected_pop$frequencies))
-    colnames(freq_tibble) <- c("time", 0:(length(selected_pop$frequencies[1, ]) - 1))
+    freq_tibble <- tibble::as.tibble(cbind(time,
+                                           selected_pop$frequencies)
+                                     )
+    colnames(freq_tibble) <- c("time",
+                               0:( length(selected_pop$frequencies[1, ]) - 1)
+                                 )
 
-    freq_tibble <- tidyr::gather(freq_tibble, key = "ancestor", value = "frequency", -1)
+    freq_tibble <- tidyr::gather(freq_tibble,
+                                 key = "ancestor",
+                                 value = "frequency",
+                                 -1)
 
     output <- list("population" = selected_popstruct,
                    "frequencies" = freq_tibble)
   }
-
   return(output)
 }

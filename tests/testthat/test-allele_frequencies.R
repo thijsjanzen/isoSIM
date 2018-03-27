@@ -7,7 +7,7 @@ test_that("calculate_allele_frequencies", {
   run_time <- 5
   morgan <- 1
 
-  found <- c();
+  found <- c()
   for (r in 1:100) {
     vx <- create_population(pop_size, 2,
                             run_time, morgan, r)
@@ -15,8 +15,11 @@ test_that("calculate_allele_frequencies", {
     testthat::expect_true(verify_population(vx))
 
     for (i in 1:pop_size) {
-      found <- rbind(found, calc_allele_frequencies(vx[[i]],
-                                                    alleles = rep(0, number_of_founders * 2))
+      found <- rbind(found,
+                     calc_allele_frequencies(vx[[i]],
+                                             alleles =
+                                               rep(0, number_of_founders * 2)
+                                             )
       )
     }
   }
@@ -26,7 +29,7 @@ test_that("calculate_allele_frequencies", {
 
   testthat::expect_equal(v[[2]], 0.5, tolerance = 0.05)
 
-  found <- c();
+  found <- c()
   for (r in 1:100) {
     vx <- create_population(pop_size, 4,
                             run_time, morgan, r)
@@ -36,7 +39,9 @@ test_that("calculate_allele_frequencies", {
     for (i in 1:pop_size) {
       found <- rbind(found,
                      calc_allele_frequencies(vx[[i]],
-                                             alleles = rep(0, number_of_founders * 2))
+                                             alleles =
+                                               rep(0, number_of_founders * 2)
+                                             )
       )
     }
   }
@@ -64,7 +69,9 @@ test_that("calculate_allele_frequencies", {
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
-  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq),
+                         1 / number_founders,
+                         tolerance = 0.01)
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
   number_founders <- 5
@@ -79,14 +86,17 @@ test_that("calculate_allele_frequencies", {
   freq_output <- calculate_allele_frequencies(sourcepop,
                                               step_size = 0.01)
 
-  testthat::expect_equal(length(unique(freq_output$ancestor)), number_founders)
+  testthat::expect_equal(length(unique(freq_output$ancestor)),
+                         number_founders)
 
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
     dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
-  testthat::expect_equal(mean(b$mean_freq), 1 / number_founders, tolerance = 0.01)
+  testthat::expect_equal(mean(b$mean_freq),
+                         1 / number_founders,
+                         tolerance = 0.01)
 
   number_founders <- 20
   sourcepop <- isoSIM::create_population(pop_size = 1000,
@@ -96,6 +106,4 @@ test_that("calculate_allele_frequencies", {
                                          seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
-
-
 })

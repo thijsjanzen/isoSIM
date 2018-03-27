@@ -23,7 +23,9 @@ create_iso_female <- function(source_pop,
                                              run_time,
                                              morgan,
                                              seed + i)
-    output_females[[i]] <- inbred_population[[sample(1:length(inbred_population), 1)]]
+    output_females[[i]] <- inbred_population[
+                              [sample(seq_along((inbred_population), 1)]
+                                            ]
     class(output_females[[i]]) <- "individual"
   }
   return(output_females)

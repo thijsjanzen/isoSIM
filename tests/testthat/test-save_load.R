@@ -20,7 +20,7 @@ test_that("save_population", {
 
   testthat::expect_equal(length(vx), length(vy))
 
-  for(i in 1:length(vx)) {
+  for(i in seq_along(vx)) {
     testthat::expect_true(all.equal(vx[[i]], vy[[i]]))
   }
 
