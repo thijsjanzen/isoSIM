@@ -26,6 +26,8 @@
 \alias{create_random_markers}
 \alias{create_population_selection_markers_cpp}
 \alias{select_population_markers_cpp}
+\alias{create_population_selection_twoalleles_cpp}
+\alias{select_population_twoalleles_cpp}
 
 \description{Internal Guilds functions}
 \details{These are not to be called by the user}

@@ -26,7 +26,6 @@ select_population_twoalleles(source_pop, select_matrix,
     \code{fitness of heterozygote (aA)}
     \code{fitness of homozygote mutant (AA)}
     \code{Ancestral type that representes the mutant allele A}
-    }
 }
 
   \item{pop_size}{
