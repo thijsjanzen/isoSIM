@@ -105,7 +105,7 @@ std::vector< Fish > selectPopulation_twoAlleles(const std::vector< Fish>& source
     std::vector<double> fitness;
     double maxFitness = -1;
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
-        double fit = calculate_fitness_markers((*it), select);
+        double fit = calculate_fitness_twoAllele((*it), select);
         if(fit > maxFitness) maxFitness = fit;
 
         if(fit > (expected_max_fitness)) { // little fix to avoid numerical problems
@@ -143,7 +143,7 @@ std::vector< Fish > selectPopulation_twoAlleles(const std::vector< Fish>& source
 
             newGeneration.push_back(kid);
 
-            double fit = calculate_fitness_markers(kid, select);
+            double fit = calculate_fitness_twoAllele(kid, select);
             if(fit > newMaxFitness) newMaxFitness = fit;
 
             if(fit > expected_max_fitness) {
