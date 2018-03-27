@@ -25,8 +25,9 @@ int draw_prop_fitness(const std::vector<double> fitness,
 double calculate_fitness_markers(const Fish& focal,
                                  const NumericMatrix& select);
 
-NumericVector update_frequency(const std::vector< Fish >& v, double m, int num_alleles) {
-    NumericVector freq(num_alleles);
+NumericVector update_frequency(const std::vector< Fish >& v,
+                               double m,
+                               int num_alleles);
 
 
 

@@ -28,7 +28,7 @@
 using namespace Rcpp;
 
 double calculate_fitness_twoAllele(const Fish& focal,
-                                 const NumericMatrix& select) {
+                                   const NumericMatrix& select) {
     int number_of_markers = select.nrow();
 
     std::vector< int > num_alleles(number_of_markers, 0);
