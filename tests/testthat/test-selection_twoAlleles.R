@@ -85,7 +85,7 @@ test_that("select population two_alleles multiple markers", {
   select_matrix <- matrix(ncol = 5, nrow = 2)
   s <- 0.1
   select_matrix[1, ] <- c(0.25, 1.0, 1+0.5*s, 1+s, 0)
-  select_matrix[1, ] <- c(0.75, 1.0, 1, 1+s,  1)
+  select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
   selected_pop <- isoSIM::create_population_selection_twoalleles(pop_size = 100,
                                                                  number_of_founders = 10,
@@ -97,8 +97,6 @@ test_that("select population two_alleles multiple markers", {
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 })
-
-
 
 test_that("selection abuse", {
 
