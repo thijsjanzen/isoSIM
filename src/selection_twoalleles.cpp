@@ -92,13 +92,15 @@ std::vector< Fish > selectPopulation_twoAlleles(const std::vector< Fish>& source
                                                 NumericMatrix& frequencies,
                                                 bool track_frequency) {
 
-    double expected_max_fitness = select(1,1) + 1e-6;
+    double expected_max_fitness = 1e-6;
     for(int j = 0; j < select.nrow(); ++j) {
+        double local_max_fitness = 0.0;
         for(int i = 1; i < 4; ++i) {
-            if(select(j, i) > expected_max_fitness) {
-                expected_max_fitness = select(j, i);
+            if(select(j, i) > local_max_fitness) {
+                local_max_fitness = select(j, i);
             }
         }
+        expected_max_fitness += local_max_fitness;
     }
 
     std::vector<Fish> Pop = sourcePop;
