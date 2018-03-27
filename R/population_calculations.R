@@ -19,7 +19,7 @@ calculate_dist_junctions <- function(pop) {
     return(c(v1, v2))
   }
 
-  vx <- as.numeric(vapply(pop, get_num_junctions))
+  vx <- unlist(lapply(pop, get_num_junctions))
 
   return(vx)
 }
