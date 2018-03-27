@@ -35,7 +35,7 @@ double calculate_fitness_twoAllele(const Fish& focal,
     
     int focal_marker = 0;
     double pos = select(focal_marker, 0);
-    // loc AA Aa aa ancestor
+    // loc aa  Aa  AA ancestor
     //  0  1   2  3  4
 
 
@@ -90,7 +90,7 @@ std::vector< Fish > selectPopulation_twoAlleles(const std::vector< Fish>& source
 
     double expected_max_fitness = select(1,1) + 1e-6;
     for(int j = 0; j < select.nrow(); ++j) {
-        for(int i = 1; i < 3; ++i) {
+        for(int i = 1; i < 4; ++i) {
             if(select(j, i) > expected_max_fitness) {
                 expected_max_fitness = select(j, i);
             }
