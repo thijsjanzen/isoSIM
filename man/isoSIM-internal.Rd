@@ -25,6 +25,7 @@
 \alias{population_to_vector}
 \alias{create_random_markers}
 \alias{create_tibble_from_freq_table}
+\alias{create_tibble_from_freq_mat}
 
 \description{Internal Guilds functions}
 \details{These are not to be called by the user}
