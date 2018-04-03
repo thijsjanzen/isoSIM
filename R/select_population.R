@@ -62,17 +62,24 @@ create_population_selection <- function(pop_size,
   output <- list("population" = popstruct)
 
   if(track_frequency == TRUE) {
-    time <- 0:(length(pop$frequencies[,1])-1)
-    freq_tibble <- tibble::as.tibble(cbind(time,pop$frequencies))
-    colnames(freq_tibble) <- c("time", 0:(length(pop$frequencies[1,])-1))
+    found_markers <- c()
+    for(i in 1:(dim(pop$frequencies)[[3]])) {
+      local_mat <- pop$frequencies[,,i]
+      time <- 0:(length(local_mat[,1])-1)
+      marker_indicator <- rep(select_matrix[i, 1], length(time))
+      freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat))
+      colnames(freq_tibble) <- c("time", "location", 0:(length(local_mat[1,])-1))
 
-    freq_tibble <- tidyr::gather(freq_tibble,
-                                 key = "ancestor",
-                                 value = "frequency",
-                                 -1)
+      freq_tibble <- tidyr::gather(freq_tibble,
+                                   key = "ancestor",
+                                   value = "frequency",
+                                   -c(1,2))
+
+      found_markers <- rbind(found_markers, freq_tibble)
+    }
 
     output <- list("population" = popstruct,
-                   "frequencies" = freq_tibble)
+                   "frequencies" = found_markers)
   }
 
   return(output)
@@ -120,21 +127,24 @@ select_population <- function(source_pop,
   output <- list("population" = selected_popstruct)
 
   if(track_frequency == TRUE) {
-    time <- 0:(length(selected_pop$frequencies[, 1]) - 1)
-    freq_tibble <- tibble::as.tibble(cbind(time,
-                                           selected_pop$frequencies)
-                                     )
-    colnames(freq_tibble) <- c("time",
-                               0:( length(selected_pop$frequencies[1, ]) - 1)
-                                 )
+    found_markers <- c()
+    for(i in 1:(dim(pop$frequencies)[[3]])) {
+      local_mat <- pop$frequencies[,,i]
+      time <- 0:(length(local_mat[,1])-1)
+      marker_indicator <- rep(select_matrix[i, 1], length(time))
+      freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat))
+      colnames(freq_tibble) <- c("time", "location", 0:(length(local_mat[1,])-1))
 
-    freq_tibble <- tidyr::gather(freq_tibble,
-                                 key = "ancestor",
-                                 value = "frequency",
-                                 -1)
+      freq_tibble <- tidyr::gather(freq_tibble,
+                                   key = "ancestor",
+                                   value = "frequency",
+                                   -c(1,2))
 
-    output <- list("population" = selected_popstruct,
-                   "frequencies" = freq_tibble)
+      found_markers <- rbind(found_markers, freq_tibble)
+    }
+
+    output <- list("population" = popstruct,
+                   "frequencies" = found_markers)
   }
   return(output)
 }

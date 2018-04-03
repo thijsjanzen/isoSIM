@@ -90,7 +90,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                                 int total_runtime,
                                                 double morgan,
                                                 bool progress_bar,
-                                                NumericMatrix& frequencies,
+                                                arma::cube& frequencies,
                                                 bool track_frequency) {
 
     double expected_max_fitness = 1e-6;
@@ -130,8 +130,18 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     for(int t = 0; t < total_runtime; ++t) {
 
         if(track_frequency) {
-            frequencies(t,_) = update_frequency(Pop, select(0, 0), frequencies.ncol());
+           for(int i = 0; i < select.nrow(); ++i) {
+                arma::mat x = frequencies.slice(i);
+                NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
+
+                for(int j = 0; j < v.size(); ++j) {
+                    x(t, j) = v(j);
+                }
+           
+                frequencies.slice(i) = x;
+            }
         }
+
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
@@ -171,7 +181,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
-
+/*
 std::vector< Fish > selectPopulation_arma(const std::vector< Fish>& sourcePop,
                                      const NumericMatrix& select,
                                      int pop_size,
@@ -270,7 +280,7 @@ std::vector< Fish > selectPopulation_arma(const std::vector< Fish>& sourcePop,
     Rcout << "\n";
     return(Pop);
 }
-
+*/
 
 // [[Rcpp::export]]
 List create_population_selection_cpp(NumericMatrix select,
@@ -289,9 +299,11 @@ List create_population_selection_cpp(NumericMatrix select,
         Pop.push_back(mate(p1,p2, morgan));
     }
 
-    NumericMatrix frequencies_table;
+    arma::cube frequencies_table;
     if(track_frequency) {
-        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
+        int number_entries = select.nrow();
+        arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
+        frequencies_table = x;
     }
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
@@ -307,7 +319,7 @@ List create_population_selection_cpp(NumericMatrix select,
                          Named("frequencies") = frequencies_table);
 }
 
-
+/*
 // [[Rcpp::export]]
 List create_population_selection_arma_cpp(NumericMatrix select,
                                      int pop_size,
@@ -348,7 +360,7 @@ List create_population_selection_arma_cpp(NumericMatrix select,
                          Named("frequencies") = frequencies_table);
 }
 
-
+*/
 
 
 
@@ -364,7 +376,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-    NumericMatrix frequencies_table;
+    arma::cube frequencies_table;
     if(track_frequency) {
         int number_of_founders = 0;
         for(auto it = Pop.begin(); it != Pop.end(); ++it) {
@@ -380,7 +392,9 @@ List select_population_cpp(Rcpp::NumericVector v1,
             }
         }
 
-        frequencies_table = NumericMatrix(run_time, 1 + number_of_founders);
+        int number_entries = selectM.nrow();
+        arma::cube x(run_time, number_of_founders, number_entries); // n_row, n_col, n_slices, type
+        frequencies_table = x;
     }
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
