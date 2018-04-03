@@ -128,8 +128,8 @@ select_population <- function(source_pop,
 
   if(track_frequency == TRUE) {
     found_markers <- c()
-    for(i in 1:(dim(pop$frequencies)[[3]])) {
-      local_mat <- pop$frequencies[,,i]
+    for(i in 1:(dim(selected_pop$frequencies)[[3]])) {
+      local_mat <- selected_pop$frequencies[,,i]
       time <- 0:(length(local_mat[,1])-1)
       marker_indicator <- rep(select_matrix[i, 1], length(time))
       freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat))
@@ -143,7 +143,7 @@ select_population <- function(source_pop,
       found_markers <- rbind(found_markers, freq_tibble)
     }
 
-    output <- list("population" = popstruct,
+    output <- list("population" = selected_popstruct,
                    "frequencies" = found_markers)
   }
   return(output)
