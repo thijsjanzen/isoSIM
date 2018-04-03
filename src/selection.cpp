@@ -21,10 +21,8 @@
 #include "random_functions.h"
 #include "selection.h"
 
-
-//#include "randomc.h"
-
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
+// [[Rcpp::depends("RcppArmadillo")]]
 using namespace Rcpp;
 
 
@@ -173,6 +171,107 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
+
+std::vector< Fish > selectPopulation_arma(const std::vector< Fish>& sourcePop,
+                                     const NumericMatrix& select,
+                                     int pop_size,
+                                     int total_runtime,
+                                     double morgan,
+                                     bool progress_bar,
+                                     arma::cube& frequencies,
+                                     bool track_frequency) {
+
+    double expected_max_fitness = 1e-6;
+    for(int j = 0; j < select.nrow(); ++j) {
+        double local_max_fitness = 0.0;
+        for(int i = 1; i < 4; ++i) {
+            if(select(j, i) > local_max_fitness) {
+                local_max_fitness = select(j, i);
+            }
+        }
+        expected_max_fitness += local_max_fitness;
+    }
+
+    std::vector<Fish> Pop = sourcePop;
+    std::vector<double> fitness;
+    double maxFitness = -1;
+    for(auto it = Pop.begin(); it != Pop.end(); ++it){
+        double fit = calculate_fitness_twoAllele((*it), select);
+        if(fit > maxFitness) maxFitness = fit;
+
+        if(fit > (expected_max_fitness)) { // little fix to avoid numerical problems
+            Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+            Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
+        }
+
+        fitness.push_back(fit);
+    }
+
+    int updateFreq = total_runtime / 20;
+    if(updateFreq < 1) updateFreq = 1;
+
+    if(progress_bar) {
+        Rcout << "0--------25--------50--------75--------100\n";
+        Rcout << "*";
+    }
+
+    for(int t = 0; t < total_runtime; ++t) {
+
+        if(track_frequency) {
+            //frequencies(t,_) = update_frequency(Pop, select(0, 0), frequencies.ncol());
+
+            for(int i = 0; i < select.nrow(); ++i) {
+                arma::mat x = frequencies.slice(i);
+                arma::vec v = update_frequency(Pop, select(i, 0), x.n_cols);
+
+               // for(int j = 0; j < v.size(); ++j) {
+               //     x(t, j) = v(j);
+               // }
+                x.row(t) = v;
+
+                frequencies.slice(i) = x;
+            }
+        }
+
+        std::vector<Fish> newGeneration;
+        std::vector<double> newFitness;
+        double newMaxFitness = -1.0;
+
+        for(int i = 0; i < pop_size; ++i)  {
+            int index1 = draw_prop_fitness(fitness, maxFitness);
+            int index2 = draw_prop_fitness(fitness, maxFitness);
+            while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
+
+            Fish kid = mate(Pop[index1], Pop[index2], morgan);
+
+            newGeneration.push_back(kid);
+
+            double fit = calculate_fitness_twoAllele(kid, select);
+            if(fit > newMaxFitness) newMaxFitness = fit;
+
+            if(fit > expected_max_fitness) {
+                Rcout << "Expected maximum " << expected_max_fitness << " found " << fit << "\n";
+                Rcpp::stop("ERROR in calculating fitness, fitness too large\n");
+            }
+
+            newFitness.push_back(fit);
+        }
+
+        if(t % updateFreq == 0 && progress_bar) {
+            Rcout << "**";
+        }
+        Rcpp::checkUserInterrupt();
+
+        Pop = newGeneration;
+        newGeneration.clear();
+        fitness = newFitness;
+        maxFitness = newMaxFitness;
+    }
+    Rcout << "\n";
+    return(Pop);
+}
+
+
 // [[Rcpp::export]]
 List create_population_selection_cpp(NumericMatrix select,
                                                  int pop_size,
@@ -208,9 +307,9 @@ List create_population_selection_cpp(NumericMatrix select,
                          Named("frequencies") = frequencies_table);
 }
 
-/*
+
 // [[Rcpp::export]]
-List create_population_selection_test_cpp(NumericMatrix select,
+List create_population_selection_arma_cpp(NumericMatrix select,
                                      int pop_size,
                                      int number_of_founders,
                                      int total_runtime,
@@ -226,15 +325,17 @@ List create_population_selection_test_cpp(NumericMatrix select,
         Pop.push_back(mate(p1,p2, morgan));
     }
 
-    NumericMatrix frequencies_table;
+    arma::cube frequencies_table;
     if(track_frequency) {
-        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
+        int number_entries = select.nrow();
+        arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
+        frequencies_table = x;
     }
 
 
 
 
-    std::vector<Fish> outputPop = selectPopulation(Pop,
+    std::vector<Fish> outputPop = selectPopulation_arma(Pop,
                                                    select,
                                                    pop_size,
                                                    total_runtime,
@@ -244,9 +345,9 @@ List create_population_selection_test_cpp(NumericMatrix select,
                                                    track_frequency);
 
     return List::create( Named("population") = convert_to_list(outputPop),
-                        Named("frequencies") = frequencies_table);
+                         Named("frequencies") = frequencies_table);
 }
-*/
+
 
 
 
@@ -320,55 +421,6 @@ int draw_prop_fitness(const std::vector<double> fitness,
     Rcout << maxFitness << "\n";
     Rcpp::stop("ERROR!Couldn't pick proportional to fitness");
     return -1;
-}
-
-
-double calculate_fitness_markers(const Fish& focal,
-                                 const NumericMatrix& select) {
-
-    double fitness = 2.0;
-    int number_of_markers = select.nrow();
-
-
-    int focal_marker = 0;
-    double pos = select(focal_marker, 0);
-    double anc = select(focal_marker, 1);
-    double s = select(focal_marker, 2);
-
-    for(auto it = (focal.chromosome1.begin()+1); it != focal.chromosome1.end(); ++it) {
-        if((*it).pos > pos) {
-            if((*(it-1)).right == anc) fitness += s;
-            focal_marker++;
-            if(focal_marker >= number_of_markers) {
-                break;
-            }
-            pos = select(focal_marker, 0);
-            anc = select(focal_marker, 1);
-            s = select(focal_marker, 2);
-        }
-
-    }
-
-    focal_marker = 0;
-    pos = select(focal_marker, 0);
-    anc = select(focal_marker, 1);
-    s = select(focal_marker, 2);
-
-    for(auto it = (focal.chromosome2.begin()+1); it != focal.chromosome2.end(); ++it) {
-        if((*it).pos > pos) {
-            if((*(it-1)).right == anc) fitness += s;
-            focal_marker++;
-            if(focal_marker >= number_of_markers) {
-                break;
-            }
-            pos = select(focal_marker, 0);
-            anc = select(focal_marker, 1);
-            s = select(focal_marker, 2);
-
-        }
-    }
-
-    return(fitness / 2.0);
 }
 
 NumericVector update_frequency(const std::vector< Fish >& v, double m, int num_alleles) {

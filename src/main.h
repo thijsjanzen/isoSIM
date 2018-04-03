@@ -9,7 +9,7 @@
 #ifndef main_h
 #define main_h
 
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
 using namespace Rcpp;
 
 #include "Fish.h"
