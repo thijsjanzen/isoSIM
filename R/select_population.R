@@ -62,9 +62,6 @@ create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
   return(found_markers)
 }
 
-
-
-
 create_population_selection <- function(pop_size,
                                         number_of_founders,
                                         total_runtime,
