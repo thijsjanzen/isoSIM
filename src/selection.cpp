@@ -222,12 +222,12 @@ std::vector< Fish > selectPopulation_arma(const std::vector< Fish>& sourcePop,
 
             for(int i = 0; i < select.nrow(); ++i) {
                 arma::mat x = frequencies.slice(i);
-                arma::vec v = update_frequency(Pop, select(i, 0), x.n_cols);
+                NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
 
-               // for(int j = 0; j < v.size(); ++j) {
-               //     x(t, j) = v(j);
-               // }
-                x.row(t) = v;
+                for(int j = 0; j < v.size(); ++j) {
+                    x(t, j) = v(j);
+                }
+               // x.row(t) = v;
 
                 frequencies.slice(i) = x;
             }
