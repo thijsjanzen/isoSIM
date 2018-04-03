@@ -186,119 +186,16 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 
 # Selection
 Selection for specific markers (e.g. SNPs) can potentially cause local allelel frequency biases, and influence genetic patterns within the population as a whole.
-Here we provide two different methods of invoking selection: on markers, and on regions within the genome.
-
-## Marker based selection
-Here, genetic content of a specific ancestor at a genetic marker is assumed to provide a fitness benefit of *s*, such that individuals with genetic material of another ancestor at that marker have fitness 1, and individuals with matching ancestral material fitness *1+s*. 
-The user can specify markers by providing a selection matrix with one column for *location*, *ancestor* and *s* respectively.
-
-```{r selection_markers from scratch}
-selection_matrix = matrix(ncol=3, nrow = 1)
-
-selection_matrix[1,] = c(0.5, 0, 1)
-
-selected_pop <- create_population_selection(pop_size = 1000,
-                                  number_of_founders = 4, 
-                                  total_runtime = 500,
-                                  morgan = 1,
-                                  select_matrix = selection_matrix,
-                                  seed = 12345)
-
-freq_output <- calculate_allele_frequencies(selected_pop$population, 
-                                            step_size = 0.001)
-
-ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
-  geom_line() +
-  geom_vline(xintercept = c(0.5), lty = 2)
-
-```
-From the allele frequency graph it is clear that around the location 0.5, the frequency of genetic material of ancestor 0 increases a lot. 
-
-Alternatively, we can assess allele frequency exactly at the marker position:
-```{r marker frequency}
-# at the selected marker
-calculate_marker_frequency(selected_pop$population, 0.5)
-
-# at a neutral marker
-calculate_marker_frequency(selected_pop$population, 0.8)
-```
-
-Contrasting selection on a novel population, we also provide code to impose selection on an already existing population.
-
-```{r selection markers_with_previous_population}
-number_founders = 4
-wildpop =  create_population(pop_size = 1000, 
-                             number_of_founders = number_founders,
-                             total_runtime = 10, 
-                             morgan = 1, 
-                             seed = 666)
-
-selection_matrix = matrix(ncol=3, nrow = 1)
-selection_matrix[1,] = c(0.5, 0, 1)
-
-selected_pop <- select_population(wildpop, 
-                                  selection_matrix,
-                                  pop_size = 1000,
-                                  total_runtime = 500,
-                                  morgan = 1,
-                                  seed = 12345)
-
-freq_output <- calculate_allele_frequencies(selected_pop$population, 
-                                            step_size = 0.001)
-
-ggplot(freq_output, aes(x=location, y = frequency, col = as.factor(ancestor))) +
-  geom_line() +
-  geom_vline(xintercept = c(0.5), lty = 2)
-
-```
-
-# Non additive selection
-In the previous section we considered selection to be fully additive, such that the fitness matrix for genotypes aa, aA and AA was given by *1*, *1+0.5xs*, *1+s*. Here, the genotype 'aa' represents the wildtype genome, where the ancestor under selection is not present at the focal marker. Similarly, 'AA' represents a genome homozygous for the ancestor under selection, and 'Aa' is the heterozygote. 
-This approach was chosen to minimise user input. Alternatively, the user can specify it's own fitness matrix. Let us first explore whether this code works identical to the previous code. 
-```{r two_alleles test}
-
-  s <- 0.1
-
-  selection_matrix = matrix(ncol=3, nrow = 1)
-  selection_matrix[1,] = c(0.5, 0, s)
-
-  selected_pop_1 <- create_population_selection(pop_size = 1000,
-                                                number_of_founders = 10,
-                                                total_runtime = 100,
-                                                morgan = 1,
-                                                select_matrix = selection_matrix,
-                                                seed = 12345,
-                                                track_frequency = TRUE)
-
-  selection_matrix = matrix(ncol=5, nrow = 1)
-  selection_matrix[1,] = c(0.5, 
-                           1.0, 1.0 + 0.5 * s, 1.0 + s, 
-                           0)
-
-  selected_pop_2 <- create_population_selection_twoalleles(pop_size = 1000,
-                                                           number_of_founders = 10,
-                                                           total_runtime = 100,
-                                                           morgan = 1,
-                                                           select_matrix = selection_matrix,
-                                                           seed = 12345,
-                                                           track_frequency = TRUE)
-
-  testthat::expect_true(all.equal(selected_pop_1, selected_pop_2));
-
-ggplot(selected_pop_1$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1) + ggtitle("Additive selection")
-
-  ggplot(selected_pop_2$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1) + ggtitle("User specificied selection")
-```
-
-Both simulations provide the exact same output, which is to be expected because they both use the same fitness matrix, and the same random number seed. 
 
 A perhaps more interesting simulation would be one where the heterozygote has an advantage over the other genotypes
 ```{r heterozygote selection}
+s <- 0.1
+selection_matrix <- matrix(nrow = 1, ncol = 5)
 selection_matrix[1,] = c(0.5, 
                            1.0, 1.0 + s, 1.0, 
                            0)
 
-  selected_pop <- create_population_selection_twoalleles(pop_size = 1000,
+  selected_pop <- create_population_selection(pop_size = 1000,
                                                            number_of_founders = 2,
                                                            total_runtime = 100,
                                                            morgan = 1,
@@ -314,11 +211,12 @@ Indeed we observe that the frequencies of both ancestors are in equilibrium arou
 Lastly, an interesting simulation would be where we give only the homozygous mutant a selective benefit. Here we expect that it takes some time before the homozygote takes over.
 
 ```{r homozygote selection}
+s <- 0.1
 selection_matrix[1,] = c(0.5, 
                            1.0, 1.0, 1.0 + s, 
                            0)
 
-  selected_pop <- create_population_selection_twoalleles(pop_size = 1000,
+  selected_pop <- create_population_selection(pop_size = 1000,
                                                            number_of_founders = 10,
                                                            total_runtime = 300,
                                                            morgan = 1,

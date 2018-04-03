@@ -17,17 +17,15 @@ select_population(source_pop, select_matrix,
   \item{source_pop}{
   Source population with which to start.
 }
-  \item{select_matrix}{
-  Selection matrix indicating the markers which are under selection. Each row in the matrix contains three entries:
+ \item{select_matrix}{
+  Selection matrix indicating the markers which are under selection. Each row in the matrix contains five entries:
     \code{location}{
       location of the marker under selection (in Morgan)
     }
-    \code{ancestor} {
-      if there is genomic material present of this ancestor at \code{location}, the individual received positive selection.
-    \code{selection} {
-      The amount of positive selection received when there is a matching ancestor at the site.
-    }
-    }
+    \code{fitness of wildtype (aa)}
+    \code{fitness of heterozygote (aA)}
+    \code{fitness of homozygote mutant (AA)}
+    \code{Ancestral type that representes the mutant allele A}
 }
 
   \item{pop_size}{

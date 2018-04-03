@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.40 - Collapsed selection functions \cr
    Version 0.39 - Added support for non-additive selection \cr
    Version 0.38 - Added track frequencies \cr
    Version 0.37 - Removed selection on regions \cr
