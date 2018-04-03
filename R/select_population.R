@@ -161,13 +161,13 @@ select_population <- function(source_pop,
   final_freq_tibble <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
                                                      select_matrix)
 
-  output <- list("population" = popstruct,
+  output <- list("population" = selected_popstruct,
                  "initial_frequency" = initial_freq_tibble,
                  "final_frequency" = final_freq_tibble)
 
   if(track_frequency == TRUE) {
 
-    output <- list("population" = popstruct,
+    output <- list("population" = selected_popstruct,
                    "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
                                                                  select_matrix),
                    "initial_frequency" = initial_freq_tibble,
