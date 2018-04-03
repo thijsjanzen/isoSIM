@@ -62,9 +62,8 @@ A list with: \code{population} a population object, and \code{frequencies} a tib
 }
 
 \examples{
-selection_matrix <- matrix(ncol=3, nrow = 2)
-selection_matrix[1,] <- c(0.2, 0.3, 1)
-selection_matrix[2,] <- c(0.6, 0.7, 2)
+selection_matrix <- matrix(ncol=5, nrow = 1)
+selection_matrix[1,] <- c(0.5, 1.0, 1.0, 1.2, 1)
 
 selected_pop <- create_population_selection(pop_size = 100,
                                             number_of_founders = 10,

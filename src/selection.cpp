@@ -208,6 +208,50 @@ List create_population_selection_cpp(NumericMatrix select,
                          Named("frequencies") = frequencies_table);
 }
 
+/*
+// [[Rcpp::export]]
+List create_population_selection_test_cpp(NumericMatrix select,
+                                     int pop_size,
+                                     int number_of_founders,
+                                     int total_runtime,
+                                     double morgan,
+                                     bool progress_bar,
+                                     bool track_frequency)
+{
+    std::vector< Fish > Pop;
+    for(int i = 0; i < pop_size; ++i) {
+        Fish p1 = Fish( random_number( number_of_founders ) );
+        Fish p2 = Fish( random_number( number_of_founders ) );
+
+        Pop.push_back(mate(p1,p2, morgan));
+    }
+
+    NumericMatrix frequencies_table;
+    if(track_frequency) {
+        frequencies_table = NumericMatrix(total_runtime, number_of_founders);
+    }
+
+
+
+
+    std::vector<Fish> outputPop = selectPopulation(Pop,
+                                                   select,
+                                                   pop_size,
+                                                   total_runtime,
+                                                   morgan,
+                                                   progress_bar,
+                                                   frequencies_table,
+                                                   track_frequency);
+
+    return List::create( Named("population") = convert_to_list(outputPop),
+                        Named("frequencies") = frequencies_table);
+}
+*/
+
+
+
+
+
 // [[Rcpp::export]]
 List select_population_cpp(Rcpp::NumericVector v1,
                            Rcpp::NumericMatrix selectM,
@@ -238,7 +282,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
         frequencies_table = NumericMatrix(run_time, 1 + number_of_founders);
     }
 
-
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
                                                    population_size,
@@ -249,7 +292,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    track_frequency);
 
     return List::create( Named("population") = convert_to_list(outputPop),
-                        Named("frequencies") = frequencies_table);
+                         Named("frequencies") = frequencies_table);
 }
 
 
