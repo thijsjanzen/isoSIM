@@ -73,11 +73,6 @@ double calculate_fitness_twoAllele(const Fish& focal,
     double fitness = 0.0;
     for(int i = 0; i < num_alleles.size(); ++i) {
         int fitness_index = 1 + num_alleles[i];
-
-        if(fitness_index > 3) {
-            Rcout << num_alleles[i] << "\t" << fitness_index << "\n";
-        }
-
         fitness += select(i, fitness_index);
     }
 

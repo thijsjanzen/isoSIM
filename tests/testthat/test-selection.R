@@ -14,6 +14,27 @@ test_that("select population two_alleles", {
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
+
+  calculate_marker_frequency(selected_pop, 0.5)
+
+
+  number_of_founders <- 10
+  run_time <- 100
+
+  selected_pop <- isoSIM::create_population_selection(pop_size = 100,
+                                                      number_of_founders,
+                                                      total_runtime = run_time,
+                                                      morgan = 1,
+                                                      select_matrix,
+                                                      seed = 1234,
+                                                      track_frequency = TRUE)
+
+  testthat::expect_equal(length(selected_pop$population), 100)
+  testthat::expect_true(verify_population(selected_pop$population))
+  testthat::expect_equal(dim(selected_pop$initial_frequency)[[1]], number_of_founders)
+  testthat::expect_equal(dim(selected_pop$final_frequency)[[1]], number_of_founders)
+
+  testthat::expect_equal(dim(selected_pop$frequencies)[[1]], run_time * number_of_founders)
 })
 
 test_that("select on population", {
@@ -30,7 +51,7 @@ test_that("select on population", {
   s <- 0.1
   select_matrix[1, ] <- c(0.05, 1.0, 1+0.5*s, 1+s, 0)
 
-  selected_pop <- select_population(sourcepop, select_matrix,
+  selected_pop <- isoSIM::select_population(sourcepop, select_matrix,
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
@@ -151,5 +172,31 @@ test_that("selection abuse", {
                       seed = 1234,
                       track_frequency = TRUE),
     "Can not track the frequency of more than one marker"
+  )
+
+
+  select_matrix <- matrix(ncol = 3, nrow = 1)
+  s <- 0.1
+  select_matrix[1,] <- c(0.5, 0.1, 0.2)
+
+  testthat::expect_error(
+    select_population(sourcepop, select_matrix,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234,
+                      track_frequency = TRUE),
+    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
+  )
+
+  testthat::expect_error(
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234,
+                                track_frequency = TRUE),
+    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
   )
 })
