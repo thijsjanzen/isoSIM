@@ -55,8 +55,8 @@ create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
     found_markers <- rbind(found_markers, freq_tibble)
   }
   colnames(found_markers) <- c("time", "location", 0:(length(frequencies[1,])-1))
-  found_markers <- as.tibble(found_markers)
-  found_markers <- gather(found_markers, key = "ancestor", value = "frequency",
+  found_markers <- tibble::as.tibble(found_markers)
+  found_markers <- tidyr::gather(found_markers, key = "ancestor", value = "frequency",
                           -c(1,2))
 
   return(found_markers)
