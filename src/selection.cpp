@@ -181,6 +181,23 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
+arma::mat update_all_frequencies(const std::vector< Fish >& pop,
+                                 const NumericMatrix& select_matrix,
+                                 int number_of_founders) {
+
+    arma::mat output(select_matrix.nrow(), number_of_founders);
+
+    for(int i = 0; i < select_matrix.nrow(); ++i) {
+        NumericVector v = update_frequency(pop, select_matrix(i, 0), number_of_founders);
+        for(int j = 0; j < v.size(); ++j) {
+            output(i, j) = v(j);
+        }
+    }
+    return(output);
+}
+
+
+
 // [[Rcpp::export]]
 List create_population_selection_cpp(NumericMatrix select,
                                                  int pop_size,
@@ -199,11 +216,14 @@ List create_population_selection_cpp(NumericMatrix select,
     }
 
     arma::cube frequencies_table;
+
     if(track_frequency) {
         int number_entries = select.nrow();
         arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
+
+    arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                           select,
@@ -213,56 +233,16 @@ List create_population_selection_cpp(NumericMatrix select,
                                                           progress_bar,
                                                           frequencies_table,
                                                           track_frequency);
-    
-    return List::create( Named("population") = convert_to_list(outputPop),
-                         Named("frequencies") = frequencies_table);
-}
 
-/*
-// [[Rcpp::export]]
-List create_population_selection_arma_cpp(NumericMatrix select,
-                                     int pop_size,
-                                     int number_of_founders,
-                                     int total_runtime,
-                                     double morgan,
-                                     bool progress_bar,
-                                     bool track_frequency)
-{
-    std::vector< Fish > Pop;
-    for(int i = 0; i < pop_size; ++i) {
-        Fish p1 = Fish( random_number( number_of_founders ) );
-        Fish p2 = Fish( random_number( number_of_founders ) );
-
-        Pop.push_back(mate(p1,p2, morgan));
-    }
-
-    arma::cube frequencies_table;
-    if(track_frequency) {
-        int number_entries = select.nrow();
-        arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
-        frequencies_table = x;
-    }
+    arma::mat final_frequencies = update_all_frequencies(Pop, select, number_of_founders);
 
 
-
-
-    std::vector<Fish> outputPop = selectPopulation_arma(Pop,
-                                                   select,
-                                                   pop_size,
-                                                   total_runtime,
-                                                   morgan,
-                                                   progress_bar,
-                                                   frequencies_table,
-                                                   track_frequency);
 
     return List::create( Named("population") = convert_to_list(outputPop),
-                         Named("frequencies") = frequencies_table);
+                         Named("frequencies") = frequencies_table,
+                         Named("initial_frequencies") = initial_frequencies,
+                         Named("final_frequencies") = final_frequencies);
 }
-
-*/
-
-
-
 
 // [[Rcpp::export]]
 List select_population_cpp(Rcpp::NumericVector v1,
@@ -275,26 +255,29 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-    arma::cube frequencies_table;
-    if(track_frequency) {
-        int number_of_founders = 0;
-        for(auto it = Pop.begin(); it != Pop.end(); ++it) {
-            for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
-                if((*i).right > number_of_founders) {
-                    number_of_founders = (*i).right;
-                }
-            }
-            for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
-                if((*i).right > number_of_founders) {
-                    number_of_founders = (*i).right;
-                }
+    int number_of_founders = 0;
+    for(auto it = Pop.begin(); it != Pop.end(); ++it) {
+        for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+            if((*i).right > number_of_founders) {
+                number_of_founders = (*i).right;
             }
         }
+        for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
+            if((*i).right > number_of_founders) {
+                number_of_founders = (*i).right;
+            }
+        }
+    }
+
+    arma::cube frequencies_table;
+    if(track_frequency) {
 
         int number_entries = selectM.nrow();
         arma::cube x(run_time, number_of_founders, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
+
+    arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
@@ -305,8 +288,12 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    frequencies_table,
                                                    track_frequency);
 
+    arma::mat final_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
+
     return List::create( Named("population") = convert_to_list(outputPop),
-                         Named("frequencies") = frequencies_table);
+                        Named("frequencies") = frequencies_table,
+                        Named("initial_frequencies") = initial_frequencies,
+                        Named("final_frequencies") = final_frequencies);
 }
 
 

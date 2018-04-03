@@ -51,7 +51,7 @@ select_population(source_pop, select_matrix,
 }
 
 \value{
-A list with: \code{population} a population object, and \code{frequencies} a tibble containing the ancestral frequencies - this tibble is only included if \code{track_frequency} = TRUE. The tibble contains four columns, \code{time}, \code{location}, \code{ancestor} and \code{frequency}, which indicates the number of generations, the location along the chromosome of the marker, the ancestral allele at that location in that generation, and finally, the frequency of that allele.
+A list with: \code{population} a population object, and three tibbles with allele frequencies: \code{frequencies} (if \code{track_frequency} = TRUE), \code{initial_frequencies} and \code{final_frequencies}. Each tibble contains four columns, \code{time}, \code{location}, \code{ancestor} and \code{frequency}, which indicates the number of generations, the location along the chromosome of the marker, the ancestral allele at that location in that generation, and finally, the frequency of that allele.
 }
 \author{
  Thijs Janzen
