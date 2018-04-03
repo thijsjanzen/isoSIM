@@ -15,7 +15,7 @@ test_that("select population two_alleles", {
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 
-  calculate_marker_frequency(selected_pop, 0.5)
+  calculate_marker_frequency(selected_pop$population, 0.5)
 
 
   number_of_founders <- 10
