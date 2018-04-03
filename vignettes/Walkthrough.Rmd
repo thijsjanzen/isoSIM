@@ -187,7 +187,9 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 # Selection
 Selection for specific markers (e.g. SNPs) can potentially cause local allelel frequency biases, and influence genetic patterns within the population as a whole.
 
-A perhaps more interesting simulation would be one where the heterozygote has an advantage over the other genotypes
+The user can provide a selection 'matrix' that specifies how selection acts upon different genotypes. As genotypes we indicate here 'aa' (wildtype), 'aA' (heterozygote) and 'AA' (homozygote with allele under selection), where wildtype is any allele not under selection. As alleles under selection we take the general genomic content of ancestors, and hence alleles refer to anestors. 
+
+A perhaps interesting simulation would be one where the heterozygote has an advantage over the other genotypes
 ```{r heterozygote selection}
 s <- 0.1
 selection_matrix <- matrix(nrow = 1, ncol = 5)
@@ -208,7 +210,7 @@ ggplot(selected_pop$frequencies, aes(y = frequency, x = time, col = as.factor(an
 
 Indeed we observe that the frequencies of both ancestors are in equilibrium around 0.5, as expected.
 
-Lastly, an interesting simulation would be where we give only the homozygous mutant a selective benefit. Here we expect that it takes some time before the homozygote takes over.
+Another interesting simulation would be where we give only the homozygous mutant a selective benefit. Here we expect that it takes some time before the homozygote takes over.
 
 ```{r homozygote selection}
 s <- 0.1

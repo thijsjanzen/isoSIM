@@ -173,4 +173,5 @@ select_population <- function(source_pop,
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }
+  return(output)
 }
