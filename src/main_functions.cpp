@@ -93,11 +93,11 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
 
             Fish kid = mate(Pop[index1], Pop[index2], Morgan);
             
-            if(verify_individual_cpp(kid)) {
+           // if(verify_individual_cpp(kid)) {
                 newGeneration.push_back(kid);
-            } else {
-                Rcout << "\n After " << t << " generations, verify individual failed\n"; R_FlushConsole();
-            }
+           // } else {
+            //    Rcout << "\n After " << t << " generations, verify individual failed\n"; R_FlushConsole();
+            //}
         }
 
         Pop = newGeneration;
@@ -112,9 +112,9 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
             return(Pop);
         }
 
-        if(!verify_pop_cpp(Pop)) {
-            Rcout << "\n After " << t << " generations, verify population failed\n"; R_FlushConsole();
-        }
+      //  if(!verify_pop_cpp(Pop)) {
+      //      Rcout << "\n After " << t << " generations, verify population failed\n"; R_FlushConsole();
+      //  }
 
         Rcpp::checkUserInterrupt();
     }
@@ -174,9 +174,9 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 {
     std::vector<Fish> Pop;
 
-    if(!verify_pop_cpp(founders)) {
-        Rcout << "Verify founders in create_line failed\n"; R_FlushConsole();
-    }
+    // if(!verify_pop_cpp(founders)) {
+    //    Rcout << "Verify founders in create_line failed\n"; R_FlushConsole();
+    // }
 
     if(founders.size() == 2) {
         for(int i = 0; i < popSize; ++i) {
@@ -199,9 +199,9 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
 
     }
 
-    if(!verify_pop_cpp(Pop)) {
-        Rcout << "Creation in create_line failed\n"; R_FlushConsole();
-    }
+  //  if(!verify_pop_cpp(Pop)) {
+  //      Rcout << "Creation in create_line failed\n"; R_FlushConsole();
+  //  }
 
     Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar);
     return(Pop);
@@ -509,137 +509,3 @@ void test_fish_functions() {
 
     return;
 }
-
-
-
-/*
- // [[Rcpp::export]]
- List test_conversion_fish(NumericVector v)
- {
- Rcout << "This is test_conversion_fish\n";
- std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
- Rcout << "convert_NumericVector_to_fishVector done\n";
-
- List output = convert_to_list(founders);
-
- Rcout << "output list done\n";
- return output;
- }
-
- // [[Rcpp::export]]
- List test_conversion_fish_old(NumericVector v)
- {
-
- std::vector< Fish > founders = convert_NumericVector_to_fishVector(v);
-
- return List::create( Named("population") = createPopVector(founders));
- }
- */
-
-
-
-/*
-
- std::vector<double> createPopVector(const std::vector< Fish >& v) {
- std::vector<double> output;
- for(auto it = v.begin(); it != v.end(); ++it) {
-
- for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
- output.push_back((*i).pos);
- output.push_back((*i).right);
- }
-
- for(auto j = (*it).chromosome2.begin(); j != (*it).chromosome2.end(); ++j) {
- output.push_back((*j).pos);
- output.push_back((*j).right);
- }
- }
- return(output);
- }
- */
-/*
- void flush_console() {
- R_FlushConsole();
- R_ProcessEvents();
- R_CheckUserInterrupt();
- }
- */
-
-
-/*
- Output continue_simulation(std::vector< Fish > Pop,
- int max_time,
- double morgan,
- int numberOfMarkers)
- {
- Output O;
- int popSize = (int)Pop.size();
-
- std::vector<double> markers;
- if(numberOfMarkers > 0) {
- for(int i = 0; i < numberOfMarkers; ) {
- double pos = uniform();
- if(pos > 0 && pos < 1.0) {
- ++i;
- markers.push_back(pos);
- }
- }
- std::sort(markers.begin(), markers.end());
- }
-
- for(int t = 0; t < max_time; ++t) {
- O.update(Pop);
- if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
-
- std::vector<Fish> newGeneration;
-
- for(int i = 0; i < popSize; ++i)  {
- int index1 = random_number(popSize);
- int index2 = random_number(popSize);
-
- Fish kid = mate(Pop[index1], Pop[index2], morgan);
-
- newGeneration.push_back(kid);
- }
-
- Pop = newGeneration;
- newGeneration.clear();
- Rcpp::checkUserInterrupt();
- }
-
- return O;
- }
- */
-
-/*
- void output_alleles(const std::vector<Fish>& v) {
- std::vector< int > alleles;
- for(int i = 0; i < v.size(); ++i) {
- for(int j = 0; j < v[i].chromosome1.size(); ++j) {
- int a = v[i].chromosome1[j].right;
- alleles.push_back(a);
- }
- for(int j = 0; j < v[i].chromosome2.size(); ++j) {
- int a = v[i].chromosome2[j].right;
- alleles.push_back(a);
- }
- }
-
- std::sort(alleles.begin(), alleles.end() );
- alleles.erase(std::unique(alleles.begin(), alleles.end()), alleles.end());
-
- for(int i = 0; i < alleles.size(); ++i) {
- Rcout << alleles[i] << "\t";
- }
- Rcout << "\n";
-
- return;
- }
- */
-
-
-
-
-
-
-

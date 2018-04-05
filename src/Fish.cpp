@@ -15,16 +15,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
-double getRecomPos() {
-    double pos = uniform();
-    while(pos == 0 || pos == 1.0) {
-        pos = uniform(); //code to avoid drawing exactly the borders of the chromosome
-    }
-
-    return pos;
-}
-
 void Recombine(      std::vector<junction>& offspring,
                const std::vector<junction>& chromosome1,
                const std::vector<junction>& chromosome2,
@@ -43,7 +33,7 @@ void Recombine(      std::vector<junction>& offspring,
 
     std::vector<double> recomPos(numRecombinations, 0);
     for(int i = 0; i < numRecombinations; ++i) {
-        recomPos[i] = getRecomPos();
+        recomPos[i] = uniform();
     }
     std::sort(recomPos.begin(), recomPos.end() );
     recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
