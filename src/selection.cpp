@@ -277,8 +277,10 @@ List select_population_cpp(Rcpp::NumericVector v1,
         frequencies_table = x;
     }
 
-    Rcout << "calculating initial_Frequencies\n";
+    Rcout << "calculating initial_frequencies for \t" << number_of_founders << " founders\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
+
+    Rcout << "starting simulation\n";
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
