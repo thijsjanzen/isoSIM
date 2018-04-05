@@ -1,6 +1,5 @@
 useDynLib(isoSIM)
 exportPattern("^[[:alpha:]]+")
-import(RcppArmadillo)
 importFrom(Rcpp, evalCpp)
 importFrom("graphics", "par", "plot", "rect", "barplot")
 importFrom("hierfstat","basic.stats")
