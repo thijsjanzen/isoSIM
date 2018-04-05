@@ -153,28 +153,6 @@ test_that("selection abuse", {
   select_matrix[1, ] <- c(0.05, 1.0, 1+0.5*s, 1+s, 0)
   select_matrix[2, ] <- c(0.15, 1.0, 1+0.5*s, 1+s, 0)
 
-  testthat::expect_error(
-    create_population_selection(pop_size = 100,
-                                number_of_founders = 10,
-                                total_runtime = 10,
-                                morgan = 1,
-                                select_matrix,
-                                seed = 1234,
-                                track_frequency = TRUE),
-    "Can not track the frequency of more than one marker"
-  )
-
-  testthat::expect_error(
-    select_population(sourcepop, select_matrix,
-                      pop_size = 1000,
-                      total_runtime = 1000,
-                      morgan = 1,
-                      seed = 1234,
-                      track_frequency = TRUE),
-    "Can not track the frequency of more than one marker"
-  )
-
-
   select_matrix <- matrix(ncol = 3, nrow = 1)
   s <- 0.1
   select_matrix[1,] <- c(0.5, 0.1, 0.2)

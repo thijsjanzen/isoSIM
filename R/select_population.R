@@ -75,12 +75,6 @@ create_population_selection <- function(pop_size,
     stop("Can't start, there are NA values in the selection matrix!\n")
   }
 
-  if (track_frequency == TRUE) {
-    if (length(select_matrix[,1]) > 1) {
-      stop("Can not track the frequency of more than one marker\n")
-    }
-  }
-
   if (dim(select_matrix)[[2]] != 5) {
     stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
   }
@@ -133,12 +127,6 @@ select_population <- function(source_pop,
   select <- select_matrix
   if (sum(is.na(select))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
-  }
-
-  if(track_frequency == TRUE) {
-    if(length(select_matrix[,1]) > 1) {
-      stop("Can not track the frequency of more than one marker\n")
-    }
   }
 
   if (dim(select_matrix)[[2]] != 5) {

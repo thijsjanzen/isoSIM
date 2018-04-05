@@ -98,6 +98,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
         }
         expected_max_fitness += local_max_fitness;
     }
+    Rcout << "calculated max fitness\n";
+
 
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
@@ -113,6 +115,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
         fitness.push_back(fit);
     }
+
+    Rcout << "initialized fitness of all individuals\n";
 
     int updateFreq = total_runtime / 20;
     if(updateFreq < 1) updateFreq = 1;
@@ -250,6 +254,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
+    Rcout << "assessing number of founders\n";
     int number_of_founders = 0;
     for(auto it = Pop.begin(); it != Pop.end(); ++it) {
         for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
@@ -272,6 +277,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         frequencies_table = x;
     }
 
+    Rcout << "calculating initial_Frequencies\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
@@ -283,6 +289,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    frequencies_table,
                                                    track_frequency);
 
+    Rcout << "calculating final frequencies\n";
     arma::mat final_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
 
     return List::create( Named("population") = convert_to_list(outputPop),
