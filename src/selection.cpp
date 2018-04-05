@@ -187,7 +187,9 @@ arma::mat update_all_frequencies(const std::vector< Fish >& pop,
     arma::mat output(select_matrix.nrow(), number_of_founders);
 
     for(int i = 0; i < select_matrix.nrow(); ++i) {
-        NumericVector v = update_frequency(pop, select_matrix(i, 0), number_of_founders);
+        NumericVector v = update_frequency(pop,
+                                           select_matrix(i, 0),
+                                           number_of_founders);
         for(int j = 0; j < v.size(); ++j) {
             output(i, j) = v(j);
         }
@@ -269,16 +271,18 @@ List select_population_cpp(Rcpp::NumericVector v1,
         }
     }
 
+    int num_alleles = 1 + number_of_founders; // because of counting from 0
+
     arma::cube frequencies_table;
     if(track_frequency) {
 
         int number_entries = selectM.nrow();
-        arma::cube x(run_time, number_of_founders, number_entries); // n_row, n_col, n_slices, type
+        arma::cube x(run_time, num_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
 
     Rcout << "calculating initial_frequencies for \t" << number_of_founders << " founders\n";
-    arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
+    arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, num_alleles);
 
     Rcout << "starting simulation\n";
 
@@ -292,7 +296,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    track_frequency);
 
     Rcout << "calculating final frequencies\n";
-    arma::mat final_frequencies = update_all_frequencies(Pop, selectM, number_of_founders);
+    arma::mat final_frequencies = update_all_frequencies(Pop, selectM, num_alleles);
 
     return List::create( Named("population") = convert_to_list(outputPop),
                         Named("frequencies") = frequencies_table,
@@ -327,11 +331,14 @@ int draw_prop_fitness(const std::vector<double> fitness,
     return -1;
 }
 
-NumericVector update_frequency(const std::vector< Fish >& v, double m, int num_alleles) {
+NumericVector update_frequency(const std::vector< Fish >& v,
+                               double m,
+                               int num_alleles) {
+
     NumericVector freq(num_alleles);
 
     for(auto it = v.begin(); it != v.end(); ++it) {
-        for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
+        for(auto i = ((*it).chromosome1.begin()+1); i != (*it).chromosome1.end(); ++i) {
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
                 freq(index)++;
@@ -339,7 +346,7 @@ NumericVector update_frequency(const std::vector< Fish >& v, double m, int num_a
             }
         }
 
-        for(auto i = (*it).chromosome2.begin(); i != (*it).chromosome2.end(); ++i) {
+        for(auto i = ((*it).chromosome2.begin()+1); i != (*it).chromosome2.end(); ++i) {
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
                 freq(index)++;
