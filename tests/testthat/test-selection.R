@@ -116,15 +116,13 @@ test_that("select population two_alleles multiple markers", {
   testthat::expect_true(verify_population(selected_pop$population))
 })
 
-
-
 test_that("select population two_alleles regions", {
   select_matrix <- matrix(ncol = 5, nrow = 2)
   s <- 0.1
   select_matrix[1, ] <- c(0.25, 1.0, 1+0.5*s, 1+s, 0)
   select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
-  track_freq <- c(0.1, 0.2, 20)
+  track_freq <- c(0.2, 0.3, 21)
 
   selected_pop <- isoSIM::create_population_selection(pop_size = 100,
                                                       number_of_founders = 10,

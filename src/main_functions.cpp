@@ -252,7 +252,6 @@ void create_two_pop_migration( std::vector< Fish >& p1,
     for(int i = 0; i < num_ancestors_per_pop; ++i) {
         parents1.push_back(Fish(i));
         parents2.push_back(Fish(i + num_ancestors_per_pop));
-
     }
 
     for(int i = 0; i < pop_size; ++i) {
