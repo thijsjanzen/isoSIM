@@ -311,12 +311,13 @@ int draw_prop_fitness(const std::vector<double> fitness,
                       double maxFitness) {
 
     if(maxFitness <= 0.0) {
+        Rcout << "maxFitness = " << maxFitness << "\n";
         Rcpp::stop("Cannot draw fitness if maxFitness <= 0");
         return(-1);
     }
 
     if(maxFitness > 100.0) {
-        Rcout << "maxFitness\n";
+        Rcout << "maxFitness = " << maxFitness << "\n";
         Rcpp::stop("It appears maxfitness has encountered a memory access violation\n");
         return(-1);
     }
