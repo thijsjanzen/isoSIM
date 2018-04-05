@@ -507,5 +507,14 @@ void test_fish_functions() {
 
     Fish test_fish4(chrom, chrom);
 
+    std::vector< Fish > pop;
+    pop.push_back(test_fish);
+    pop.push_back(test_fish2);
+    pop.push_back(test_fish3);
+    pop.push_back(test_fish4);
+
+    verify_pop_cpp(pop);
+
+
     return;
 }
