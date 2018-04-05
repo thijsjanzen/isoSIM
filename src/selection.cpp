@@ -256,9 +256,6 @@ List select_population_cpp(Rcpp::NumericVector v1,
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 
-    Rcout << "calculating number_of_founders\n";
-
-
     int number_of_founders = 0;
     for(auto it = Pop.begin(); it != Pop.end(); ++it) {
         for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
@@ -283,10 +280,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         frequencies_table = x;
     }
 
-    Rcout << "calculating initial frequencies\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, num_alleles);
-
-    Rcout << "starting simulation\n";
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
@@ -364,6 +358,3 @@ NumericVector update_frequency(const std::vector< Fish >& v,
     
     return(freq);
 }
-
-
-

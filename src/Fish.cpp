@@ -253,23 +253,24 @@ Fish::Fish(const std::vector<junction>& A,
     chromosome2 = B;
 }
 
+bool chromosomes_are_same(const std::vector< junction >& c1,
+                         const std::vector< junction >& c2) {
+
+    if(c1.size() != c2.size()) return false;
+
+    static double eps = 1e-4;
+    for(int i = 0; i < (int)c1.size(); ++i) {
+        double diffPos = c1[i].pos - c2[i].pos;
+        if(diffPos < -eps || diffPos > eps) return false;
+        if(c1[i].right != c2[i].right) return false;
+    }
+    return true;
+
+}
+
 bool Fish::operator ==(const Fish& other) const {
-    if(chromosome1.size() != other.chromosome1.size()) return false;
-    if(chromosome2.size() != other.chromosome2.size()) return false;
-
-    double eps = 1e-4;
-
-    for(int i = 0; i < (int)chromosome1.size(); ++i) {
-        double diffPos = chromosome1[i].pos - other.chromosome1[i].pos;
-        if(diffPos < -eps || diffPos > eps) return false;
-        if(chromosome1[i].right != other.chromosome1[i].right) return false;
-    }
-
-    for(int i = 0; i < (int)chromosome2.size(); ++i) {
-        double diffPos = chromosome2[i].pos - other.chromosome2[i].pos;
-        if(diffPos < -eps || diffPos > eps) return false;
-        if(chromosome2[i].right != other.chromosome2[i].right) return false;
-    }
+    if(!chromosomes_are_same(chromosome1, other.chromosome1)) return false;
+    if(!chromosomes_are_same(chromosome2, other.chromosome2)) return false;
 
     return true;
 }
