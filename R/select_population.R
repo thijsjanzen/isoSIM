@@ -26,6 +26,36 @@ calculate_allele_frequencies <- function(source_pop,
 }
 
 create_tibble_from_freq_table <- function(frequencies, select_matrix) {
+  input_list <- list()
+  for(i in 1:(dim(frequencies)[[3]])) {
+    local_mat <- frequencies[,,i]
+    input_list[[i]] <- local_mat;
+  }
+
+  to_apply <- function(local_mat, i) {
+    time <- 0:(length(local_mat[[i]][,1])-1)
+    marker_indicator <- rep(select_matrix[i, 1], length(time))
+    freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat[[i]]))
+    colnames(freq_tibble) <- c("time", "location", 0:(length(local_mat[[i]][1,])-1))
+
+    freq_tibble <- tidyr::gather(freq_tibble,
+                                 key = "ancestor",
+                                 value = "frequency",
+                                 -c(1,2))
+    return(as.data.frame(freq_tibble))
+  }
+
+#  interm_list <- lapply(input_list, to_apply)
+  interm_list <- lapply(seq_along(input_list), to_apply, local_mat = input_list)
+   vy <- tibble::as.tibble(dplyr::bind_rows(interm_list))
+
+  return(vy);
+}
+
+
+
+
+create_tibble_from_freq_table_old <- function(frequencies, select_matrix) {
   found_markers <- c()
   for(i in 1:(dim(frequencies)[[3]])) {
     local_mat <- frequencies[,,i]

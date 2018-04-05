@@ -20,9 +20,7 @@ create_population_selection_region <- function(pop_size,
   # start, end, number of markers
   # we append these to the select_matrix
 
-  select_matrix_for_later_analysis <- select_matrix
-
-  markers <- seq(track_frequency[1],
+   markers <- seq(track_frequency[1],
                  track_frequency[2],
                  length.out = track_frequency[3])
 
