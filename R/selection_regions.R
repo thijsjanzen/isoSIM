@@ -29,6 +29,8 @@ create_population_selection_region <- function(pop_size,
   # remove duplicate entries
   select_matrix <- select_matrix[-vx,]
 
+  track_frequency <- TRUE
+
   set.seed(seed)
   pop <- create_population_selection_cpp(select_matrix,
                                          pop_size,
@@ -95,6 +97,8 @@ select_population_region <- function(source_pop,
   vx <- which(duplicated(select_matrix[,1]))
   # remove duplicate entries
   select_matrix <- select_matrix[-vx,]
+
+  track_frequency <- TRUE
 
   set.seed(seed)
   selected_pop <- select_population_cpp(pop_for_cpp,
