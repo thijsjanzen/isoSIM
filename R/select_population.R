@@ -45,33 +45,10 @@ create_tibble_from_freq_table <- function(frequencies, select_matrix) {
     return(as.data.frame(freq_tibble))
   }
 
-#  interm_list <- lapply(input_list, to_apply)
   interm_list <- lapply(seq_along(input_list), to_apply, local_mat = input_list)
-   vy <- tibble::as.tibble(dplyr::bind_rows(interm_list))
+  vy <- tibble::as.tibble(dplyr::bind_rows(interm_list))
 
   return(vy);
-}
-
-
-
-
-create_tibble_from_freq_table_old <- function(frequencies, select_matrix) {
-  found_markers <- c()
-  for(i in 1:(dim(frequencies)[[3]])) {
-    local_mat <- frequencies[,,i]
-    time <- 0:(length(local_mat[,1])-1)
-    marker_indicator <- rep(select_matrix[i, 1], length(time))
-    freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat))
-    colnames(freq_tibble) <- c("time", "location", 0:(length(local_mat[1,])-1))
-
-    freq_tibble <- tidyr::gather(freq_tibble,
-                                 key = "ancestor",
-                                 value = "frequency",
-                                 -c(1,2))
-
-    found_markers <- rbind(found_markers, freq_tibble)
-  }
-  return(freq_tibble)
 }
 
 create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
@@ -107,6 +84,22 @@ create_population_selection <- function(pop_size,
 
   if (dim(select_matrix)[[2]] != 5) {
     stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
+  }
+
+  if(length(track_frequency == 3))  {
+    markers <- seq(track_frequency[1],
+                   track_frequency[2],
+                   length.out = track_frequency[3])
+
+    to_add <- cbind(markers, 1, 1, 1, -1)
+    select_matrix <- rbind(select_matrix, to_add)
+    vx <- which(duplicated(select_matrix[,1]))
+    # remove duplicate entries
+    if(length(vx) > 0) {
+      select_matrix <- select_matrix[-vx,]
+    }
+
+    track_frequency <- TRUE
   }
 
   set.seed(seed)
@@ -161,6 +154,22 @@ select_population <- function(source_pop,
 
   if (dim(select_matrix)[[2]] != 5) {
     stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
+  }
+
+  if(length(track_frequency == 3))  {
+    markers <- seq(track_frequency[1],
+                   track_frequency[2],
+                   length.out = track_frequency[3])
+
+    to_add <- cbind(markers, 1, 1, 1, -1)
+    select_matrix <- rbind(select_matrix, to_add)
+    vx <- which(duplicated(select_matrix[,1]))
+    # remove duplicate entries
+    if(length(vx) > 0) {
+      select_matrix <- select_matrix[-vx,]
+    }
+
+    track_frequency <- TRUE
   }
 
   set.seed(seed)

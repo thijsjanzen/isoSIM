@@ -44,7 +44,9 @@ create_population_selection(pop_size, number_of_founders,
 }
 
 \item{track_frequency}{
-  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. See also \code{details}
+  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. \item{track_frequency}{
+  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. Alternatively, the user can provide a region for which a fixed number of markers is tracked. The user does this by providing a vector with three entries: \code{start}, \code{end}, \code{number_of_markers}.
+}
 }
 
 \item{progress_bar}{
