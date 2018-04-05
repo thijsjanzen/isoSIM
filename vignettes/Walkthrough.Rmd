@@ -197,7 +197,7 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0 + s, 1.0, 
                            0)
 
-  selected_pop <- create_population_selection(pop_size = 1000,
+  selected_pop <- isoSIM::create_population_selection(pop_size = 1000,
                                                            number_of_founders = 2,
                                                            total_runtime = 100,
                                                            morgan = 1,

@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.44 - Added tracking regions \cr
    Version 0.43 - Fixed bugs in select_population \cr
    Version 0.42 - Added initial and final frequency tables \cr
    Version 0.41 - Added multiple marker support \cr

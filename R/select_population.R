@@ -86,7 +86,7 @@ create_population_selection <- function(pop_size,
     stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
   }
 
-  if(length(track_frequency == 3))  {
+  if(length(track_frequency) == 3)  {
     markers <- seq(track_frequency[1],
                    track_frequency[2],
                    length.out = track_frequency[3])
@@ -156,7 +156,7 @@ select_population <- function(source_pop,
     stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
   }
 
-  if(length(track_frequency == 3))  {
+  if(length(track_frequency) == 3)  {
     markers <- seq(track_frequency[1],
                    track_frequency[2],
                    length.out = track_frequency[3])
