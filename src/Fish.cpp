@@ -39,7 +39,7 @@ void Recombine(      std::vector<junction>& offspring,
     recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
 
     while (recomPos.size() < numRecombinations) {
-        double pos = getRecomPos();
+        double pos = uniform();
         recomPos.push_back(pos);
         // sort them, in case they are not sorted yet
         // we need this to remove duplicates, and later
