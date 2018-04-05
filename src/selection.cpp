@@ -51,7 +51,7 @@ double calculate_fitness_twoAllele(const Fish& focal,
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 4);
         }
-        if(anc < 0) break;
+        if(anc < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
     }
 
     focal_marker = 0;
@@ -68,13 +68,15 @@ double calculate_fitness_twoAllele(const Fish& focal,
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 4);
         }
-        if(anc < 0) break;
+        if(anc < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
     }
 
     double fitness = 0.0;
     for(int i = 0; i < num_alleles.size(); ++i) {
         int fitness_index = 1 + num_alleles[i];
-        fitness += select(i, fitness_index);
+        if(fitness_index < 4) {
+            fitness += select(i, fitness_index);
+        }
     }
 
     return(fitness);
@@ -91,6 +93,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
     double expected_max_fitness = 1e-6;
     for(int j = 0; j < select.nrow(); ++j) {
+        if(select(j,4) < 0) break; // these entries are only for tracking, not for selection calculations
         double local_max_fitness = 0.0;
         for(int i = 1; i < 4; ++i) {
             if(select(j, i) > local_max_fitness) {
