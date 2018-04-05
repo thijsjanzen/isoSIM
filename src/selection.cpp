@@ -51,7 +51,7 @@ double calculate_fitness_twoAllele(const Fish& focal,
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 4);
         }
-
+        if(anc < 0) break;
     }
 
     focal_marker = 0;
@@ -68,6 +68,7 @@ double calculate_fitness_twoAllele(const Fish& focal,
             pos = select(focal_marker, 0);
             anc = select(focal_marker, 4);
         }
+        if(anc < 0) break;
     }
 
     double fitness = 0.0;
