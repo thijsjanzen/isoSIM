@@ -88,19 +88,19 @@ It gets more interesting if we create two populations, and draw iso-females from
 First, we have to create two populations. 
 ```{r create two populations}
 
-population_1 <- create_population(pop_size = 1000, 
+population_1 <- create_population(pop_size = 100, 
                                           number_of_founders = 20,
-                                          total_runtime = 10, 
+                                          total_runtime = 1000, 
                                           morgan = 1, 
                                           seed = 42)
 
-population_2 <- create_population(pop_size = 1000, 
+population_2 <- create_population(pop_size = 100, 
                                           number_of_founders = 20,
-                                          total_runtime = 10, 
+                                          total_runtime = 1000, 
                                           morgan = 1, 
                                           seed = 24)
 
-population_2 <- increase_ancestor(population_2)
+population_2 <- increase_ancestor(population_2, increment = 20)
 ```
 To make sure that the two populations dont share ancestor indices, we use the function 'increase_ancestor'. 
 
