@@ -29,16 +29,19 @@ test_that("create_population_from_isofemales", {
   morgan <- 1
   overlap <- 0.5
 
-  vx <- isoSIM::create_two_populations(pop_size, number_of_founders,
-                               run_time, morgan, 42,
-                               overlap)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
+  pop2 <- increase_ancestor(pop2, number_of_founders)
 
-  female_1 <- create_iso_female(vx$Population_1, n = 1,
+  testthat::expect_true(verify_population(pop1))
+  testthat::expect_true(verify_population(pop2))
+
+  female_1 <- create_iso_female(pop1, n = 1,
                                 run_time = 2000, seed = 1)
-  female_2 <- create_iso_female(vx$Population_2, n = 1,
+  female_2 <- create_iso_female(pop2, n = 1,
                                 run_time = 2000, seed = 2)
 
 
@@ -47,7 +50,7 @@ test_that("create_population_from_isofemales", {
   testthat::expect_true(verify_individual(female_2[[1]]))
 
 
-  females <- isoSIM::create_iso_female(vx$Population_1, n = 2, run_time = 2000)
+  females <- isoSIM::create_iso_female(pop1, n = 2, run_time = 2000)
 
   vy <- isoSIM::create_population_from_individuals(females,
                                                    pop_size, 2000,
@@ -117,26 +120,23 @@ test_that("cpp classes", {
 
 
 test_that("create_population_from_individuals", {
-  two_populations <- create_two_populations(pop_size = 100,
-                                            number_of_founders = 20,
-                                            total_runtime = 5,
-                                            morgan = 1,
-                                            seed = 42,
-                                            overlap = 0.25)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  testthat::expect_true(verify_population(two_populations$Population_1))
-  testthat::expect_true(verify_population(two_populations$Population_2))
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
+  pop2 <- increase_ancestor(pop2, number_of_founders)
 
+  testthat::expect_true(verify_population(pop1))
+  testthat::expect_true(verify_population(pop2))
 
-
-
-  isofemale_1 <- create_iso_female(source_pop = two_populations$Population_1,
+  isofemale_1 <- create_iso_female(source_pop = pop1,
                                    n = 1,
                                    inbreeding_pop_size = 100,
                                    run_time = 2000,
                                    morgan = 1)
 
-  isofemale_2 <- create_iso_female(source_pop = two_populations$Population_2,
+  isofemale_2 <- create_iso_female(source_pop = pop2,
                                    n = 1,
                                    inbreeding_pop_size = 100,
                                    run_time = 2000,
@@ -165,7 +165,7 @@ test_that("create_population_from_individuals", {
 
   testthat::expect_true(verify_population(mixed_population))
 
-  isofemales <- create_iso_female(source_pop = two_populations$Population_1,
+  isofemales <- create_iso_female(source_pop = pop1,
                                   n = 5,
                                   inbreeding_pop_size = 100,
                                   run_time = 2000,

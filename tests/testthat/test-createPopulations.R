@@ -29,39 +29,6 @@ test_that("create_population", {
   plot(vx[[1]])
 })
 
-test_that("create_two_populations", {
-  pop_size <- 100
-  number_of_founders <- 10
-  run_time <- 100
-  morgan <- 1
-  overlap <- 0.5
-
-  vx <- create_two_populations(pop_size, number_of_founders,
-                         run_time, morgan, 42,
-                         overlap)
-})
-
-test_that("create_two_full_populations", {
-  pop_size <- 100
-  number_of_founders <- 10
-  run_time <- 100
-  morgan <- 1
-  overlap <- 0.5
-
-  vx <- create_two_populations(pop_size, number_of_founders,
-                         run_time, morgan, 42,
-                         overlap)
-
-  expect_equal(length(vx$Population_1), pop_size)
-  expect_equal(length(vx$Population_2), pop_size)
-
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
-
-
-  print(vx$Population_1)
-  print(vx$Population_2)
-})
 
 test_that("migration",{
   pops_migration <- create_two_populations_migration(pop_size = 100,

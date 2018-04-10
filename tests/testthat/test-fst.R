@@ -5,17 +5,17 @@ testthat::test_that("fst", {
   number_of_founders <- 20
   run_time <- 1
   morgan <- 1
-  overlap <- 0.1
 
-  vx <- create_two_populations(pop_size, number_of_founders,
-                               run_time, morgan, 42,
-                               overlap)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
 
-  pop1 <- vx$Population_1
-  pop2 <- vx$Population_2
+  pop2 <- increase_ancestor(pop2, number_of_founders)
+
+  testthat::expect_true(verify_population(pop1))
+  testthat::expect_true(verify_population(pop2))
 
   number_of_markers <- 100
   sampled_individuals <- 10
@@ -35,15 +35,15 @@ testthat::test_that("fst", {
   morgan <- 1
   overlap <- 0.0
 
-  vx <- create_two_populations(pop_size, number_of_founders,
-                               run_time, morgan, 42,
-                               overlap)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  testthat::expect_true(verify_population(vx$Population_1))
-  testthat::expect_true(verify_population(vx$Population_2))
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
+  pop2 <- increase_ancestor(pop2, number_of_founders)
 
-  pop1 <- vx$Population_1
-  pop2 <- vx$Population_2
+  testthat::expect_true(verify_population(pop1))
+  testthat::expect_true(verify_population(pop2))
 
   number_of_markers <- 100
   v1 <- calculate_fst(pop1, pop2,
