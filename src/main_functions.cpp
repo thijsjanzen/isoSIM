@@ -329,28 +329,6 @@ List create_isofemale_line_cpp(NumericVector v,
     return List::create( Named("population") = convert_to_list(Pop) );
 }
 
-
-// [[Rcpp::export]]
-List create_two_populations_cpp(int pop_size,
-                            int number_of_founders,
-                            int total_runtime,
-                            double morgan,
-                            double overlap,
-                            bool progress_bar) {
-
-    std::vector<Fish> Pop1 = createPopulation(pop_size, number_of_founders,
-                                              total_runtime, morgan, overlap, 0,
-                                              progress_bar);
-
-    std::vector<Fish> Pop2 = createPopulation(pop_size, number_of_founders,
-                                              total_runtime, morgan, overlap, 1,
-                                              progress_bar);
-
-    return List::create( Named("population_1") = convert_to_list(Pop1),
-                         Named("population_2") = convert_to_list(Pop2)
-                       );
-}
-
 // [[Rcpp::export]]
 List create_two_populations_migration_cpp(int pop_size,
                                           int number_of_founders,

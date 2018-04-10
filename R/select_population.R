@@ -202,3 +202,18 @@ select_population <- function(source_pop,
   }
   return(output)
 }
+
+increase_ancestor <- function(pop, increment = 100) {
+  increase_indiv <- function(indiv) {
+    indiv$chromosome1[,2] <- indiv$chromosome1[,2] + increment
+    indiv$chromosome2[,2] <- indiv$chromosome2[,2] + increment
+    return(indiv)
+  }
+
+  pop_2 <- lapply(pop, increase_indiv);
+  class(pop_2) <- "population"
+  return(pop_2)
+}
+
+
+
