@@ -87,18 +87,26 @@ plot_chromosome(isofemale[[1]]$chromosome1, xmin = 0.0, xmax = 0.5)
 It gets more interesting if we create two populations, and draw iso-females from them, and cross these.
 First, we have to create two populations. 
 ```{r create two populations}
-two_populations <- create_two_populations(pop_size = 1000, 
+
+population_1 <- create_population(pop_size = 1000, 
                                           number_of_founders = 20,
                                           total_runtime = 10, 
                                           morgan = 1, 
-                                          seed = 42,
-                                          overlap = 0.25)
+                                          seed = 42)
+
+population_2 <- create_population(pop_size = 1000, 
+                                          number_of_founders = 20,
+                                          total_runtime = 10, 
+                                          morgan = 1, 
+                                          seed = 24)
+
+population_2 <- increase_ancestor(population_2)
 ```
-Syntax to create two populations is identical to creating one, save the parameter 'overlap'. This determines the fraction of founders shared by the two populations. 
+To make sure that the two populations dont share ancestor indices, we use the function 'increase_ancestor'. 
 
 Now that we have two populations, we can generate two different iso-females from them:
 ```{r draw two isofemales}
-isofemales <- create_iso_female(source_pop = two_populations$Population_1,
+isofemales <- create_iso_female(source_pop = population_1,
                                n = 2,
                                inbreeding_pop_size = 100,
                                run_time = 10000,
@@ -127,8 +135,8 @@ plot(mixed_population[[1]])
 We can show the effect of overlap by calculating the Fst value:
 ```{r calc FST}
 
-FST <- calculate_fst(two_populations$Population_1,
-                 two_populations$Population_2,
+FST <- calculate_fst(population_1,
+                 population_2,
                  sampled_individuals = 10,
                  number_of_markers = 100,
                  random_markers = TRUE)

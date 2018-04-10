@@ -2,7 +2,7 @@
 title: "Demonstrate isofemales"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Walkthrough}
+  %\VignetteIndexEntry{Demonstrate isofemales}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.width=6) 
 ```
 
-# ISOSIM
+# Creation of isofemale lines
 The package isoSIM was designed to simulate the generation of iso-female lines, and simulate genomic changes during, and after, formation of iso-female lines. Furthermore, it allows for simulation of effects after crossing individuals from iso-female lines.
 
 ```{r}
