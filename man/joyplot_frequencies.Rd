@@ -35,6 +35,8 @@ joyplot_frequencies(frequencies, time_points, picked_ancestor)
   select_matrix <- matrix(nrow = 1, ncol = 5)
   select_matrix[1, ] <- c(0.25, 1.0, 1 + 0.5 * s, 1 + s, 0)
 
+  track_freq <- c(0.2, 0.3, 100)
+
   selected_pop <- isoSIM::create_population_selection(pop_size = 1000,
                                                     number_of_founders = 10,
                                                     total_runtime = 11,

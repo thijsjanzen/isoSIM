@@ -203,7 +203,7 @@ select_population <- function(source_pop,
   return(output)
 }
 
-increase_ancestor <- function(pop, increment = 100) {
+increase_ancestor <- function(population, increment = 20) {
   increase_indiv <- function(indiv) {
 
     positive <- which(indiv$chromosome1[,2] > -1) # -1 indicates the end, no increment there!
@@ -214,7 +214,7 @@ increase_ancestor <- function(pop, increment = 100) {
     return(indiv)
   }
 
-  pop_2 <- lapply(pop, increase_indiv);
+  pop_2 <- lapply(population, increase_indiv);
   class(pop_2) <- "population"
   return(pop_2)
 }

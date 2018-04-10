@@ -16,7 +16,7 @@ increase_ancestor(population, increment)
     object of type 'chromosome'population'
 }
   \item{increment}{
-    Number to add to the ancestor index, should ideally be larger than the number of ancestors in the other population. Default is 100, which should normally suffice.
+    Number to add to the ancestor index, should ideally be larger than the number of ancestors in the other population. Default is 20, which should normally suffice.
 }
 }
 

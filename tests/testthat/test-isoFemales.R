@@ -120,6 +120,13 @@ test_that("cpp classes", {
 
 
 test_that("create_population_from_individuals", {
+
+  pop_size <- 100
+  number_of_founders <- 20
+  run_time <- 100
+  morgan <- 1
+
+
   pop1 <- create_population(pop_size, number_of_founders,
                             run_time, morgan, 42)
 
