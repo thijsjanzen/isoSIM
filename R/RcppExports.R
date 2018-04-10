@@ -13,10 +13,6 @@ create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan, progre
     .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, progress_bar)
 }
 
-create_two_populations_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, overlap, progress_bar) {
-    .Call('_isoSIM_create_two_populations_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, overlap, progress_bar)
-}
-
 create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar) {
     .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar)
 }
