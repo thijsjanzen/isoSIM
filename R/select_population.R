@@ -162,11 +162,11 @@ select_population <- function(source_pop,
                    length.out = track_frequency[3])
 
     to_add <- cbind(markers, 1, 1, 1, -1)
-    select_matrix <- rbind(select_matrix, to_add)
-    vx <- which(duplicated(select_matrix[,1]))
+    select <- rbind(select, to_add)
+    vx <- which(duplicated(select[,1]))
     # remove duplicate entries
     if(length(vx) > 0) {
-      select_matrix <- select_matrix[-vx,]
+      select <- select[-vx,]
     }
 
     track_frequency <- TRUE
@@ -184,9 +184,9 @@ select_population <- function(source_pop,
   selected_popstruct <- create_pop_class(selected_pop$population)
 
   initial_freq_tibble <- create_tibble_from_freq_mat(selected_pop$initial_frequencies,
-                                                       select_matrix)
+                                                     select)
   final_freq_tibble <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
-                                                     select_matrix)
+                                                   select)
 
   output <- list("population" = selected_popstruct,
                  "initial_frequency" = initial_freq_tibble,
@@ -196,7 +196,7 @@ select_population <- function(source_pop,
 
     output <- list("population" = selected_popstruct,
                    "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 select_matrix),
+                                                                 select),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }

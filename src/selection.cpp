@@ -291,7 +291,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    frequencies_table,
                                                    track_frequency);
 
-    Rcout << "simulation done, starting calculation of final frequencies\n";
+  //  Rcout << "simulation done, starting calculation of final frequencies\n";
     arma::mat final_frequencies = update_all_frequencies(outputPop, selectM, num_alleles);
 
     return List::create( Named("population") = convert_to_list(outputPop),
