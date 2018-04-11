@@ -152,6 +152,21 @@ test_that("select population two_alleles regions", {
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
+
+  testthat::expect_success(
+    isoSIM::joyplot_frequencies(selected_pop$frequencies,
+                                time_points = seq(from = 0,
+                                                  to = 100,
+                                                  by = 10)
+                                )
+
+    isoSIM::joyplot_frequencies(selected_pop$frequencies,
+                                time_points = seq(from = 0,
+                                                  to = 100,
+                                                  by = 10),
+                                1
+    )
+  )
 })
 
 
