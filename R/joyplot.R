@@ -34,30 +34,31 @@ plot_start_end <- function(results,
   a1 <- results$initial_frequency
   a2 <- results$final_frequency
 
-  a1_m <- mutate(a1, timepoint = "start")
-  a2_m <- mutate(a2, timepoint = "end")
+  a1_m <- dplyr::mutate(a1, timepoint = "start")
+  a2_m <- dplyr::mutate(a2, timepoint = "end")
 
   to_plot_m <- rbind(a1_m, a2_m)
 
   if(picked_ancestor == "ALL") {
     to_plot <- to_plot_m
 
-    p1 <- ggplot(to_plot, aes(x = location,
-                              y = frequency,
-                              colour = ancestor,
-                              group = interaction(ancestor, timepoint))) +
-      geom_line(aes(lty = timepoint))
+    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
+                              y = to_plot$frequency,
+                              colour = to_plot$ancestor,
+                              group = interaction(to_plot$ancestor,
+                                                  to_plot$timepoint))) +
+      ggplot2::geom_line(aes(lty = to_plot$timepoint))
   } else {
 
-    to_plot <- filter(to_plot_m,
+    to_plot <- dplyr::filter(to_plot_m,
                       ancestor == picked_ancestor)
 
-    p1 <- ggplot(to_plot, aes(x = location,
-                              y = frequency,
-                              colour = ancestor,
-                              group = interaction(ancestor, timepoint))) +
-      geom_line(aes(lty = timepoint))
+    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = location,
+                              y = to_plot$frequency,
+                              colour = to_plot$ancestor,
+                              group = interaction(to_plot$ancestor,
+                                                  to_plot$timepoint))) +
+      ggplot2::geom_line(ggplot2::aes(lty = to_plot$timepoint))
   }
   return(p1)
 }
-
