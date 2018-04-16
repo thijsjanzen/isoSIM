@@ -7,7 +7,7 @@ create_population <- function(pop_size,
 
   #call C_function
   set.seed(seed)
-  pop <- isoSIM::create_population_cpp(pop_size,
+  pop <- create_population_cpp(pop_size,
                            number_of_founders,
                            total_runtime,
                            morgan, progress_bar)
