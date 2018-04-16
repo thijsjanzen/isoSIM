@@ -26,3 +26,38 @@ joyplot_frequencies <- function(frequencies,
     return(p1)
   }
 }
+
+
+plot_start_end <- function(results,
+                           picked_ancestor = "ALL") {
+
+  a1 <- results$initial_frequency
+  a2 <- results$final_frequency
+
+  a1_m <- mutate(a1, timepoint = "start")
+  a2_m <- mutate(a2, timepoint = "end")
+
+  to_plot_m <- rbind(a1_m, a2_m)
+
+  if(picked_ancestor == "ALL") {
+    to_plot <- to_plot_m
+
+    p1 <- ggplot(to_plot, aes(x = location,
+                              y = frequency,
+                              colour = ancestor,
+                              group = interaction(ancestor, timepoint))) +
+      geom_line(aes(lty = timepoint))
+  } else {
+
+    to_plot <- filter(to_plot_m,
+                      ancestor == picked_ancestor)
+
+    p1 <- ggplot(to_plot, aes(x = location,
+                              y = frequency,
+                              colour = ancestor,
+                              group = interaction(ancestor, timepoint))) +
+      geom_line(aes(lty = timepoint))
+  }
+  return(p1)
+}
+

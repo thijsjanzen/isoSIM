@@ -165,6 +165,11 @@ test_that("select population two_alleles regions", {
                                                   by = 10),
                                 picked_ancestor = 1
                                 )
+
+  isoSIM::plot_start_end(selected_pop)
+  isoSIM::plot_start_end(selected_pop,
+                         picked_ancestor = 0)
+
 })
 
 
