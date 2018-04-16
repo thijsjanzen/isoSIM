@@ -27,7 +27,6 @@ joyplot_frequencies <- function(frequencies,
   }
 }
 
-
 plot_start_end <- function(results,
                            picked_ancestor = "ALL") {
 
@@ -47,7 +46,7 @@ plot_start_end <- function(results,
                               colour = to_plot$ancestor,
                               group = interaction(to_plot$ancestor,
                                                   to_plot$timepoint))) +
-      ggplot2::geom_line(aes(lty = to_plot$timepoint))
+      ggplot2::geom_line(ggplot2::aes(lty = to_plot$timepoint))
   } else {
 
     to_plot <- dplyr::filter(to_plot_m,
