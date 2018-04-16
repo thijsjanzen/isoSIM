@@ -8,11 +8,11 @@
  This function plots the distribution of both the starting and the final frequencies in one plot
 }
 \usage{
-plot_start_end(result, picked_ancestor)
+plot_start_end(results, picked_ancestor = "ALL")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{result}{
+  \item{results}{
     An object which is the result of \code{select_population} or \code{create_population_selection}, being a list with four properties: \code{population}, \code{frequencies}, \code{initial_frequencies} and \code{final frequencies}
 }
 

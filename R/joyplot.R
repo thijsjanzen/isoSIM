@@ -50,9 +50,9 @@ plot_start_end <- function(results,
   } else {
 
     to_plot <- dplyr::filter(to_plot_m,
-                      ancestor == picked_ancestor)
+                             to_plot_m$ancestor == picked_ancestor)
 
-    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = location,
+    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
                               y = to_plot$frequency,
                               colour = to_plot$ancestor,
                               group = interaction(to_plot$ancestor,
