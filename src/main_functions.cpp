@@ -283,11 +283,11 @@ List create_population_cpp(int pop_size,
 {
     std::vector<Fish> Pop;
 
-    for(int i = 0; i < popSize; ++i) {
+    for(int i = 0; i < pop_size; ++i) {
         Fish p1 = Fish(random_number(number_of_founders));
         Fish p2 = Fish(random_number(number_of_founders));
 
-        Pop.push_back(mate(p1,p2, Morgan));
+        Pop.push_back(mate(p1,p2, morgan));
     }
     std::vector<double> junctions;
 
