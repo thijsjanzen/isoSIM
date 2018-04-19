@@ -15,7 +15,11 @@ create_population <- function(pop_size,
                            track_junctions)
 
   popstruct <- isoSIM::create_pop_class(pop$population)
-  return(popstruct)
+  if(track_junctions == FALSE) return(popstruct)
+
+  output <- list("population" = popstruct,
+                 "junctions" = pop$junctions)
+  return(output)
 }
 
 create_two_populations_migration <- function(pop_size,
