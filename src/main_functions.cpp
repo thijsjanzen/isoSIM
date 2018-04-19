@@ -58,6 +58,18 @@ bool verify_pop_cpp(const std::vector< Fish >& pop) {
     return true;
 }
 
+double calc_mean_junctions(const std::vector< Fish> & pop) {
+
+    double mean_junctions = 0.0;
+    for(auto it = pop.begin(); it != pop.end(); ++it) {
+        mean_junctions += (*it).chromosome1.size() - 2; // start and end don't count
+        mean_junctions += (*it).chromosome2.size() - 2;
+    }
+    mean_junctions *= 1.0 / (pop.size() * 2); // diploid
+
+    return(mean_junctions);
+}
+
 
 
 /***********************************************************************
@@ -68,7 +80,9 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
                              int popSize,
                              int maxTime,
                              double Morgan,
-                             bool progress_bar)
+                             bool progress_bar,
+                             bool track_junctions,
+                             std::vector<double>& junctions)
 {
     if(progress_bar) {
         Rcout << "0--------25--------50--------75--------100\n";
@@ -81,6 +95,8 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
     if(updateFreq < 1) updateFreq = 1;
 
     for(int t = 0; t < maxTime; ++t) {
+
+        if(track_junctions) junctions.push_back(calc_mean_junctions(Pop));
 
         std::vector<Fish> newGeneration;
 
@@ -123,49 +139,6 @@ std::vector< Fish > simulate(const std::vector< Fish >& input_pop,
     return(Pop);
 }
 
-std::vector<Fish> createPopulation(int popSize,
-                      int numFounders,
-                      int maxTime,
-                      double Morgan,
-                      double overlap,
-                      double populationIndicator,
-                      bool progress_bar)
-{
-    std::vector<Fish> Pop;
-    std::vector<Fish> parents;
-
-    if(populationIndicator == 0) {
-        for(int i = 0; i < 1000; ++i) {
-            parents.push_back(Fish(random_number(numFounders)));
-        }
-    }
-
-    if(populationIndicator == 1) {
-        //second population, we will have to take
-        //into account overlap
-        //i = numFounders - overlap * numFounders;
-        //numFounders += i;
-        for(int i = 0; i < 1000; ++i) {
-            int index = numFounders + random_number(numFounders);
-            if(uniform() < overlap) {
-                index = random_number(numFounders);
-            }
-            parents.push_back(Fish(index));
-        }
-    }
-
-    for(int i = 0; i < popSize; ++i) {
-        Fish p1 = parents[ random_number( parents.size() ) ];
-        Fish p2 = parents[ random_number( parents.size() ) ];
-
-        Pop.push_back(mate(p1,p2, Morgan));
-    }
-
-    Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar);
-
-    return(Pop);
-}
-
 std::vector<Fish> create_line(const std::vector< Fish >& founders,
                              int popSize,
                              int maxTime,
@@ -202,8 +175,8 @@ std::vector<Fish> create_line(const std::vector< Fish >& founders,
   //  if(!verify_pop_cpp(Pop)) {
   //      Rcout << "Creation in create_line failed\n"; R_FlushConsole();
   //  }
-
-    Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar);
+    std::vector<double> junctions;
+    Pop = simulate(Pop, popSize, maxTime, Morgan, progress_bar, FALSE, junctions);
     return(Pop);
 }
 
@@ -305,13 +278,29 @@ List create_population_cpp(int pop_size,
                        int number_of_founders,
                        int total_runtime,
                        double morgan,
-                       bool progress_bar)
+                       bool progress_bar,
+                       bool track_junctions)
 {
-    std::vector<Fish> Pop = createPopulation(pop_size, number_of_founders,
-                                             total_runtime, morgan, 0.0, 0,
-                                             progress_bar);
+    std::vector<Fish> Pop;
+
+    for(int i = 0; i < popSize; ++i) {
+        Fish p1 = Fish(random_number(number_of_founders));
+        Fish p2 = Fish(random_number(number_of_founders));
+
+        Pop.push_back(mate(p1,p2, Morgan));
+    }
+    std::vector<double> junctions;
+
+    Pop = simulate(Pop, pop_size, total_runtime, morgan, progress_bar,
+                   track_junctions, junctions);
+
+    if(track_junctions) {
+        return List::create( Named("population") = convert_to_list(Pop) ,
+                             Named("junctions") = junctions);
+    }
 
     return List::create( Named("population") = convert_to_list(Pop) );
+
 }
 
 // [[Rcpp::export]]

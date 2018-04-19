@@ -10,7 +10,8 @@
 \usage{
 create_population(pop_size, number_of_founders,
                        total_runtime, morgan,
-                       seed, progress_bar)
+                       seed, progress_bar,
+                       track_junctions)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,9 +34,13 @@ create_population(pop_size, number_of_founders,
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 
+\item{track_junctions}{
+   Track the average number of junctions over time if TRUE
+}
+
 }
 \value{
-  A population structure
+  A population structure called "population", and a vector called "junctions" if track_junctions = TRUE
 }
 \author{
  Thijs Janzen
@@ -47,5 +52,6 @@ wildpop =  create_population(pop_size = 100,
                              total_runtime = 10,
                              morgan = 1,
                              seed = 42,
-                             progress_bar = TRUE)
+                             progress_bar = TRUE,
+                             track_junctions = FALSE)
 }

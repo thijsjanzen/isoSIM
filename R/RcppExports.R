@@ -5,8 +5,8 @@ calculate_allele_spectrum_cpp <- function(v1, step_size, progress_bar) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, step_size, progress_bar)
 }
 
-create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, progress_bar) {
-    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, progress_bar)
+create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_junctions) {
+    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_junctions)
 }
 
 create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan, progress_bar) {

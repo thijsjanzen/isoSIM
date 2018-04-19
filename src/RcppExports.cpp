@@ -20,8 +20,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_population_cpp
-List create_population_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar);
-RcppExport SEXP _isoSIM_create_population_cpp(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP) {
+List create_population_cpp(int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar, bool track_junctions);
+RcppExport SEXP _isoSIM_create_population_cpp(SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_junctionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< bool >::type progress_bar(progress_barSEXP);
-    rcpp_result_gen = Rcpp::wrap(create_population_cpp(pop_size, number_of_founders, total_runtime, morgan, progress_bar));
+    Rcpp::traits::input_parameter< bool >::type track_junctions(track_junctionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_population_cpp(pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_junctions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -111,7 +112,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
-    {"_isoSIM_create_population_cpp", (DL_FUNC) &_isoSIM_create_population_cpp, 5},
+    {"_isoSIM_create_population_cpp", (DL_FUNC) &_isoSIM_create_population_cpp, 6},
     {"_isoSIM_create_isofemale_line_cpp", (DL_FUNC) &_isoSIM_create_isofemale_line_cpp, 5},
     {"_isoSIM_create_two_populations_migration_cpp", (DL_FUNC) &_isoSIM_create_two_populations_migration_cpp, 6},
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},

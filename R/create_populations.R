@@ -3,14 +3,16 @@ create_population <- function(pop_size,
                                    total_runtime,
                                    morgan,
                                    seed,
-                                   progress_bar = TRUE) {
+                                   progress_bar = TRUE,
+                                   track_junctions = FALSE) {
 
   #call C_function
   set.seed(seed)
   pop <- create_population_cpp(pop_size,
                            number_of_founders,
                            total_runtime,
-                           morgan, progress_bar)
+                           morgan, progress_bar,
+                           track_junctions)
 
   popstruct <- isoSIM::create_pop_class(pop$population)
   return(popstruct)
