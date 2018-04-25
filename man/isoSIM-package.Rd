@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.47 - Changed the effect of migration \cr
    Version 0.46 - Added joyplot & increase_ancestor \cr
    Version 0.45 - Removed create_two_populations \cr
    Version 0.44 - Added tracking regions \cr

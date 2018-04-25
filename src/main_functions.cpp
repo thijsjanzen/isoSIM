@@ -197,7 +197,7 @@ std::vector<Fish> update_pop(const std::vector< Fish>& main_pop,
         Fish kid;
 
         if(uniform() < m) {
-            kid = mate(immigrant_pop[index1], immigrant_pop[index2], Morgan);
+            kid = mate(main_pop[index1], immigrant_pop[index2], Morgan);
         } else {
             kid = mate(main_pop[index1], main_pop[index2], Morgan);
         }
@@ -228,15 +228,15 @@ void create_two_pop_migration( std::vector< Fish >& p1,
     }
 
     for(int i = 0; i < pop_size; ++i) {
-        Fish parent1 = parents1[ random_number( num_ancestors_per_pop ) ];
-        Fish parent2 = parents1[ random_number( num_ancestors_per_pop ) ];
+        Fish parent1 = parents1[ random_number( parents1.size() ) ];
+        Fish parent2 = parents1[ random_number( parents1.size() ) ];
 
         Pop1.push_back(mate(parent1, parent2, Morgan));
     }
 
     for(int i = 0; i < pop_size; ++i) {
-        Fish parent1 = parents2[ random_number( num_ancestors_per_pop ) ];
-        Fish parent2 = parents2[ random_number( num_ancestors_per_pop ) ];
+        Fish parent1 = parents2[ random_number( parents2.size() ) ];
+        Fish parent2 = parents2[ random_number( parents2.size() ) ];
 
         Pop2.push_back(mate(parent1, parent2, Morgan));
     }
