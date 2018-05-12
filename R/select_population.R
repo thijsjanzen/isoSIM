@@ -28,15 +28,19 @@ calculate_allele_frequencies <- function(source_pop,
 create_tibble_from_freq_table <- function(frequencies, select_matrix) {
   input_list <- list()
   for(i in 1:(dim(frequencies)[[3]])) {
-    local_mat <- frequencies[,,i]
-    input_list[[i]] <- local_mat;
+    local_mat <- frequencies[ , , i]
+    input_list[[i]] <- local_mat
   }
 
   to_apply <- function(local_mat, i) {
     time <- 0:(length(local_mat[[i]][,1])-1)
     marker_indicator <- rep(select_matrix[i, 1], length(time))
-    freq_tibble <- tibble::as.tibble(cbind(time, marker_indicator, local_mat[[i]]))
-    colnames(freq_tibble) <- c("time", "location", 0:(length(local_mat[[i]][1,])-1))
+    freq_tibble <- tibble::as.tibble( cbind(time,
+                                            marker_indicator,
+                                            local_mat[[i]]))
+    colnames(freq_tibble) <- c("time",
+                               "location",
+                               0:(length(local_mat[[i]][1,]) - 1))
 
     freq_tibble <- tidyr::gather(freq_tibble,
                                  key = "ancestor",
@@ -48,7 +52,7 @@ create_tibble_from_freq_table <- function(frequencies, select_matrix) {
   interm_list <- lapply(seq_along(input_list), to_apply, local_mat = input_list)
   vy <- tibble::as.tibble(dplyr::bind_rows(interm_list))
 
-  return(vy);
+  return(vy)
 }
 
 create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
@@ -61,10 +65,14 @@ create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
 
     found_markers <- rbind(found_markers, freq_tibble)
   }
-  colnames(found_markers) <- c("time", "location", 0:(length(frequencies[1,])-1))
+  colnames(found_markers) <- c("time",
+                               "location",
+                               0:(length(frequencies[1,])-1))
   found_markers <- tibble::as.tibble(found_markers)
-  found_markers <- tidyr::gather(found_markers, key = "ancestor", value = "frequency",
-                          -c(1,2))
+  found_markers <- tidyr::gather(found_markers,
+                                 key = "ancestor",
+                                 value = "frequency",
+                                  -c(1,2))
 
   return(found_markers)
 }
@@ -83,7 +91,8 @@ create_population_selection <- function(pop_size,
   }
 
   if (dim(select_matrix)[[2]] != 5) {
-    stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
+    stop("Incorrect dimensions of select_matrix,
+         are you sure you provided all fitnesses?\n")
   }
 
   if(length(track_frequency) == 3)  {
@@ -206,15 +215,17 @@ select_population <- function(source_pop,
 increase_ancestor <- function(population, increment = 20) {
   increase_indiv <- function(indiv) {
 
-    positive <- which(indiv$chromosome1[,2] > -1) # -1 indicates the end, no increment there!
+    # -1 indicates the end, no increment there!
+    positive <- which(indiv$chromosome1[,2] > -1)
     indiv$chromosome1[positive, 2] <- indiv$chromosome1[positive, 2] + increment
 
-    positive <- which(indiv$chromosome2[,2] > -1) # -1 indicates the end, no increment there!
+    # -1 indicates the end, no increment there!
+    positive <- which(indiv$chromosome2[,2] > -1)
     indiv$chromosome2[positive, 2] <- indiv$chromosome2[positive, 2] + increment
     return(indiv)
   }
 
-  pop_2 <- lapply(population, increase_indiv);
+  pop_2 <- lapply(population, increase_indiv)
   class(pop_2) <- "population"
   return(pop_2)
 }

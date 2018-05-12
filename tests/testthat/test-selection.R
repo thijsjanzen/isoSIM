@@ -31,10 +31,13 @@ test_that("select population two_alleles", {
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
-  testthat::expect_equal(dim(selected_pop$initial_frequency)[[1]], number_of_founders)
-  testthat::expect_equal(dim(selected_pop$final_frequency)[[1]], number_of_founders)
+  testthat::expect_equal(dim(selected_pop$initial_frequency)[[1]],
+                         number_of_founders)
+  testthat::expect_equal(dim(selected_pop$final_frequency)[[1]],
+                         number_of_founders)
 
-  testthat::expect_equal(dim(selected_pop$frequencies)[[1]], run_time * number_of_founders)
+  testthat::expect_equal(dim(selected_pop$frequencies)[[1]],
+                         run_time * number_of_founders)
 })
 
 test_that("select on population", {
@@ -79,11 +82,11 @@ test_that("select population two_alleles multiple markers", {
   select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
   selected_pop <- isoSIM::create_population_selection(pop_size = 100,
-                                                                 number_of_founders = 10,
-                                                                 total_runtime = 100,
-                                                                 morgan = 1,
-                                                                 select_matrix,
-                                                                 seed = 1234)
+                                                      number_of_founders = 10,
+                                                      total_runtime = 100,
+                                                      morgan = 1,
+                                                      select_matrix,
+                                                      seed = 1234)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -250,7 +253,8 @@ test_that("selection abuse", {
                       morgan = 1,
                       seed = 1234,
                       track_frequency = TRUE),
-    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
+    "Incorrect dimensions of select_matrix,
+    are you sure you provided all fitnesses?"
   )
 
   testthat::expect_error(
@@ -261,6 +265,7 @@ test_that("selection abuse", {
                                 select_matrix,
                                 seed = 1234,
                                 track_frequency = TRUE),
-    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
+    "Incorrect dimensions of select_matrix,
+    are you sure you provided all fitnesses?"
   )
 })
