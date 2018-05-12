@@ -50,22 +50,22 @@ test_that("create_population_from_isofemales", {
   testthat::expect_true(verify_individual(female_2[[1]]))
 
 
-  females <- isoSIM::create_iso_female(pop1, n = 2, run_time = 2000)
+  females <- create_iso_female(pop1, n = 2, run_time = 2000)
 
-  vy <- isoSIM::create_population_from_individuals(females,
-                                                   pop_size, 2000,
-                                                   morgan,
-                                                   seed = 666)
+  vy <- create_population_from_individuals(females,
+                                           pop_size, 2000,
+                                           morgan,
+                                           seed = 666)
 
   testthat::expect_equal(length(vy), pop_size)
   testthat::expect_true(verify_population(vy))
 
-  vy <- isoSIM::create_population_from_individuals(list(female_1[[1]],
-                                                        female_2[[1]]),
-                                                   pop_size,
-                                                   2000,
-                                                   morgan,
-                                                   seed = 666)
+  vy <- create_population_from_individuals(list(female_1[[1]],
+                                                female_2[[1]]),
+                                                pop_size,
+                                                2000,
+                                                morgan,
+                                                seed = 666)
 
   testthat::expect_equal(length(vy), pop_size)
   testthat::expect_true(verify_population(vy))

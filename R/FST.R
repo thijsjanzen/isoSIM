@@ -16,15 +16,15 @@ create_loci_matrix <- function(pop1,
   for (x in seq_along(markers)) {
     focal_marker <- markers[x]
     for (i in seq_along(pop1)) {
-      allele_1 <- 10 + isoSIM::findtype(pop1[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + isoSIM::findtype(pop1[[i]]$chromosome2, focal_marker)
+      allele_1 <- 10 + findtype(pop1[[i]]$chromosome1, focal_marker)
+      allele_2 <- 10 + findtype(pop1[[i]]$chromosome2, focal_marker)
       final_allele <- paste0(allele_1, allele_2)
       all_loci[i, x + 1] <- as.numeric(final_allele)
     }
 
     for (i in seq_along(pop2)) {
-      allele_1 <- 10 + isoSIM::findtype(pop2[[i]]$chromosome1, focal_marker)
-      allele_2 <- 10 + isoSIM::findtype(pop2[[i]]$chromosome2, focal_marker)
+      allele_1 <- 10 + findtype(pop2[[i]]$chromosome1, focal_marker)
+      allele_2 <- 10 + findtype(pop2[[i]]$chromosome2, focal_marker)
       final_allele <- paste0(allele_1, allele_2)
       all_loci[length(pop1) + i, x + 1] <- as.numeric(final_allele)
     }

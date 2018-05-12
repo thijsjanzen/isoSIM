@@ -162,7 +162,8 @@ select_population <- function(source_pop,
   }
 
   if (dim(select_matrix)[[2]] != 5) {
-    stop("Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?\n")
+    stop("Incorrect dimensions of select_matrix,
+         are you sure you provided all fitnesses?\n")
   }
 
   if(length(track_frequency) == 3)  {

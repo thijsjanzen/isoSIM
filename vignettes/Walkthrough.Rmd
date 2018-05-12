@@ -184,8 +184,8 @@ strong_LD_pop <- create_population(pop_size = 1000,
                              morgan = 1, 
                              seed = 42)
 
-LD_results <- isoSIM::calculate_LD(strong_LD_pop, sampled_individuals = 10,
-                                  number_of_markers = 10, random_markers = TRUE)
+LD_results <- calculate_LD(strong_LD_pop, sampled_individuals = 10,
+                            number_of_markers = 10, random_markers = TRUE)
 
 par(mfrow=c(1,1))
 par(mar=c(4,4,2,2))
@@ -205,13 +205,13 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0 + s, 1.0, 
                            0)
 
-  selected_pop <- isoSIM::create_population_selection(pop_size = 1000,
-                                                           number_of_founders = 2,
-                                                           total_runtime = 100,
-                                                           morgan = 1,
-                                                           select_matrix = selection_matrix,
-                                                           seed = 12345,
-                                                           track_frequency = TRUE)
+  selected_pop <- create_population_selection(pop_size = 1000,
+                                              number_of_founders = 2,
+                                              total_runtime = 100,
+                                              morgan = 1,
+                                              select_matrix = selection_matrix,
+                                              seed = 12345,
+                                              track_frequency = TRUE)
 
 ggplot(selected_pop$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1)
 ```

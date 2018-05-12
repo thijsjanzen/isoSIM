@@ -19,13 +19,13 @@ testthat::test_that("fst", {
 
   number_of_markers <- 100
   sampled_individuals <- 10
-  v1 <- isoSIM::calculate_fst(pop1, pop2,
-                              sampled_individuals,
-                              number_of_markers, random_markers = TRUE)
+  v1 <- calculate_fst(pop1, pop2,
+                      sampled_individuals,
+                      number_of_markers, random_markers = TRUE)
 
-  v2 <- isoSIM::calculate_fst(pop1, pop2,
-                              sampled_individuals,
-                              number_of_markers, random_markers = FALSE)
+  v2 <- calculate_fst(pop1, pop2,
+                      sampled_individuals,
+                      number_of_markers, random_markers = FALSE)
 
   testthat::expect_equal(v1, v2, tolerance = 0.05)
 

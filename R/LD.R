@@ -64,8 +64,8 @@ calculate_LD <- function(pop,
   for (x in seq_along(markers)) {
     focal_marker <- markers[x]
     for (i in seq_along(pop)) {
-      allele_1 <- 1 + isoSIM::findtype(pop[[i]]$chromosome1, focal_marker)
-      allele_2 <- 1 + isoSIM::findtype(pop[[i]]$chromosome2, focal_marker)
+      allele_1 <- 1 + findtype(pop[[i]]$chromosome1, focal_marker)
+      allele_2 <- 1 + findtype(pop[[i]]$chromosome2, focal_marker)
 
       index <- (x - 1) * 2 + 1
 

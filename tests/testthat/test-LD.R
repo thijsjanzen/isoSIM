@@ -20,8 +20,8 @@ test_that("calculate_average_LD", {
   for (x in seq_along(markers)) {
     focal_marker <- markers[x]
     for (i in seq_along(pop1)) {
-      allele_1 <- 1 + isoSIM::findtype(pop1[[i]]$chromosome1, focal_marker)
-      allele_2 <- 1 + isoSIM::findtype(pop1[[i]]$chromosome2, focal_marker)
+      allele_1 <- 1 + findtype(pop1[[i]]$chromosome1, focal_marker)
+      allele_2 <- 1 + findtype(pop1[[i]]$chromosome2, focal_marker)
 
       index <- (x - 1) * 2 + 1
 

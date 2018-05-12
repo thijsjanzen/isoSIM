@@ -40,7 +40,7 @@ test_that("expected_number_junctions", {
   test_expected_junction_number(pop_size = 1000, run_time = 20,
                                 morgan = 1, replicates = 100)
 
-  vx <- isoSIM::create_population(pop_size = 1000, number_of_founders = 2,
+  vx <- create_population(pop_size = 1000, number_of_founders = 2,
                           total_runtime = 5, morgan = 1, seed = 666)
 
   plot_dist_junctions(vx)

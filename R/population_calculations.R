@@ -25,7 +25,7 @@ calculate_dist_junctions <- function(pop) {
 }
 
 plot_dist_junctions <- function(pop) {
-  junct <- isoSIM::calculate_dist_junctions(pop)
+  junct <- calculate_dist_junctions(pop)
   vx <- table(junct)
   barplot(vx)
 }

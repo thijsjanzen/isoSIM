@@ -51,7 +51,7 @@ test_that("calculate_allele_frequencies", {
 
 
   number_founders <- 20
-  sourcepop <- isoSIM::create_population(
+  sourcepop <- create_population(
     pop_size = 10000,
     number_of_founders = number_founders,
     total_runtime = 1,
@@ -75,11 +75,11 @@ test_that("calculate_allele_frequencies", {
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
   number_founders <- 5
-  sourcepop <- isoSIM::create_population(pop_size = 1000,
-                                         number_of_founders = number_founders,
-                                         total_runtime = 100,
-                                         morgan = 1,
-                                         seed = 123)
+  sourcepop <- create_population(pop_size = 1000,
+                                 number_of_founders = number_founders,
+                                 total_runtime = 100,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 
@@ -99,11 +99,11 @@ test_that("calculate_allele_frequencies", {
                          tolerance = 0.01)
 
   number_founders <- 20
-  sourcepop <- isoSIM::create_population(pop_size = 1000,
-                                         number_of_founders = number_founders,
-                                         total_runtime = 1,
-                                         morgan = 1,
-                                         seed = 123)
+  sourcepop <- create_population(pop_size = 1000,
+                                 number_of_founders = number_founders,
+                                 total_runtime = 1,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 })
