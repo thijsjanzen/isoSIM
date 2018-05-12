@@ -3,6 +3,7 @@ Genetic admixture simulation for isofemale lines and further
 
 [![Build Status](https://travis-ci.org/thijsjanzen/isoSIM.svg?branch=master)](https://travis-ci.org/thijsjanzen/isoSIM)
 [![codecov](https://codecov.io/gh/thijsjanzen/isoSIM/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/isoSIM)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/isoSIM)](https://cran.r-project.org/package=isoSIM)
 
 
 # What is isoSIM?
