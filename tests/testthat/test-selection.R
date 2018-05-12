@@ -253,8 +253,7 @@ test_that("selection abuse", {
                       morgan = 1,
                       seed = 1234,
                       track_frequency = TRUE),
-    "Incorrect dimensions of select_matrix,
-    are you sure you provided all fitnesses?"
+    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
   )
 
   testthat::expect_error(
@@ -265,7 +264,6 @@ test_that("selection abuse", {
                                 select_matrix,
                                 seed = 1234,
                                 track_frequency = TRUE),
-    "Incorrect dimensions of select_matrix,
-    are you sure you provided all fitnesses?"
+    "Incorrect dimensions of select_matrix, are you sure you provided all fitnesses?"
   )
 })
