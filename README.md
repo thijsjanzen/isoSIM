@@ -10,6 +10,8 @@ Genetic admixture simulation for isofemale lines and further
 A package under construction to simulate genetic admixture in relation to isofemale lines
 
 # Version history
+Version 0.48 - Added a general 'simulate' function <br />
+Version 0.47 - Changed the effect of migration <br />
 Version 0.46 - Added joyplot & increase_ancestor <br />
 Version 0.45 - Removed create_two_populations <br />
 Version 0.44 - Added tracking regions <br />
