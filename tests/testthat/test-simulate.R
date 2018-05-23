@@ -19,26 +19,6 @@ test_that("simulate create_population", {
   testthat::expect_true(all.equal(vx, vy$population))
 })
 
-test_that("simulate continue", {
-  sourcepop <- create_population(pop_size = 100,
-                                 number_of_founders = 10,
-                                 total_runtime = 100,
-                                 morgan = 1,
-                                 seed = 123)
-
-  vx <- create_population_from_individuals(sourcepop, pop_size = 100,
-                                           total_runtime = 100,
-                                           morgan = 1,
-                                           seed = 42)
-
-  vy <- simulate(input_population = sourcepop,
-                 pop_size = 100, total_runtime = 100,
-                 morgan = 1, seed = 42)
-
-  testthat::expect_true(verify_population(vy$population))
-
-  testthat::expect_true(all.equal(vx, vy$population))
-})
 
 test_that("simulate create_population_selection", {
   select_matrix <- matrix(ncol = 5, nrow = 1)
