@@ -156,6 +156,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
               bool track_junctions)
 {
     std::vector< Fish > Pop;
+    int number_of_alleles = number_of_founders;
 
     if(input_population[0] > -1e4) {
         Rcout << "input population exists, converting\n";
@@ -182,6 +183,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                 }
             }
         }
+        number_of_alleles = number_of_founders + 1;
         Rcout << "calculated number of founders\n";
     } else {
         Rcout << "on input population found, generating from scratch\n";
