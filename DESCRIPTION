@@ -1,8 +1,8 @@
 Package: isoSIM
 Type: Package
 Title: Simulate Linkage Disequilibrium Along Chromosomes in Isofemale Lines
-Version: 0.48
-Date: 2018-04-25
+Version: 0.49
+Date: 2018-05-23
 Authors@R: c(person("Thijs","Janzen", email = "thijsjanzen@gmail.com", role=c("aut","cre")),
              person("Fernando","Diaz G.",email="ferdiazfer@gmail.com", role=c("ctb")))
 Description: Simulation of source populations, and simulation of the creation of isofemale lines from these populations.
