@@ -1,8 +1,8 @@
 simulate <- function(input_population = c(-1e6, -1e6),
-                     pop_size,
-                     number_of_founders,
-                     total_runtime,
-                     morgan,
+                     pop_size = 100,
+                     number_of_founders = 2,
+                     total_runtime = 100,
+                     morgan = 1,
                      seed,
                      select_matrix = matrix(-1e6, 2, 2),
                      progress_bar = TRUE,
@@ -11,7 +11,12 @@ simulate <- function(input_population = c(-1e6, -1e6),
 
   select <- select_matrix
 
-  if(is.matrix(select)) {
+  if(is.list(input_population)) {
+    input_population <- population_to_vector(input_population)
+  }
+
+
+  if(select[1,1] > -1e6) {
     if (sum(is.na(select))) {
       stop("Can't start, there are NA values in the selection matrix!\n")
     }

@@ -14,9 +14,9 @@ test_that("simulate create_population", {
   vy <- simulate(pop_size = pop_size, number_of_founders = number_of_founders,
                  total_runtime = run_time, morgan = morgan, seed = 42)
 
-  testthat::expect_true(verify_population(vy))
+  testthat::expect_true(verify_population(vy$population))
 
-  testthat::expect_true(all.equal(vx, vy))
+  testthat::expect_true(all.equal(vx, vy$population))
 })
 
 test_that("simulate continue", {
