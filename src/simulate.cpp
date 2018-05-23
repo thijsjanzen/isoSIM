@@ -200,13 +200,13 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     if(track_frequency) {
         Rcout << "preparing track frequency\n";
         int number_entries = select.nrow();
-        arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
+        arma::cube x(total_runtime, number_of_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
 
     Rcout << "calculating initial frequencies\n";
     Rcout << "number of founders: " << number_of_founders << "\n";
-    arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
+    arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_alleles);
 
     std::vector<double> junctions;
 
@@ -222,7 +222,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                                                       track_junctions,
                                                       junctions);
 
-    arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_founders);
+    arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_alleles);
 
     return List::create( Named("population") = convert_to_list(outputPop),
                         Named("frequencies") = frequencies_table,
