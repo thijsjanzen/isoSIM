@@ -186,7 +186,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
         number_of_alleles = number_of_founders + 1;
         //Rcout << "calculated number of founders\n";
     } else {
-        Rcout << "on input population found, generating from scratch\n";
+       // Rcout << "on input population found, generating from scratch\n";
         for(int i = 0; i < pop_size; ++i) {
             Fish p1 = Fish( random_number( number_of_founders ) );
             Fish p2 = Fish( random_number( number_of_founders ) );

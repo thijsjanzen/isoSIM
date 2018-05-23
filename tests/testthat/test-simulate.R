@@ -35,9 +35,9 @@ test_that("simulate continue", {
                  pop_size = 100, total_runtime = 100,
                  morgan = 1, seed = 42)
 
-  testthat::expect_true(verify_population(vy))
+  testthat::expect_true(verify_population(vy$population))
 
-  testthat::expect_true(all.equal(vx, vy))
+  testthat::expect_true(all.equal(vx, vy$population))
 })
 
 test_that("simulate create_population_selection", {
@@ -96,5 +96,3 @@ test_that("simulate continue selection", {
   testthat::expect_true(all.equal(selected_pop$population,
                                   selected_pop2$population))
 })
-
-
