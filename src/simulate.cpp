@@ -168,6 +168,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
         // update the number of founders, in case
         // the user did not specify correctly
         Rcout << "starting assessing total number of founders\n";
+        Rcout << "Population is " << Pop.size() << " individuals\n";
 
         for(auto it = Pop.begin(); it != Pop.end(); ++it) {
             for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
@@ -182,6 +183,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
             }
         }
     } else {
+        Rcout << "on input population found, generating from scratch\n";
         for(int i = 0; i < pop_size; ++i) {
             Fish p1 = Fish( random_number( number_of_founders ) );
             Fish p2 = Fish( random_number( number_of_founders ) );
