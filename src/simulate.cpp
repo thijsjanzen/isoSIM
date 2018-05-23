@@ -107,9 +107,9 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                 index2 = draw_prop_fitness(fitness, maxFitness);
                 while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
             } else {
-                index1 = random_number( pop_size );
-                index2 = random_number( pop_size );
-                while(index2 == index1) index2 = random_number( pop_size );
+                index1 = random_number( (int)Pop.size() );
+                index2 = random_number( (int)Pop.size() );
+                while(index2 == index1) index2 = random_number( (int)Pop.size() );
             }
 
             Fish kid = mate(Pop[index1], Pop[index2], morgan);
