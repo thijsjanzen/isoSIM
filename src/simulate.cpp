@@ -103,9 +103,9 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
             int index1 = 0;
             int index2 = 0;
             if(use_selection) {
-                index1 =  draw_prop_fitness(fitness, maxFitness, use_selection);
-                index2 = draw_prop_fitness(fitness, maxFitness, use_selection);
-                while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness, use_selection);
+                index1 =  draw_prop_fitness(fitness, maxFitness);
+                index2 = draw_prop_fitness(fitness, maxFitness);
+                while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
             } else {
                 index1 = random_number( pop_size );
                 index2 = random_number( pop_size );
@@ -142,25 +142,6 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
-arma::mat update_all_frequencies(const std::vector< Fish >& pop,
-                                 const NumericMatrix& select_matrix,
-                                 int number_of_founders) {
-
-    arma::mat output(select_matrix.nrow(), number_of_founders);
-
-    for(int i = 0; i < select_matrix.nrow(); ++i) {
-        NumericVector v = update_frequency(pop,
-                                           select_matrix(i, 0),
-                                           number_of_founders);
-        for(int j = 0; j < v.size(); ++j) {
-            output(i, j) = v(j);
-        }
-    }
-    return(output);
-}
-
-
-
 List simulate_cpp(Rcpp::NumericVector input_population,
               NumericMatrix select,
               int pop_size,
@@ -174,7 +155,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     std::vector< Fish > Pop;
 
     if(input_population.length() > 0) {
-        Pop = convert_NumericVector_to_fishVector(v1);
+        Pop = convert_NumericVector_to_fishVector(input_population);
 
         number_of_founders = 0;
 
@@ -211,7 +192,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
 
     arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
 
-    std::vector<double> junctions
+    std::vector<double> junctions;
 
     std::vector<Fish> outputPop = simulate_Population(Pop,
                                                       select,
@@ -230,5 +211,5 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                         Named("frequencies") = frequencies_table,
                         Named("initial_frequencies") = initial_frequencies,
                         Named("final_frequencies") = final_frequencies,
-                        Names("junctions") = junctions);
+                        Named("junctions") = junctions);
 }

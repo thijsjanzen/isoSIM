@@ -15,8 +15,9 @@
 #include "Fish.h"
 #include "main.h"
 
+#include <RcppArmadillo.h>
+// [[Rcpp::depends("RcppArmadillo")]]
 
-#include <Rcpp.h>
 using namespace Rcpp;
 
 int draw_prop_fitness(const std::vector<double> fitness,
@@ -25,10 +26,16 @@ int draw_prop_fitness(const std::vector<double> fitness,
 double calculate_fitness_markers(const Fish& focal,
                                  const NumericMatrix& select);
 
+double calculate_fitness_twoAllele(const Fish& focal,
+                                   const NumericMatrix& select);
+
 NumericVector update_frequency(const std::vector< Fish >& v,
                                double m,
                                int num_alleles);
 
+arma::mat update_all_frequencies(const std::vector< Fish >& pop,
+                                 const NumericMatrix& select_matrix,
+                                 int number_of_founders);
 
 
 #endif /* Fish_hpp */
