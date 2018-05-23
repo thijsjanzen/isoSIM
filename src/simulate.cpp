@@ -142,6 +142,8 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
+
+// [[Rcpp::export]]
 List simulate_cpp(Rcpp::NumericVector input_population,
               NumericMatrix select,
               int pop_size,
