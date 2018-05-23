@@ -182,6 +182,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                 }
             }
         }
+        Rcout << "calculated number of founders\n";
     } else {
         Rcout << "on input population found, generating from scratch\n";
         for(int i = 0; i < pop_size; ++i) {
@@ -201,6 +202,8 @@ List simulate_cpp(Rcpp::NumericVector input_population,
         frequencies_table = x;
     }
 
+    Rcout << "calculating initial frequencies\n"
+    Rcout << "number of founders: " << number_of_founders << "\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
 
     std::vector<double> junctions;
