@@ -9,7 +9,38 @@ simulate <- function(input_population = NA,
                      track_junctions = FALSE,
                      track_frequency = FALSE) {
 
-  selected_pop <- simulate_cpp(input_population, select_matrix,
+  select <- select_matrix
+
+  if(is.matrix(select)) {
+    if (sum(is.na(select))) {
+      stop("Can't start, there are NA values in the selection matrix!\n")
+    }
+
+    if (dim(select_matrix)[[2]] != 5) {
+      stop("Incorrect dimensions of select_matrix,
+           are you sure you provided all fitnesses?\n")
+    }
+
+    if(length(track_frequency) == 3)  {
+      markers <- seq(track_frequency[1],
+                     track_frequency[2],
+                     length.out = track_frequency[3])
+
+      to_add <- cbind(markers, 1, 1, 1, -1)
+      select <- rbind(select, to_add)
+      vx <- which(duplicated(select[,1]))
+      # remove duplicate entries
+      if(length(vx) > 0) {
+        select <- select[-vx,]
+      }
+
+      track_frequency <- TRUE
+    }
+  }
+
+  set.seed(seed)
+
+  selected_pop <- simulate_cpp(input_population, select,
                pop_size, number_of_founders, total_runtime,
                morgan, progress_bar, track_frequency, track_junctions)
 
