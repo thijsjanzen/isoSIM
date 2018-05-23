@@ -37,7 +37,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                                         std::vector<double>& junctions) {
 
     bool use_selection = FALSE;
-    if(select.nrow() > 0) use_selection = TRUE;
+    if(select(1, 1) > -1e4) use_selection = TRUE;
 
 
     double expected_max_fitness = 1e-6;
@@ -156,7 +156,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
 {
     std::vector< Fish > Pop;
 
-    if(input_population.length() > 0) {
+    if(input_population[0] > -1e4) {
         Pop = convert_NumericVector_to_fishVector(input_population);
 
         number_of_founders = 0;

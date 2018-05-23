@@ -1,10 +1,10 @@
-simulate <- function(input_population = NA,
+simulate <- function(input_population = c(-1e6, -1e6),
                      pop_size,
                      number_of_founders,
                      total_runtime,
                      morgan,
                      seed,
-                     select_matrix = NA,
+                     select_matrix = matrix(-1e6, 2, 2),
                      progress_bar = TRUE,
                      track_junctions = FALSE,
                      track_frequency = FALSE) {
