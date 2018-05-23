@@ -46,7 +46,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     double maxFitness = -1;
 
     if(use_selection) {
-        Rcout << "selection selected, preparing\n";
+        //Rcout << "selection selected, preparing\n";
         for(int j = 0; j < select.nrow(); ++j) {
             if(select(j, 4) < 0) break; // these entries are only for tracking, not for selection calculations
             double local_max_fitness = 0.0;
@@ -159,17 +159,17 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     int number_of_alleles = number_of_founders;
 
     if(input_population[0] > -1e4) {
-        Rcout << "input population exists, converting\n";
+        //Rcout << "input population exists, converting\n";
 
         Pop = convert_NumericVector_to_fishVector(input_population);
 
-        Rcout << "converted numeric vector\n";
+        //Rcout << "converted numeric vector\n";
         number_of_founders = 0;
 
         // update the number of founders, in case
         // the user did not specify correctly
-        Rcout << "starting assessing total number of founders\n";
-        Rcout << "Population is " << Pop.size() << " individuals\n";
+       // Rcout << "starting assessing total number of founders\n";
+        //Rcout << "Population is " << Pop.size() << " individuals\n";
 
         for(auto it = Pop.begin(); it != Pop.end(); ++it) {
             for(auto i = (*it).chromosome1.begin(); i != (*it).chromosome1.end(); ++i) {
@@ -184,7 +184,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
             }
         }
         number_of_alleles = number_of_founders + 1;
-        Rcout << "calculated number of founders\n";
+        //Rcout << "calculated number of founders\n";
     } else {
         Rcout << "on input population found, generating from scratch\n";
         for(int i = 0; i < pop_size; ++i) {
@@ -198,19 +198,19 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     arma::cube frequencies_table;
 
     if(track_frequency) {
-        Rcout << "preparing track frequency\n";
+       // Rcout << "preparing track frequency\n";
         int number_entries = select.nrow();
         arma::cube x(total_runtime, number_of_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
 
-    Rcout << "calculating initial frequencies\n";
-    Rcout << "number of founders: " << number_of_founders << "\n";
+    //Rcout << "calculating initial frequencies\n";
+    //Rcout << "number of founders: " << number_of_founders << "\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_alleles);
 
     std::vector<double> junctions;
 
-    Rcout << "starting simulation\n";
+    //Rcout << "starting simulation\n";
     std::vector<Fish> outputPop = simulate_Population(Pop,
                                                       select,
                                                       pop_size,
