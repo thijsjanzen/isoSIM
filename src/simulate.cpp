@@ -202,7 +202,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
         frequencies_table = x;
     }
 
-    Rcout << "calculating initial frequencies\n"
+    Rcout << "calculating initial frequencies\n";
     Rcout << "number of founders: " << number_of_founders << "\n";
     arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
 
