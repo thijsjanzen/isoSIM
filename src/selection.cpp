@@ -32,9 +32,8 @@ double calculate_fitness_twoAllele(const Fish& focal,
                                    const NumericMatrix& select) {
 
 
-    std::vector< int > num_alleles(number_of_markers, 0);
-
     int number_of_markers = select.nrow();
+    std::vector< int > num_alleles(number_of_markers, 0);
 
     int focal_marker = 0;
     double pos = select(focal_marker, 0);
