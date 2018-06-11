@@ -66,7 +66,7 @@ simulate <- function(input_population = NA,
   final_freq_tibble   <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
                                                      select)
 
-
+  output <- list()
   if(track_frequency == FALSE && track_junctions == FALSE) {
     output <- list("population" = selected_popstruct,
                  "initial_frequency" = initial_freq_tibble,

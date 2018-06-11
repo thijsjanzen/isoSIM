@@ -26,7 +26,8 @@
 \alias{create_random_markers}
 \alias{create_tibble_from_freq_table}
 \alias{create_tibble_from_freq_mat}
+\alias{simulate_cpp}
 
-\description{Internal Guilds functions}
+\description{Internal isoSIM functions}
 \details{These are not to be called by the user}
 \keyword{internal}

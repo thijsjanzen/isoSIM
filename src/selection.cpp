@@ -31,10 +31,11 @@ using namespace Rcpp;
 double calculate_fitness_twoAllele(const Fish& focal,
                                    const NumericMatrix& select) {
 
-    int number_of_markers = select.nrow();
 
     std::vector< int > num_alleles(number_of_markers, 0);
-    
+
+    int number_of_markers = select.nrow();
+
     int focal_marker = 0;
     double pos = select(focal_marker, 0);
     double anc = select(focal_marker, 4);

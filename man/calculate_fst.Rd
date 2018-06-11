@@ -5,7 +5,7 @@
  Calculate FST
 }
 \description{
- The FST value between two populations is calculated, given a number of markers. Markers are superimposed upon the (known) ancestry along the chromosome for all sampled individuals. Markers can be chosen to be regurarly spaced, or randomly distributed.
+ The FST value between two populations is calculated, given a number of markers. Markers are superimposed upon the (known) ancestry along the chromosome for all sampled individuals. Markers can be chosen to be regularly spaced, or randomly distributed.
 }
 \usage{
 calculate_fst(pop1, pop2,
