@@ -9,6 +9,9 @@ Genetic admixture simulation for isofemale lines and further
 # What is isoSIM?
 A package under construction to simulate genetic admixture in relation to isofemale lines
 
+# Demonstration isoSIM
+Thijs Janzen gave a presentation demonstrating isoSIM at the R User Group at the University of Groningen, Groningen, The Netherlands. You can watch his presentation [here](https://streaming3.service.rug.nl/p2gplayer/Player.aspx?id=cxbKvM)  (audio starts after 1 min)
+
 # Version history
 Version 0.48 - Added a general 'simulate' function <br />
 Version 0.47 - Changed the effect of migration <br />
