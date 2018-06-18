@@ -61,9 +61,9 @@ plot_start_end <- function(results,
   }
 
   p1 <- p1 +
-    xlab("Location (Morgan)") +
-    ylab("Frequency") +
-    labs(col = "Ancestor",
+    ggplot2::xlab("Location (Morgan)") +
+    ggplot2::ylab("Frequency") +
+    ggplot2::labs(col = "Ancestor",
          lty = "Time Point")
 
 

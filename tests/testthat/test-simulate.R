@@ -11,7 +11,7 @@ test_that("simulate create_population", {
 
   testthat::expect_true(verify_population(vx))
 
-  vy <- simulate(pop_size = pop_size, number_of_founders = number_of_founders,
+  vy <- simulate_admixture(pop_size = pop_size, number_of_founders = number_of_founders,
                  total_runtime = run_time, morgan = morgan, seed = 42)
 
   testthat::expect_true(verify_population(vy$population))
@@ -34,7 +34,7 @@ test_that("simulate create_population_selection", {
 
   testthat::expect_true(verify_population(selected_pop$population))
 
-  selected_pop2 <- simulate(pop_size = 100,
+  selected_pop2 <- simulate_admixture(pop_size = 100,
                             number_of_founders = 10,
                             total_runtime = 100,
                             morgan = 1,
@@ -64,7 +64,7 @@ test_that("simulate continue selection", {
                                     morgan = 1,
                                     seed = 1233)
 
-  selected_pop2 <- simulate(input_population = sourcepop,
+  selected_pop2 <- simulate_admixture(input_population = sourcepop,
                             select_matrix = select_matrix,
                             pop_size = 100,
                             total_runtime = 100,
