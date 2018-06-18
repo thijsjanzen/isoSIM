@@ -38,7 +38,7 @@ plot_start_end <- function(results,
 
   to_plot_m <- rbind(a1_m, a2_m)
 
-  if(picked_ancestor == "ALL") {
+  if(picked_ancestor[[1]] == "ALL") {
     to_plot <- to_plot_m
 
     p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
@@ -50,7 +50,7 @@ plot_start_end <- function(results,
   } else {
 
     to_plot <- dplyr::filter(to_plot_m,
-                             to_plot_m$ancestor == picked_ancestor)
+                             to_plot_m$ancestor %in% picked_ancestor)
 
     p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
                               y = to_plot$frequency,
@@ -59,5 +59,13 @@ plot_start_end <- function(results,
                                                   to_plot$timepoint))) +
       ggplot2::geom_line(ggplot2::aes(lty = to_plot$timepoint))
   }
+
+  p1 <- p1 +
+    xlab("Location (Morgan)") +
+    ylab("Frequency") +
+    labs(col = "Ancestor",
+         lty = "Time Point")
+
+
   return(p1)
 }
