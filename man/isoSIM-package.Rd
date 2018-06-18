@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.50 - added simulated_admixture until \cr
    Version 0.49 - Added 'simulate' to cpp \cr
    Version 0.48 - Added a general 'simulate' function \cr
    Version 0.47 - Changed the effect of migration \cr
