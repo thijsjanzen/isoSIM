@@ -70,8 +70,8 @@ calculate_tajima_d <- function(pop,
 
   theta_hat <- S / a1
 
-  return(list("D", D,
-              "Pi", pi,
-              "S", S,
-              "theta_hat[Estimated_from_S]", theta_hat))
+  return(list("D" = D,
+              "Pi" = pi,
+              "S" = S,
+              "theta_hat[Estimated_from_S]" = theta_hat))
 }
