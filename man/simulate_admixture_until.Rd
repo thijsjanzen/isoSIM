@@ -53,23 +53,21 @@ simulate_admixture_until(pop_size = 100,
   \item{generations_between_update}{
    Time interval used after which the FST is calculated again. Lower values increase accuracy, but also increase computation time
   }
-  \item{critical_fst} {
+  \item{critical_fst}{
    As long as the Fst between the two populations is lower than this fst, simulations continue
   }
-  \item{sampled_individuals} {
+  \item{sampled_individuals}{
     The number of individuals randomly sampled from the population to calculate the fst
   }
-  \item{number_of_markers} {
+  \item{number_of_markers}{
     Number of markers used to calculate the Fst
   }
-  \item{random_markers} {
+  \item{random_markers}{
     If TRUE, markers are randomly spaced along the chromosome, if FALSE, markers are equidistantly spaced along the chromosome.
   }
-  \item{overlap} {
+  \item{overlap}{
     Shared ancestry between the two populations. This is rounded to an integer, such that the number of shared ancestors is \code{round(number_of_founders * overlap)}
   }
-}
-
 }
 
 \value{
