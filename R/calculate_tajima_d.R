@@ -26,7 +26,7 @@ calculate_tajima_d <- function(pop,
   mutation_rate <- 0
   expected_theta <- 4*pop_size * mutation_rate
 
-  n <- length(pop)
+  n <- 2*number_of_sampled_individuals
   i <- 1:(n-1)
   a1 <- sum(1 / i)
   a2 <- sum(1 / (i^2))
