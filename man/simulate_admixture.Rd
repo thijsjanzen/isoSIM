@@ -1,5 +1,5 @@
-\name{simulate}
-\alias{simulate}
+\name{simulate_admixture}
+\alias{simulate_admixture}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
  Individual based simulation of the breakdown of contiguous ancestry blocks.
@@ -8,7 +8,7 @@
   Individual based simulation of the breakdown of contiguous ancestry blocks, with or without selection. Simulations can be started from scratch, or from a predefined input population.
 }
 \usage{
-simulate(input_population = NA, pop_size,
+simulate_admixture(input_population = NA, pop_size,
                      number_of_founders,
                      total_runtime,
                      morgan,

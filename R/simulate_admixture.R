@@ -1,4 +1,4 @@
-simulate <- function(input_population = NA,
+simulate_admixture <- function(input_population = NA,
                      pop_size = 100,
                      number_of_founders = 2,
                      total_runtime = 100,
