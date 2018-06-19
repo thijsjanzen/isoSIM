@@ -339,6 +339,9 @@ NumericVector update_frequency(const std::vector< Fish >& v,
         for(auto i = ((*it).chromosome1.begin()+1); i != (*it).chromosome1.end(); ++i) {
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
+                if(index > num_alleles) {
+                    Rcout << index << "\t" << num_alleles << "\n";
+                }
                 freq(index)++;
                 break;
             }
@@ -347,6 +350,9 @@ NumericVector update_frequency(const std::vector< Fish >& v,
         for(auto i = ((*it).chromosome2.begin()+1); i != (*it).chromosome2.end(); ++i) {
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
+                if(index > num_alleles) {
+                    Rcout << index << "\t" << num_alleles << "\n";
+                }
                 freq(index)++;
                 break;
             }

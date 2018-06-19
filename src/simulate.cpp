@@ -84,28 +84,28 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
 
         if(track_frequency) {
             for(int i = 0; i < select.nrow(); ++i) {
-                Rcout << "updating frequencies\n";
+              //  Rcout << "updating frequencies\n";
                 if(select(i, 4) < 0) break;
-                Rcout << "frequencies.slice\n";
+              //  Rcout << "frequencies.slice\n";
                 arma::mat x = frequencies.slice(i);
-                Rcout << "update_frequency\n";
+              //  Rcout << "update_frequency\n";
                 NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
 
-                Rcout << "for(int j = 0\n";
+              //  Rcout << "for(int j = 0\n";
                 for(int j = 0; j < v.size(); ++j) {
                     x(t, j) = v(j);
                 }
 
-                Rcout << "frequencies.slice 2\n";
+              //  Rcout << "frequencies.slice 2\n";
                 frequencies.slice(i) = x;
-                Rcout << "frequencies updated\n";
+              //  Rcout << "frequencies updated\n";
             }
         }
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
         double newMaxFitness = -1.0;
-        Rcout << "updating fish\n";
+     //   Rcout << "updating fish\n";
         for(int i = 0; i < pop_size; ++i)  {
             int index1 = 0;
             int index2 = 0;
@@ -144,7 +144,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         newGeneration.clear();
         fitness = newFitness;
         maxFitness = newMaxFitness;
-        Rcout << "done updating, again!\n";
+   //     Rcout << "done updating, again!\n";
     }
     if(progress_bar) Rcout << "\n";
     return(Pop);
