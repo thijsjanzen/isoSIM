@@ -69,3 +69,45 @@ plot_start_end <- function(results,
 
   return(p1)
 }
+
+plot_difference_frequencies <- function(results,
+                                        picked_ancestor = "ALL") {
+
+  a1 <- results$initial_frequency
+  a2 <- results$final_frequency
+
+  a1_m <- dplyr::mutate(a1, timepoint = "start")
+  a2_m <- dplyr::mutate(a2, timepoint = "end")
+
+  colnames(a1) <- c("time"    ,  "location" , "ancestor" , "frequency_before")
+  colnames(a2) <- c("time"    ,  "location" , "ancestor" , "frequency_after")
+
+  ax <- dplyr::full_join(a1,a2, by = c("time", "location", "ancestor"))
+  ax_m <- dplyr::mutate(ax, "diff_frequency" = frequency_after - frequency_before)
+
+  if(picked_ancestor[[1]] == "ALL") {
+    to_plot <- ax_m
+
+    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
+                                                y = to_plot$diff_frequency,
+                                                colour = to_plot$ancestor)) +
+      ggplot2::geom_line()
+  } else {
+
+    to_plot <- dplyr::filter(ax_m,
+                             ax_m$ancestor %in% picked_ancestor)
+
+    p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
+                                                y = to_plot$diff_frequency,
+                                                colour = to_plot$ancestor)) +
+      ggplot2::geom_line()
+  }
+
+  p1 <- p1 +
+    ggplot2::xlab("Location (Morgan)") +
+    ggplot2::ylab("Change in Frequency") +
+    ggplot2::labs(col = "Ancestor")
+
+  return(p1)
+}
+
