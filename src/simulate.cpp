@@ -84,6 +84,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
 
         if(track_frequency) {
             for(int i = 0; i < select.nrow(); ++i) {
+                Rcout << "updating frequencies\n";
                 arma::mat x = frequencies.slice(i);
                 NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
 
@@ -92,13 +93,14 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                 }
 
                 frequencies.slice(i) = x;
+                Rcout << "frequencies updated\n";
             }
         }
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
         double newMaxFitness = -1.0;
-
+        Rcout << "updating fish\n";
         for(int i = 0; i < pop_size; ++i)  {
             int index1 = 0;
             int index2 = 0;
@@ -137,6 +139,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         newGeneration.clear();
         fitness = newFitness;
         maxFitness = newMaxFitness;
+        Rcout << "done updating, again!\n";
     }
     if(progress_bar) Rcout << "\n";
     return(Pop);
@@ -158,7 +161,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     int number_of_alleles = number_of_founders;
 
     if(input_population[0] > -1e4) {
-
+        Rcout << "Found input population! converting!\n";
         Pop = convert_NumericVector_to_fishVector(input_population);
 
         number_of_founders = 0;
@@ -176,7 +179,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
             }
         }
         number_of_alleles = number_of_founders + 1;
-
+        Rcout << "Number of alleles calculated\n";
     } else {
          for(int i = 0; i < pop_size; ++i) {
             Fish p1 = Fish( random_number( number_of_founders ) );
@@ -189,7 +192,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     arma::cube frequencies_table;
 
     if(track_frequency) {
-         int number_entries = select.nrow();
+        int number_entries = select.nrow();
         arma::cube x(total_runtime, number_of_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
