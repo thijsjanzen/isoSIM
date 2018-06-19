@@ -333,7 +333,7 @@ NumericVector update_frequency(const std::vector< Fish >& v,
                                double m,
                                int num_alleles) {
 
-    NumericVector freq(num_alleles+1, 0.0);
+    NumericVector freq(num_alleles, 0.0);
 
     for(auto it = v.begin(); it != v.end(); ++it) {
         for(auto i = ((*it).chromosome1.begin()+1); i != (*it).chromosome1.end(); ++i) {
