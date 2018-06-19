@@ -88,8 +88,8 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                 if(select(i, 4) < 0) break;
               //  Rcout << "frequencies.slice\n";
                 arma::mat x = frequencies.slice(i);
-                Rcout << "update_frequency\n";
-                Rcout << select(i, 0) << "\t" << (int)(x.n_cols) << "\n";
+              //  Rcout << "update_frequency\n";
+              //  Rcout << select(i, 0) << "\t" << (int)(x.n_cols) << "\n";
                 NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
 
               //  Rcout << "for(int j = 0\n";

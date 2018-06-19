@@ -340,6 +340,9 @@ NumericVector update_frequency(const std::vector< Fish >& v,
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
                 if(index >= num_alleles || index < 0) {
+                    Rcout << "ERROR!!\n";
+                    Rcout << "trying to access NumericVector freq outside bounds\n";
+                    Rcout << "in update_frequency\n";
                     Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
                 }
                 freq(index)++;
@@ -351,7 +354,10 @@ NumericVector update_frequency(const std::vector< Fish >& v,
             if((*i).pos > m) {
                 int index = (*(i-1)).right;
                 if(index >= num_alleles || index < 0) {
-                     Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
+                    Rcout << "ERROR!!\n";
+                    Rcout << "trying to access NumericVector freq outside bounds\n";
+                    Rcout << "in update_frequency\n";
+                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
                 }
                 freq(index)++;
                 break;
