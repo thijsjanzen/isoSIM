@@ -10,7 +10,8 @@
 \usage{
 select_population(source_pop, select_matrix,
                   pop_size, total_runtime, morgan, seed,
-                  track_frequency = FALSE, progress_bar = TRUE)
+                  track_frequency = FALSE, progress_bar = TRUE,
+                  multiplicative_selection = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,6 +47,10 @@ select_population(source_pop, select_matrix,
 
 \item{progress_bar}{
    Displays a progress_bar if TRUE. Default value is TRUE
+}
+
+\item{multiplicative_selection}{
+  Default: TRUE. If TRUE, fitness is calculated for multiple markers by multiplying fitness values for each marker. If FALSE, fitness is calculated by adding fitness values for each marker.
 }
 
 }

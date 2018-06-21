@@ -173,6 +173,10 @@ test_that("select population two_alleles regions", {
   plot_start_end(selected_pop,
                  picked_ancestor = 0)
 
+  plot_difference_frequencies(selected_pop)
+  plot_difference_frequencies(selected_pop,
+                              picked_ancestor = 0)
+
 })
 
 

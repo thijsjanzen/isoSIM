@@ -9,7 +9,7 @@
 }
 \usage{
 calculate_tajima_d(pop,
-                   markers = create_random_markers(100),
+                   markers = seq(1e-6,1-1e-6,length.out = 100),
                    number_of_sampled_individuals = 10)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -21,7 +21,7 @@ calculate_tajima_d(pop,
   Vector from 0 to 1 (excluding 0 and 1) indicating the locations of the markers used for the analysis
 }
 
-  \item{sampled_individuals}{
+  \item{number_of_sampled_individuals}{
   Number of individuals to base Tajima's d upon. Individuals are randomly drawn from the population.
 }
 

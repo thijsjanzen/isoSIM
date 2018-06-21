@@ -19,7 +19,8 @@ simulate_admixture_until(pop_size = 100,
                          sampled_individuals = 10,
                          number_of_markers = 100,
                          random_markers = TRUE,
-                         overlap = 0)
+                         overlap = 0,
+                         multiplicative_selection = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -68,6 +69,11 @@ simulate_admixture_until(pop_size = 100,
   \item{overlap}{
     Shared ancestry between the two populations. This is rounded to an integer, such that the number of shared ancestors is \code{round(number_of_founders * overlap)}
   }
+
+
+\item{multiplicative_selection}{
+  Default: TRUE. If TRUE, fitness is calculated for multiple markers by multiplying fitness values for each marker. If FALSE, fitness is calculated by adding fitness values for each marker.
+}
 }
 
 \value{

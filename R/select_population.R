@@ -154,7 +154,7 @@ select_population <- function(source_pop,
                               seed,
                               track_frequency = FALSE,
                               progress_bar = TRUE,
-                              multiplicative_selection) {
+                              multiplicative_selection = TRUE) {
 
   # first we have to convert source_pop to vector...
   pop_for_cpp <- population_to_vector(source_pop)

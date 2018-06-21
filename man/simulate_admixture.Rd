@@ -16,7 +16,8 @@ simulate_admixture(input_population = NA, pop_size,
                      select_matrix = NA,
                      progress_bar = TRUE,
                      track_junctions = FALSE,
-                     track_frequency = FALSE)
+                     track_frequency = FALSE,
+                     multiplicative_selection = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -60,9 +61,12 @@ simulate_admixture(input_population = NA, pop_size,
 }
 
 \item{track_frequency}{
-  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. \code{track_frequency}{
   If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. Alternatively, the user can provide a region for which a fixed number of markers is tracked. The user does this by providing a vector with three entries: \code{start}, \code{end}, \code{number_of_markers}.
 }
+
+
+\item{multiplicative_selection}{
+  Default: TRUE. If TRUE, fitness is calculated for multiple markers by multiplying fitness values for each marker. If FALSE, fitness is calculated by adding fitness values for each marker.
 }
 
 }

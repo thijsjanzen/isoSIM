@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.53 - Added multiplicative_selection \cr
    Version 0.52 - Added plot_difference_frequencies \cr
    Version 0.51 - Added tajima's d calculation \cr
    Version 0.50 - added simulated_admixture until \cr
