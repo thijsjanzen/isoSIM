@@ -25,9 +25,6 @@
 // [[Rcpp::depends("RcppArmadillo")]]
 using namespace Rcpp;
 
-
-
-
 double calculate_fitness_twoAllele(const Fish& focal,
                                    const NumericMatrix& select,
                                    bool multiplicative_selection) {
@@ -251,7 +248,8 @@ List create_population_selection_cpp(NumericMatrix select,
                                                           morgan,
                                                           progress_bar,
                                                           frequencies_table,
-                                                          track_frequency);
+                                                          track_frequency,
+                                                   multiplicative_selection);
 
     arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_founders);
 
@@ -307,7 +305,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    morgan,
                                                    progress_bar,
                                                    frequencies_table,
-                                                   track_frequency);
+                                                   track_frequency,
+                                                   multiplicative_selection);
 
   //  Rcout << "simulation done, starting calculation of final frequencies\n";
     arma::mat final_frequencies = update_all_frequencies(outputPop, selectM, num_alleles);

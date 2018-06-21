@@ -27,7 +27,8 @@ double calculate_fitness_markers(const Fish& focal,
                                  const NumericMatrix& select);
 
 double calculate_fitness_twoAllele(const Fish& focal,
-                                   const NumericMatrix& select);
+                                   const NumericMatrix& select,
+                                   bool multiplicative_selection);
 
 NumericVector update_frequency(const std::vector< Fish >& v,
                                double m,
