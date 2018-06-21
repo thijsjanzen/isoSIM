@@ -7,7 +7,8 @@ simulate_admixture <- function(input_population = NA,
                      select_matrix = NA,
                      progress_bar = TRUE,
                      track_junctions = FALSE,
-                     track_frequency = FALSE) {
+                     track_frequency = FALSE,
+                     multiplicative_selection = TRUE) {
 
   select <- select_matrix
 
@@ -57,7 +58,8 @@ simulate_admixture <- function(input_population = NA,
                                 morgan,
                                 progress_bar,
                                 track_frequency,
-                                track_junctions)
+                                track_junctions,
+                                multiplicative_selection)
 
   selected_popstruct <- create_pop_class(selected_pop$population)
 

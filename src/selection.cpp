@@ -29,7 +29,8 @@ using namespace Rcpp;
 
 
 double calculate_fitness_twoAllele(const Fish& focal,
-                                   const NumericMatrix& select) {
+                                   const NumericMatrix& select,
+                                   bool multiplicative_selection) {
 
 
     int number_of_markers = select.nrow();
@@ -71,12 +72,27 @@ double calculate_fitness_twoAllele(const Fish& focal,
         if(anc < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
     }
 
-    double fitness = 0.0;
-    for(int i = 0; i < num_alleles.size(); ++i) {
-        if(select(i, 4) < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
 
-        int fitness_index = 1 + num_alleles[i];
-        fitness += select(i, fitness_index);
+
+    double fitness = 0.0;
+
+    if(!multiplicative_selection) {
+        for(int i = 0; i < num_alleles.size(); ++i) {
+            if(select(i, 4) < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
+
+            int fitness_index = 1 + num_alleles[i];
+            fitness += select(i, fitness_index);
+        }
+    }
+
+    if(multiplicative_selection) {
+        fitness = 1.0;
+        for(int i = 0; i < num_alleles.size(); ++i) {
+            if(select(i, 4) < 0) break; // these entries are only for tracking alleles over time, not for selection calculation
+
+            int fitness_index = 1 + num_alleles[i];
+            fitness *= select(i, fitness_index);
+        }
     }
 
     return(fitness);
@@ -89,7 +105,8 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                                 double morgan,
                                                 bool progress_bar,
                                                 arma::cube& frequencies,
-                                                bool track_frequency) {
+                                                bool track_frequency,
+                                                bool multiplicative_selection) {
 
     double expected_max_fitness = 1e-6;
     for(int j = 0; j < select.nrow(); ++j) {
@@ -107,7 +124,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     std::vector<double> fitness;
     double maxFitness = -1;
     for(auto it = Pop.begin(); it != Pop.end(); ++it){
-        double fit = calculate_fitness_twoAllele((*it), select);
+        double fit = calculate_fitness_twoAllele((*it), select, multiplicative_selection);
         if(fit > maxFitness) maxFitness = fit;
 
         if(fit > (expected_max_fitness)) { // little fix to avoid numerical problems
@@ -156,7 +173,7 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 
             newGeneration.push_back(kid);
 
-            double fit = calculate_fitness_twoAllele(kid, select);
+            double fit = calculate_fitness_twoAllele(kid, select, multiplicative_selection);
             if(fit > newMaxFitness) newMaxFitness = fit;
 
             if(fit > expected_max_fitness) {

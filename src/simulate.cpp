@@ -34,7 +34,8 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                                         arma::cube& frequencies,
                                         bool track_frequency,
                                         bool track_junctions,
-                                        std::vector<double>& junctions) {
+                                        std::vector<double>& junctions,
+                                        bool multiplicative_selection) {
 
     bool use_selection = FALSE;
     if(select(1, 1) > -1e4) use_selection = TRUE;
@@ -58,7 +59,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         }
 
         for(auto it = Pop.begin(); it != Pop.end(); ++it){
-            double fit = calculate_fitness_twoAllele((*it), select);
+            double fit = calculate_fitness_twoAllele((*it), select, multiplicative_selection);
             if(fit > maxFitness) maxFitness = fit;
 
             if(fit > (expected_max_fitness)) { // little fix to avoid numerical problems
@@ -125,7 +126,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
             newGeneration.push_back(kid);
 
             double fit = -2.0;
-            if(use_selection) fit = calculate_fitness_twoAllele(kid, select);
+            if(use_selection) fit = calculate_fitness_twoAllele(kid, select, multiplicative_selection);
             if(fit > newMaxFitness) newMaxFitness = fit;
 
             if(fit > expected_max_fitness) {
@@ -161,7 +162,8 @@ List simulate_cpp(Rcpp::NumericVector input_population,
               double morgan,
               bool progress_bar,
               bool track_frequency,
-              bool track_junctions)
+              bool track_junctions,
+              bool multiplicative_selection)
 {
     std::vector< Fish > Pop;
     int number_of_alleles = number_of_founders;
@@ -216,7 +218,8 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                                                       frequencies_table,
                                                       track_frequency,
                                                       track_junctions,
-                                                      junctions);
+                                                      junctions,
+                                                      multiplicative_selection);
 
     arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_alleles);
 

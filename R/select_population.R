@@ -85,7 +85,8 @@ create_population_selection <- function(pop_size,
                                         select_matrix,
                                         seed,
                                         track_frequency = FALSE,
-                                        progress_bar = TRUE) {
+                                        progress_bar = TRUE,
+                                        multiplicative_selection = TRUE) {
 
   if (sum(is.na(select_matrix))) {
     stop("Can't start, there are NA values in the selection matrix!\n")
@@ -119,7 +120,8 @@ create_population_selection <- function(pop_size,
                                                  total_runtime,
                                                  morgan,
                                                  progress_bar,
-                                                 track_frequency)
+                                                 track_frequency,
+                                                 multiplicative_selection)
   popstruct <- create_pop_class(pop$population)
 
   initial_freq_tibble <- create_tibble_from_freq_mat(pop$initial_frequencies,
@@ -151,7 +153,8 @@ select_population <- function(source_pop,
                               morgan,
                               seed,
                               track_frequency = FALSE,
-                              progress_bar = TRUE) {
+                              progress_bar = TRUE,
+                              multiplicative_selection) {
 
   # first we have to convert source_pop to vector...
   pop_for_cpp <- population_to_vector(source_pop)
@@ -190,7 +193,8 @@ select_population <- function(source_pop,
                                         total_runtime,
                                         morgan,
                                         progress_bar,
-                                        track_frequency)
+                                        track_frequency,
+                                        multiplicative_selection)
 
   selected_popstruct <- create_pop_class(selected_pop$population)
 

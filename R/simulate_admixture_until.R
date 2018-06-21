@@ -9,7 +9,8 @@ simulate_admixture_until <- function(pop_size = 100,
                                      sampled_individuals = 10,
                                      number_of_markers = 100,
                                      random_markers = TRUE,
-                                     overlap = 0) {
+                                     overlap = 0,
+                                     multiplicative_selection = TRUE) {
 
   pop1 <- simulate_admixture(pop_size = pop_size,
                              number_of_founders = number_of_founders,
@@ -17,7 +18,8 @@ simulate_admixture_until <- function(pop_size = 100,
                              morgan = morgan,
                              seed = seed + 1,
                              select_matrix = select_matrix,
-                             progress_bar = FALSE)$population
+                             progress_bar = FALSE,
+                             multiplicative_selection)$population
 
   pop2 <- simulate_admixture(pop_size = pop_size,
                              number_of_founders = number_of_founders,
@@ -25,7 +27,8 @@ simulate_admixture_until <- function(pop_size = 100,
                              morgan = morgan,
                              seed = seed + 2,
                              select_matrix = select_matrix,
-                             progress_bar = FALSE)$population
+                             progress_bar = FALSE,
+                             multiplicative_selection)$population
 
   pop2 <- increase_ancestor(pop2,
                             increment = round(number_of_founders - number_of_founders * overlap))
@@ -49,7 +52,8 @@ simulate_admixture_until <- function(pop_size = 100,
                                morgan = morgan,
                                seed = seed + cnt,
                                select_matrix = select_matrix,
-                               progress_bar = FALSE
+                               progress_bar = FALSE,
+                               multiplicative_selection
                                )$population
 
     pop2 <- simulate_admixture(pop2,
@@ -58,7 +62,8 @@ simulate_admixture_until <- function(pop_size = 100,
                                morgan = morgan,
                                seed = seed + cnt + 1,
                                select_matrix = select_matrix,
-                               progress_bar = FALSE)$population
+                               progress_bar = FALSE,
+                               multiplicative_selection)$population
     cnt <- cnt + 2
     fst <- calculate_fst(pop1, pop2,
                          sampled_individuals = sampled_individuals,
