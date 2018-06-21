@@ -21,12 +21,12 @@ test_fish_functions <- function() {
     invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
 }
 
-create_population_selection_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency) {
-    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency)
+create_population_selection_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, multiplicative_selection) {
+    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, multiplicative_selection)
 }
 
-select_population_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency) {
-    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency)
+select_population_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, multiplicative_selection) {
+    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, multiplicative_selection)
 }
 
 simulate_cpp <- function(input_population, select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_junctions, multiplicative_selection) {

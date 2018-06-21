@@ -221,7 +221,8 @@ List create_population_selection_cpp(NumericMatrix select,
                                                  int total_runtime,
                                                  double morgan,
                                                  bool progress_bar,
-                                                 bool track_frequency)
+                                                 bool track_frequency,
+                                                 bool multiplicative_selection)
 {
     std::vector< Fish > Pop;
     for(int i = 0; i < pop_size; ++i) {
@@ -268,7 +269,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                            int run_time,
                            double morgan,
                            bool progress_bar,
-                           bool track_frequency) {
+                           bool track_frequency,
+                           bool multiplicative_selection) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
 

@@ -76,8 +76,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // create_population_selection_cpp
-List create_population_selection_cpp(NumericMatrix select, int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar, bool track_frequency);
-RcppExport SEXP _isoSIM_create_population_selection_cpp(SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP) {
+List create_population_selection_cpp(NumericMatrix select, int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar, bool track_frequency, bool multiplicative_selection);
+RcppExport SEXP _isoSIM_create_population_selection_cpp(SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP, SEXP multiplicative_selectionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -88,13 +88,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< bool >::type progress_bar(progress_barSEXP);
     Rcpp::traits::input_parameter< bool >::type track_frequency(track_frequencySEXP);
-    rcpp_result_gen = Rcpp::wrap(create_population_selection_cpp(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency));
+    Rcpp::traits::input_parameter< bool >::type multiplicative_selection(multiplicative_selectionSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_population_selection_cpp(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, multiplicative_selection));
     return rcpp_result_gen;
 END_RCPP
 }
 // select_population_cpp
-List select_population_cpp(Rcpp::NumericVector v1, Rcpp::NumericMatrix selectM, int population_size, int run_time, double morgan, bool progress_bar, bool track_frequency);
-RcppExport SEXP _isoSIM_select_population_cpp(SEXP v1SEXP, SEXP selectMSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP) {
+List select_population_cpp(Rcpp::NumericVector v1, Rcpp::NumericMatrix selectM, int population_size, int run_time, double morgan, bool progress_bar, bool track_frequency, bool multiplicative_selection);
+RcppExport SEXP _isoSIM_select_population_cpp(SEXP v1SEXP, SEXP selectMSEXP, SEXP population_sizeSEXP, SEXP run_timeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP, SEXP multiplicative_selectionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -105,7 +106,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< bool >::type progress_bar(progress_barSEXP);
     Rcpp::traits::input_parameter< bool >::type track_frequency(track_frequencySEXP);
-    rcpp_result_gen = Rcpp::wrap(select_population_cpp(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency));
+    Rcpp::traits::input_parameter< bool >::type multiplicative_selection(multiplicative_selectionSEXP);
+    rcpp_result_gen = Rcpp::wrap(select_population_cpp(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, multiplicative_selection));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -136,8 +138,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_isofemale_line_cpp", (DL_FUNC) &_isoSIM_create_isofemale_line_cpp, 5},
     {"_isoSIM_create_two_populations_migration_cpp", (DL_FUNC) &_isoSIM_create_two_populations_migration_cpp, 6},
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
-    {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 7},
-    {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 7},
+    {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 8},
+    {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 8},
     {"_isoSIM_simulate_cpp", (DL_FUNC) &_isoSIM_simulate_cpp, 10},
     {NULL, NULL, 0}
 };
