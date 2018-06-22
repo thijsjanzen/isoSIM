@@ -187,7 +187,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
             }
         }
         number_of_alleles = number_of_founders + 1;
-        Rcout << "Number of alleles calculated\n";
+       // Rcout << "Number of alleles calculated\n";
     } else {
          for(int i = 0; i < pop_size; ++i) {
             Fish p1 = Fish( random_number( number_of_founders ) );
@@ -200,6 +200,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     arma::cube frequencies_table;
 
     if(track_frequency) {
+        Rcout << "Preparing frequencies_table\n";
         int number_entries = select.nrow();
         arma::cube x(total_runtime, number_of_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
