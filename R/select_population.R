@@ -115,20 +115,20 @@ create_population_selection <- function(pop_size,
 
   set.seed(seed)
   pop <- create_population_selection_cpp(select_matrix,
-                                                 pop_size,
-                                                 number_of_founders,
-                                                 total_runtime,
-                                                 morgan,
-                                                 progress_bar,
-                                                 track_frequency,
-                                                 multiplicative_selection)
+                                          pop_size,
+                                          number_of_founders,
+                                          total_runtime,
+                                          morgan,
+                                          progress_bar,
+                                          track_frequency,
+                                          multiplicative_selection)
+
   popstruct <- create_pop_class(pop$population)
 
   initial_freq_tibble <- create_tibble_from_freq_mat(pop$initial_frequencies,
                                                        select_matrix)
   final_freq_tibble <- create_tibble_from_freq_mat(pop$final_frequencies,
                                                      select_matrix)
-
 
   output <- list("population" = popstruct,
                  "initial_frequency" = initial_freq_tibble,
