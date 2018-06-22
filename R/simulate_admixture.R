@@ -49,7 +49,7 @@ simulate_admixture <- function(input_population = NA,
 
     track_frequency <- TRUE
   } else {
-    select <- matrix(-1e6, -1, -1, -1, -1)
+    select <- matrix(-1e6, 1 , 5)
   }
 
 
