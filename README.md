@@ -13,8 +13,11 @@ A package under construction to simulate genetic admixture in relation to isofem
 Thijs Janzen gave a presentation demonstrating isoSIM at the R User Group at the University of Groningen, Groningen, The Netherlands. You can watch his presentation [here](https://streaming3.service.rug.nl/p2gplayer/Player.aspx?id=cxbKvM)  (audio starts after 1 min)
 
 # Version history
-Version 0.50 - added simulated_admixture until \cr
-Version 0.49 - Added 'simulate' to cpp \cr
+Version 0.53 - Added multiplicative_selection <br />
+Version 0.52 - Added plot_difference_frequencies <br />
+Version 0.51 - Added tajima's d calculation <br />
+Version 0.50 - added simulated_admixture until <br />
+Version 0.49 - Added 'simulate' to cpp <br />
 Version 0.48 - Added a general 'simulate' function <br />
 Version 0.47 - Changed the effect of migration <br />
 Version 0.46 - Added joyplot & increase_ancestor <br />
