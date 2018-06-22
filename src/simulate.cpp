@@ -169,7 +169,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     int number_of_alleles = number_of_founders;
 
     if(input_population[0] > -1e4) {
-        Rcout << "Found input population! converting!\n";
+     //   Rcout << "Found input population! converting!\n";
         Pop = convert_NumericVector_to_fishVector(input_population);
 
         number_of_founders = 0;
@@ -187,7 +187,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
             }
         }
         number_of_alleles = number_of_founders + 1;
-        Rcout << "Number of alleles calculated\n";
+   //     Rcout << "Number of alleles calculated\n";
     } else {
          for(int i = 0; i < pop_size; ++i) {
             Fish p1 = Fish( random_number( number_of_founders ) );
