@@ -28,25 +28,30 @@ simulate_admixture <- function(input_population = NA,
       stop("Incorrect dimensions of select_matrix,
            are you sure you provided all fitnesses?\n")
     }
-
-    if(length(track_frequency) == 3)  {
-      markers <- seq(track_frequency[1],
-                     track_frequency[2],
-                     length.out = track_frequency[3])
-
-      to_add <- cbind(markers, 1, 1, 1, -1)
-      select <- rbind(select, to_add)
-      vx <- which(duplicated(select[,1]))
-      # remove duplicate entries
-      if(length(vx) > 0) {
-        select <- select[-vx,]
-      }
-
-      track_frequency <- TRUE
-    }
-  } else {
-    select <- matrix(-1e6, 2, 2)
   }
+
+  if(length(track_frequency) == 3)  {
+   markers <- seq(track_frequency[1],
+                   track_frequency[2],
+                   length.out = track_frequency[3])
+
+    to_add <- cbind(markers, -1, -1, -1, -1)
+    if(is.matrix(select)) {
+      select <- rbind(select, to_add)
+    } else {
+      select <- to_add
+    }
+    vx <- which(duplicated(select[,1]))
+    # remove duplicate entries
+    if(length(vx) > 0) {
+      select <- select[-vx,]
+    }
+
+    track_frequency <- TRUE
+  } else {
+    select <- matrix(-1e6, -1, -1, -1, -1)
+  }
+
 
   set.seed(seed)
 

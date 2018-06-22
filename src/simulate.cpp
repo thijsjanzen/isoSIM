@@ -38,7 +38,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                                         bool multiplicative_selection) {
 
     bool use_selection = FALSE;
-    if(select(1, 1) > -1e4) use_selection = TRUE;
+    if(select(1, 1) > -1e4 && select(1,4) > 0) use_selection = TRUE;
 
 
     double expected_max_fitness = 1e-6;
