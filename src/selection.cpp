@@ -102,9 +102,9 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                                 double morgan,
                                                 bool progress_bar,
                                                 arma::cube& frequencies,
+                                                bool track_frequency,
                                                 const NumericVector track_markers,
                                                 int num_alleles,
-                                                bool track_frequency,
                                                 bool multiplicative_selection) {
 
     double expected_max_fitness = 1e-6;
