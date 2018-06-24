@@ -2,9 +2,6 @@ context("simulate_Admixture")
 
 test_that("simulate admixture abuse", {
 
-
-
-
   vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
                            total_runtime = 100,
@@ -74,5 +71,6 @@ test_that("simulate admixture abuse", {
                            track_junctions = TRUE,
                            track_frequency = track_freq,
                            multiplicative_selection = TRUE)
+
 
 })
