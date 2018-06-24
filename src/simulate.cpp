@@ -91,7 +91,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                 if(track_markers(i) < 0) break;
                 NumericVector v = update_frequency(Pop, track_markers[i], num_alleles);
                 for(int j = 0; j < v.size(); ++j) {
-                    x(t, j+1) = v[j];
+                    x(t, j) = v[j];
                 }
                 frequencies.slice(i) = x;
             }
