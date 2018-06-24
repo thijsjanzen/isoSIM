@@ -46,7 +46,7 @@ plot_start_end <- function(results,
                               colour = to_plot$ancestor,
                               group = interaction(to_plot$ancestor,
                                                   to_plot$timepoint))) +
-      ggplot2::geom_line(ggplot2::aes(lty = to_plot$timepoint))
+      ggplot2::geom_step(ggplot2::aes(lty = to_plot$timepoint))
   } else {
 
     to_plot <- dplyr::filter(to_plot_m,
@@ -57,7 +57,7 @@ plot_start_end <- function(results,
                               colour = to_plot$ancestor,
                               group = interaction(to_plot$ancestor,
                                                   to_plot$timepoint))) +
-      ggplot2::geom_line(ggplot2::aes(lty = to_plot$timepoint))
+      ggplot2::geom_step(ggplot2::aes(lty = to_plot$timepoint))
   }
 
   p1 <- p1 +
@@ -91,7 +91,7 @@ plot_difference_frequencies <- function(results,
     p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
                                                 y = to_plot$diff_frequency,
                                                 colour = to_plot$ancestor)) +
-      ggplot2::geom_line()
+      ggplot2::geom_step()
   } else {
 
     to_plot <- dplyr::filter(ax_m,
@@ -100,7 +100,7 @@ plot_difference_frequencies <- function(results,
     p1 <- ggplot2::ggplot(to_plot, ggplot2::aes(x = to_plot$location,
                                                 y = to_plot$diff_frequency,
                                                 colour = to_plot$ancestor)) +
-      ggplot2::geom_line()
+      ggplot2::geom_step()
   }
 
   p1 <- p1 +
