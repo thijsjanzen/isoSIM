@@ -301,7 +301,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
         frequencies_table = x;
     }
 
-    arma::mat initial_frequencies = update_all_frequencies(Pop, selectM, num_alleles);
+    arma::mat initial_frequencies = update_all_frequencies(Pop, track_markers, num_alleles);
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                    selectM,
@@ -316,7 +316,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    multiplicative_selection);
 
   //  Rcout << "simulation done, starting calculation of final frequencies\n";
-    arma::mat final_frequencies = update_all_frequencies(outputPop, selectM, num_alleles);
+    arma::mat final_frequencies = update_all_frequencies(outputPop, track_markers, num_alleles);
 
     return List::create( Named("population") = convert_to_list(outputPop),
                         Named("frequencies") = frequencies_table,
