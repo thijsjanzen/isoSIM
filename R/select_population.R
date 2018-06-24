@@ -99,8 +99,8 @@ create_population_selection <- function(pop_size,
 
   markers <- c(-1,-1)
 
-  if(is.matrix(select)) {
-    markers <- t(select[,1])
+  if(is.matrix(select_matrix)) {
+    markers <- t(select_matrix[,1])
   }
 
   if(length(track_frequency) == 3)  {
