@@ -37,15 +37,19 @@ simulate_admixture <- function(input_population = NA,
   markers <- c(-1,-1)
 
   if(is.matrix(select)) {
-    markers <- t(select[,1])
+    markers <- (select[,1])
   }
-
-
 
   if(length(track_frequency) == 3)  {
     markers <- seq(track_frequency[1],
                    track_frequency[2],
                    length.out = track_frequency[3])
+
+    if(is.matrix(select)) {
+      markers <- c(markers, select[,1])
+      markers <- sort(markers)
+      markers <- unique(markers)
+    }
 
     track_frequency <- TRUE
   }
@@ -68,6 +72,7 @@ simulate_admixture <- function(input_population = NA,
 
   initial_freq_tibble <- create_tibble_from_freq_mat(selected_pop$initial_frequencies,
                                                      markers)
+
   final_freq_tibble   <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
                                                      markers)
 

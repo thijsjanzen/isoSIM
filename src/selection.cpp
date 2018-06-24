@@ -195,14 +195,14 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
 }
 
 arma::mat update_all_frequencies(const std::vector< Fish >& pop,
-                                 const NumericMatrix& select_matrix,
+                                 const NumericVector& markers,
                                  int number_of_founders) {
 
-    arma::mat output(select_matrix.nrow(), number_of_founders);
+    arma::mat output(markers.size(), number_of_founders);
 
-    for(int i = 0; i < select_matrix.nrow(); ++i) {
+    for(int i = 0; i < markers.size(); ++i) {
         NumericVector v = update_frequency(pop,
-                                           select_matrix(i, 0),
+                                           markers[i],
                                            number_of_founders);
         for(int j = 0; j < v.size(); ++j) {
             output(i, j) = v(j);
@@ -240,7 +240,7 @@ List create_population_selection_cpp(NumericMatrix select,
         frequencies_table = x;
     }
 
-    arma::mat initial_frequencies = update_all_frequencies(Pop, select, number_of_founders);
+    arma::mat initial_frequencies = update_all_frequencies(Pop, track_markers, number_of_founders);
 
     std::vector<Fish> outputPop = selectPopulation(Pop,
                                                           select,
@@ -254,7 +254,7 @@ List create_population_selection_cpp(NumericMatrix select,
                                                           number_of_founders,
                                                           multiplicative_selection);
 
-    arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_founders);
+    arma::mat final_frequencies = update_all_frequencies(outputPop, track_markers, number_of_founders);
 
 
 
