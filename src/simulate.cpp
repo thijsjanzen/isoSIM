@@ -88,10 +88,10 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         if(track_frequency) {
             for(int i = 0; i < track_markers.size(); ++i) {
                 arma::mat x = frequencies.slice(i);
-                if(track_markers(i) < 0) break;
+                if(track_markers[i] < 0) break;
                 NumericVector v = update_frequency(Pop, track_markers[i], num_alleles);
                 for(int j = 0; j < v.size(); ++j) {
-                    x(t, j) = v[j];
+                    x(t, j) = v(j);
                 }
                 frequencies.slice(i) = x;
             }
@@ -195,7 +195,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
 
     if(track_frequency) {
         //Rcout << "Preparing frequencies_table\n";
-        int number_entries = select.nrow();
+        int number_entries = track_markers.size();
         arma::cube x(total_runtime, number_of_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
