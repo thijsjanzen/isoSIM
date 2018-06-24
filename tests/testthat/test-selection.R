@@ -1,3 +1,9 @@
+if(1 == 2) {
+  devtools::install_github("thijsjanzen/isoSIM")
+  library(isoSIM)
+}
+
+
 context("selection two alleles")
 
 test_that("select population two_alleles", {

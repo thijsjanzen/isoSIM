@@ -1,6 +1,3 @@
-devtools::install_github("thijsjanzen/isoSIM")
-library(isoSIM)
-
 context("simulate_Admixture")
 
 test_that("simulate admixture abuse", {
