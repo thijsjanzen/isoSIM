@@ -1,4 +1,5 @@
 #devtools::install_github("thijsjanzen/isoSIM")
+
 #library(isoSIM)
 
 context("simulate_Admixture")

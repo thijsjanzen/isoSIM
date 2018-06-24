@@ -28,9 +28,13 @@ simulate_admixture <- function(input_population = NA,
       stop("Incorrect dimensions of select_matrix,
            are you sure you provided all fitnesses?\n")
     }
+  } else {
+    if(is.na(select)) {
+      select <- matrix(-1, nrow=2,ncol=2)
+    }
   }
 
-  markers <- c()
+  markers <- c(-1,-1)
 
   if(track_frequency == TRUE) {
     markers <- t(select[,1]) # track each marker under selection

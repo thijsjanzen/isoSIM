@@ -40,7 +40,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                                         int num_alleles) {
 
     bool use_selection = FALSE;
-    if(select(1, 1) > -1e4 && select(1,4) > 0) use_selection = TRUE;
+    if(select(0, 0) >= 0) use_selection = TRUE;
 
 
     double expected_max_fitness = 1e-6;
@@ -88,6 +88,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         if(track_frequency) {
             for(int i = 0; i < track_markers.size(); ++i) {
                 arma::mat x = frequencies.slice(i);
+                if(track_markers(i) < 0) break;
                 NumericVector v = update_frequency(Pop, track_markers(i), num_alleles);
                 for(int j = 0; j < v.size(); ++j) {
                     x(t, j) = v(j);
