@@ -102,12 +102,14 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
                                                 double morgan,
                                                 bool progress_bar,
                                                 arma::cube& frequencies,
+                                                const NumericVector track_markers,
+                                                int num_alleles,
                                                 bool track_frequency,
                                                 bool multiplicative_selection) {
 
     double expected_max_fitness = 1e-6;
     for(int j = 0; j < select.nrow(); ++j) {
-        if(select(j, 4) < 0) break; // these entries are only for tracking, not for selection calculations
+   //     if(select(j, 4) < 0) break; // these entries are only for tracking, not for selection calculations
         double local_max_fitness = 0.0;
         for(int i = 1; i < 4; ++i) {
             if(select(j, i) > local_max_fitness) {
@@ -143,19 +145,16 @@ std::vector< Fish > selectPopulation(const std::vector< Fish>& sourcePop,
     for(int t = 0; t < total_runtime; ++t) {
 
         if(track_frequency) {
-           for(int i = 0; i < select.nrow(); ++i) {
-               if(select(i, 4) < 0) break;
+            for(int i = 0; i < track_markers.size(); ++i) {
                 arma::mat x = frequencies.slice(i);
-                NumericVector v = update_frequency(Pop, select(i, 0), x.n_cols);
-
+                if(track_markers[i] < 0) break;
+                NumericVector v = update_frequency(Pop, track_markers[i], num_alleles);
                 for(int j = 0; j < v.size(); ++j) {
                     x(t, j) = v(j);
                 }
-           
                 frequencies.slice(i) = x;
             }
         }
-
 
         std::vector<Fish> newGeneration;
         std::vector<double> newFitness;
@@ -222,6 +221,7 @@ List create_population_selection_cpp(NumericMatrix select,
                                                  double morgan,
                                                  bool progress_bar,
                                                  bool track_frequency,
+                                                 const NumericVector& track_markers,
                                                  bool multiplicative_selection)
 {
     std::vector< Fish > Pop;
@@ -235,7 +235,7 @@ List create_population_selection_cpp(NumericMatrix select,
     arma::cube frequencies_table;
 
     if(track_frequency) {
-        int number_entries = select.nrow();
+        int number_entries = track_markers.size();
         arma::cube x(total_runtime, number_of_founders, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
@@ -250,7 +250,9 @@ List create_population_selection_cpp(NumericMatrix select,
                                                           progress_bar,
                                                           frequencies_table,
                                                           track_frequency,
-                                                   multiplicative_selection);
+                                                          track_markers,
+                                                          number_of_founders,
+                                                          multiplicative_selection);
 
     arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_founders);
 
@@ -270,6 +272,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
                            double morgan,
                            bool progress_bar,
                            bool track_frequency,
+                           const NumericVector track_markers,
                            bool multiplicative_selection) {
 
     std::vector< Fish > Pop = convert_NumericVector_to_fishVector(v1);
@@ -293,7 +296,7 @@ List select_population_cpp(Rcpp::NumericVector v1,
     arma::cube frequencies_table;
     if(track_frequency) {
 
-        int number_entries = selectM.nrow();
+        int number_entries = track_markers.size();
         arma::cube x(run_time, num_alleles, number_entries); // n_row, n_col, n_slices, type
         frequencies_table = x;
     }
@@ -308,6 +311,8 @@ List select_population_cpp(Rcpp::NumericVector v1,
                                                    progress_bar,
                                                    frequencies_table,
                                                    track_frequency,
+                                                   track_markers,
+                                                   num_alleles,
                                                    multiplicative_selection);
 
   //  Rcout << "simulation done, starting calculation of final frequencies\n";
