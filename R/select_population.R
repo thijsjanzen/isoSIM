@@ -34,7 +34,7 @@ create_tibble_from_freq_table <- function(frequencies, select_matrix) {
 
   to_apply <- function(local_mat, i) {
     time <- 0:(length(local_mat[[i]][,1])-1)
-    marker_indicator <- rep(select_matrix[i, 1], length(time))
+    marker_indicator <- rep(select_matrix[i], length(time))
     freq_tibble <- tibble::as.tibble( cbind(time,
                                             marker_indicator,
                                             local_mat[[i]]))

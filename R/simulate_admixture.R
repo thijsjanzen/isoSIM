@@ -36,20 +36,19 @@ simulate_admixture <- function(input_population = NA,
 
   markers <- c(-1,-1)
 
-  if(length(track_frequency) == 1) {
-    if(track_frequency == TRUE) {
-      markers <- t(select[,1]) # track each marker under selection
-    }
-  } else {
-    if(length(track_frequency) == 3)  {
-      markers <- seq(track_frequency[1],
-                     track_frequency[2],
-                     length.out = track_frequency[3])
-
-      track_frequency <- TRUE
-    }
+  if(is.matrix(select)) {
+    markers <- t(select[,1])
   }
 
+
+
+  if(length(track_frequency) == 3)  {
+    markers <- seq(track_frequency[1],
+                   track_frequency[2],
+                   length.out = track_frequency[3])
+
+    track_frequency <- TRUE
+  }
 
   set.seed(seed)
 
@@ -68,9 +67,9 @@ simulate_admixture <- function(input_population = NA,
   selected_popstruct <- create_pop_class(selected_pop$population)
 
   initial_freq_tibble <- create_tibble_from_freq_mat(selected_pop$initial_frequencies,
-                                                     select)
+                                                     markers)
   final_freq_tibble   <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
-                                                     select)
+                                                     markers)
 
   output <- list()
   if(track_frequency == FALSE && track_junctions == FALSE) {
