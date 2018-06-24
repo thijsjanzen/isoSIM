@@ -60,7 +60,7 @@ create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
   for(i in 1:(dim(frequencies)[[1]])) {
     local_mat <- frequencies[i,]
     time <- 0
-    marker_indicator <- select_matrix[i, 1]
+    marker_indicator <- select_matrix[i]
     freq_tibble <- c(time, marker_indicator, local_mat)
 
     found_markers <- rbind(found_markers, freq_tibble)
