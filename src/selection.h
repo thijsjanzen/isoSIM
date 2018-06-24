@@ -35,7 +35,7 @@ NumericVector update_frequency(const std::vector< Fish >& v,
                                int num_alleles);
 
 arma::mat update_all_frequencies(const std::vector< Fish >& pop,
-                                 const NumericMatrix& select_matrix,
+                                 const NumericVector& select_matrix,
                                  int number_of_founders);
 
 
