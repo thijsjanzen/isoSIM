@@ -90,7 +90,7 @@ simulate_admixture <- function(input_population = NA,
 
     output <- list("population" = selected_popstruct,
                    "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 select),
+                                                                 markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }
@@ -99,7 +99,7 @@ simulate_admixture <- function(input_population = NA,
 
     output <- list("population" = selected_popstruct,
                    "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 select),
+                                                                 markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble,
                    "junctions" = selected_pop$junctions)
