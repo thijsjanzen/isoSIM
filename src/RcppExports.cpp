@@ -112,8 +112,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // simulate_cpp
-List simulate_cpp(Rcpp::NumericVector input_population, NumericMatrix select, int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar, bool track_frequency, bool track_junctions, bool multiplicative_selection);
-RcppExport SEXP _isoSIM_simulate_cpp(SEXP input_populationSEXP, SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP, SEXP track_junctionsSEXP, SEXP multiplicative_selectionSEXP) {
+List simulate_cpp(Rcpp::NumericVector input_population, NumericMatrix select, int pop_size, int number_of_founders, int total_runtime, double morgan, bool progress_bar, bool track_frequency, NumericVector track_markers, bool track_junctions, bool multiplicative_selection);
+RcppExport SEXP _isoSIM_simulate_cpp(SEXP input_populationSEXP, SEXP selectSEXP, SEXP pop_sizeSEXP, SEXP number_of_foundersSEXP, SEXP total_runtimeSEXP, SEXP morganSEXP, SEXP progress_barSEXP, SEXP track_frequencySEXP, SEXP track_markersSEXP, SEXP track_junctionsSEXP, SEXP multiplicative_selectionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -125,9 +125,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type morgan(morganSEXP);
     Rcpp::traits::input_parameter< bool >::type progress_bar(progress_barSEXP);
     Rcpp::traits::input_parameter< bool >::type track_frequency(track_frequencySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type track_markers(track_markersSEXP);
     Rcpp::traits::input_parameter< bool >::type track_junctions(track_junctionsSEXP);
     Rcpp::traits::input_parameter< bool >::type multiplicative_selection(multiplicative_selectionSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_cpp(input_population, select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_junctions, multiplicative_selection));
+    rcpp_result_gen = Rcpp::wrap(simulate_cpp(input_population, select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -140,7 +141,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_test_fish_functions", (DL_FUNC) &_isoSIM_test_fish_functions, 0},
     {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 8},
     {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 8},
-    {"_isoSIM_simulate_cpp", (DL_FUNC) &_isoSIM_simulate_cpp, 10},
+    {"_isoSIM_simulate_cpp", (DL_FUNC) &_isoSIM_simulate_cpp, 11},
     {NULL, NULL, 0}
 };
 

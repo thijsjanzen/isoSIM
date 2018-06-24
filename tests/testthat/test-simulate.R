@@ -62,14 +62,16 @@ test_that("simulate continue selection", {
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
-                                    seed = 1233)
+                                    seed = 1233,
+                                    multiplicative_selection = FALSE)
 
   selected_pop2 <- simulate_admixture(input_population = sourcepop,
                             select_matrix = select_matrix,
                             pop_size = 100,
                             total_runtime = 100,
                             morgan = 1,
-                            seed = 1233)
+                            seed = 1233,
+                            multiplicative_selection = FALSE)
 
   testthat::expect_true(verify_population(selected_pop2$population))
 

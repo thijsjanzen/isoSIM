@@ -33,9 +33,11 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                                         bool progress_bar,
                                         arma::cube& frequencies,
                                         bool track_frequency,
+                                        const std::vector<double>& track_markers,
                                         bool track_junctions,
                                         std::vector<double>& junctions,
-                                        bool multiplicative_selection) {
+                                        bool multiplicative_selection,
+                                        int num_alleles) {
 
     bool use_selection = FALSE;
     if(select(1, 1) > -1e4 && select(1,4) > 0) use_selection = TRUE;
@@ -84,7 +86,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         if(track_junctions) junctions.push_back(calc_mean_junctions(Pop));
 
         if(track_frequency) {
-            for(int i = 0; i < select.nrow(); ++i) {
+            /*for(int i = 0; i < select.nrow(); ++i) {
                 //Rcout << "updating frequencies\n";
                 if(select(i, 4) < 0) break;
                 //Rcout << "frequencies.slice\n";
@@ -101,6 +103,14 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
                // Rcout << "frequencies.slice 2\n";
                 frequencies.slice(i) = x;
                // Rcout << "frequencies updated\n";
+            }*/
+            for(int i = 0; i < track_markers.size(); ++i) {
+                arma::mat x = frequencies.slice(i);
+                NumericVector v = update_frequency(Pop, track_markers[i], num_alleles);
+                for(int j = 0; j < v.size(); ++j) {
+                    x(t, j) = v(j);
+                }
+                frequencies.slice(i) = x;
             }
         }
 
@@ -162,6 +172,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
               double morgan,
               bool progress_bar,
               bool track_frequency,
+              NumericVector track_markers,
               bool track_junctions,
               bool multiplicative_selection)
 {
@@ -218,9 +229,11 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                                                       progress_bar,
                                                       frequencies_table,
                                                       track_frequency,
+                                                      track_markers,
                                                       track_junctions,
                                                       junctions,
-                                                      multiplicative_selection);
+                                                      multiplicative_selection,
+                                                      number_of_alleles);
 
     arma::mat final_frequencies = update_all_frequencies(outputPop, select, number_of_alleles);
 

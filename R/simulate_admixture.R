@@ -30,26 +30,18 @@ simulate_admixture <- function(input_population = NA,
     }
   }
 
-  if(length(track_frequency) == 3)  {
-   markers <- seq(track_frequency[1],
-                   track_frequency[2],
-                   length.out = track_frequency[3])
+  markers <- c()
 
-    to_add <- cbind(markers, -1, -1, -1, -1)
-    if(is.matrix(select)) {
-      select <- rbind(select, to_add)
-    } else {
-      select <- to_add
-    }
-    vx <- which(duplicated(select[,1]))
-    # remove duplicate entries
-    if(length(vx) > 0) {
-      select <- select[-vx,]
-    }
-
-    track_frequency <- TRUE
+  if(track_frequency == TRUE) {
+    markers <- t(select[,1]) # track each marker under selection
   } else {
-    select <- matrix(-1e6, 1 , 5)
+    if(length(track_frequency) == 3)  {
+      markers <- seq(track_frequency[1],
+                     track_frequency[2],
+                     length.out = track_frequency[3])
+
+      track_frequency <- TRUE
+    }
   }
 
 
@@ -63,6 +55,7 @@ simulate_admixture <- function(input_population = NA,
                                 morgan,
                                 progress_bar,
                                 track_frequency,
+                                markers,
                                 track_junctions,
                                 multiplicative_selection)
 
