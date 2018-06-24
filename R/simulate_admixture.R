@@ -36,8 +36,10 @@ simulate_admixture <- function(input_population = NA,
 
   markers <- c(-1,-1)
 
-  if(track_frequency == TRUE) {
-    markers <- t(select[,1]) # track each marker under selection
+  if(length(track_frequency) == 1) {
+    if(track_frequency == TRUE) {
+      markers <- t(select[,1]) # track each marker under selection
+    }
   } else {
     if(length(track_frequency) == 3)  {
       markers <- seq(track_frequency[1],

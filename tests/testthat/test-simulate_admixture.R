@@ -1,6 +1,5 @@
-#devtools::install_github("thijsjanzen/isoSIM")
-
-#library(isoSIM)
+devtools::install_github("thijsjanzen/isoSIM")
+library(isoSIM)
 
 context("simulate_Admixture")
 
@@ -9,7 +8,7 @@ test_that("simulate admixture abuse", {
 
 
 
-  vx <- simulate_admixture(pop_size = 100,
+  vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
                            total_runtime = 100,
                            morgan = 1,
@@ -45,7 +44,7 @@ test_that("simulate admixture abuse", {
                                             multiplicative_selection = TRUE))
 
   track_freq <- c(0.4, 0.6, 100)
-  vx <- simulate_admixture(pop_size = 100,
+  vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
                            total_runtime = 100,
                            morgan = 1,
@@ -56,7 +55,7 @@ test_that("simulate admixture abuse", {
                            track_frequency = track_freq,
                            multiplicative_selection = TRUE)
 
-  vx <- simulate_admixture(pop_size = 100,
+  vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
                            total_runtime = 100,
                            morgan = 1,
@@ -68,7 +67,7 @@ test_that("simulate admixture abuse", {
                            multiplicative_selection = TRUE)
 
 
-  vx <- simulate_admixture(pop_size = 100,
+  vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
                            total_runtime = 100,
                            morgan = 1,
