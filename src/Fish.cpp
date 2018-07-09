@@ -102,8 +102,19 @@ void Recombine(      std::vector<junction>& offspring,
     for(int i = 0; i < toAdd.size(); ++i) {
         if(toAdd[i].right == -1 && toAdd[i].pos < 1) {
             Rcout << "This break point was not addressed!\n";
+
+            Rcout << "Chromosome 1\n";
+            for(int j = 0; j < chromosome1.size(); ++j) {
+                std::cout << chromosome1[j].pos << "\t" << chromosome1[j].right << "\n";
+            }
+
+            Rcout << "Chromosome 2\n";
+            for(int j = 0; j < chromosome2.size(); ++j) {
+                Rcout << chromosome2[j].pos << "\t" << chromosome2[j].right << "\n";
+            }
+
             for(int j = 0; j < toAdd.size(); ++j) {
-                std::cout << toAdd[j].pos << "\t" << toAdd[j].right << "\n";
+                Rcout << toAdd[j].pos << "\t" << toAdd[j].right << "\n";
             }
             stop("Error in toAdd\n");
         }
