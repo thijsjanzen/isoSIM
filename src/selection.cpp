@@ -366,7 +366,9 @@ NumericVector update_frequency(const std::vector< Fish >& v,
                     Rcout << "ERROR!!\n";
                     Rcout << "trying to access NumericVector freq outside bounds\n";
                     Rcout << "in update_frequency\n";
-                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\t" << (*i).pos << "\t" << m << "\t" << (*it).chromosome1.size() << "\n";
+                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
+                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome1.size() << "\n";
+                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome1.empty() << "\n";
                 }
                 freq(index)++;
                 break;
@@ -380,7 +382,9 @@ NumericVector update_frequency(const std::vector< Fish >& v,
                     Rcout << "ERROR!!\n";
                     Rcout << "trying to access NumericVector freq outside bounds\n";
                     Rcout << "in update_frequency\n";
-                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\t" << (*i).pos << "\t" << m << (*it).chromosome2.size() << "\n";
+                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
+                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome2.size() << "\n";
+                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome2.empty() << "\n"
                 }
                 freq(index)++;
                 break;
