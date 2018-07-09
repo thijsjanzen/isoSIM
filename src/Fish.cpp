@@ -173,6 +173,7 @@ void Recombine(      std::vector<junction>& offspring,
                 Rcout << "Error introduced in recombine\n";
                 Rcout << "Recombining " << numRecombinations << "\t crossovers\n";
                 bool parent1 = false;
+                bool parent2 = false;
                 for(int j = 0; j < chromosome1.size(); ++j) {
                     if(chromosome1[j].right == -1 && chromosome1[j].pos < 1.0) {
                         parent1 = true;
@@ -183,7 +184,7 @@ void Recombine(      std::vector<junction>& offspring,
                         parent2 = true;
                     }
                 }
-                Rcout "Do the parents have a -1 as well? (1 = yes, 0 is no)\n";
+                Rcout << "Do the parents have a -1 as well? (1 = yes, 0 is no)\n";
                 Rcout << "Parent1: " << parent1 << "\t" << "Parent2: " << parent2 << "\n";
             }
         }
