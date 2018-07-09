@@ -71,7 +71,6 @@ void Recombine(      std::vector<junction>& offspring,
                     } else { // uneven so chrom1 = R, chrom2 = L
                         if(j < toAdd.size()) {
                             toAdd[j].right = (*(i-1)).right;
-
                         }
                     }
                 }
@@ -101,6 +100,9 @@ void Recombine(      std::vector<junction>& offspring,
     }
 
     for(int i = 0; i < toAdd.size(); ++i) {
+        if(toAdd[i].right == -1) {
+            Rcout << "This break point was not addressed!\n";
+        }
         offspring.push_back(toAdd[i]);
     }
 
@@ -162,7 +164,31 @@ void Recombine(      std::vector<junction>& offspring,
             offspring.push_back(temp_offspring[i]);
         }
     }
-    
+
+
+    // verify offspring
+    for(int i = 0; i < offspring.size(); ++i) {
+        if(offspring[i].right == -1) {
+            if(offspring[i].pos < 1.0) {
+                Rcout << "Error introduced in recombine\n";
+                Rcout << "Recombining " << numRecombinations << "\t crossovers\n";
+                bool parent1 = false;
+                for(int j = 0; j < chromosome1.size(); ++j) {
+                    if(chromosome1[j].right == -1 && chromosome1[j].pos < 1.0) {
+                        parent1 = true;
+                    }
+                }
+                for(int j = 0; j < chromosome2.size(); ++j) {
+                    if(chromosome2[j].right == -1 && chromosome2[j].pos < 1.0) {
+                        parent2 = true;
+                    }
+                }
+                Rcout "Do the parents have a -1 as well? (1 = yes, 0 is no)\n";
+                Rcout << "Parent1: " << parent1 << "\t" << "Parent2: " << parent2 << "\n";
+            }
+        }
+
+    }
     return;
 }
 
