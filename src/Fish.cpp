@@ -15,39 +15,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void Recombine(      std::vector<junction>& offspring,
-               const std::vector<junction>& chromosome1,
-               const std::vector<junction>& chromosome2,
-               double MORGAN)  {
-
-
-    int numRecombinations = poisson(MORGAN);
-
-    if (numRecombinations == 0) {
-        offspring.insert(offspring.end(),
-                         chromosome1.begin(),
-                         chromosome1.end());
-
-        return;
-    }
-
-    std::vector<double> recomPos(numRecombinations, 0);
-    for(int i = 0; i < numRecombinations; ++i) {
-        recomPos[i] = uniform();
-    }
-    std::sort(recomPos.begin(), recomPos.end() );
-    recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
-
-    while (recomPos.size() < numRecombinations) {
-        double pos = uniform();
-        recomPos.push_back(pos);
-        // sort them, in case they are not sorted yet
-        // we need this to remove duplicates, and later
-        // to apply crossover
-        std::sort(recomPos.begin(), recomPos.end() );
-        // remove duplicate recombination sites
-        recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
-    }
+boo do_recombination(std::vector<junction>& offspring,
+                     const std::vector<junction>& chromosome1,
+                     const std::vector<junction>& chromosome2,
+                     const std::vector<double> recomPos) {
 
     std::vector< junction > toAdd; //first create junctions on exactly the recombination positions
     for(int i = 0; i < recomPos.size(); ++i) {
@@ -62,6 +33,13 @@ void Recombine(      std::vector<junction>& offspring,
         double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
+            if(recomPos[j] == leftpos) {
+                return false;
+            }
+            if(recomPos[j] == rightpos) {
+                return false;
+            }
+
             if(recomPos[j] > leftpos) {
                 if(recomPos[j] < rightpos) {
                     if(j % 2 == 0) { // even, so chrom1 = L, chrom2 = R
@@ -83,6 +61,13 @@ void Recombine(      std::vector<junction>& offspring,
         double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
+            if(recomPos[j] == leftpos) {
+                return false;
+            }
+            if(recomPos[j] == rightpos) {
+                return false;
+            }
+
             if(recomPos[j] > leftpos) {
                 if(recomPos[j] < rightpos) {
                     if(j % 2 == 0) { //even, so chrom1 = L, chrom2 = R
@@ -112,7 +97,7 @@ void Recombine(      std::vector<junction>& offspring,
             for(int j = 0; j < chromosome2.size(); ++j) {
                 Rcout << chromosome2[j].pos << "\t" << chromosome2[j].right << "\n";
             }
-
+            Rcout << "To add\n";
             for(int j = 0; j < toAdd.size(); ++j) {
                 Rcout << toAdd[j].pos << "\t" << toAdd[j].right << "\n";
             }
@@ -172,9 +157,9 @@ void Recombine(      std::vector<junction>& offspring,
 
             if(temp_offspring[i].pos == temp_offspring[i-1].pos) add = false;
         }
-        
+
         if(abs(temp_offspring[i].right) > 1000) add = false;
-        
+
         if(add) {
             offspring.push_back(temp_offspring[i]);
         }
@@ -206,6 +191,64 @@ void Recombine(      std::vector<junction>& offspring,
         }
 
     }
+    return true;
+}
+
+std::vector<double> generate_recomPos(number_of_recombinations) {
+    std::vector<double> recomPos(numRecombinations, 0);
+    for(int i = 0; i < numRecombinations; ++i) {
+        recomPos[i] = uniform();
+    }
+    std::sort(recomPos.begin(), recomPos.end() );
+    recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
+
+    while (recomPos.size() < numRecombinations) {
+        double pos = uniform();
+        recomPos.push_back(pos);
+        // sort them, in case they are not sorted yet
+        // we need this to remove duplicates, and later
+        // to apply crossover
+        std::sort(recomPos.begin(), recomPos.end() );
+        // remove duplicate recombination sites
+        recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
+    }
+    return recomPos;
+}
+
+
+void Recombine(      std::vector<junction>& offspring,
+               const std::vector<junction>& chromosome1,
+               const std::vector<junction>& chromosome2,
+               double MORGAN)  {
+
+    int numRecombinations = poisson(MORGAN);
+
+    if (numRecombinations == 0) {
+        offspring.insert(offspring.end(),
+                         chromosome1.begin(),
+                         chromosome1.end());
+
+        return;
+    }
+
+    std::vector<double> recomPos = generate_recomPos(numRecombinations);
+
+    bool recomPos_is_unique = do_recombination(offspring,
+                                               chromosome1
+                                               chromosome2,
+                                               recomPos);
+    // very rarely, the recombination positions are exactly
+    // on existing junctions - this should not happen.
+    while(recomPos_is_unique == false) {
+
+        recomPos = generate_recomPos(numRecombinations);
+
+        recomPos_is_unique = do_recombination(offspring,
+                                              chromosome1
+                                              chromosome2,
+                                              recomPos);
+    }
+
     return;
 }
 
