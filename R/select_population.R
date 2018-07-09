@@ -108,6 +108,12 @@ create_population_selection <- function(pop_size,
                    track_frequency[2],
                    length.out = track_frequency[3])
 
+    if(is.matrix(select_matrix)) {
+      add_markers <- t(select_matrix[,1])
+      markers <- c(markers, add_markers)
+      markers <- unique(sort(markers))
+    }
+
     track_frequency <- TRUE
   }
 
@@ -179,6 +185,12 @@ select_population <- function(source_pop,
     markers <- seq(track_frequency[1],
                    track_frequency[2],
                    length.out = track_frequency[3])
+
+    if(is.matrix(select_matrix)) {
+      add_markers <- t(select_matrix[,1])
+      markers <- c(markers, add_markers)
+      markers <- unique(sort(markers))
+    }
 
     track_frequency <- TRUE
   }
