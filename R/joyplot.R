@@ -74,15 +74,15 @@ plot_difference_frequencies <- function(results,
                                         picked_ancestor = "ALL") {
 
   a1 <- results$initial_frequency
+  a1 <- dplyr::select(a1, c("time","location","ancestor","frequency"))
   a2 <- results$final_frequency
-
-  a1_m <- dplyr::mutate(a1, timepoint = "start")
-  a2_m <- dplyr::mutate(a2, timepoint = "end")
+  a2 <- dplyr::select(a2, c("time","location","ancestor","frequency"))
 
   colnames(a1) <- c("time"    ,  "location" , "ancestor" , "frequency_before")
   colnames(a2) <- c("time"    ,  "location" , "ancestor" , "frequency_after")
 
   ax <- dplyr::full_join(a1,a2, by = c("time", "location", "ancestor"))
+
   ax_m <- dplyr::mutate(ax, "diff_frequency" = ax$frequency_after - ax$frequency_before)
 
   if(picked_ancestor[[1]] == "ALL") {
@@ -110,4 +110,3 @@ plot_difference_frequencies <- function(results,
 
   return(p1)
 }
-
