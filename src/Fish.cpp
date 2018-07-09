@@ -100,7 +100,7 @@ void Recombine(      std::vector<junction>& offspring,
     }
 
     for(int i = 0; i < toAdd.size(); ++i) {
-        if(toAdd[i].right == -1) {
+        if(toAdd[i].right == -1 && toAdd[i].pos < 1) {
             Rcout << "This break point was not addressed!\n";
             stop("Error in toAdd\n");
         }
