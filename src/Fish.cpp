@@ -195,14 +195,15 @@ boo do_recombination(std::vector<junction>& offspring,
 }
 
 std::vector<double> generate_recomPos(number_of_recombinations) {
-    std::vector<double> recomPos(numRecombinations, 0);
-    for(int i = 0; i < numRecombinations; ++i) {
+
+    std::vector<double> recomPos(number_of_recombinations, 0);
+    for(int i = 0; i < number_of_recombinations; ++i) {
         recomPos[i] = uniform();
     }
     std::sort(recomPos.begin(), recomPos.end() );
     recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
 
-    while (recomPos.size() < numRecombinations) {
+    while (recomPos.size() < number_of_recombinations) {
         double pos = uniform();
         recomPos.push_back(pos);
         // sort them, in case they are not sorted yet
