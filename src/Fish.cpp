@@ -102,7 +102,7 @@ void Recombine(      std::vector<junction>& offspring,
     for(int i = 0; i < toAdd.size(); ++i) {
         if(toAdd[i].right == -1) {
             Rcout << "This break point was not addressed!\n";
-            exit(0);
+            Rcpp::stop();
         }
         offspring.push_back(toAdd[i]);
     }
@@ -187,7 +187,7 @@ void Recombine(      std::vector<junction>& offspring,
                 }
                 Rcout << "Do the parents have a -1 as well? (1 = yes, 0 is no)\n";
                 Rcout << "Parent1: " << parent1 << "\t" << "Parent2: " << parent2 << "\n";
-                exit(0);
+                Rcpp::stop();
             }
         }
 
