@@ -15,7 +15,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-boo do_recombination(std::vector<junction>& offspring,
+bool do_recombination(std::vector<junction>& offspring,
                      const std::vector<junction>& chromosome1,
                      const std::vector<junction>& chromosome2,
                      const std::vector<double> recomPos) {
@@ -171,7 +171,7 @@ boo do_recombination(std::vector<junction>& offspring,
         if(offspring[i].right == -1) {
             if(offspring[i].pos < 1.0) {
                 Rcout << "Error introduced in recombine\n";
-                Rcout << "Recombining " << numRecombinations << "\t crossovers\n";
+                Rcout << "Recombining " << recomPos.size() << "\t crossovers\n";
                 bool parent1 = false;
                 bool parent2 = false;
                 for(int j = 0; j < chromosome1.size(); ++j) {
