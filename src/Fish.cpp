@@ -194,7 +194,7 @@ bool do_recombination(std::vector<junction>& offspring,
     return true;
 }
 
-std::vector<double> generate_recomPos(number_of_recombinations) {
+std::vector<double> generate_recomPos(int number_of_recombinations) {
 
     std::vector<double> recomPos(number_of_recombinations, 0);
     for(int i = 0; i < number_of_recombinations; ++i) {
@@ -235,7 +235,7 @@ void Recombine(      std::vector<junction>& offspring,
     std::vector<double> recomPos = generate_recomPos(numRecombinations);
 
     bool recomPos_is_unique = do_recombination(offspring,
-                                               chromosome1
+                                               chromosome1,
                                                chromosome2,
                                                recomPos);
     // very rarely, the recombination positions are exactly
@@ -245,7 +245,7 @@ void Recombine(      std::vector<junction>& offspring,
         recomPos = generate_recomPos(numRecombinations);
 
         recomPos_is_unique = do_recombination(offspring,
-                                              chromosome1
+                                              chromosome1,
                                               chromosome2,
                                               recomPos);
     }
