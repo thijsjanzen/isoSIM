@@ -384,7 +384,7 @@ NumericVector update_frequency(const std::vector< Fish >& v,
                     Rcout << "in update_frequency\n";
                     Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
                     Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome2.size() << "\n";
-                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome2.empty() << "\n"
+                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome2.empty() << "\n";
                 }
                 freq(index)++;
                 break;
