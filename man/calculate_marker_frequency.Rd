@@ -16,12 +16,12 @@ calculate_marker_frequency(pop, location)
   Population for which to estimate allele frequencies at the given marker
 }
   \item{location}{
-  Location of the marker (in Morgan) along the chromosome
+  A vector or scalar of location(s) along the chromosome for which allele frequencies are to be calculated. Locations are in Morgan.
 }
 }
 
 \value{
-  A tibble containing the frequency of each present ancestor at the provided location. Ancestors with frequency = 0 are dropped out of the table.
+  A tibble containing the frequency of each present ancestor at the provided location. Ancestors with frequency = 0 are dropped out of the table. The tibble contains three columns: location, ancestor and frequency.
 }
 
 \author{
@@ -38,5 +38,9 @@ calculate_marker_frequency(pop, location)
                              seed = 666)
 
   calculate_marker_frequency(wildpop, 0.5)
+  frequencies <- calculate_marker_frequency(wildpop, seq(0.4, 0.5, by = 0.001))
+  ggplot(frequencies, aes(x = location, y = frequency, col = ancestor)) +
+      geom_step()
+
 }
 }

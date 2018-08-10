@@ -32,17 +32,31 @@ plot_dist_junctions <- function(pop) {
 
 calculate_marker_frequency <- function(pop, location) {
 
-  fun_chrom <- function(indiv) {
-    return(c(findtype(indiv$chromosome1, location),
-             findtype(indiv$chromosome2, location)))
+  per_loc <- function(loc) {
+    fun_chrom <- function(indiv) {
+      return(c(findtype(indiv$chromosome1, loc),
+               findtype(indiv$chromosome2, loc)))
+    }
+    types <- unlist(lapply(pop, fun_chrom))
+    vv <- tibble::as.tibble(table(types))
+    if(dim(vv)[1] > 0) {
+      colnames(vv) <- c("ancestor", "frequency")
+      vv$frequency <- vv$frequency / sum(vv$frequency)
+      vv$location <- loc
+      return(vv)
+    } else {
+      return(NA)
+    }
   }
 
-  types <- unlist(lapply(pop, fun_chrom))
+  all_types <- lapply(location, per_loc)
+  output <- c()
+  for(i in seq_along(all_types)) {
+    output <- rbind(output, all_types[[i]])
+  }
+  output <- output[,c("location","ancestor","frequency")]
 
-  vv <- tibble::as.tibble(table(types))
-  colnames(vv) <- c("ancestor", "frequency")
-  vv$frequency <- vv$frequency / sum(vv$frequency)
-  return(vv)
+  return(output)
 }
 
 calc_allele_frequencies <- function(indiv, alleles) {
