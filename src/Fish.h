@@ -13,12 +13,11 @@
 #include <vector>
 
 struct junction {
-    double pos;
-
+    long double pos;
     int right;
 
     junction()  {}
-    junction(double loc, int B) ;
+    junction(long double loc, int B) ;
     junction(const junction& other);
     bool operator ==(const junction& other) const;
     bool operator <(const junction& other) const;
