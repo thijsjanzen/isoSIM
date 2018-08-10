@@ -13,6 +13,10 @@ A package under construction to simulate genetic admixture in relation to isofem
 Thijs Janzen gave a presentation demonstrating isoSIM at the R User Group at the University of Groningen, Groningen, The Netherlands. You can watch his presentation [here](https://streaming3.service.rug.nl/p2gplayer/Player.aspx?id=cxbKvM)  (audio starts after 1 min)
 
 # Version history
+Version 0.55 - extended 'calculate_marker_frequency' to handle a vector of locations <br />
+Version 0.55 - increased accuracy of choosing a random position for recombination, this should prevent the rare bug fixed in version 0.54 <br />
+Version 0.54 - Fixed a MAJOR bug regarding recombination: in rare cases, a crossover position could be picked on an existing junction, due to the limited number of digits in uniform() <br />
+Version 0.54 - Improved plot_difference_frequencies to handle modified input <br />
 Version 0.53 - Added multiplicative_selection <br />
 Version 0.52 - Added plot_difference_frequencies <br />
 Version 0.51 - Added tajima's d calculation <br />
