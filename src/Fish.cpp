@@ -90,7 +90,7 @@ bool do_recombination(std::vector<junction>& offspring,
 
             Rcout << "Chromosome 1\n";
             for(int j = 0; j < chromosome1.size(); ++j) {
-                std::cout << chromosome1[j].pos << "\t" << chromosome1[j].right << "\n";
+                Rcout << chromosome1[j].pos << "\t" << chromosome1[j].right << "\n";
             }
 
             Rcout << "Chromosome 2\n";
