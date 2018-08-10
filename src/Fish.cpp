@@ -142,9 +142,6 @@ bool do_recombination(std::vector<junction>& offspring,
     }
 
     std::sort(offspring.begin(), offspring.end());
-    //   offspring.erase(std::unique(offspring.begin(), offspring.end()), offspring.end());
-
-
     // gatekeeper code to not allow false junctions to be introduced
 
     std::vector<junction> temp_offspring = offspring;
@@ -158,18 +155,13 @@ bool do_recombination(std::vector<junction>& offspring,
             if(temp_offspring[i].pos == temp_offspring[i-1].pos) add = false;
         }
 
+        // if a bad memory access call happens, we get weird numbers in .right:
         if(abs(temp_offspring[i].right) > 1000) add = false;
 
-        if(add) {
-            offspring.push_back(temp_offspring[i]);
-        }
-    }
 
-
-    // verify offspring
-    for(int i = 0; i < offspring.size(); ++i) {
-        if(offspring[i].right == -1) {
-            if(offspring[i].pos < 1.0) {
+        // verify correctness even further
+        if(temp_offspring[i].right == -1) {
+            if(temp_offspring[i].pos < 1.0) {
                 Rcout << "Error introduced in recombine\n";
                 Rcout << "Recombining " << recomPos.size() << "\t crossovers\n";
                 bool parent1 = false;
@@ -190,6 +182,9 @@ bool do_recombination(std::vector<junction>& offspring,
             }
         }
 
+        if(add == true) {
+            offspring.push_back(temp_offspring[i]);
+        }
     }
     return true;
 }
