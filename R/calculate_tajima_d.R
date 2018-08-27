@@ -76,9 +76,10 @@ calculate_tajima_d <- function(pop,
   a <- -tmp1 * Dmax/tmp2
   b <- tmp1 * Dmin/tmp2
   p <- pbeta((D - Dmin)/tmp2, b, a)
-  p <- if (p < 0.5) {
-    2 * p } else {2 * (1 - p)}
-
+  if(!is.nan(p)) {
+    p <- if (p < 0.5) {
+      2 * p } else {2 * (1 - p)}
+  }
 
   theta_hat <- S / a1
 
