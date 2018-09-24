@@ -28,6 +28,8 @@ simulate_admixture <- function(input_population = NA,
     cat("starting frequencies were normalized to 1\n")
   }
 
+  no_selection <- FALSE
+  if(is.na(select)) no_selection <- TRUE
 
   if(is.matrix(select)) {
     if (sum(is.na(select))) {
@@ -46,7 +48,7 @@ simulate_admixture <- function(input_population = NA,
 
   markers <- c(-1,-1)
 
-  if(is.matrix(select)) {
+  if(is.matrix(select) & no_selection == FALSE) {
     markers <- (select[,1])
   }
 
@@ -55,7 +57,7 @@ simulate_admixture <- function(input_population = NA,
                    track_frequency[2],
                    length.out = track_frequency[3])
 
-    if(is.matrix(select)) {
+    if(is.matrix(select) && no_selection == FALSE) {
       markers <- c(markers, select[,1])
       markers <- sort(markers)
       markers <- unique(markers)

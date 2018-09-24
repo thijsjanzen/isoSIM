@@ -105,7 +105,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
             int index1 = 0;
             int index2 = 0;
             if(use_selection) {
-                index1 =  draw_prop_fitness(fitness, maxFitness);
+                index1 = draw_prop_fitness(fitness, maxFitness);
                 index2 = draw_prop_fitness(fitness, maxFitness);
                 while(index2 == index1) index2 = draw_prop_fitness(fitness, maxFitness);
             } else {
@@ -156,10 +156,6 @@ int draw_random_founder(const std::vector<double>& v) {
     return(v.back());
 }
 
-
-
-
-
 // [[Rcpp::export]]
 List simulate_cpp(Rcpp::NumericVector input_population,
               NumericMatrix select,
@@ -199,9 +195,7 @@ List simulate_cpp(Rcpp::NumericVector input_population,
        // Rcout << "Number of alleles calculated\n";
     } else {
         std::vector<double> starting_freqs = as< std::vector<double> >(starting_proportions);
-
-
-         for(int i = 0; i < pop_size; ++i) {
+        for(int i = 0; i < pop_size; ++i) {
             int founder_1 = draw_random_founder(starting_freqs);
             int founder_2 = draw_random_founder(starting_freqs);
 
