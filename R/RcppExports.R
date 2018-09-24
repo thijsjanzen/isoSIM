@@ -29,7 +29,7 @@ select_population_cpp <- function(v1, selectM, population_size, run_time, morgan
     .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, track_markers, multiplicative_selection)
 }
 
-simulate_cpp <- function(input_population, select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection) {
-    .Call('_isoSIM_simulate_cpp', PACKAGE = 'isoSIM', input_population, select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection)
+simulate_cpp <- function(input_population, select, pop_size, number_of_founders, starting_proportions, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection) {
+    .Call('_isoSIM_simulate_cpp', PACKAGE = 'isoSIM', input_population, select, pop_size, number_of_founders, starting_proportions, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection)
 }
 
