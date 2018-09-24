@@ -1,6 +1,7 @@
 simulate_admixture <- function(input_population = NA,
                      pop_size = 100,
                      number_of_founders = 2,
+                     initial_frequencies = NA,
                      total_runtime = 100,
                      morgan = 1,
                      seed,
@@ -16,6 +17,15 @@ simulate_admixture <- function(input_population = NA,
     input_population <- population_to_vector(input_population)
   } else {
     input_population <- c(-1e6, -1e6)
+  }
+
+  if(!is.vector(initial_frequencies)) {
+    initial_frequencies = rep(1/number_of_founders, number_of_founders)
+  }
+
+  if(sum(initial_frequencies) != 1) {
+    initial_frequencies = initial_frequencies / sum(initial_frequencies)
+    cat("starting frequencies were normalized to 1\n")
   }
 
 
@@ -60,6 +70,7 @@ simulate_admixture <- function(input_population = NA,
                                 select,
                                 pop_size,
                                 number_of_founders,
+                                initial_frequencies,
                                 total_runtime,
                                 morgan,
                                 progress_bar,

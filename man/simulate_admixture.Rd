@@ -30,6 +30,9 @@ simulate_admixture(input_population = NA, pop_size,
   \item{number_of_founders}{
     Number of unique ancestors
 }
+  \item{initial_frequencies}{
+    A vector describing the initial frequency of each ancestor. By default, equal frequencies are assumed. If a vector not summing to 1 is provided, the vector is normalized.
+}
   \item{total_runtime}{
   Number of generations allowed for inbreeding
 }

@@ -145,12 +145,27 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
+int draw_random_founder(const std::vector<double>& v) {
+    double r = uniform();
+    for(int i = 0; i < v.size(); ++i) {
+        r -= v[i];
+        if(r <= 0) {
+            return(i);
+        }
+    }
+    return(v.back());
+}
+
+
+
+
 
 // [[Rcpp::export]]
 List simulate_cpp(Rcpp::NumericVector input_population,
               NumericMatrix select,
               int pop_size,
               int number_of_founders,
+              Rcpp::NumericVector starting_proportions,
               int total_runtime,
               double morgan,
               bool progress_bar,
@@ -183,9 +198,15 @@ List simulate_cpp(Rcpp::NumericVector input_population,
         number_of_alleles = number_of_founders + 1;
        // Rcout << "Number of alleles calculated\n";
     } else {
+        std::vector<double> starting_freqs = as< std::vector<double> >(starting_proportions);
+
+
          for(int i = 0; i < pop_size; ++i) {
-            Fish p1 = Fish( random_number( number_of_founders ) );
-            Fish p2 = Fish( random_number( number_of_founders ) );
+            int founder_1 = draw_random_founder(starting_freqs);
+            int founder_2 = draw_random_founder(starting_freqs);
+
+            Fish p1 = Fish( founder_1 );
+            Fish p2 = Fish( founder_2 );
 
             Pop.push_back(mate(p1,p2, morgan));
         }
@@ -221,8 +242,8 @@ List simulate_cpp(Rcpp::NumericVector input_population,
     arma::mat final_frequencies = update_all_frequencies(outputPop, track_markers, number_of_alleles);
 
     return List::create( Named("population") = convert_to_list(outputPop),
-                        Named("frequencies") = frequencies_table,
-                        Named("initial_frequencies") = initial_frequencies,
-                        Named("final_frequencies") = final_frequencies,
-                        Named("junctions") = junctions);
+                         Named("frequencies") = frequencies_table,
+                         Named("initial_frequencies") = initial_frequencies,
+                         Named("final_frequencies") = final_frequencies,
+                         Named("junctions") = junctions);
 }
