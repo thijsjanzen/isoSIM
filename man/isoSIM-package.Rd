@@ -6,6 +6,7 @@
  This package simulates the generation of an isofemale line
 }
 \description{
+   Version 0.56 - Added starting frequencies to 'simulate_admixture' \cr
    Version 0.55 - extended 'calculate_marker_frequency' to handle a vector of locations \cr
    Version 0.55 - increased accuracy of choosing a random position for recombination, this should prevent the rare bug fixed in version 0.54 \cr
    Version 0.54 - Fixed a MAJOR bug regarding recombination: in rare cases, a crossover position could be picked on an existing junction, due to the limited number of digits in uniform() \cr

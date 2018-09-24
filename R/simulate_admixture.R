@@ -19,7 +19,7 @@ simulate_admixture <- function(input_population = NA,
     input_population <- c(-1e6, -1e6)
   }
 
-  if(!is.vector(initial_frequencies)) {
+  if(sum(is.na(initial_frequencies))) {
     initial_frequencies = rep(1/number_of_founders, number_of_founders)
   }
 
