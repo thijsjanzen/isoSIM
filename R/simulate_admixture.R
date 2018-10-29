@@ -125,7 +125,7 @@ simulate_admixture <- function(input_population = NA,
   return(output)
 }
 
-create_admixed_individuals(num_individuals,
+create_admixed_individuals <- function(num_individuals,
                            population_size,
                            number_of_ancestors,
                            size_in_morgan) {
