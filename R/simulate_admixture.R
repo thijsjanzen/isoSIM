@@ -124,3 +124,22 @@ simulate_admixture <- function(input_population = NA,
 
   return(output)
 }
+
+create_admixed_individuals(num_individuals,
+                           population_size,
+                           number_of_ancestors
+                           size_in_morgan) {
+
+  pop <- create_pop_admixed_cpp(num_individuals,
+                                number_of_founders,
+                                population_size,
+                                morgan)
+
+  popstruct <- create_pop_class(pop$population)
+
+  output <- list("population" = popstruct)
+  return(output)
+}
+
+
+

@@ -135,6 +135,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// create_pop_admixed_cpp
+List create_pop_admixed_cpp(int num_individuals, int num_ancestors, int population_size, double size_in_morgan);
+RcppExport SEXP _isoSIM_create_pop_admixed_cpp(SEXP num_individualsSEXP, SEXP num_ancestorsSEXP, SEXP population_sizeSEXP, SEXP size_in_morganSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type num_individuals(num_individualsSEXP);
+    Rcpp::traits::input_parameter< int >::type num_ancestors(num_ancestorsSEXP);
+    Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
+    rcpp_result_gen = Rcpp::wrap(create_pop_admixed_cpp(num_individuals, num_ancestors, population_size, size_in_morgan));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_calculate_allele_spectrum_cpp", (DL_FUNC) &_isoSIM_calculate_allele_spectrum_cpp, 3},
@@ -145,6 +159,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_isoSIM_create_population_selection_cpp", (DL_FUNC) &_isoSIM_create_population_selection_cpp, 9},
     {"_isoSIM_select_population_cpp", (DL_FUNC) &_isoSIM_select_population_cpp, 9},
     {"_isoSIM_simulate_cpp", (DL_FUNC) &_isoSIM_simulate_cpp, 12},
+    {"_isoSIM_create_pop_admixed_cpp", (DL_FUNC) &_isoSIM_create_pop_admixed_cpp, 4},
     {NULL, NULL, 0}
 };
 

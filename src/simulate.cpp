@@ -241,3 +241,59 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                          Named("final_frequencies") = final_frequencies,
                          Named("junctions") = junctions);
 }
+
+// [[Rcpp::export]]
+List create_pop_admixed_cpp(int num_individuals,
+                  int num_ancestors,
+                  int population_size,
+                  double size_in_morgan) {
+
+    double p = 1.0 / num_ancestors;
+    double init_heterozygosity = 2*p*(1-p);
+
+    int max_num_j = 2*init_heterozygosity * population_size * size_in_morgan;
+
+    std::vector< Fish > output;
+    for(int i = 0; i < num_individuals; ++i) {
+        Fish focal(random_number(num_ancestors));
+        focal.chromosome1.pop_back();
+        focal.chromosome2.pop_back();
+        double pos = 0.0;
+        while(pos < 1) {
+            double u = uniform();
+            double lambda = 1.0 / max_num_j;
+            double exp_u = (-1.0 / lambda) * log(u)
+            pos += exp_u;
+            if(pos < 1) {
+                junction to_add(pos, random_number(num_ancestors));
+                focal.chromosome1.push_back(to_add);
+            } else {
+                junction to_add(1.0, -1);
+                focal.chromosome1.push_back(to_add);
+            }
+        }
+
+        pos = 0.0;
+        while(pos < 1) {
+            double u = uniform();
+            double lambda = 1.0 / max_num_j;
+            double exp_u = (-1.0 / lambda) * log(u)
+            pos += exp_u;
+            if(pos < 1) {
+                junction to_add(pos, random_number(num_ancestors));
+                focal.chromosome2.push_back(to_add);
+            } else {
+                junction to_add(1.0, -1);
+                focal.chromosome2.push_back(to_add);
+            }
+        }
+
+        output.push_back(focal);
+    }
+
+    return List::create( Names("population") = convert_to_list(output) )
+}
+
+
+
+

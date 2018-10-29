@@ -33,3 +33,7 @@ simulate_cpp <- function(input_population, select, pop_size, number_of_founders,
     .Call('_isoSIM_simulate_cpp', PACKAGE = 'isoSIM', input_population, select, pop_size, number_of_founders, starting_proportions, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection)
 }
 
+create_pop_admixed_cpp <- function(num_individuals, num_ancestors, population_size, size_in_morgan) {
+    .Call('_isoSIM_create_pop_admixed_cpp', PACKAGE = 'isoSIM', num_individuals, num_ancestors, population_size, size_in_morgan)
+}
+
