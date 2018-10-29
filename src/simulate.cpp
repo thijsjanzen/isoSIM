@@ -262,7 +262,7 @@ List create_pop_admixed_cpp(int num_individuals,
         while(pos < 1) {
             double u = uniform();
             double lambda = 1.0 / max_num_j;
-            double exp_u = (-1.0 / lambda) * log(u)
+            double exp_u = (-1.0 / lambda) * log(u);
             pos += exp_u;
             if(pos < 1) {
                 junction to_add(pos, random_number(num_ancestors));
