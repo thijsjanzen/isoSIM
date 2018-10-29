@@ -261,7 +261,7 @@ List create_pop_admixed_cpp(int num_individuals,
         double pos = 0.0;
         while(pos < 1) {
             double u = uniform();
-            double lambda = 1.0 / max_num_j;
+            double lambda =  max_num_j;
             double exp_u = (-1.0 / lambda) * log(u);
             pos += exp_u;
             if(pos < 1) {
@@ -276,7 +276,7 @@ List create_pop_admixed_cpp(int num_individuals,
         pos = 0.0;
         while(pos < 1) {
             double u = uniform();
-            double lambda = 1.0 / max_num_j;
+            double lambda = max_num_j;
             double exp_u = (-1.0 / lambda) * log(u);
             pos += exp_u;
             if(pos < 1) {
@@ -291,7 +291,9 @@ List create_pop_admixed_cpp(int num_individuals,
         output.push_back(focal);
     }
 
-    return List::create( Named("population") = convert_to_list(output) );
+    Rcout << output[0].
+
+    return List::create( Named("population") = convert_to_list(output));
 }
 
 
