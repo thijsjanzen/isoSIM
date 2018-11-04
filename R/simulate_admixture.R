@@ -20,11 +20,11 @@ simulate_admixture <- function(input_population = NA,
   }
 
   if(sum(is.na(initial_frequencies))) {
-    initial_frequencies = rep(1/number_of_founders, number_of_founders)
+    initial_frequencies <- rep(1 / number_of_founders, number_of_founders)
   }
 
   if(sum(initial_frequencies) != 1) {
-    initial_frequencies = initial_frequencies / sum(initial_frequencies)
+    initial_frequencies <- initial_frequencies / sum(initial_frequencies)
     cat("starting frequencies were normalized to 1\n")
   }
 
@@ -83,11 +83,13 @@ simulate_admixture <- function(input_population = NA,
 
   selected_popstruct <- create_pop_class(selected_pop$population)
 
-  initial_freq_tibble <- create_tibble_from_freq_mat(selected_pop$initial_frequencies,
-                                                     markers)
+  initial_freq_tibble <- create_tibble_from_freq_mat(
+                              selected_pop$initial_frequencies,
+                              markers)
 
-  final_freq_tibble   <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
-                                                     markers)
+  final_freq_tibble   <- create_tibble_from_freq_mat(
+                              selected_pop$final_frequencies,
+                              markers)
 
   output <- list()
   if(track_frequency == FALSE && track_junctions == FALSE) {
@@ -106,8 +108,9 @@ simulate_admixture <- function(input_population = NA,
   if(track_frequency == TRUE && track_junctions == FALSE) {
 
     output <- list("population" = selected_popstruct,
-                   "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 markers),
+                   "frequencies" = create_tibble_from_freq_table(
+                                        selected_pop$frequencies,
+                                        markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }
@@ -115,8 +118,9 @@ simulate_admixture <- function(input_population = NA,
   if(track_frequency == TRUE && track_junctions == TRUE) {
 
     output <- list("population" = selected_popstruct,
-                   "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 markers),
+                   "frequencies" = create_tibble_from_freq_table(
+                                        selected_pop$frequencies,
+                                        markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble,
                    "junctions" = selected_pop$junctions)

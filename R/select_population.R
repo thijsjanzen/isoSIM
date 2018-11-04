@@ -208,10 +208,12 @@ select_population <- function(source_pop,
 
   selected_popstruct <- create_pop_class(selected_pop$population)
 
-  initial_freq_tibble <- create_tibble_from_freq_mat(selected_pop$initial_frequencies,
-                                                     markers)
-  final_freq_tibble <- create_tibble_from_freq_mat(selected_pop$final_frequencies,
-                                                   markers)
+  initial_freq_tibble <- create_tibble_from_freq_mat(
+                            selected_pop$initial_frequencies,
+                            markers)
+  final_freq_tibble <- create_tibble_from_freq_mat(
+                            selected_pop$final_frequencies,
+                            markers)
 
   output <- list("population" = selected_popstruct,
                  "initial_frequency" = initial_freq_tibble,
@@ -220,8 +222,9 @@ select_population <- function(source_pop,
   if(track_frequency == TRUE) {
 
     output <- list("population" = selected_popstruct,
-                   "frequencies" = create_tibble_from_freq_table(selected_pop$frequencies,
-                                                                 markers),
+                   "frequencies" = create_tibble_from_freq_table(
+                                        selected_pop$frequencies,
+                                        markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }

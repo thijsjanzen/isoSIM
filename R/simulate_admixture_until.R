@@ -31,7 +31,9 @@ simulate_admixture_until <- function(pop_size = 100,
                              multiplicative_selection)$population
 
   pop2 <- increase_ancestor(pop2,
-                            increment = round(number_of_founders - number_of_founders * overlap))
+                            increment = round(
+                                  number_of_founders -
+                                    number_of_founders * overlap))
 
 
   fst <- calculate_fst(pop1, pop2,

@@ -83,7 +83,9 @@ plot_difference_frequencies <- function(results,
 
   ax <- dplyr::full_join(a1,a2, by = c("time", "location", "ancestor"))
 
-  ax_m <- dplyr::mutate(ax, "diff_frequency" = ax$frequency_after - ax$frequency_before)
+  ax_m <- dplyr::mutate(ax,
+                        "diff_frequency" =
+                          ax$frequency_after - ax$frequency_before)
 
   if(picked_ancestor[[1]] == "ALL") {
     to_plot <- ax_m

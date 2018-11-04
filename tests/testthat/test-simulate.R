@@ -11,8 +11,11 @@ test_that("simulate create_population", {
 
   testthat::expect_true(verify_population(vx))
 
-  vy <- simulate_admixture(pop_size = pop_size, number_of_founders = number_of_founders,
-                 total_runtime = run_time, morgan = morgan, seed = 42)
+  vy <- simulate_admixture(pop_size = pop_size,
+                           number_of_founders = number_of_founders,
+                           total_runtime = run_time,
+                           morgan = morgan,
+                           seed = 42)
 
   testthat::expect_true(verify_population(vy$population))
 

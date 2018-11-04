@@ -5,12 +5,13 @@ calculate_tajima_d <- function(pop,
   pop_size <- length(pop)
   indices_sampled_individuals <- sample(1:pop_size,
                                         number_of_sampled_individuals,
-                                        replace = F)
+                                        replace = FALSE)
 
-  loci_matrix <- matrix(ncol = length(markers), nrow = 2*number_of_sampled_individuals)
+  loci_matrix <- matrix(ncol = length(markers),
+                        nrow = 2*number_of_sampled_individuals)
 
-  for(m in 1:length(markers)) {
-    for(indiv in 1:length(indices_sampled_individuals)) {
+  for(m in seq_along(markers)) {
+    for(indiv in seq_along(indices_sampled_individuals)) {
 
       indiv_start <- (indiv*2)-1
 
@@ -39,7 +40,7 @@ calculate_tajima_d <- function(pop,
 
   pi <- 0 #average number of pairwise differences
   cnt <- 0
-  for(i in 1:length(loci_matrix[,1])) {
+  for(i in seq_along(loci_matrix[,1])) {
     for(j in 1:i) {
       if(i != j) {
         loci_1 <- loci_matrix[i,]
@@ -60,14 +61,14 @@ calculate_tajima_d <- function(pop,
   pi <- pi * 1.0 / (choose(2*number_of_sampled_individuals, 2))
 
   S <- 0 # number of segregating sites
-  for(i in 1:length(loci_matrix[1,])) {
+  for(i in seq_along(loci_matrix[1,])) {
     a <- as.numeric(loci_matrix[,i])
     if(length(unique(a)) > 1) {
       S <- S + 1
     }
   }
 
-  D = (pi - S / a1) / sqrt(e1*S + e2 * S * (S - 1))
+  D <- (pi - S / a1) / sqrt(e1*S + e2 * S * (S - 1))
 
   Dmin <- (2/n - 1/a1)/sqrt(e2)
   Dmax <- ((n + 1)/(2 * n) - 1/a1)/sqrt(e2)

@@ -42,6 +42,4 @@ create_admixed_individuals(num_individuals,
                            population_size = 1e5,
                            number_of_founders = 2,
                            size_in_morgan = 1)
-           }
 }
-
