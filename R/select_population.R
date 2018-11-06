@@ -142,8 +142,9 @@ create_population_selection <- function(pop_size,
   if(track_frequency == TRUE) {
 
     output <- list("population" = popstruct,
-                   "frequencies" = create_tibble_from_freq_table(pop$frequencies,
-                                                                 markers),
+                   "frequencies" = create_tibble_from_freq_table(
+                                          pop$frequencies,
+                                          markers),
                    "initial_frequency" = initial_freq_tibble,
                    "final_frequency" = final_freq_tibble)
   }
