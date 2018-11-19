@@ -28,10 +28,10 @@ test_that("select population two_alleles", {
   run_time <- 100
 
   selected_pop <- simulate_admixture(pop_size = 100,
-                                     number_of_founders,
+                                     number_of_founders = number_of_founders,
                                      total_runtime = run_time,
                                      morgan = 1,
-                                     select_matrix,
+                                     select_matrix = select_matrix,
                                      seed = 1234,
                                      track_frequency = TRUE)
 

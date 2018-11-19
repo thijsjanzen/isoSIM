@@ -18,7 +18,7 @@ create_admixed_individuals(num_individuals,
   \item{num_individuals}{
     the number of individuals to be created
 }
-  \item{population size}{
+  \item{population_size}{
     size of the population used to generate the individuals, this determines the degree of fixation (e.g. in smaller populations, individuals are more fixed for ancestry)
 }
   \item{number_of_founders}{

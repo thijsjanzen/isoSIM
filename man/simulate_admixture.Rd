@@ -8,16 +8,18 @@
   Individual based simulation of the breakdown of contiguous ancestry blocks, with or without selection. Simulations can be started from scratch, or from a predefined input population.
 }
 \usage{
-simulate_admixture(input_population = NA, pop_size,
-                     number_of_founders,
-                     total_runtime,
-                     morgan,
-                     seed,
-                     select_matrix = NA,
-                     progress_bar = TRUE,
-                     track_junctions = FALSE,
-                     track_frequency = FALSE,
-                     multiplicative_selection = TRUE)
+simulate_admixture(input_population = NA,
+                   pop_size,
+                   number_of_founders,
+                   initial_frequencies,
+                   total_runtime,
+                   morgan,
+                   seed,
+                   select_matrix = NA,
+                   progress_bar = TRUE,
+                   track_junctions = FALSE,
+                   track_frequency = FALSE,
+                   multiplicative_selection = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

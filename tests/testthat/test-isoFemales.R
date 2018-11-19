@@ -8,8 +8,12 @@ test_that("create_isofemale", {
   morgan <- 1
   write_to_file <- FALSE
 
-  pop <- simulate_admixture(pop_size, number_of_founders,
-                           run_time, morgan, 42)
+  pop <- simulate_admixture(pop_size = pop_size,
+                            number_of_founders = number_of_founders,
+                            total_runtime = run_time,
+                            morgan = morgan,
+                            seed = 42)
+
 
   testthat::expect_true(verify_population(pop))
 
@@ -29,11 +33,17 @@ test_that("create_population_from_isofemales", {
   morgan <- 1
   overlap <- 0.5
 
-  pop1 <- simulate_admixture(pop_size, number_of_founders,
-                            run_time, morgan, 42)
+  pop1 <- simulate_admixture(pop_size = pop_size,
+                             number_of_founders = number_of_founders,
+                             total_runtime = run_time,
+                             morgan = morgan,
+                             seed = 42)
 
-  pop2 <- simulate_admixture(pop_size, number_of_founders,
-                            run_time, morgan, 24)
+  pop2 <- simulate_admixture(pop_size = pop_size,
+                             number_of_founders = number_of_founders,
+                             total_runtime = run_time,
+                             morgan = morgan,
+                             seed = 24)
   pop2 <- increase_ancestor(pop2, number_of_founders)
 
   testthat::expect_true(verify_population(pop1))

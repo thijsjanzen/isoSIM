@@ -11,7 +11,7 @@ test_that("calculate_average_LD", {
                              number_of_founders = number_of_founders,
                              total_runtime = run_time,
                              morgan = morgan,
-                             seed = 42)
+                             seed = 42)$population
 
   number_of_markers <- 2
   markers <- c(0.25, 0.26)
