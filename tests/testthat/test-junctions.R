@@ -9,8 +9,11 @@ test_that("expected_number_junctions", {
     cat(pop_size, run_time, morgan, "\n")
     found <- c()
     for (r in 1:replicates) {
-      vx <- create_population(pop_size, 2,
-                              run_time, morgan, r)
+      vx <- simulate_admixture(pop_size = pop_size,
+                               number_of_founders = 2,
+                               total_runtime = run_time,
+                               morgan = morgan,
+                               seed = r)
 
       testthat::expect_true(verify_population(vx))
 
