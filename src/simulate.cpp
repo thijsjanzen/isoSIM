@@ -23,6 +23,35 @@
 // [[Rcpp::depends("RcppArmadillo")]]
 using namespace Rcpp;
 
+bool verify_individual_cpp(const Fish& Nemo) {
+    for(int i = 0; i < Nemo.chromosome1.size(); ++i) {
+        if(Nemo.chromosome1[i].right >  1000 |
+           Nemo.chromosome1[i].right < -1000) {
+            return false;
+        }
+    }
+
+    for(int i = 0; i < Nemo.chromosome2.size(); ++i) {
+        if(Nemo.chromosome2[i].right >  1000 |
+           Nemo.chromosome2[i].right < -1000) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool verify_pop_cpp(const std::vector< Fish >& pop) {
+    for(auto it = pop.begin(); it != pop.end(); ++it) {
+        if(!verify_individual_cpp((*it))) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool matching_chromosomes(const std::vector< junction >& v1,
                           const std::vector< junction >& v2)
 {
@@ -571,4 +600,52 @@ List create_pop_admixed_cpp(int num_individuals,
     }
 
     return List::create( Named("population") = convert_to_list(output));
+}
+
+// [[Rcpp::export]]
+void test_fish_functions() {
+    Fish test_fish;
+
+    junction temp;
+    junction temp2(0.5, 0);
+    junction temp3(0.5, 0);
+    if(temp2 == temp3) {
+        temp = temp2;
+    }
+
+    bool temp400 = (temp2 != temp3);
+    Rcout << temp400 << "\t" << "this is only for testing\n";
+
+    junction temp4(temp);
+
+    test_fish.chromosome1.push_back(temp);
+    test_fish.chromosome1.push_back(temp2);
+    test_fish.chromosome1.push_back(temp3);
+    test_fish.chromosome1.push_back(temp4);
+
+    Fish test_fish2 = test_fish;
+
+    if(test_fish == test_fish2) {
+        Rcout << "fishes are equal!\n";
+    }
+
+    Fish test_fish3(5);
+    bool b = (test_fish == test_fish3);
+    Rcout << b << "\t" << "this is only for testing\n";
+
+    std::vector< junction > chrom;
+    chrom.push_back(temp);
+
+    Fish test_fish4(chrom, chrom);
+
+    std::vector< Fish > pop;
+    pop.push_back(test_fish);
+    pop.push_back(test_fish2);
+    pop.push_back(test_fish3);
+    pop.push_back(test_fish4);
+
+    verify_pop_cpp(pop);
+
+
+    return;
 }

@@ -75,7 +75,7 @@ test_that("calculate_allele_frequencies", {
     dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq),
-                         1 / number_founders,
+                         1 / number_of_founders,
                          tolerance = 0.01)
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
@@ -100,7 +100,7 @@ test_that("calculate_allele_frequencies", {
 
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
   testthat::expect_equal(mean(b$mean_freq),
-                         1 / number_founders,
+                         1 / number_of_founders,
                          tolerance = 0.01)
 
   number_founders <- 20

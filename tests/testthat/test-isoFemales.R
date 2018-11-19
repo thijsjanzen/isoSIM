@@ -67,7 +67,7 @@ test_that("create_population_from_isofemales", {
                            morgan,
                            seed = 666)
 
-  testthat::expect_equal(length(vy), pop_size)
+  testthat::expect_equal(length(vy$population), pop_size)
   testthat::expect_true(verify_population(vy))
 
   vy <- simulate_admixture(list(female_1[[1]],  female_2[[1]]),
@@ -76,7 +76,7 @@ test_that("create_population_from_isofemales", {
                            morgan,
                            seed = 666)
 
-  testthat::expect_equal(length(vy), pop_size)
+  testthat::expect_equal(length(vy$population), pop_size)
   testthat::expect_true(verify_population(vy))
 
   plot_chromosome(female_1[[1]]$chromosome1, 0, 1)

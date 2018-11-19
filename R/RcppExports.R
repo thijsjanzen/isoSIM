@@ -13,3 +13,7 @@ create_pop_admixed_cpp <- function(num_individuals, num_ancestors, population_si
     .Call('_isoSIM_create_pop_admixed_cpp', PACKAGE = 'isoSIM', num_individuals, num_ancestors, population_size, size_in_morgan)
 }
 
+test_fish_functions <- function() {
+    invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
+}
+
