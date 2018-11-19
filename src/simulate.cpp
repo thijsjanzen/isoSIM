@@ -17,13 +17,58 @@
 #include <algorithm>
 
 #include "Fish.h"
-#include "main.h"
 #include "random_functions.h"
-#include "selection.h"
 
 #include <RcppArmadillo.h>
 // [[Rcpp::depends("RcppArmadillo")]]
 using namespace Rcpp;
+
+NumericVector update_frequency(const std::vector< Fish >& v,
+                               double m,
+                               int num_alleles) {
+
+    NumericVector freq(num_alleles, 0.0);
+
+    for(auto it = v.begin(); it != v.end(); ++it) {
+        for(auto i = ((*it).chromosome1.begin()+1); i != (*it).chromosome1.end(); ++i) {
+            if((*i).pos > m) {
+                int index = (*(i-1)).right;
+                if(index >= num_alleles || index < 0) {
+                    Rcout << "ERROR!!\n";
+                    Rcout << "trying to access NumericVector freq outside bounds\n";
+                    Rcout << "in update_frequency\n";
+                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
+                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome1.size() << "\n";
+                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome1.empty() << "\n";
+                }
+                freq(index)++;
+                break;
+            }
+        }
+
+        for(auto i = ((*it).chromosome2.begin()+1); i != (*it).chromosome2.end(); ++i) {
+            if((*i).pos > m) {
+                int index = (*(i-1)).right;
+                if(index >= num_alleles || index < 0) {
+                    Rcout << "ERROR!!\n";
+                    Rcout << "trying to access NumericVector freq outside bounds\n";
+                    Rcout << "in update_frequency\n";
+                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
+                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome2.size() << "\n";
+                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome2.empty() << "\n";
+                }
+                freq(index)++;
+                break;
+            }
+        }
+    }
+
+    for(int i = 0; i < freq.size(); ++i) {
+        freq(i) = freq(i) * 1.0 / (2*v.size());
+    }
+
+    return(freq);
+}
 
 arma::mat update_all_frequencies(const std::vector< Fish >& pop,
                                  const NumericVector& markers,
@@ -152,52 +197,7 @@ List convert_to_list(const std::vector<Fish>& v) {
     return output;
 }
 
-NumericVector update_frequency(const std::vector< Fish >& v,
-                               double m,
-                               int num_alleles) {
 
-    NumericVector freq(num_alleles, 0.0);
-
-    for(auto it = v.begin(); it != v.end(); ++it) {
-        for(auto i = ((*it).chromosome1.begin()+1); i != (*it).chromosome1.end(); ++i) {
-            if((*i).pos > m) {
-                int index = (*(i-1)).right;
-                if(index >= num_alleles || index < 0) {
-                    Rcout << "ERROR!!\n";
-                    Rcout << "trying to access NumericVector freq outside bounds\n";
-                    Rcout << "in update_frequency\n";
-                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
-                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome1.size() << "\n";
-                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome1.empty() << "\n";
-                }
-                freq(index)++;
-                break;
-            }
-        }
-
-        for(auto i = ((*it).chromosome2.begin()+1); i != (*it).chromosome2.end(); ++i) {
-            if((*i).pos > m) {
-                int index = (*(i-1)).right;
-                if(index >= num_alleles || index < 0) {
-                    Rcout << "ERROR!!\n";
-                    Rcout << "trying to access NumericVector freq outside bounds\n";
-                    Rcout << "in update_frequency\n";
-                    Rcout << index << "\t" << num_alleles << "\t" << freq.size() << "\n";
-                    Rcout << (*i).pos << "\t" << m << "\t" << (*it).chromosome2.size() << "\n";
-                    Rcout << (*(i-1)).pos << "\t" << (*(i-1)).right << "\t" << (*it).chromosome2.empty() << "\n";
-                }
-                freq(index)++;
-                break;
-            }
-        }
-    }
-
-    for(int i = 0; i < freq.size(); ++i) {
-        freq(i) = freq(i) * 1.0 / (2*v.size());
-    }
-
-    return(freq);
-}
 
 
 double calculate_fitness(const Fish& focal,

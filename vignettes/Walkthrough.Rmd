@@ -25,7 +25,7 @@ packageVersion("isoSIM")
 ## Simulating an iso-female line
 In order to create an iso-female line, we first have to create a 'wild' population, from which we will draw individuals. To create such a population, we make use of the function 'create_population':
 ```{r create wildpop}
-wildpop =  create_population(pop_size = 100, 
+wildpop =  simulate_admixture(pop_size = 100, 
                              number_of_founders = 4,
                              total_runtime = 1000, 
                              morgan = 1, 
@@ -62,7 +62,7 @@ plot(isofemale[[1]])
 
 Because we have chosen 4 ancestors, these plots are not terribly informative, let's try a toy example:
 ```{r toyexample}
-wildpop =  create_population(pop_size = 100, 
+wildpop =  simulate_admixture(pop_size = 100, 
                              number_of_founders = 2,
                              total_runtime = 10, 
                              morgan = 1, 
@@ -88,13 +88,13 @@ It gets more interesting if we create two populations, and draw iso-females from
 First, we have to create two populations. 
 ```{r create two populations}
 
-population_1 <- create_population(pop_size = 100, 
+population_1 <- simulate_admixture(pop_size = 100, 
                                           number_of_founders = 20,
                                           total_runtime = 1000, 
                                           morgan = 1, 
                                           seed = 42)
 
-population_2 <- create_population(pop_size = 100, 
+population_2 <- simulate_admixture(pop_size = 100, 
                                           number_of_founders = 20,
                                           total_runtime = 1000, 
                                           morgan = 1, 
@@ -119,14 +119,14 @@ plot_chromosome(isofemales[[2]]$chromosome1, 0, 1)
 
 We can now use these two isofemales to seed a new inbreeding population:
 ```{r seed mixed population}
-mixed_population <- create_population_from_individuals(list(isofemales[[1]], isofemales[[2]]),
+mixed_population <- simulate_admixture(list(isofemales[[1]], isofemales[[2]]),
                                                        pop_size = 100, total_runtime = 100,
                                                        morgan = 1, seed = 42)
 
 ```
 And plot some individuals from our new population:
 ```{r plot mixed_population}
-plot(mixed_population[[1]])
+plot(mixed_population$population[[1]])
 ```
 
 # Statistics
@@ -134,7 +134,6 @@ plot(mixed_population[[1]])
 ## FST
 We can show the effect of overlap by calculating the Fst value:
 ```{r calc FST}
-
 FST <- calculate_fst(population_1,
                  population_2,
                  sampled_individuals = 10,
@@ -161,7 +160,7 @@ We can also calculate LD statistics. LD is only defined for markers, so again we
 To analyze LD patterns better, it makes more sense to create a population from scratch. We expect for a strongly inbred population, that there is no LD:
 
 ```{r no LD}
-no_LD_pop <- create_population(pop_size = 100, 
+no_LD_pop <- simulate_admixture(pop_size = 100, 
                              number_of_founders = 4,
                              total_runtime = 1000, 
                              morgan = 1, 
@@ -178,7 +177,7 @@ plot(LD_results$LD_matrix~LD_results$dist_matrix, pch = 16, xlab = "Distance", y
 Alternatively, for a barely inbred population, we expect a negative relationship between LD and distance:
 
 ```{r strong LD}
-strong_LD_pop <- create_population(pop_size = 1000, 
+strong_LD_pop <- simulate_admixture(pop_size = 1000, 
                              number_of_founders = 4,
                              total_runtime = 10, 
                              morgan = 1, 
@@ -205,7 +204,7 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0 + s, 1.0, 
                            0)
 
-  selected_pop <- create_population_selection(pop_size = 1000,
+  selected_pop <- simulate_admixture(pop_size = 1000,
                                               number_of_founders = 2,
                                               total_runtime = 100,
                                               morgan = 1,
@@ -226,7 +225,7 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0, 1.0 + s, 
                            0)
 
-  selected_pop <- create_population_selection(pop_size = 1000,
+  selected_pop <- simulate_admixture(pop_size = 1000,
                                                            number_of_founders = 10,
                                                            total_runtime = 300,
                                                            morgan = 1,
@@ -235,28 +234,4 @@ selection_matrix[1,] = c(0.5,
                                                            track_frequency = TRUE)
 
 ggplot(selected_pop$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1)
-```
-
-
-# Migration
-To simulate two populations with a fixed degree of migration between them, we can use:
-
-```{r}
-pops_migration <- create_two_populations_migration(pop_size = 1000,
-                                         number_of_founders = 4,
-                                         total_runtime = 100,
-                                         morgan = 1,
-                                         seed = 1234,
-                                         migration = 0.01)
-```
-This creates two populations, where with a probability of 0.01 (e.g. 'migration') offspring in the next generation is the product of a mating event of two randomly picked individuals from the other population.
-
-FST values drop rapidly depending on the rate of migration, migration of 0.01 already decreases FST to about 0 in 100 generations:
-```{r}
-FST <- calculate_fst(pops_migration$Population_1,
-                 pops_migration$Population_2,
-                 sampled_individuals = 10,
-                 number_of_markers = 100,
-                 random_markers = TRUE)
-FST
 ```

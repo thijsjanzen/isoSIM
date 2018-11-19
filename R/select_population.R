@@ -78,7 +78,6 @@ create_tibble_from_freq_mat <- function(frequencies, select_matrix) {
   return(found_markers)
 }
 
-
 increase_ancestor <- function(population, increment = 20) {
   increase_indiv <- function(indiv) {
 
@@ -90,6 +89,12 @@ increase_ancestor <- function(population, increment = 20) {
     positive <- which(indiv$chromosome2[,2] > -1)
     indiv$chromosome2[positive, 2] <- indiv$chromosome2[positive, 2] + increment
     return(indiv)
+  }
+
+  if(!is(population, "population")) {
+    if(is(population$population, "population")) {
+      population <- population$population
+    }
   }
 
   pop_2 <- lapply(population, increase_indiv)

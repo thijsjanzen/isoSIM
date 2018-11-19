@@ -32,13 +32,13 @@ track_freq <- c(0.2, 0.3, 100)
 We track frequencies of all ancestors in the range [0.2, 0.3], using 100 markers.
 
 ```{r simulate}
-selected_pop <- create_population_selection(pop_size = 1000,
-                                            number_of_founders = 4,
-                                            total_runtime = 1001,
-                                            morgan = 1,
-                                            select_matrix,
-                                            seed = 1234,
-                                            track_frequency = track_freq)
+selected_pop <- simulate_admixture(pop_size = 1000,
+                                   number_of_founders = 4,
+                                   total_runtime = 1001,
+                                   morgan = 1,
+                                   select_matrix,
+                                   seed = 1234,
+                                   track_frequency = track_freq)
 ```
 We can now plot all the ancestors over time, we choose here to plot them only for a select subset of times.
 

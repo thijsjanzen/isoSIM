@@ -25,8 +25,8 @@ We will analyze whether we can genetically tell apart two populations, where one
 First, we generate two source populations using \code{create_population} and then increase the founder labels in the second population to ensure that both populations do not share founder labels.
 
 ```{r create populations}
-pop_1 <- create_population(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 42)
-pop_2 <- create_population(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 666)
+pop_1 <- simulate_admixture(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 42)
+pop_2 <- simulate_admixture(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 666)
 
 pop_2 <- increase_ancestor(pop_2, increment = 10)
 ```
@@ -44,11 +44,11 @@ isoFemales_pop_2 <- create_iso_female(pop_2, n=2, inbreeding_pop_size = 100, see
 ```
 Using the function \code{create_population_from_individuals} we then create three populations, two where the isofemales are drawn from the same source population, and one where we mix the two, e.g. 1x1, 1x2 and 2x2, where isofemales 1 and 2 indicate isofemales from source populations 1 and 2 respectively. 
 ```{r create from individuals}
-pop_1_1 <- create_population_from_individuals(isoFemales_pop_1, pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 5)
+pop_1_1 <- simulate_admixture(isoFemales_pop_1, pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 5)
 
-pop_1_2 <- create_population_from_individuals( list(isoFemales_pop_1[[1]], isoFemales_pop_2[[1]]), pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 6)
+pop_1_2 <- simulate_admixture( list(isoFemales_pop_1[[1]], isoFemales_pop_2[[1]]), pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 6)
 
-pop_2_2 <- create_population_from_individuals(isoFemales_pop_2, pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 7)
+pop_2_2 <- simulate_admixture(isoFemales_pop_2, pop_size = 1000, total_runtime = 1000, morgan = 1, seed = 7)
 ```
 Then, using the function \code{calculate_fst} we calculate all pairwise FST values. Here, we expect to find the highest FST for the 1x2 comparison. 
 ```{r FST calculation}
@@ -60,10 +60,3 @@ f2
 f3
 ```
 Which confirms our hypothesis and demonstrates how combining isofemale lines from different source populations generates a population with maximal genetic diversity. 
-
-
-
-
-
-
-
