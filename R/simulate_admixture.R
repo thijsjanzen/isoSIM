@@ -14,7 +14,13 @@ simulate_admixture <- function(input_population = NA,
   select <- select_matrix
 
   if(is.list(input_population)) {
+    if(!is(input_population, "population")) {
+      if(is(input_population$population, "population")) {
+        input_population <- input_population$population
+      }
+    }
     input_population <- population_to_vector(input_population)
+
   } else {
     input_population <- c(-1e6, -1e6)
   }

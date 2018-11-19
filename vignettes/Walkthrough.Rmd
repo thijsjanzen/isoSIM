@@ -73,7 +73,7 @@ isofemale <- create_iso_female(source_pop = wildpop,
                                inbreeding_pop_size = 100,
                                run_time = 10000,
                                morgan = 1)
-plot(wildpop[[1]])
+plot(wildpop$population[[1]])
 plot(isofemale[[1]])
 ```
 
