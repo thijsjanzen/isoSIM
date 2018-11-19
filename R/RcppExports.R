@@ -5,30 +5,6 @@ calculate_allele_spectrum_cpp <- function(v1, step_size, progress_bar) {
     .Call('_isoSIM_calculate_allele_spectrum_cpp', PACKAGE = 'isoSIM', v1, step_size, progress_bar)
 }
 
-create_population_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_junctions) {
-    .Call('_isoSIM_create_population_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_junctions)
-}
-
-create_isofemale_line_cpp <- function(v, pop_size, total_runtime, morgan, progress_bar) {
-    .Call('_isoSIM_create_isofemale_line_cpp', PACKAGE = 'isoSIM', v, pop_size, total_runtime, morgan, progress_bar)
-}
-
-create_two_populations_migration_cpp <- function(pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar) {
-    .Call('_isoSIM_create_two_populations_migration_cpp', PACKAGE = 'isoSIM', pop_size, number_of_founders, total_runtime, morgan, migration, progress_bar)
-}
-
-test_fish_functions <- function() {
-    invisible(.Call('_isoSIM_test_fish_functions', PACKAGE = 'isoSIM'))
-}
-
-create_population_selection_cpp <- function(select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_markers, multiplicative_selection) {
-    .Call('_isoSIM_create_population_selection_cpp', PACKAGE = 'isoSIM', select, pop_size, number_of_founders, total_runtime, morgan, progress_bar, track_frequency, track_markers, multiplicative_selection)
-}
-
-select_population_cpp <- function(v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, track_markers, multiplicative_selection) {
-    .Call('_isoSIM_select_population_cpp', PACKAGE = 'isoSIM', v1, selectM, population_size, run_time, morgan, progress_bar, track_frequency, track_markers, multiplicative_selection)
-}
-
 simulate_cpp <- function(input_population, select, pop_size, number_of_founders, starting_proportions, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection) {
     .Call('_isoSIM_simulate_cpp', PACKAGE = 'isoSIM', input_population, select, pop_size, number_of_founders, starting_proportions, total_runtime, morgan, progress_bar, track_frequency, track_markers, track_junctions, multiplicative_selection)
 }
