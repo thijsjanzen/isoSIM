@@ -244,9 +244,10 @@ std::vector< junction > create_chromosome(int num_ancestors,
     junction first_junction;
     first_junction.pos = 0;
     first_junction.right = random_number(num_ancestors);
+    chrom.push_back(first_junction);
 
     double pos = 0.0;
-    int current_anc = chrom[0].right;
+    int current_anc = first_junction.right;
     while(pos < 1) {
         double u = uniform();
         double lambda = max_num_j;
