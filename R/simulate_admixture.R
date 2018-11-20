@@ -13,20 +13,19 @@ simulate_admixture <- function(input_population = NA,
 
   select <- select_matrix
 
-  if(is.list(input_population)) {
-    if(!is(input_population, "population")) {
-      if(is(input_population$population, "population")) {
-        input_population <- input_population$population
-      }
-    }
-    input_population <- population_to_vector(input_population)
+  if(is(input_population$population, "population")) {
+    input_population <- input_population$population
+  }
 
+  if(is(input_population, "population")) {
+    input_population <- population_to_vector(input_population)
   } else {
     input_population <- c(-1e6, -1e6)
   }
 
   if(sum(is.na(initial_frequencies))) {
-    initial_frequencies <- rep(1 / number_of_founders, number_of_founders)
+    initial_frequencies <- rep(1.0 / number_of_founders,
+                               times = number_of_founders)
   }
 
   if(sum(initial_frequencies) != 1) {

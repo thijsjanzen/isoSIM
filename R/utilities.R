@@ -10,30 +10,6 @@ population_to_vector <- function(source_pop) {
   return(pop_for_cpp)
 }
 
-calculate_allele_frequencies <- function(source_pop,
-                                         step_size,
-                                         progress_bar = TRUE) {
-
-  if(!is(source_pop, "population")) {
-    if(is(source_pop$population, "population")) {
-      source_pop <- source_pop$population
-    } else{
-      stop("Input object is not of class 'population'")
-    }
-  }
-
-  pop_for_cpp <- population_to_vector(source_pop)
-
-  frequency_table <- calculate_allele_spectrum_cpp(pop_for_cpp,
-                                                   step_size,
-                                                   progress_bar)
-
-  output <- tibble::as.tibble(frequency_table)
-  colnames(output) <- c("location", "ancestor", "frequency")
-
-  return(output)
-}
-
 create_tibble_from_freq_table <- function(frequencies, select_matrix) {
   input_list <- list()
   for(i in 1:(dim(frequencies)[[3]])) {

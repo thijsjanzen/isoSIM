@@ -27,5 +27,4 @@ test_that("save_population", {
     testthat::expect_true(all.equal(vx[[i]], vy[[i]]))
   }
 
-  testthat::expect_error(save_population(vx$population[[1]], file_name = "test.pop"))
 })
