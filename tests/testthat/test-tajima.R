@@ -26,6 +26,16 @@ testthat::test_that("tajima", {
   testthat::expect_true(mean(found, na.rm = T) < 2)
 })
 
+testthat::test_that("tajima abuse", {
+  pop <- simulate_admixture(pop_size = 100,
+                            number_of_founders = 2,
+                            seed = 666,
+                            total_runtime = 10)
+
+  testthat::expect_error(  calculate_tajima_d(pop$initial_frequency) )
+})
+
+
 testthat::test_that("tajima", {
 
   if(1 == 2) {

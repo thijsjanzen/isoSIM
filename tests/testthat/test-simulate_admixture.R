@@ -1,6 +1,6 @@
 context("simulate_Admixture")
 
-test_that("simulate admixture abuse", {
+test_that("simulate admixture use", {
 
   vx <- isoSIM::simulate_admixture(pop_size = 100,
                            number_of_founders = 2,
@@ -12,7 +12,7 @@ test_that("simulate admixture abuse", {
                            track_junctions = FALSE,
                            multiplicative_selection = TRUE)
 
-  select_matrix <- matrix(NA, nrow=1,ncol=5)
+  select_matrix <- matrix(NA, nrow=1, ncol=5)
   testthat::expect_error(simulate_admixture(pop_size = 100,
                                             number_of_founders = 2,
                                             total_runtime = 100,
@@ -67,4 +67,10 @@ test_that("simulate admixture abuse", {
                            track_junctions = TRUE,
                            markers = markers,
                            multiplicative_selection = TRUE)
+
+  # code coverage for displaying functions:
+  vx$population
+  vx$population[[1]]
+  plot(vx$population[[1]])
+
 })

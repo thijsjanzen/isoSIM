@@ -254,6 +254,7 @@ List create_pop_admixed_cpp(int num_individuals,
         focal.chromosome1.pop_back();
         focal.chromosome2.pop_back();
         double pos = 0.0;
+        int current_anc = focal.chromosome1[0].right;
         while(pos < 1) {
             double u = uniform();
             double lambda = max_num_j;
@@ -261,7 +262,10 @@ List create_pop_admixed_cpp(int num_individuals,
             pos += exp_u;
             if(pos < 1) {
                 junction to_add(pos, random_number(num_ancestors));
-                focal.chromosome1.push_back(to_add);
+                if(to_add.right != current_anc) {
+                    focal.chromosome1.push_back(to_add);
+                    current_anc = to_add.right;
+                }
             } else {
                 junction to_add(1.0, -1);
                 focal.chromosome1.push_back(to_add);
@@ -269,6 +273,7 @@ List create_pop_admixed_cpp(int num_individuals,
         }
 
         pos = 0.0;
+        current_anc = focal.chromosome2[0].right;
         while(pos < 1) {
             double u = uniform();
             double lambda = max_num_j;
@@ -276,7 +281,10 @@ List create_pop_admixed_cpp(int num_individuals,
             pos += exp_u;
             if(pos < 1) {
                 junction to_add(pos, random_number(num_ancestors));
-                focal.chromosome2.push_back(to_add);
+                if(to_add.right != current_anc) {
+                    focal.chromosome2.push_back(to_add);
+                    current_anc = to_add.right;
+                }
             } else {
                 junction to_add(1.0, -1);
                 focal.chromosome2.push_back(to_add);

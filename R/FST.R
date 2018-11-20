@@ -39,17 +39,9 @@ calculate_fst <- function(pop1,
                           number_of_markers = 100,
                           random_markers = FALSE) {
 
-  if(!is(pop1, "population")) {
-    if(is(pop1$population, "population")) {
-      pop1 <- pop1$population
-    }
-  }
+  pop1 <- check_input_pop(pop1)
 
-  if(!is(pop2, "population")) {
-    if(is(pop2$population, "population")) {
-      pop2 <- pop2$population
-    }
-  }
+  pop2 <- check_input_pop(pop2)
 
   number_of_markers <- round(number_of_markers)
 

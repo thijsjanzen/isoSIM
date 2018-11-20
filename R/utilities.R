@@ -1,3 +1,18 @@
+check_input_pop <- function(pop) {
+  if(!is(pop, "population")) {
+    if(is.list(pop)) {
+      if(is(pop$population, "population")) {
+        pop <- pop$population
+      } else{
+        stop("Input object is not of class 'population'")
+      }
+    } else {
+      stop("Input object is not of class 'population'")
+    }
+  }
+  return(pop)
+}
+
 population_to_vector <- function(source_pop) {
   pop_for_cpp <- c()
   for (i in seq_along(source_pop)) {

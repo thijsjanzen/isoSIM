@@ -31,14 +31,8 @@ plot_dist_junctions <- function(pop) {
 }
 
 calculate_marker_frequency <- function(pop, location) {
-  if(!is(pop, "population")) {
-    if(is(pop$population, "population")) {
-      pop <- pop$population
-    } else{
-      stop("Input object is not of class 'population'")
-    }
-  }
 
+  pop <- check_input_pop(pop)
 
   per_loc <- function(loc) {
     fun_chrom <- function(indiv) {
@@ -71,13 +65,7 @@ calculate_allele_frequencies <- function(source_pop,
                                          step_size,
                                          progress_bar = TRUE) {
 
-  if(!is(source_pop, "population")) {
-    if(is(source_pop$population, "population")) {
-      source_pop <- source_pop$population
-    } else{
-      stop("Input object is not of class 'population'")
-    }
-  }
+  source_pop <- check_input_pop(source_pop)
 
   pop_for_cpp <- population_to_vector(source_pop)
 

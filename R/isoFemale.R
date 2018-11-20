@@ -6,11 +6,7 @@ create_iso_female <- function(source_pop,
                              seed = 42,
                              progress_bar = TRUE) {
 
-  if(!is(source_pop, "population")) {
-    if(is(source_pop$population, "population")) {
-      source_pop <- source_pop$population
-    }
-  }
+  source_pop <- check_input_pop(source_pop)
 
   # first we select the individuals that will be the parents of the isofemales
   indices <- sample(seq_along(source_pop), n * 2, replace = FALSE)

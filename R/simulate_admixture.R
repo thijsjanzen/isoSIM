@@ -51,11 +51,13 @@ simulate_admixture <- function(input_population = NA,
     }
   }
 
-  if(is.na(markers))  {
-    markers <- c(-1, -1)
-    track_frequency <- FALSE
-  } else {
-    track_frequency <- TRUE
+  if(length(markers) == 1) {
+    if(is.na(markers))  {
+      markers <- c(-1, -1)
+      track_frequency <- FALSE
+    } else {
+      track_frequency <- TRUE
+    }
   }
 
   set.seed(seed)

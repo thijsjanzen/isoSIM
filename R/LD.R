@@ -54,11 +54,7 @@ calculate_LD <- function(pop,
                          number_of_markers,
                          random_markers) {
 
-  if(!is(pop, "population")) {
-    if(is(pop$population, "population")) {
-      pop <- pop$population
-    }
-  }
+  pop <- check_input_pop(pop)
 
   all_loci <- matrix(nrow = length(pop), ncol = 2 * number_of_markers, 0)
 
