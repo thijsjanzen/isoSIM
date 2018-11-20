@@ -1,9 +1,3 @@
-if(1 == 2) {
-  devtools::install_github("thijsjanzen/isoSIM")
-  library(isoSIM)
-}
-
-
 context("selection two alleles")
 
 test_that("select population two_alleles", {
@@ -32,18 +26,10 @@ test_that("select population two_alleles", {
                                      total_runtime = run_time,
                                      morgan = 1,
                                      select_matrix = select_matrix,
-                                     seed = 1234,
-                                     track_frequency = TRUE)
+                                     seed = 1234)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
-  testthat::expect_equal(dim(selected_pop$initial_frequency)[[1]],
-                         number_of_founders)
-  testthat::expect_equal(dim(selected_pop$final_frequency)[[1]],
-                         number_of_founders)
-
-  testthat::expect_equal(dim(selected_pop$frequencies)[[1]],
-                         run_time * number_of_founders)
 })
 
 test_that("select on population", {
@@ -75,8 +61,7 @@ test_that("select on population", {
                                                pop_size = 100,
                                                total_runtime = 100,
                                                morgan = 1,
-                                               seed = 1233,
-                                               track_frequency = TRUE)
+                                               seed = 1233)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -122,8 +107,7 @@ test_that("select population two_alleles multiple markers", {
                                      pop_size = 100,
                                      total_runtime = 100,
                                      morgan = 1,
-                                     seed = 1233,
-                                     track_frequency = TRUE)
+                                     seed = 1233)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -135,7 +119,7 @@ test_that("select population two_alleles regions", {
   select_matrix[1, ] <- c(0.25, 1.0, 1+0.5*s, 1+s, 0)
   select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
-  track_freq <- c(0.2, 0.3, 21)
+  markers <- seq(from = 0.2, to = 0.3, length.out = 21)
 
   selected_pop <- simulate_admixture(pop_size = 100,
                                      number_of_founders = 10,
@@ -143,7 +127,7 @@ test_that("select population two_alleles regions", {
                                      morgan = 1,
                                      select_matrix = select_matrix,
                                      seed = 1234,
-                                     track_frequency = track_freq)
+                                     markers = markers)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -162,7 +146,7 @@ test_that("select population two_alleles regions", {
                                      total_runtime = 100,
                                      morgan = 1,
                                      seed = 1233,
-                                     track_frequency = track_freq)
+                                     markers = markers)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -274,7 +258,6 @@ test_that("selection abuse", {
                        number_of_founders = 10,
                        total_runtime = 10,
                        morgan = 1,
-                       seed = 1234,
-                       track_frequency = TRUE)
+                       seed = 1234)
   )
 })

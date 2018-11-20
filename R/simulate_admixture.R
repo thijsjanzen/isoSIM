@@ -61,7 +61,7 @@ simulate_admixture <- function(input_population = NA,
   set.seed(seed)
 
   selected_pop <- simulate_cpp( input_population,
-                                select,
+                                select_matrix,
                                 pop_size,
                                 number_of_founders,
                                 initial_frequencies,
