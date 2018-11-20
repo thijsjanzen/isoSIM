@@ -204,13 +204,15 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0 + s, 1.0, 
                            0)
 
-  selected_pop <- simulate_admixture(pop_size = 1000,
-                                              number_of_founders = 2,
-                                              total_runtime = 100,
-                                              morgan = 1,
-                                              select_matrix = selection_matrix,
-                                              seed = 12345,
-                                              track_frequency = TRUE)
+markers <- 0.5
+
+selected_pop <- simulate_admixture(pop_size = 1000,
+                                   number_of_founders = 2,
+                                   total_runtime = 100,
+                                   morgan = 1,
+                                   select_matrix = selection_matrix,
+                                   markers = markers,
+                                   seed = 12345)
 
 ggplot(selected_pop$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1)
 ```
@@ -225,13 +227,13 @@ selection_matrix[1,] = c(0.5,
                            1.0, 1.0, 1.0 + s, 
                            0)
 
-  selected_pop <- simulate_admixture(pop_size = 1000,
-                                                           number_of_founders = 10,
-                                                           total_runtime = 300,
-                                                           morgan = 1,
-                                                           select_matrix = selection_matrix,
-                                                           seed = 12345,
-                                                           track_frequency = TRUE)
+selected_pop <- simulate_admixture(pop_size = 1000,
+                                   number_of_founders = 10,
+                                   total_runtime = 300,
+                                   morgan = 1,
+                                   select_matrix = selection_matrix,
+                                   markers = markers,
+                                   seed = 12345)
 
 ggplot(selected_pop$frequencies, aes(y = frequency, x = time, col = as.factor(ancestor))) + geom_line() + ylim(0,1)
 ```

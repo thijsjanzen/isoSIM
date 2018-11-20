@@ -6,14 +6,12 @@ simulate_admixture <- function(input_population = NA,
                      morgan = 1,
                      seed,
                      select_matrix = NA,
+                     markers = NA,
                      progress_bar = TRUE,
                      track_junctions = FALSE,
-                     track_frequency = FALSE,
                      multiplicative_selection = TRUE) {
 
-  select <- select_matrix
-
-  if(!is.na(input_population)) {
+  if(is.list(input_population)) {
 
     if(is(input_population$population, "population")) {
       input_population <- input_population$population
@@ -38,11 +36,8 @@ simulate_admixture <- function(input_population = NA,
     cat("starting frequencies were normalized to 1\n")
   }
 
-  no_selection <- FALSE
-  if(is.na(select)) no_selection <- TRUE
-
-  if(is.matrix(select)) {
-    if (sum(is.na(select))) {
+  if(is.matrix(select_matrix)) {
+    if (sum(is.na(select_matrix))) {
       stop("Can't start, there are NA values in the selection matrix!\n")
     }
 
@@ -51,28 +46,15 @@ simulate_admixture <- function(input_population = NA,
            are you sure you provided all fitnesses?\n")
     }
   } else {
-    if(is.na(select)) {
-      select <- matrix(-1, nrow=2,ncol=2)
+    if(is.na(select_matrix)) {
+      select_matrix <- matrix(-1, nrow=2,ncol=2)
     }
   }
 
-  markers <- c(-1,-1)
-
-  if(is.matrix(select) & no_selection == FALSE) {
-    markers <- (select[,1])
-  }
-
-  if(length(track_frequency) == 3)  {
-    markers <- seq(track_frequency[1],
-                   track_frequency[2],
-                   length.out = track_frequency[3])
-
-    if(is.matrix(select) && no_selection == FALSE) {
-      markers <- c(markers, select[,1])
-      markers <- sort(markers)
-      markers <- unique(markers)
-    }
-
+  if(is.na(markers))  {
+    markers <- c(-1, -1)
+    track_frequency <- FALSE
+  } else {
     track_frequency <- TRUE
   }
 

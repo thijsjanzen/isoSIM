@@ -16,9 +16,9 @@ simulate_admixture(input_population = NA,
                    morgan,
                    seed,
                    select_matrix = NA,
+                   markers = NA,
                    progress_bar = TRUE,
                    track_junctions = FALSE,
-                   track_frequency = FALSE,
                    multiplicative_selection = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -61,14 +61,13 @@ simulate_admixture(input_population = NA,
    Displays a progress_bar if TRUE. Default value is TRUE
 }
 
+\item{markers}{
+  A vector of locations of markers (relative locations in [0, 1]). If a vector is provided, ancestry at these marker positions is tracked for every generation.
+}
+
 \item{track_junctions}{
    Track the average number of junctions over time if TRUE
 }
-
-\item{track_frequency}{
-  If TRUE, every generation the frequency of all ancestors at the marker under selection is tracked. Currently only supports one marker under selection. Alternatively, the user can provide a region for which a fixed number of markers is tracked. The user does this by providing a vector with three entries: \code{start}, \code{end}, \code{number_of_markers}.
-}
-
 
 \item{multiplicative_selection}{
   Default: TRUE. If TRUE, fitness is calculated for multiple markers by multiplying fitness values for each marker. If FALSE, fitness is calculated by adding fitness values for each marker.
@@ -77,7 +76,7 @@ simulate_admixture(input_population = NA,
 }
 
 \value{
-A list with: \code{population} a population object, and three tibbles with allele frequencies (if track_frequency = TRUE): \code{frequencies} (if \code{track_frequency} = TRUE), \code{initial_frequencies} and \code{final_frequencies}. Each tibble contains four columns, \code{time}, \code{location}, \code{ancestor} and \code{frequency}, which indicates the number of generations, the location along the chromosome of the marker, the ancestral allele at that location in that generation, and finally, the frequency of that allele.
+A list with: \code{population} a population object, and three tibbles with allele frequencies (only contain values of a vector was provided to the argument \code{markers}: \code{frequencies} , \code{initial_frequencies} and \code{final_frequencies}. Each tibble contains four columns, \code{time}, \code{location}, \code{ancestor} and \code{frequency}, which indicates the number of generations, the location along the chromosome of the marker, the ancestral allele at that location in that generation, and finally, the frequency of that allele.
 }
 
 \author{
