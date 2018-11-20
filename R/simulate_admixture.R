@@ -58,6 +58,8 @@ simulate_admixture <- function(input_population = NA,
     } else {
       track_frequency <- TRUE
     }
+  } else {
+    track_frequency <- TRUE
   }
 
   set.seed(seed)
