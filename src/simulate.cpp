@@ -237,59 +237,58 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                          Named("junctions") = junctions);
 }
 
+std::vector< junction > create_chromosome(int num_ancestors,
+                                          int max_num_j) {
+
+    std::vector< junction > chrom;
+    junction first_junction;
+    first_junction.pos = 0;
+    first_junction.right = random_number(num_ancestors);
+
+    double pos = 0.0;
+    int current_anc = focal.chrom[0].right;
+    while(pos < 1) {
+        double u = uniform();
+        double lambda = max_num_j;
+        double exp_u = (-1.0 / lambda) * log(u);
+        pos += exp_u;
+        if(pos < 1) {
+            new_anc = random_number(num_ancestors);
+            if(num_ancestors == 2) {
+                new_anc = 1 - current_anc;
+            }
+            while(new_anc == current_anc) new_anc = random_number(num_ancestors);
+            junction to_add(pos, new_anc);
+            focal.chromosome1.push_back(to_add);
+            current_anc = new_anc;
+        }
+    }
+    junction to_add(1.0, -1);
+    chrom.push_back(to_add);
+    return chrom;
+}
+
+
+
 // [[Rcpp::export]]
 List create_pop_admixed_cpp(int num_individuals,
-                  int num_ancestors,
-                  int population_size,
-                  double size_in_morgan) {
+                            int num_ancestors,
+                            int population_size,
+                            double size_in_morgan) {
 
     double p = 1.0 / num_ancestors;
     double init_heterozygosity = 2*p*(1-p);
 
-    int max_num_j = 2*init_heterozygosity * population_size * size_in_morgan;
+    int max_num_j = 2 * init_heterozygosity * population_size * size_in_morgan;
 
     std::vector< Fish > output;
     for(int i = 0; i < num_individuals; ++i) {
         Fish focal(random_number(num_ancestors));
-        focal.chromosome1.pop_back();
-        focal.chromosome2.pop_back();
-        double pos = 0.0;
-        int current_anc = focal.chromosome1[0].right;
-        while(pos < 1) {
-            double u = uniform();
-            double lambda = max_num_j;
-            double exp_u = (-1.0 / lambda) * log(u);
-            pos += exp_u;
-            if(pos < 1) {
-                junction to_add(pos, random_number(num_ancestors));
-                if(to_add.right != current_anc) {
-                    focal.chromosome1.push_back(to_add);
-                    current_anc = to_add.right;
-                }
-            } else {
-                junction to_add(1.0, -1);
-                focal.chromosome1.push_back(to_add);
-            }
-        }
+        focal.chromosome1 = create_chromosome(num_ancestors,
+                                              max_num_j);
 
-        pos = 0.0;
-        current_anc = focal.chromosome2[0].right;
-        while(pos < 1) {
-            double u = uniform();
-            double lambda = max_num_j;
-            double exp_u = (-1.0 / lambda) * log(u);
-            pos += exp_u;
-            if(pos < 1) {
-                junction to_add(pos, random_number(num_ancestors));
-                if(to_add.right != current_anc) {
-                    focal.chromosome2.push_back(to_add);
-                    current_anc = to_add.right;
-                }
-            } else {
-                junction to_add(1.0, -1);
-                focal.chromosome2.push_back(to_add);
-            }
-        }
+        focal.chromosome2 = create_chromosome(num_ancestors,
+                                              max_num_j);
 
         output.push_back(focal);
     }
