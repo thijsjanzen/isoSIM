@@ -15,18 +15,27 @@ knitr::opts_chunk$set(fig.width=6)
 # Creation of isofemale lines
 The package isoSIM was designed to simulate the generation of iso-female lines, and simulate genomic changes during, and after, formation of iso-female lines. Furthermore, it allows for simulation of effects after crossing individuals from iso-female lines.
 
-```{r}
+```{r load libraries}
 library(isoSIM)
 library(ggplot2)
 packageVersion("isoSIM")
 ```
 We will analyze whether we can genetically tell apart two populations, where one population was founded by crossing two isofemale lines that were created from the same source population, and the other population was founded by crossing two isofemale lines created from different source populations. 
 
-First, we generate two source populations using \code{create_population} and then increase the founder labels in the second population to ensure that both populations do not share founder labels.
+First, we generate two source populations using \code{simulate_admixture} and then increase the founder labels in the second population to ensure that both populations do not share founder labels.
 
 ```{r create populations}
-pop_1 <- simulate_admixture(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 42)
-pop_2 <- simulate_admixture(pop_size = 100, number_of_founders = 4, total_runtime = 1000, morgan = 1, seed = 666)
+pop_1 <- simulate_admixture(pop_size = 100, 
+                            number_of_founders = 4, 
+                            total_runtime = 1000, 
+                            morgan = 1, 
+                            seed = 42)
+
+pop_2 <- simulate_admixture(pop_size = 100, 
+                            number_of_founders = 4, 
+                            total_runtime = 1000, 
+                            morgan = 1, 
+                            seed = 666)
 
 pop_2 <- increase_ancestor(pop_2, increment = 10)
 ```
@@ -53,6 +62,7 @@ pop_2_2 <- simulate_admixture(isoFemales_pop_2, pop_size = 1000, total_runtime =
 Then, using the function \code{calculate_fst} we calculate all pairwise FST values. Here, we expect to find the highest FST for the 1x2 comparison. 
 ```{r FST calculation}
 f1 <- calculate_fst(pop_1_1, pop_1_2, sampled_individuals = 10, number_of_markers = 100)
+# this one should be highest
 f2 <- calculate_fst(pop_1_1, pop_2_2, sampled_individuals = 10, number_of_markers = 100)
 f3 <- calculate_fst(pop_1_2, pop_2_2, sampled_individuals = 10, number_of_markers = 100)
 f1
