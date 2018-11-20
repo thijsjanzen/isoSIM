@@ -46,5 +46,13 @@ joyplot_frequencies(frequencies, time_points, picked_ancestor)
                                      track_frequency = track_freq)
   joyplot_frequencies(selected_pop$frequencies,
                     0:11, picked_ancestor = "ALL")
+
+  # joyplot frequencies returns a ggplot object, so we can
+  # add extra elements:
+  joyplot_frequencies(selected_pop$frequencies,
+                    0:11, picked_ancestor = "ALL") +
+                    ggplot2::xlab("Location") +
+                    ggplot2::ylab("Generations")
+
 }
 

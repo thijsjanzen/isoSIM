@@ -84,5 +84,17 @@ A list with: \code{Population_1} a population object containing all individuals 
   Thijs Janzen
 }
 \examples{
-
+  # should generate FST values around 0:
+  example_pop <- simulate_admixture_until(pop_size = 100,
+                                 number_of_founders = 2,
+                                 total_runtime = 10,
+                                 morgan = 1,
+                                 seed = 42,
+                                 generations_between_update = 1,
+                                 critical_fst = 0.1,
+                                 sampled_individuals = 10,
+                                 number_of_markers = 100,
+                                 random_markers = TRUE,
+                                 overlap = 1,
+                                 multiplicative_selection = TRUE)
 }

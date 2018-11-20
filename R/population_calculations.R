@@ -31,6 +31,14 @@ plot_dist_junctions <- function(pop) {
 }
 
 calculate_marker_frequency <- function(pop, location) {
+  if(!is(pop, "population")) {
+    if(is(pop$population, "population")) {
+      pop <- pop$population
+    } else{
+      stop("Input object is not of class 'population'")
+    }
+  }
+
 
   per_loc <- function(loc) {
     fun_chrom <- function(indiv) {

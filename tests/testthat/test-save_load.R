@@ -15,16 +15,16 @@ test_that("save_population", {
 
   testthat::expect_true(verify_population(vx))
 
-  save_population(vx$population, file_name = "test.pop")
+  save_population(vx, file_name = "test.pop")
 
   vy <- load_population(file_name = "test.pop")
 
-  testthat::expect_true(verify_population(vy))
+  testthat::expect_true(verify_population(vy$population))
 
-  testthat::expect_equal(length(vx$population), length(vy))
+  testthat::expect_equal(length(vx$population), length(vy$population))
 
   for(i in seq_along(vx)) {
-    testthat::expect_true(all.equal(vx$population[[i]], vy[[i]]))
+    testthat::expect_true(all.equal(vx[[i]], vy[[i]]))
   }
 
   testthat::expect_error(save_population(vx$population[[1]], file_name = "test.pop"))

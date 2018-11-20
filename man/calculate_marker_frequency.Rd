@@ -31,14 +31,16 @@ calculate_marker_frequency(pop, location)
 \examples{
 \dontrun{
   number_founders = 20
-  wildpop =  create_population(pop_size = 1000,
-                             number_of_founders = number_founders,
-                             total_runtime = 10,
-                             morgan = 1,
-                             seed = 666)
+  wildpop =  simulate_admixture(pop_size = 1000,
+                                number_of_founders = number_founders,
+                                total_runtime = 10,
+                                morgan = 1,
+                                seed = 666)
 
   calculate_marker_frequency(wildpop, 0.5)
+
   frequencies <- calculate_marker_frequency(wildpop, seq(0.4, 0.5, by = 0.001))
+
   ggplot(frequencies, aes(x = location, y = frequency, col = ancestor)) +
       geom_step()
 

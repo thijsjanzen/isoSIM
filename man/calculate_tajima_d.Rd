@@ -43,7 +43,7 @@ pop <- simulate_admixture(pop_size = 100,
                           seed = 42)$population
 
 calculate_tajima_d(pop,
-                   markers = seq(1e-6,1-1e-6,100)),
+                   markers = seq(1e-6,1-1e-6,100),
                    number_of_sampled_individuals = 10)
 
 }

@@ -1,9 +1,4 @@
 save_population <- function(population, file_name, compression = TRUE) {
-
-  if(class(population) != "population") {
-    stop("Not providing a population structure")
-  }
-
   saveRDS(population, file = file_name, compress = compression)
 }
 

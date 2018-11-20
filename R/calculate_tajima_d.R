@@ -2,6 +2,15 @@ calculate_tajima_d <- function(pop,
                                markers = seq(1e-6,1-1e-6,length.out = 100),
                                number_of_sampled_individuals = 10) {
 
+  if(!is(pop, "population")) {
+    if(is(pop$population, "population")) {
+      pop <- pop$population
+    } else{
+      stop("Input object is not of class 'population'")
+    }
+  }
+
+
   pop_size <- length(pop)
   indices_sampled_individuals <- sample(1:pop_size,
                                         number_of_sampled_individuals,

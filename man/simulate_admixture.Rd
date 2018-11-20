@@ -85,5 +85,9 @@ A list with: \code{population} a population object, and three tibbles with allel
 }
 
 \examples{
-
+  wildpop <- simulate_admixture(pop_size = 10,
+                               number_of_founders = 2,
+                               total_runtime = 3,
+                               morgan = 1,
+                               seed = 123)
 }

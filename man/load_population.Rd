@@ -29,7 +29,7 @@ load_population(file_name)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-wildpop <- create_population(pop_size = 10,
+wildpop <- simulate_admixture(pop_size = 10,
                                number_of_founders = 2,
                                total_runtime = 3,
                                morgan = 1,
@@ -37,5 +37,5 @@ wildpop <- create_population(pop_size = 10,
 
 save_population(wildpop, file_name = "wildpop.pop")
 wildpop2 <- load_population(file_name = "wildpop.pop")
-all.equal(wildpop[[1]], wildpop2[[1]])
+all.equal(wildpop, wildpop2)
 }

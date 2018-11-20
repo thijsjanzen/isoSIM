@@ -35,13 +35,14 @@ plot_difference_frequencies(results, picked_ancestor = "ALL")
 
   track_freq <- c(0.2, 0.3, 100)
 
-  selected_pop <- create_population_selection(pop_size = 1000,
-                                                    number_of_founders = 10,
-                                                    total_runtime = 11,
-                                                    morgan = 1,
-                                                    select_matrix,
-                                                    seed = 1234,
-                                                    track_frequency = track_freq)
+  selected_pop <- simulate_admixture(pop_size = 1000,
+                                     number_of_founders = 10,
+                                     total_runtime = 11,
+                                     morgan = 1,
+                                     select_matrix,
+                                     seed = 1234,
+                                     track_frequency = track_freq)
+  require(ggplot2)
   plot_difference_frequencies(selected_pop,
                   picked_ancestor = "ALL")
 }

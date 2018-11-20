@@ -36,11 +36,11 @@ calculate_allele_frequencies(source_pop, step_size, progress_bar)
 \examples{
 \dontrun{
   number_founders = 20
-  wildpop =  create_population(pop_size = 1000,
-                             number_of_founders = number_founders,
-                             total_runtime = 10,
-                             morgan = 1,
-                             seed = 666)
+  wildpop =  simulate_admixture(pop_size = 1000,
+                                number_of_founders = number_founders,
+                                total_runtime = 10,
+                                morgan = 1,
+                                seed = 666)
 
  freq_output <- calculate_allele_frequencies(wildpop,
                                             step_size = 0.001,

@@ -44,13 +44,12 @@ Thijs Janzen
 
 \examples{
 \dontrun{
-two_populations <- create_two_populations(pop_size = 1000,
+two_populations <- simulate_admixture_until(pop_size = 100,
                                           number_of_founders = 20,
-                                          total_runtime = 100,
+                                          total_runtime = 10,
                                           morgan = 1,
                                           seed = 42,
-                                          overlap = 0.25,
-                                          write_to_file = FALSE)
+                                          overlap = 0.25)
 
   FST <- calculate_fst(two_populations$Population_1,
                  two_populations$Population_2,
