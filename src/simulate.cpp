@@ -253,7 +253,7 @@ std::vector< junction > create_chromosome(int num_ancestors,
         double exp_u = (-1.0 / lambda) * log(u);
         pos += exp_u;
         if(pos < 1) {
-            new_anc = random_number(num_ancestors);
+            int new_anc = random_number(num_ancestors);
             if(num_ancestors == 2) {
                 new_anc = 1 - current_anc;
             }
