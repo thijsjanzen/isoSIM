@@ -66,7 +66,7 @@ testthat::test_that("tajima", {
 
   markers <- seq(0,1,length.out = 100)
 
-  number_of_sampled_individuals = pop_size
+  number_of_sampled_individuals <- pop_size
 
   D1 <- calculate_tajima_d(pop,
                                    markers,

@@ -16,7 +16,7 @@ struct junction {
     long double pos;
     int right;
 
-    junction()  {}
+    junction();
     junction(long double loc, int B) ;
     junction(const junction& other);
     bool operator ==(const junction& other) const;
@@ -29,8 +29,7 @@ struct Fish {
     std::vector< junction > chromosome1;
     std::vector< junction > chromosome2;
 
-    Fish()
-    {}
+    Fish();
 
     Fish(int initLoc);
     Fish(const std::vector<junction>& A,

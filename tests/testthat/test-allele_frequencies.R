@@ -68,8 +68,10 @@ test_that("calculate_allele_frequencies", {
   freq_output <- calculate_allele_frequencies(sourcepop$population,
                                               step_size = 0.01)
 
-  testthat::expect_error( calculate_allele_frequencies(sourcepop$initial_frequency,
-                                                       step_size = 0.01) )
+  testthat::expect_error(
+              calculate_allele_frequencies(sourcepop$initial_frequency,
+                                                       step_size = 0.01)
+                        )
 
 
   require(dplyr)
