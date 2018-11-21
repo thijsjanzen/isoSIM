@@ -1,5 +1,8 @@
 \name{isoSIM-internal}
 \title{Internal isoSIM functions}
+\alias{create_two_populations_migration_cpp}
+\alias{create_two_populations_cpp}
+\alias{select_population_cpp}
 \alias{test_fish_functions}
 \alias{create_iso_female_line}
 \alias{findtype}
@@ -10,10 +13,13 @@
 \alias{calc_allele_frequencies}
 \alias{calculate_dist_junctions}
 \alias{plot_dist_junctions}
+\alias{simulate_from_population}
 \alias{create_isofemale_line_cpp}
+\alias{create_population_selection_cpp}
 \alias{plot.individual}
 \alias{print.population}
 \alias{print.individual}
+\alias{create_population_cpp}
 \alias{verify_individual}
 \alias{verify_population}
 \alias{population_to_vector}
@@ -21,8 +27,6 @@
 \alias{create_tibble_from_freq_table}
 \alias{create_tibble_from_freq_mat}
 \alias{simulate_cpp}
-\alias{create_pop_admixed_cpp}
-\alias{check_input_pop}
 
 \description{Internal isoSIM functions}
 \details{These are not to be called by the user}

@@ -1,3 +1,9 @@
+if(1 == 2) {
+  devtools::install_github("thijsjanzen/isoSIM")
+  library(isoSIM)
+}
+
+
 context("selection two alleles")
 
 test_that("select population two_alleles", {
@@ -5,12 +11,12 @@ test_that("select population two_alleles", {
   s <- 0.1
   select_matrix[1, ] <- c(0.05, 1.0, 1+0.5*s, 1+s, 0)
 
-  selected_pop <- simulate_admixture(pop_size = 100,
-                                     number_of_founders = 10,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     select_matrix = select_matrix,
-                                     seed = 1234)
+  selected_pop <- create_population_selection(pop_size = 100,
+                                              number_of_founders = 10,
+                                              total_runtime = 100,
+                                              morgan = 1,
+                                              select_matrix,
+                                              seed = 1234)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -21,20 +27,28 @@ test_that("select population two_alleles", {
   number_of_founders <- 10
   run_time <- 100
 
-  selected_pop <- simulate_admixture(pop_size = 100,
-                                     number_of_founders = number_of_founders,
-                                     total_runtime = run_time,
-                                     morgan = 1,
-                                     select_matrix = select_matrix,
-                                     seed = 1234)
+  selected_pop <- create_population_selection(pop_size = 100,
+                                              number_of_founders,
+                                              total_runtime = run_time,
+                                              morgan = 1,
+                                              select_matrix,
+                                              seed = 1234,
+                                              track_frequency = TRUE)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
+  testthat::expect_equal(dim(selected_pop$initial_frequency)[[1]],
+                         number_of_founders)
+  testthat::expect_equal(dim(selected_pop$final_frequency)[[1]],
+                         number_of_founders)
+
+  testthat::expect_equal(dim(selected_pop$frequencies)[[1]],
+                         run_time * number_of_founders)
 })
 
 test_that("select on population", {
 
-  sourcepop <- simulate_admixture(pop_size = 100,
+  sourcepop <- create_population(pop_size = 100,
                                  number_of_founders = 10,
                                  total_runtime = 1000,
                                  morgan = 1,
@@ -46,8 +60,7 @@ test_that("select on population", {
   s <- 0.1
   select_matrix[1, ] <- c(0.05, 1.0, 1+0.5*s, 1+s, 0)
 
-  selected_pop <- simulate_admixture(input_population = sourcepop,
-                                     select_matrix = select_matrix,
+  selected_pop <- select_population(sourcepop, select_matrix,
                                     pop_size = 100,
                                     total_runtime = 100,
                                     morgan = 1,
@@ -56,12 +69,12 @@ test_that("select on population", {
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 
-  selected_pop <- simulate_admixture(input_population = sourcepop,
-                                     select_matrix = select_matrix,
+  selected_pop <- select_population(sourcepop, select_matrix,
                                                pop_size = 100,
                                                total_runtime = 100,
                                                morgan = 1,
-                                               seed = 1233)
+                                               seed = 1233,
+                                               track_frequency = TRUE)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -74,40 +87,39 @@ test_that("select population two_alleles multiple markers", {
   select_matrix[1, ] <- c(0.25, 1.0, 1+0.5*s, 1+s, 0)
   select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
-  selected_pop <- simulate_admixture(pop_size = 100,
-                                     number_of_founders = 10,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     select_matrix = select_matrix,
-                                     seed = 1234)
+  selected_pop <- create_population_selection(pop_size = 100,
+                                              number_of_founders = 10,
+                                              total_runtime = 100,
+                                              morgan = 1,
+                                              select_matrix,
+                                              seed = 1234)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 
-  sourcepop <- simulate_admixture(pop_size = 100,
-                                  number_of_founders = 10,
-                                  total_runtime = 1000,
-                                  morgan = 1,
-                                  seed = 123)
+  sourcepop <- create_population(pop_size = 100,
+                                 number_of_founders = 10,
+                                 total_runtime = 1000,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 
-  selected_pop <- simulate_admixture(input_population = sourcepop,
-                                     select_matrix = select_matrix,
-                                     pop_size = 100,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     seed = 1233)
+  selected_pop <- select_population(sourcepop, select_matrix,
+                                    pop_size = 100,
+                                    total_runtime = 100,
+                                    morgan = 1,
+                                    seed = 1233)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 
-  selected_pop <- simulate_admixture(input_population = sourcepop,
-                                     select_matrix = select_matrix,
-                                     pop_size = 100,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     seed = 1233)
+  selected_pop <- select_population(sourcepop, select_matrix,
+                                    pop_size = 100,
+                                    total_runtime = 100,
+                                    morgan = 1,
+                                    seed = 1233,
+                                    track_frequency = TRUE)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -119,20 +131,20 @@ test_that("select population two_alleles regions", {
   select_matrix[1, ] <- c(0.25, 1.0, 1+0.5*s, 1+s, 0)
   select_matrix[2, ] <- c(0.75, 1.0, 1, 1+s,  1)
 
-  markers <- seq(from = 0.2, to = 0.3, length.out = 21)
+  track_freq <- c(0.2, 0.3, 21)
 
-  selected_pop <- simulate_admixture(pop_size = 100,
-                                     number_of_founders = 10,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     select_matrix = select_matrix,
-                                     seed = 1234,
-                                     markers = markers)
+  selected_pop <- create_population_selection(pop_size = 100,
+                                              number_of_founders = 10,
+                                              total_runtime = 100,
+                                              morgan = 1,
+                                              select_matrix,
+                                              seed = 1234,
+                                              track_frequency = track_freq)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
 
-  sourcepop <- simulate_admixture(pop_size = 100,
+  sourcepop <- create_population(pop_size = 100,
                                  number_of_founders = 10,
                                  total_runtime = 1000,
                                  morgan = 1,
@@ -140,13 +152,12 @@ test_that("select population two_alleles regions", {
 
   testthat::expect_true(verify_population(sourcepop))
 
-  selected_pop <- simulate_admixture(input_population = sourcepop,
-                                     select_matrix = select_matrix,
-                                     pop_size = 100,
-                                     total_runtime = 100,
-                                     morgan = 1,
-                                     seed = 1233,
-                                     markers = markers)
+  selected_pop <- select_population(sourcepop, select_matrix,
+                                    pop_size = 100,
+                                    total_runtime = 100,
+                                    morgan = 1,
+                                    seed = 1233,
+                                    track_frequency = track_freq)
 
   testthat::expect_equal(length(selected_pop$population), 100)
   testthat::expect_true(verify_population(selected_pop$population))
@@ -174,13 +185,16 @@ test_that("select population two_alleles regions", {
 
 })
 
+
+
+
 test_that("selection abuse", {
 
-  sourcepop <- simulate_admixture(pop_size = 100,
-                                  number_of_founders = 2,
-                                  total_runtime = 100,
-                                  morgan = 1,
-                                  seed = 123)
+  sourcepop <- create_population(pop_size = 100,
+                                 number_of_founders = 2,
+                                 total_runtime = 100,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 
@@ -190,21 +204,21 @@ test_that("selection abuse", {
   select_matrix[2, ] <- c(0.15, 1.0, 1+0.5*s, 1+s, 0)
 
   testthat::expect_error(
-      simulate_admixture(input_population = sourcepop,
-                         select_matrix =select_matrix,
-                        pop_size = 1000,
-                        total_runtime = 1000,
-                        morgan = 1,
-                        seed = 1234),
+    select_population(sourcepop, select_matrix,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234),
     "Can't start, there are NA values in the selection matrix!"
   )
 
   testthat::expect_error(
-    simulate_admixture(select_matrix =select_matrix,
-                       pop_size = 1000,
-                       total_runtime = 1000,
-                       morgan = 1,
-                       seed = 1234),
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234),
     "Can't start, there are NA values in the selection matrix!"
   )
 
@@ -214,21 +228,21 @@ test_that("selection abuse", {
 
 
   testthat::expect_error(
-    simulate_admixture(input_population = sourcepop,
-                       select_matrix =select_matrix,
-                       pop_size = 1000,
-                       total_runtime = 1000,
-                       morgan = 1,
-                       seed = 1234),
+    select_population(sourcepop, select_matrix,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234),
     "Can't start, there are NA values in the selection matrix!"
   )
 
   testthat::expect_error(
-    simulate_admixture(select_matrix =select_matrix,
-                       pop_size = 100,
-                       total_runtime = 10,
-                       morgan = 1,
-                       seed = 1234),
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234),
     "Can't start, there are NA values in the selection matrix!"
   )
 
@@ -243,21 +257,21 @@ test_that("selection abuse", {
   select_matrix[1,] <- c(0.5, 0.1, 0.2)
 
   testthat::expect_error(
-    simulate_admixture(input_population = sourcepop,
-                       select_matrix =select_matrix,
-                       pop_size = 1000,
-                       total_runtime = 1000,
-                       morgan = 1,
-                       seed = 1234)
+    select_population(sourcepop, select_matrix,
+                      pop_size = 1000,
+                      total_runtime = 1000,
+                      morgan = 1,
+                      seed = 1234,
+                      track_frequency = TRUE)
   )
 
   testthat::expect_error(
-    simulate_admixture(input_population = sourcepop,
-                       select_matrix =select_matrix,
-                       pop_size = 100,
-                       number_of_founders = 10,
-                       total_runtime = 10,
-                       morgan = 1,
-                       seed = 1234)
+    create_population_selection(pop_size = 100,
+                                number_of_founders = 10,
+                                total_runtime = 10,
+                                morgan = 1,
+                                select_matrix,
+                                seed = 1234,
+                                track_frequency = TRUE)
   )
 })

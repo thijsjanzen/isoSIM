@@ -2,8 +2,6 @@ calculate_tajima_d <- function(pop,
                                markers = seq(1e-6,1-1e-6,length.out = 100),
                                number_of_sampled_individuals = 10) {
 
-  pop <- check_input_pop(pop)
-
   pop_size <- length(pop)
   indices_sampled_individuals <- sample(1:pop_size,
                                         number_of_sampled_individuals,

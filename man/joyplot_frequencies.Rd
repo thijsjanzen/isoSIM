@@ -37,22 +37,14 @@ joyplot_frequencies(frequencies, time_points, picked_ancestor)
 
   markers <- seq(from = 0.2, to = 0.3, length.out = 100)
 
-  selected_pop <- simulate_admixture(pop_size = 1000,
-                                     number_of_founders = 10,
-                                     total_runtime = 11,
-                                     morgan = 1,
-                                     select_matrix,
-                                     seed = 1234,
-                                     markers = markers)
+  selected_pop <- isoSIM::create_population_selection(pop_size = 1000,
+                                                    number_of_founders = 10,
+                                                    total_runtime = 11,
+                                                    morgan = 1,
+                                                    select_matrix,
+                                                    seed = 1234,
+                                                    markers = markers)
   joyplot_frequencies(selected_pop$frequencies,
                     0:11, picked_ancestor = "ALL")
-
-  # joyplot frequencies returns a ggplot object, so we can
-  # add extra elements:
-  joyplot_frequencies(selected_pop$frequencies,
-                    0:11, picked_ancestor = "ALL") +
-                    ggplot2::xlab("Location") +
-                    ggplot2::ylab("Generations")
-
 }
 

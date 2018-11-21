@@ -34,14 +34,10 @@ create_loci_matrix <- function(pop1,
 }
 
 calculate_fst <- function(pop1,
-                          pop2,
-                          sampled_individuals,
-                          number_of_markers = 100,
-                          random_markers = FALSE) {
-
-  pop1 <- check_input_pop(pop1)
-
-  pop2 <- check_input_pop(pop2)
+                             pop2,
+                             sampled_individuals,
+                             number_of_markers = 100,
+                             random_markers = FALSE) {
 
   number_of_markers <- round(number_of_markers)
 

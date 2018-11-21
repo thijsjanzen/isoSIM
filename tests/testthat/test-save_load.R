@@ -7,11 +7,8 @@ test_that("save_population", {
   run_time <- 10
   morgan <- 1
 
-  vx <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 42)
+  vx <- create_population(pop_size, number_of_founders,
+                          run_time, morgan, 42)
 
   testthat::expect_true(verify_population(vx))
 
@@ -19,12 +16,13 @@ test_that("save_population", {
 
   vy <- load_population(file_name = "test.pop")
 
-  testthat::expect_true(verify_population(vy$population))
+  testthat::expect_true(verify_population(vy))
 
-  testthat::expect_equal(length(vx$population), length(vy$population))
+  testthat::expect_equal(length(vx), length(vy))
 
   for(i in seq_along(vx)) {
     testthat::expect_true(all.equal(vx[[i]], vy[[i]]))
   }
 
+  testthat::expect_error(save_population(vx[[1]], file_name = "test.pop"))
 })

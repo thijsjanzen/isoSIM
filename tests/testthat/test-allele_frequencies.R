@@ -9,17 +9,14 @@ test_that("calculate_allele_frequencies", {
 
   found <- c()
   for (r in 1:100) {
-    vx <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = r)
+    vx <- create_population(pop_size, 2,
+                            run_time, morgan, r)
 
     testthat::expect_true(verify_population(vx))
 
     for (i in 1:pop_size) {
       found <- rbind(found,
-                     calc_allele_frequencies(vx$population[[i]],
+                     calc_allele_frequencies(vx[[i]],
                                              alleles =
                                                rep(0, number_of_founders * 2)
                                              )
@@ -34,17 +31,14 @@ test_that("calculate_allele_frequencies", {
 
   found <- c()
   for (r in 1:100) {
-    vx <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = 4,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = r)
+    vx <- create_population(pop_size, 4,
+                            run_time, morgan, r)
 
     testthat::expect_true(verify_population(vx))
 
     for (i in 1:pop_size) {
       found <- rbind(found,
-                     calc_allele_frequencies(vx$population[[i]],
+                     calc_allele_frequencies(vx[[i]],
                                              alleles =
                                                rep(0, number_of_founders * 2)
                                              )
@@ -56,22 +50,18 @@ test_that("calculate_allele_frequencies", {
   expect_equal(v, 0.25, tolerance = 0.05)
 
 
-  number_of_founders <- 20
-  sourcepop <- simulate_admixture(pop_size = 10000,
-                                  number_of_founders = number_of_founders,
-                                  total_runtime = 1,
-                                  morgan = morgan,
-                                  seed = 123)
+  number_founders <- 20
+  sourcepop <- create_population(
+    pop_size = 10000,
+    number_of_founders = number_founders,
+    total_runtime = 1,
+    morgan = 1,
+    seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 
-  freq_output <- calculate_allele_frequencies(sourcepop$population,
+  freq_output <- calculate_allele_frequencies(sourcepop,
                                               step_size = 0.01)
-
-  testthat::expect_error(
-              calculate_allele_frequencies(sourcepop$initial_frequency,
-                                                       step_size = 0.01)
-                        )
 
 
   require(dplyr)
@@ -80,24 +70,24 @@ test_that("calculate_allele_frequencies", {
     dplyr::summarise("mean_freq" = mean(frequency))
 
   testthat::expect_equal(mean(b$mean_freq),
-                         1 / number_of_founders,
+                         1 / number_founders,
                          tolerance = 0.01)
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
 
-  number_of_founders <- 5
-  sourcepop <- simulate_admixture(pop_size = 1000,
-                                  number_of_founders = number_of_founders,
-                                  total_runtime = 100,
-                                  morgan = 1,
-                                  seed = 123)
+  number_founders <- 5
+  sourcepop <- create_population(pop_size = 1000,
+                                 number_of_founders = number_founders,
+                                 total_runtime = 100,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 
-  freq_output <- calculate_allele_frequencies(sourcepop$population,
+  freq_output <- calculate_allele_frequencies(sourcepop,
                                               step_size = 0.01)
 
   testthat::expect_equal(length(unique(freq_output$ancestor)),
-                         number_of_founders)
+                         number_founders)
 
   b <- freq_output %>%
     dplyr::group_by(as.factor(ancestor)) %>%
@@ -105,17 +95,15 @@ test_that("calculate_allele_frequencies", {
 
   testthat::expect_equal(sum(b$mean_freq), 1, tolerance = 0.01)
   testthat::expect_equal(mean(b$mean_freq),
-                         1 / number_of_founders,
+                         1 / number_founders,
                          tolerance = 0.01)
 
   number_founders <- 20
-  sourcepop <- simulate_admixture(pop_size = 1000,
-                                  number_of_founders = number_of_founders,
-                                  total_runtime = 1,
-                                  morgan = 1,
-                                  seed = 123)
-
-
+  sourcepop <- create_population(pop_size = 1000,
+                                 number_of_founders = number_founders,
+                                 total_runtime = 1,
+                                 morgan = 1,
+                                 seed = 123)
 
   testthat::expect_true(verify_population(sourcepop))
 })

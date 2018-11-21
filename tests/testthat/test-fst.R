@@ -6,17 +6,11 @@ testthat::test_that("fst", {
   run_time <- 1
   morgan <- 1
 
-  pop1 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 42)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  pop2 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 24)
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
 
   pop2 <- increase_ancestor(pop2, number_of_founders)
 
@@ -41,17 +35,11 @@ testthat::test_that("fst", {
   morgan <- 1
   overlap <- 0.0
 
-  pop1 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 42)
+  pop1 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 42)
 
-  pop2 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 24)
+  pop2 <- create_population(pop_size, number_of_founders,
+                            run_time, morgan, 24)
   pop2 <- increase_ancestor(pop2, number_of_founders)
 
   testthat::expect_true(verify_population(pop1))

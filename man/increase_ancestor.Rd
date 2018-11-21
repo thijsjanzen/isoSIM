@@ -29,7 +29,7 @@ increase_ancestor(population, increment)
 }
 
 \examples{
-wildpop <- simulate_admixture(pop_size = 100,
+wildpop <- create_population(pop_size = 100,
                              number_of_founders = 10,
                              total_runtime = 5,
                              morgan = 1,

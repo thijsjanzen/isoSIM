@@ -284,13 +284,6 @@ Fish mate(const Fish& A, const Fish& B, double numRecombinations)
     return offspring;
 }
 
-Fish::Fish(){
-
-}
-
-junction::junction(){
-
-}
 
 junction::junction(long double loc, int B)  {
     pos = loc;

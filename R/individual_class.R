@@ -161,13 +161,7 @@ verify_individual <- function(indiv) {
 
 verify_population <- function(pop) {
 
-  if(!is(pop, "population"))  {
-    if(!is(pop$population, "population")) {
-      return(FALSE)
-    } else {
-      return(verify_population(pop$population))
-    }
-  }
+  if(!is(pop, "population")) return(FALSE)
   v <- unlist(lapply(pop, verify_individual))
   if(sum(v) != length(v)) return(FALSE)
 

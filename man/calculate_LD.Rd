@@ -42,18 +42,16 @@ calculate_LD(pop, sampled_individuals,
 }
 
 \examples{
-  wildpop =  simulate_admixture(pop_size = 100,
+\dontrun{
+  wildpop =  create_population(pop_size = 100,
                              number_of_founders = 10,
-                             total_runtime = 100,
+                             total_runtime = 1000,
                              morgan = 1,
-                             seed = 42)
+                             seed = 42,
+                             write_to_file = FALSE)
 
   LD_results <- calculate_LD(wildpop,
                                     number_of_markers = 10,
                                     random_markers = TRUE)
-
-  plot(LD_results$LD_matrix~LD_results$dist_matrix,
-       pch = 16,
-       xlab="Distance between markers",
-       ylab = "Linkage Disequilibrium")
+  }
 }

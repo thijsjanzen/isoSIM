@@ -17,8 +17,9 @@
 #include <algorithm>
 
 #include "Fish.h"
+#include "main.h"
 #include "random_functions.h"
-#include "helper_functions.h"
+#include "selection.h"
 
 #include <RcppArmadillo.h>
 // [[Rcpp::depends("RcppArmadillo")]]
@@ -41,6 +42,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     bool use_selection = FALSE;
     if(select(1, 1) >= 0) use_selection = TRUE;
 
+
     double expected_max_fitness = 1e-6;
     std::vector<Fish> Pop = sourcePop;
     std::vector<double> fitness;
@@ -59,7 +61,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         }
 
         for(auto it = Pop.begin(); it != Pop.end(); ++it){
-            double fit = calculate_fitness((*it), select, multiplicative_selection);
+            double fit = calculate_fitness_twoAllele((*it), select, multiplicative_selection);
             if(fit > maxFitness) maxFitness = fit;
 
             if(fit > (expected_max_fitness)) { // little fix to avoid numerical problems
@@ -117,7 +119,7 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
             newGeneration.push_back(kid);
 
             double fit = -2.0;
-            if(use_selection) fit = calculate_fitness(kid, select, multiplicative_selection);
+            if(use_selection) fit = calculate_fitness_twoAllele(kid, select, multiplicative_selection);
             if(fit > newMaxFitness) newMaxFitness = fit;
 
             if(fit > expected_max_fitness) {
@@ -131,13 +133,6 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
         if(t % updateFreq == 0 && progress_bar) {
             Rcout << "**";
         }
-
-        if(is_fixed(Pop)) {
-            Rcout << "\n After " << t << " generations, the population has become completely homozygous and fixed\n";
-            R_FlushConsole();
-            return(Pop);
-        }
-
         Rcpp::checkUserInterrupt();
 
         Pop = newGeneration;
@@ -150,6 +145,16 @@ std::vector< Fish > simulate_Population(const std::vector< Fish>& sourcePop,
     return(Pop);
 }
 
+int draw_random_founder(const std::vector<double>& v) {
+    double r = uniform();
+    for(int i = 0; i < v.size(); ++i) {
+        r -= v[i];
+        if(r <= 0) {
+            return(i);
+        }
+    }
+    return(v.back());
+}
 
 // [[Rcpp::export]]
 List simulate_cpp(Rcpp::NumericVector input_population,
@@ -237,59 +242,51 @@ List simulate_cpp(Rcpp::NumericVector input_population,
                          Named("junctions") = junctions);
 }
 
-std::vector< junction > create_chromosome(int num_ancestors,
-                                          int max_num_j) {
-
-    std::vector< junction > chrom;
-    junction first_junction;
-    first_junction.pos = 0;
-    first_junction.right = random_number(num_ancestors);
-    chrom.push_back(first_junction);
-
-    double pos = 0.0;
-    int current_anc = first_junction.right;
-    while(pos < 1) {
-        double u = uniform();
-        double lambda = max_num_j;
-        double exp_u = (-1.0 / lambda) * log(u);
-        pos += exp_u;
-        if(pos < 1) {
-            int new_anc = random_number(num_ancestors);
-            if(num_ancestors == 2) {
-                new_anc = 1 - current_anc;
-            }
-            while(new_anc == current_anc) new_anc = random_number(num_ancestors);
-            junction to_add(pos, new_anc);
-            chrom.push_back(to_add);
-            current_anc = new_anc;
-        }
-    }
-    junction to_add(1.0, -1);
-    chrom.push_back(to_add);
-    return chrom;
-}
-
-
-
 // [[Rcpp::export]]
 List create_pop_admixed_cpp(int num_individuals,
-                            int num_ancestors,
-                            int population_size,
-                            double size_in_morgan) {
+                  int num_ancestors,
+                  int population_size,
+                  double size_in_morgan) {
 
     double p = 1.0 / num_ancestors;
     double init_heterozygosity = 2*p*(1-p);
 
-    int max_num_j = 2 * init_heterozygosity * population_size * size_in_morgan;
+    int max_num_j = 2*init_heterozygosity * population_size * size_in_morgan;
 
     std::vector< Fish > output;
     for(int i = 0; i < num_individuals; ++i) {
         Fish focal(random_number(num_ancestors));
-        focal.chromosome1 = create_chromosome(num_ancestors,
-                                              max_num_j);
+        focal.chromosome1.pop_back();
+        focal.chromosome2.pop_back();
+        double pos = 0.0;
+        while(pos < 1) {
+            double u = uniform();
+            double lambda = max_num_j;
+            double exp_u = (-1.0 / lambda) * log(u);
+            pos += exp_u;
+            if(pos < 1) {
+                junction to_add(pos, random_number(num_ancestors));
+                focal.chromosome1.push_back(to_add);
+            } else {
+                junction to_add(1.0, -1);
+                focal.chromosome1.push_back(to_add);
+            }
+        }
 
-        focal.chromosome2 = create_chromosome(num_ancestors,
-                                              max_num_j);
+        pos = 0.0;
+        while(pos < 1) {
+            double u = uniform();
+            double lambda = max_num_j;
+            double exp_u = (-1.0 / lambda) * log(u);
+            pos += exp_u;
+            if(pos < 1) {
+                junction to_add(pos, random_number(num_ancestors));
+                focal.chromosome2.push_back(to_add);
+            } else {
+                junction to_add(1.0, -1);
+                focal.chromosome2.push_back(to_add);
+            }
+        }
 
         output.push_back(focal);
     }
@@ -297,50 +294,6 @@ List create_pop_admixed_cpp(int num_individuals,
     return List::create( Named("population") = convert_to_list(output));
 }
 
-// [[Rcpp::export]]
-void test_fish_functions() {
-    Fish test_fish;
-
-    junction temp;
-    junction temp2(0.5, 0);
-    junction temp3(0.5, 0);
-    if(temp2 == temp3) {
-        temp = temp2;
-    }
-
-    bool temp400 = (temp2 != temp3);
-    Rcout << temp400 << "\t" << "this is only for testing\n";
-
-    junction temp4(temp);
-
-    test_fish.chromosome1.push_back(temp);
-    test_fish.chromosome1.push_back(temp2);
-    test_fish.chromosome1.push_back(temp3);
-    test_fish.chromosome1.push_back(temp4);
-
-    Fish test_fish2 = test_fish;
-
-    if(test_fish == test_fish2) {
-        Rcout << "fishes are equal!\n";
-    }
-
-    Fish test_fish3(5);
-    bool b = (test_fish == test_fish3);
-    Rcout << b << "\t" << "this is only for testing\n";
-
-    std::vector< junction > chrom;
-    chrom.push_back(temp);
-
-    Fish test_fish4(chrom, chrom);
-
-    std::vector< Fish > pop;
-    pop.push_back(test_fish);
-    pop.push_back(test_fish2);
-    pop.push_back(test_fish3);
-    pop.push_back(test_fish4);
-
-    verify_pop_cpp(pop);
 
 
-    return;
-}
+

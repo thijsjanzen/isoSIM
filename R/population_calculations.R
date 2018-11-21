@@ -32,8 +32,6 @@ plot_dist_junctions <- function(pop) {
 
 calculate_marker_frequency <- function(pop, location) {
 
-  pop <- check_input_pop(pop)
-
   per_loc <- function(loc) {
     fun_chrom <- function(indiv) {
       return(c(findtype(indiv$chromosome1, loc),
@@ -57,24 +55,6 @@ calculate_marker_frequency <- function(pop, location) {
     output <- rbind(output, all_types[[i]])
   }
   output <- output[,c("location","ancestor","frequency")]
-
-  return(output)
-}
-
-calculate_allele_frequencies <- function(source_pop,
-                                         step_size,
-                                         progress_bar = TRUE) {
-
-  source_pop <- check_input_pop(source_pop)
-
-  pop_for_cpp <- population_to_vector(source_pop)
-
-  frequency_table <- calculate_allele_spectrum_cpp(pop_for_cpp,
-                                                   step_size,
-                                                   progress_bar)
-
-  output <- tibble::as.tibble(frequency_table)
-  colnames(output) <- c("location", "ancestor", "frequency")
 
   return(output)
 }

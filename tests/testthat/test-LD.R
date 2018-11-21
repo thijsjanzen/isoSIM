@@ -7,11 +7,8 @@ test_that("calculate_average_LD", {
   morgan <- 1
   write_to_file <- FALSE
 
-  pop1 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 42)$population
+  pop1 <- create_population(pop_size, number_of_founders,
+                                 run_time, morgan, 42)
 
   number_of_markers <- 2
   markers <- c(0.25, 0.26)
@@ -48,11 +45,8 @@ test_that("calculate_LD_matrix", {
   morgan <- 1
   write_to_file <- FALSE
 
-  pop1 <- simulate_admixture(pop_size = pop_size,
-                             number_of_founders = number_of_founders,
-                             total_runtime = run_time,
-                             morgan = morgan,
-                             seed = 42)
+  pop1 <- create_population(pop_size, number_of_founders,
+                                 run_time, morgan, 42)
 
   testthat::expect_true(verify_population(pop1))
 

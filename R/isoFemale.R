@@ -6,8 +6,6 @@ create_iso_female <- function(source_pop,
                              seed = 42,
                              progress_bar = TRUE) {
 
-  source_pop <- check_input_pop(source_pop)
-
   # first we select the individuals that will be the parents of the isofemales
   indices <- sample(seq_along(source_pop), n * 2, replace = FALSE)
 
@@ -20,16 +18,14 @@ create_iso_female <- function(source_pop,
   for (i in 1:n) {
     parents <- list(iso_females[[i]], iso_females[[i + n]])
 
-    inbred_population <- simulate_admixture(input_population = parents,
-                                            pop_size = inbreeding_pop_size,
-                                            total_runtime = run_time,
-                                            morgan = morgan,
-                                            seed = seed + i)
-    output_females[[i]] <-
-          inbred_population$population[[
-              sample(seq_along(inbred_population$population), 1)
-                                      ]]
-
+    inbred_population <- create_population_from_individuals(parents,
+                                                            inbreeding_pop_size,
+                                             run_time,
+                                             morgan,
+                                             seed + i)
+    output_females[[i]] <- inbred_population[[sample(
+                                                seq_along(inbred_population), 1)
+                                              ]]
     class(output_females[[i]]) <- "individual"
   }
   return(output_females)

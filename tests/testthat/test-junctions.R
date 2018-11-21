@@ -9,15 +9,12 @@ test_that("expected_number_junctions", {
     cat(pop_size, run_time, morgan, "\n")
     found <- c()
     for (r in 1:replicates) {
-      vx <- simulate_admixture(pop_size = pop_size,
-                               number_of_founders = 2,
-                               total_runtime = run_time,
-                               morgan = morgan,
-                               seed = r)
+      vx <- create_population(pop_size, 2,
+                              run_time, morgan, r)
 
       testthat::expect_true(verify_population(vx))
 
-      junct <- calculate_dist_junctions(vx$population)
+      junct <- calculate_dist_junctions(vx)
       found <- c(found, mean(junct))
     }
 
@@ -43,8 +40,8 @@ test_that("expected_number_junctions", {
   test_expected_junction_number(pop_size = 1000, run_time = 20,
                                 morgan = 1, replicates = 100)
 
-  vx <- simulate_admixture(pop_size = 1000, number_of_founders = 2,
+  vx <- create_population(pop_size = 1000, number_of_founders = 2,
                           total_runtime = 5, morgan = 1, seed = 666)
 
-  plot_dist_junctions(vx$population)
+  plot_dist_junctions(vx)
 })
